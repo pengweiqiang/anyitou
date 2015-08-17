@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_gesture"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/head"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/user_head_gestrue" />
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:text="1818用户名"
+        android:textColor="@color/bottom_gesture"
+        />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:text="密码错误,还能再输入4次"
+        android:textColor="@color/red_gesture_tip"
+        android:visibility="invisible"
+         />
+
+    <cn.com.anyitou.views.GestureLockView
+        android:id="@+id/gestureLockView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+    </cn.com.anyitou.views.GestureLockView>
+    
+    <TextView
+            android:id="@+id/restart_pwd"
+            android:layout_below="@+id/gestureLockView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_selector"
+            android:text="@string/restart_gesture_pwd"
+            android:textColor="@color/bottom_gesture"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+             />
+    
+
+    <LinearLayout
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/gesturelock_pwq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/forget_gesture_pwd"
+            android:textColor="@color/bottom_gesture"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+             />
+
+        <TextView
+            android:id="@+id/login_other"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/login_other"
+            android:textColor="@color/bottom_gesture"
+             />
+    </LinearLayout>
+
+</RelativeLayout>

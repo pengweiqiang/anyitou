@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RadioGroup
+            android:id="@+id/rg_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:background="@drawable/border_tab_title"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/invest_descript"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/tab_selector_left"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:checked="true"
+                android:padding="6dip"
+                android:text="@string/invest_description"
+                android:textColor="@color/title_tab_button_text"
+                 />
+			<View 
+			    android:layout_width="1px"
+			    android:layout_height="match_parent"
+			    android:background="@color/app_bg_color"
+			    />
+            <RadioButton
+                android:id="@+id/invest_risk_control"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_title_button"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/invest_risk_control"
+                android:textColor="@color/title_tab_button_text"
+                 />
+            <View 
+			    android:layout_width="1px"
+			    android:layout_height="match_parent"
+			    android:background="@color/app_bg_color"
+			    />
+            <RadioButton
+                android:id="@+id/invest_repayment_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_title_button"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/invest_repayment_plan"
+                android:textColor="@color/title_tab_button_text"
+                 />
+            <View 
+			    android:layout_width="1px"
+			    android:layout_height="match_parent"
+			    android:background="@color/app_bg_color"
+			    />
+            <RadioButton
+                android:id="@+id/invest_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_selector_right"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/invest_list"
+                android:textColor="@color/title_tab_button_text"
+                />
+        </RadioGroup>
+        
+    <cn.com.anyitou.views.CustomViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </cn.com.anyitou.views.CustomViewPager2>        
+        
+    
+    
+    
+</LinearLayout>

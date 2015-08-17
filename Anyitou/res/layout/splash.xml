@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/white"
+    >
+
+    <ImageView
+        android:id="@+id/splash"
+        android:layout_width="wrap_content"
+        android:paddingBottom="30dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/splash" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/loading"
+        android:layout_above="@+id/bottom"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="正在初始化,请稍候..." />
+    
+    <TextView 
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:layout_alignParentBottom="true"
+        android:textColor="#7d7d7d"
+        android:layout_marginBottom="20dp"
+        android:text="@string/splash_bottom"
+        />
+
+</RelativeLayout>

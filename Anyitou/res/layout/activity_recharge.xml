@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/set_up_style" >
+
+            <TextView
+                android:id="@+id/lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:paddingTop="5dip"
+                android:text="账户余额:"
+                android:textColor="#646464"
+                android:textSize="17sp" />
+            
+            <TextView
+                android:id="@+id/money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_toRightOf="@+id/lable"
+                android:gravity="center"
+                android:textColor="#f66d22"
+                android:textSize="22sp" 
+                android:layout_marginLeft="4dp"
+                android:text="10000"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:layout_toRightOf="@+id/money"
+                android:paddingTop="5dip"
+                android:text="元"
+                android:textColor="@color/tab_title_color"
+                android:textSize="17sp" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginBottom="15dip" >
+
+            <TextView
+                android:id="@+id/recharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:paddingTop="10dip"
+                android:text="充值金额:"
+                android:textColor="@color/tab_title_color"
+                android:textSize="17sp" />
+            
+            <cn.com.anyitou.views.ClearEditText
+                android:id="@+id/rechange_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:background="@drawable/recharge_edittext"
+                android:layout_toRightOf="@+id/recharge"
+                android:hint="请输入金额,至少1元"
+                android:textSize="16sp"
+                android:textColorHint="#cccccc"
+                />
+        </RelativeLayout>
+        
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/btn_rechange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/sign_out_style" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="确认充值"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dip"
+        android:orientation="vertical" >
+    	<TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="温馨提示:"
+            android:textColor="#646464"
+            android:textSize="15sp" />
+    	<ScrollView 
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:scrollbars="none"
+    	    >
+    	<TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:lineSpacingExtra="3dip"
+            android:text="@string/to_rechange_prompt"
+            android:textColor="#646464"
+            />
+    	</ScrollView>
+   	</LinearLayout>
+    
+
+</LinearLayout>

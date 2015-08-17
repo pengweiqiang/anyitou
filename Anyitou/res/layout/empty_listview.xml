@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            >
+        <ImageView 
+            android:id="@+id/xlistview_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/empty_listview"
+            />
+        <TextView
+            android:id="@+id/xlistview_empty_tip"
+            android:layout_width="wrap_content"
+            android:textColor="#cdcdcd"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="暂无交易记录" />
+        </LinearLayout>
+        
+    </RelativeLayout>

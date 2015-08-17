@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dip"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/call_style"
+            android:orientation="vertical"
+            >
+            <TextView 
+                android:id="@+id/share_wx_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="邀请微信好友"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:background="@drawable/btn_selector"
+                android:paddingBottom="13dip"
+                android:textColor="#5488ED"/>
+            <View
+	            android:layout_width="fill_parent"
+	            android:layout_height="0.10dip"
+	            android:background="#CCCCCC" />
+            
+            <TextView 
+                android:id="@+id/share_wx_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="邀请朋友圈好友"
+                android:gravity="center"
+                android:background="@drawable/btn_selector"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:textColor="#5488ED"/>
+            
+            <View
+	            android:layout_width="fill_parent"
+	            android:layout_height="0.10dip"
+	            android:background="#CCCCCC" />
+            
+            <TextView 
+                android:id="@+id/share_qq_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_selector"
+                android:text="邀请QQ好友"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:textColor="#5488ED"/>
+            
+            <View
+	            android:layout_width="fill_parent"
+	            android:layout_height="0.10dip"
+	            android:background="#CCCCCC" />
+            
+            <TextView 
+                android:id="@+id/share_weibo_qq_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="邀请QQ空间好友"
+                android:background="@drawable/btn_selector"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:textColor="#5488ED"/>
+            
+            <View
+	            android:layout_width="fill_parent"
+	            android:layout_height="0.10dip"
+	            android:background="#CCCCCC" />
+            
+            <TextView 
+                android:id="@+id/share_weibo_sina_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="邀请新浪微博好友"
+                android:background="@drawable/btn_selector"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:textColor="#5488ED"/>
+            
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/friendsCancleTextView"
+            android:layout_marginTop="12dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:background="@drawable/call_style"
+            android:textColor="#5488ED"
+            android:clickable="true"
+            android:text="取消" />
+    </LinearLayout>
+
+</RelativeLayout>

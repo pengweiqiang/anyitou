@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+
+    <ProgressBar
+        android:layout_below="@+id/actionBar"
+        android:id="@+id/web_progress"
+        style="@style/ProgressBarHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:max="100"
+        android:visibility="visible" />
+
+    <cn.com.anyitou.views.WebViewEx
+        android:id="@+id/webview"
+        android:layout_below="@+id/web_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+
+</RelativeLayout>

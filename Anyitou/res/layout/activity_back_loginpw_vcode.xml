@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+    <TextView 
+        android:id="@+id/title_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+	   	android:layout_marginRight="10dip"
+	   	android:layout_marginTop="20dip"
+	   	android:textColor="@color/tab_title_color"
+        android:text="我们刚刚发送一条验证码到138100008888"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+	   	android:layout_marginRight="10dip"
+	   	android:layout_marginTop="20dip"
+	   	android:orientation="horizontal">
+	   	
+	        <cn.com.anyitou.views.ClearEditText
+	            android:id="@+id/msg_code"
+	             android:layout_weight="1"
+	            android:layout_marginRight="10dp"
+	            android:background="@drawable/modify_pw_style"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="0dp"
+	            android:hint="请输入验证码"
+	            android:paddingRight="2dp"
+	            android:textSize="@dimen/text_hint_size"
+	            android:singleLine="true"
+	            android:textColorHint="@color/grey_line"
+	             />
+	       <!--  <cn.com.anyitou.views.ClearEditText 
+   	        android:id="@+id/et_pwd"
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:layout_marginTop="10dp"
+   	        android:inputType="textPassword"
+   	        android:textColorHint="#cccccc"
+   	        android:layout_centerVertical="true"
+   	        android:paddingRight="3dp"
+   	        android:hint="请输入登录密码"
+   	        android:background="@drawable/modify_pw_style"/> -->
+        
+	   	<TextView 
+	   	    android:id="@+id/get_code"
+		   	 android:layout_width="0dip"
+		   	 android:layout_height="wrap_content"
+		   	 android:paddingTop="10dip"
+		   	 android:paddingBottom="10dip"
+		   	 android:layout_weight="1"
+		   	 android:layout_gravity="center_vertical"
+		   	 android:gravity="center"
+		   	 android:textColor="@color/white"
+		   	 android:text="有效时长：59秒"
+		   	 android:background="@drawable/btn_app_bg_selector"/>
+        
+    </LinearLayout>
+    
+    <TextView 
+        android:id="@+id/btn_next"
+	   	 android:layout_width="match_parent"
+	   	 android:layout_height="wrap_content"
+	   	 android:layout_marginLeft="10dp"
+	   	 android:layout_marginRight="10dip"
+	   	 android:layout_marginTop="20dip"
+	   	 android:paddingTop="13dip"
+	   	 android:paddingBottom="13dip"
+	   	 android:gravity="center"
+	   	 android:textColor="@color/white"
+	   	 android:text="下一步"
+	   	 android:background="@drawable/btn_app_bg_selector"/>
+    
+
+</LinearLayout>

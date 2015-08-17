@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="10dip"
+        android:orientation="horizontal"
+        >
+        <TextView 
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tab_title_color"
+            android:layout_weight="1"
+            android:text="预期还款时间"/>
+        <TextView 
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/tab_title_color"
+            android:gravity="center"
+            android:text="还款类型"/>
+        <TextView 
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/tab_title_color"
+            android:gravity="right"
+            android:text="还款金额(元)"/>
+    </LinearLayout>
+	
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+	    <cn.com.anyitou.views.MyListView 
+	        android:id="@+id/listView_repayplan"
+	        android:listSelector="@android:color/transparent"
+	        android:divider="#00000000"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_marginBottom="3dp"
+	        >
+	    </cn.com.anyitou.views.MyListView>
+	    <TextView 
+	        android:id="@+id/empty_listview"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="10dp"
+	        android:visibility="gone"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="该项目还没有满标，满标后可以看到还款计划"
+	        android:textColor="#cdcdcd"
+	        />
+    </RelativeLayout>
+    
+</LinearLayout>

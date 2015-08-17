@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/project_risk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="#959595"
+        android:textSize="15sp" />
+
+</cn.com.anyitou.views.VerticalScrollView>
