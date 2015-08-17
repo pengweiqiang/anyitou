@@ -25,8 +25,8 @@
 		注意： 如果在友推只提供AppKey，在AppKey和AppSecret处都写AppKey值；若友推有提供AppSecret请填写相应的AppSecret值
 	-->
 	<YouTui 
-	    AppKey="278861" 
-	    AppSecret="af5b08d9b6adef9" 
+	    AppKey="673908" 
+	    AppSecret="7447d7eb164a5c8" 
 	    /> 
 
 	
