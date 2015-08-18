@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import cn.bidaround.ytcore.util.YtToast;
 
 import cn.com.GlobalConfig;
 import cn.com.anyitou.api.constant.ReqUrls;

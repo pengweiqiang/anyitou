@@ -12,11 +12,11 @@ public class Constant {
 
     private static final int GD_LOG_LEVEL_NONE = 0;
     
-    public static final String FILE_NAME = "18link";
+    public static final String FILE_NAME = "anyitou";
     //手势密码
     public static final String GESTURE_PWD = "gesture_pwd";
     
-    public static final String LOCATION = "cn.com.18link.location";
+    public static final String LOCATION = "cn.com.anyitou.location";
 
     /**
      * Set this flag to GD_LOG_LEVEL_NONE when releasing your application in
@@ -35,8 +35,8 @@ public class Constant {
 	/**
 	 * 我的头像保存目录
 	 */
-	public static String MyAvatarDir = "/sdcard/cn.com.18link/head/";
+	public static String MyAvatarDir = "/sdcard/cn.com.anyitou/head/";
 	
-	public static final String ACTION_MESSAGE_COUNT = "cn.com.18link.action.MESSAGE_COUNT";
+	public static final String ACTION_MESSAGE_COUNT = "cn.com.anyitou.action.MESSAGE_COUNT";
     
 }
