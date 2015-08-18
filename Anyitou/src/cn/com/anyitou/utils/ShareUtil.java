@@ -67,8 +67,8 @@ public class ShareUtil {
 	public void initShareData() {
 		shareData = new ShareData();
 		shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
-		shareData.setDescription("1818平台");// 待分享内容的描述
-		shareData.setTitle("1818平台"); // 待分享的标题
+		shareData.setDescription("安宜投");// 待分享内容的描述
+		shareData.setTitle("安宜投"); // 待分享的标题
 		shareData.setText("不开玩笑，投资5万元，30天净收550元利息，在1818理财平台，这是个真事儿！");// 待分享的文字
 		shareData.setImage(ShareData.IMAGETYPE_APPRESOURE, String.valueOf(R.drawable.ic_launcher));// 设置网络分享地址
 		shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));

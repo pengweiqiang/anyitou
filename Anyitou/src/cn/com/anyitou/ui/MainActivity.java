@@ -313,7 +313,7 @@ public class MainActivity extends BaseActivity {
 	}
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
-		actionBar.setTitle("1818平台");
+		actionBar.setTitle("安宜投");
 		actionBar.setLeftActionButton(R.drawable.nav_menu,
 				new OnClickListener() {
 					@Override
@@ -331,7 +331,7 @@ public class MainActivity extends BaseActivity {
 			if(investLists == null || investLists.isEmpty()){
 				getInvestList();
 			}
-			mActionBar.setTitle("1818平台");
+			mActionBar.setTitle("安宜投");
 			mActivityHome.setVisibility(View.VISIBLE);
 			mSetting.setVisibility(View.GONE);
 			mMyAsset.setVisibility(View.GONE);
@@ -635,7 +635,7 @@ public class MainActivity extends BaseActivity {
 		} else {
 			myAssets = null;
 			user = null;
-			mTvUserName.setText("1818用户名");
+			mTvUserName.setText("安宜投用户名");
 			mLoginTitle.setText("登录");
 		}
 
