@@ -93,7 +93,7 @@ public class RechargeActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							if(!StringUtils.isEmpty(parseModel.getToken())){
 								logined(parseModel.getToken(), null);//刷新token
 							}
@@ -106,7 +106,7 @@ public class RechargeActivity extends BaseActivity {
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});

@@ -65,7 +65,7 @@ public class RegisteredActivity extends BaseActivity{
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							String hfRegisterUrl = parseModel.getHfRegisterUrl();
 							Intent intent = new Intent(mContext,WebActivity.class);
 							intent.putExtra("url", hfRegisterUrl);
@@ -74,7 +74,7 @@ public class RegisteredActivity extends BaseActivity{
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});

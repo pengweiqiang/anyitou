@@ -158,7 +158,7 @@ public class InvestConfirmActivity extends BaseActivity {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							logined(parseModel.getToken(), null);
 							String url = parseModel.getUrl();
 							String ordId = parseModel.getOrdId();
@@ -170,7 +170,7 @@ public class InvestConfirmActivity extends BaseActivity {
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});
@@ -187,12 +187,12 @@ public class InvestConfirmActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					investingPage = JsonUtils.fromJson(parseModel.getData().toString(), InvestingPageInfo.class);
 					setViewData();
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getDesc());
-					if("3".equals(parseModel.getStatus())){
+					ToastUtils.showToast(mContext, parseModel.getMsg());
+					if("3".equals(parseModel.getCode())){
 						new Handler().postDelayed(new Runnable() {
 							public void run() {
 								startActivity(RegisteredActivity.class);

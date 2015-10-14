@@ -683,7 +683,7 @@ public class MainActivity extends BaseActivity {
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getStatus())) {
+								.getCode())) {
 							List<Investment> invests = (List<Investment>) JsonUtils
 									.fromJson(parseModel.getData().toString(),
 											new TypeToken<List<Investment>>() {
@@ -699,7 +699,7 @@ public class MainActivity extends BaseActivity {
 							}
 
 						} else {
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});
@@ -717,7 +717,7 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancelDialog(loadingDialog);
-				if (ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())) {
+				if (ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())) {
 					myAssets = JsonUtils.fromJson(parseModel.getData()
 							.toString(), MyAssets.class);
 					initMyAssetsData(myAssets);
@@ -730,7 +730,7 @@ public class MainActivity extends BaseActivity {
 						SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, "myassets", JsonUtils.toJson(myAssets));
 					}
 				} else {
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
 		});
@@ -747,7 +747,7 @@ public class MainActivity extends BaseActivity {
 				
 				@Override
 				public void execute(ParseModel parseModel) {
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 						share = JsonUtils.fromJson(parseModel.getData().toString(), Share.class);
 					}else{
 						

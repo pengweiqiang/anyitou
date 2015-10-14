@@ -95,7 +95,7 @@ import cn.com.anyitou.views.XListView.IXListViewListener;
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getStatus())) {
+								.getCode())) {
 							
 //							List<PaymentPlan> paymentPlans = getPaymentPlans(parseModel);
 							List<PaymentPlan> paymentPlans = JsonUtils.fromJson(parseModel.getData().toString(), new TypeToken<List<PaymentPlan>>(){});
@@ -125,7 +125,7 @@ import cn.com.anyitou.views.XListView.IXListViewListener;
 							mListView.onLoadFinish(page, paymentPlans.size(), "加载完毕");
 							mListView.hideFooterView();
 						} else {
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 							mListView.onLoadFinish(page, 0, "");
 						}
 

@@ -244,12 +244,12 @@ public class HttpConnectionUtil {
 		if(MethodType.CHECK_MONEY.getIndex() == methodType.getIndex()){//提现手续费
 			ParseModel pm = new ParseModel();
 			if(!String.valueOf(NetUtil.FAIL_CODE).equals(backStr)){
-				pm.setStatus(ApiConstants.RESULT_SUCCESS);
-				pm.setDesc(NetUtil.SERVICE_SUCCESS_MSG);
+				pm.setCode(ApiConstants.RESULT_SUCCESS);
+				pm.setMsg(NetUtil.SERVICE_SUCCESS_MSG);
 				pm.setOtherStr(backStr);
 			}else{
-				pm.setStatus(String.valueOf(NetUtil.FAIL_CODE));
-				pm.setDesc(NetUtil.SERVICE_ERR_MSG);
+				pm.setCode(String.valueOf(NetUtil.FAIL_CODE));
+				pm.setMsg(NetUtil.SERVICE_ERR_MSG);
 			}
 			return pm;
 		}
@@ -257,16 +257,16 @@ public class HttpConnectionUtil {
 		if (pm == null) {
 			pm = new ParseModel();
 			if(String.valueOf(NetUtil.FAIL_CODE).equals(backStr)){//服务器异常
-				pm.setStatus(String.valueOf(NetUtil.FAIL_CODE));
-				pm.setDesc(NetUtil.SERVICE_ERR_MSG);
+				pm.setCode(String.valueOf(NetUtil.FAIL_CODE));
+				pm.setMsg(NetUtil.SERVICE_ERR_MSG);
 				return pm;
 			}
 			
-			pm.setStatus(String.valueOf(NetUtil.NET_ERR));
-			pm.setDesc(NetUtil.NET_ERR_MSG);
+			pm.setCode(String.valueOf(NetUtil.NET_ERR));
+			pm.setMsg(NetUtil.NET_ERR_MSG);
 			return pm;
 		}
-		if (pm.getStatus()!=null && Integer.parseInt(pm.getStatus()) == NetUtil.SUCCESS_CODE) {
+		if (pm.getCode()!=null && Integer.parseInt(pm.getCode()) == NetUtil.SUCCESS_CODE) {
 			Object apiResult = null;
 //			if (MethodType.GET_MAINPAGE_AD.getIndex() == methodType.getIndex()) { // 广告
 ////				apiResult = ApiUtils.getAd(pm.getData());

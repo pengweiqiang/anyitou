@@ -102,7 +102,7 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getStatus())) {
+								.getCode())) {
 							
 							List<MyInvestment> myInvestments = JsonUtils.fromJson(parseModel.getData().toString(), new TypeToken<List<MyInvestment>>() {});
 							if (page == 1) {
@@ -120,7 +120,7 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 							logined(parseModel.getToken(), null);
 							mListView.onLoadFinish(page, myInvestments.size(), "加载完毕");
 						} else {
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 							mListView.onLoadFinish(page, 0, "");
 						}
 

@@ -78,7 +78,7 @@ public class WithdrawalsDialogActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//提现成功
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//提现成功
 							ToastUtils.showToast(mContext, "提现成功，2秒后返回我的资产");
 							logined(parseModel.getToken(), null);
 							new Handler().postDelayed(new Runnable() {
@@ -89,7 +89,7 @@ public class WithdrawalsDialogActivity extends BaseActivity {
 								} 
 							}, 2000);
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});

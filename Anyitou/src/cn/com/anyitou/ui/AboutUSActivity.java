@@ -48,7 +48,7 @@ public class AboutUSActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					titleSections = JsonUtils.fromJson(parseModel.getData().toString(), new TypeToken<List<TitleSection>>() {});
 					if(titleSections!=null && !titleSections.isEmpty()){
 						StringBuffer sbData = new StringBuffer();
@@ -75,7 +75,7 @@ public class AboutUSActivity extends BaseActivity {
 //					String data = parseModel.getData().toString();
 					
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 					String aboutUs = (String)SharePreferenceManager.getSharePreferenceValue(mContext, Constant.FILE_NAME, "aboutus", "");
 					if(!StringUtils.isEmpty(aboutUs)){
 						mTvAboutUs.setText(Html.fromHtml(aboutUs));

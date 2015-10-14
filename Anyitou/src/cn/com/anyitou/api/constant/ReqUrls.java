@@ -14,6 +14,15 @@ public interface ReqUrls {
 	
 	public static String USER_NAME="user_name"; //用户账号
 	
+	public static String AUTHORIZATION = "authorization";
+	
+	public static String GRANT_TYPE = "grant_type";
+	
+	public static String REFRESH_TOKEN = "refresh_token";
+	
+	//客户端授权默认
+	public static String CLIENT_CREDENTIALS = "client_credentials";
+	
 	public static String TOKEN = "token";
 	
 	public static String USERNAME = "username";
@@ -85,8 +94,8 @@ public interface ReqUrls {
 	public static final String CONFIG_HOST_IP="172.21.0.41:18082"; //dns ip
 //	public static final String CONFIG_HOST_IP="http://bldj.com" 
 	
-	public static final String DEFAULT_REQ_HOST_IP = "https://www.18link.com/"; //正式接口请求地址
-//	public static final String DEFAULT_REQ_HOST_IP = "http://18test.18link.com/";//测试地址
+//	public static final String DEFAULT_REQ_HOST_IP = "https://anyitou.com/"; //正式接口请求地址
+	public static final String DEFAULT_REQ_HOST_IP = "http://testapi.anyitou.com/";//测试地址
 	
 	public static final String LIMIT_DEFAULT_NUM="10";
 	
@@ -119,20 +128,94 @@ public interface ReqUrls {
 	
 	public static final String USER_REQUEST_INFO="userRequestInfo";
 	
+	//测试环境，客户端用于验证授权head头部信息：
+	public static final String CLIENT_KEY = "android";
+	
+	public static final String CLIENT_SECRET = "android";
+	
 //////////////////////////////////////////////接口地址//////////////////////////////////////////////////////////////////////////////
+	/**
+	 * 请求授权
+	 */
+	public static final String MOBIAPI_AUTH = "oauth2/accessToken";
+	
 	/**
 	 * 引导页
 	 */
 	public static final String MOBIAPI_BOOT = "mobiapi/boot";
 	/**
-	 * 发送短信验证码（注册）
+	 * 验证短信验证码
 	 */
-	public static final String MOBIAPI_REGISTERCODE = "mobiapi/registerCode";
+	public static final String MOBIAPI_REGISTERCODE = "smscode/validate";
 	
 	/**
 	 * 注册
 	 */
-	public static final String MOBIAPI_REGISTER = "mobiapi/register";
+	public static final String MOBIAPI_REGISTER = "projects";
+	
+	/**
+	 * 提现
+	 */
+	public static final String MOBIAPI_CASH = "withdraw/create";
+	
+	/**
+	 * 绑定银行卡
+	 */
+	public static final String MOBIAPI_BINDBANK = "withdraw/bindBank";
+	
+	/**
+	 * 获取支持快捷支付的银行
+	 */
+	public static final String MOBIAPI_BANK = "withdraw/bank";
+	/**
+	 * 提现获取银行卡信息
+	 */
+	public static final String MOBIAPI_BANK_INFO = "withdraw/info";
+	/**
+	 * 获取APP Banner
+	 */
+	public static final String MOBIAPI_BANNER = "resources/banner";
+	/**
+	 * 意见反馈
+	 */
+	public static final String MOBIAPI_REPORT = "resources/report";
+	/**
+	 * 内容介绍相关
+	 */
+	public static final String MOBIAPI_INTRODUCTION = "resources/introduction";
+	/**
+	 * 启动引导
+	 */
+	public static final String MOBIAPI_GUIDES = "resources/guides";
+	
+	/**
+	 * 发送短信验证码（不需要用户进行登录）
+	 */
+	public static final String MOBIAPI_SMS_CODE = "smscode/mobile";
+	
+	/**
+	 * 发送短信验证码（需要用户进行登录）
+	 */
+	public static final String MOBIAPI_SMS_CODE_USER = "smscode/user";
+	
+	/**
+	 * 充值
+	 */
+	public static final String MOBIAPI_RECHARGE = "recharge/create";
+	
+	/**
+	 * 获取项目列表
+	 */
+	public static final String MOBIAPI_INDEX = "projects";
+	/**
+	 * 获取用户银行卡信息
+	 */
+	public static final String MOBIAPI_RECHARGE_INFO = "recharge/info";
+	
+	//////////////////////////////////////////////
+	
+	
+	
 	/**
 	 * 登录
 	 */
@@ -152,10 +235,7 @@ public interface ReqUrls {
 	 * 查询注册汇付结果
 	 */
 	public static final String MOBIAPI_ISHFUSER = "mobiapi/isHFUser";
-	/**
-	 * 充值
-	 */
-	public static final String MOBIAPI_RECHARGE = "mobiapi/recharge";
+	
 	
 	/**
 	 * 查询充值结果
@@ -179,10 +259,7 @@ public interface ReqUrls {
 	 *查询投资结果 
 	 */
 	public static final String MOBIAPI_ISINVESTING_SUCCESS = "mobiapi/isInvestingSuccess";
-	/**
-	 * 发送短信验证码（提现）
-	 */
-	public static final String MOBIAPI_CASHCODE = "mobiapi/cashCode";
+	
 	/**
 	 * 提现页面
 	 */
@@ -193,15 +270,8 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_CHECK_MONEY = "mobiapi/checkmoney";
 	
-	/**
-	 * 提现
-	 */
-	public static final String MOBIAPI_CASH = "mobiapi/cash";
 	
-	/**
-	 * 投资列表
-	 */
-	public static final String MOBIAPI_INDEX = "mobiapi/index";
+	
 	
 	/**
 	 * 项目详情

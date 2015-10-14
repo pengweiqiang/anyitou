@@ -85,12 +85,12 @@ public class InputNewPasswordActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 							startActivity(LoginActivity.class);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});

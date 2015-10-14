@@ -3,8 +3,6 @@ package cn.com.anyitou.api;
 import java.util.Map;
 
 import android.content.Context;
-
-import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
@@ -96,7 +94,7 @@ public class ApiOrderUtils {
 	 */
 	public static void cashCode(Context context,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CASHCODE, false,
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_SMS_CODE_USER, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	/**

@@ -113,7 +113,7 @@ public class LoginActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						//loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//登录成功
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//登录成功
 							String token = parseModel.getToken();
 							User user = new User();
 							user.setUser_name(userName);
@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity {
 							AppManager.getAppManager().finishActivity();*/
 						}else{
 							loadingDialog.cancel();
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});
@@ -147,7 +147,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//注册汇付成功
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册汇付成功
 					ToastUtils.showToast(mContext, "登录成功");
 					User user = application.getCurrentUser();
 					user.setIshfuser("1");
@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity {
 					startActivity(MainActivity.class);
 					AppManager.getAppManager().finishActivity();
 				}else{
-					//ToastUtils.showToast(mContext, parseModel.getDesc());
+					//ToastUtils.showToast(mContext, parseModel.getMsg());
 					AppManager.getAppManager().finishActivity();
 				}
 			}

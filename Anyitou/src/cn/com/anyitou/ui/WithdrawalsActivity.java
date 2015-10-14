@@ -97,14 +97,14 @@ public class WithdrawalsActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					logined(parseModel.getToken(), null);
 					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
 					mTvMoney.setText(cashPageInfo.getAvl_bal());
 					mTvCardNo.setText("默认帐号：**** **** **** "+cashPageInfo.getIdentity().substring(cashPageInfo.getIdentity().length()-4));
 					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
 		});
@@ -126,12 +126,12 @@ public class WithdrawalsActivity extends BaseActivity {
 						@Override
 						public void execute(ParseModel parseModel) {
 							loadingDialog.cancel();
-							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 								regainCode();
 								ToastUtils.showToast(mContext, "请等待接收验证码");
 								sessionId = parseModel.getSession_id();
 							}else{
-								ToastUtils.showToast(mContext, parseModel.getDesc());
+								ToastUtils.showToast(mContext, parseModel.getMsg());
 							}
 						}
 					});
@@ -194,7 +194,7 @@ public class WithdrawalsActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//查询手续费
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//查询手续费
 					CashFee cashFee = (CashFee)JsonUtils.fromJson(parseModel.getOtherStr(), CashFee.class);
 					if(cashFee==null || "2".equals(cashFee.getError())){
 						ToastUtils.showToast(mContext, "提现失败");
@@ -206,7 +206,7 @@ public class WithdrawalsActivity extends BaseActivity {
 					intent.putExtra("sessionId", sessionId);
 					startActivityForResult(intent, 0);
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
 		});

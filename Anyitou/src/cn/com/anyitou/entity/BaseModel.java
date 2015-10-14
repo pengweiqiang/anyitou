@@ -12,28 +12,28 @@ public class BaseModel implements Serializable{
 	private static final long serialVersionUID = 8998410069756234518L;
 	
 	
-	private String status;
+	private String code;
 	
 	private JsonElement data;
 	
-	private String desc;
+	private String msg;
 	
 
-	public String getStatus() {
-		return status;
+	public String getCode() {
+		return code;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 
-	public String getDesc() {
-		return desc;
+	public String getMsg() {
+		return msg;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 	public JsonElement getData() {

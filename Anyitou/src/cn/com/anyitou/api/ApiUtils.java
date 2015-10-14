@@ -117,8 +117,8 @@ public class ApiUtils {
 
 		if (!GlobalConfig.GLOBAL_NET_STATE) { // 无网络
 			ParseModel pm = new ParseModel();
-			pm.setStatus(String.valueOf(NetUtil.NET_ERR));
-			pm.setDesc(NetUtil.NET_ERR_MSG);
+			pm.setCode(String.valueOf(NetUtil.NET_ERR));
+			pm.setMsg(NetUtil.NET_ERR_MSG);
 			requestCallBack.execute(pm);
 			return;
 		}

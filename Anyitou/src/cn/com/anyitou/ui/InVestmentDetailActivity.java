@@ -112,11 +112,11 @@ import cn.com.anyitou.views.VerticalViewPager;
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					investDetail = JsonUtils.fromJson(parseModel.getData().toString(), InVestDetail.class);
 					setData();
 				}else{
-					ToastUtils.showToast(InVestmentDetailActivity.this, StringUtils.isEmpty(parseModel.getDesc())?"获取项目详情失败，请稍后重试":parseModel.getDesc());
+					ToastUtils.showToast(InVestmentDetailActivity.this, StringUtils.isEmpty(parseModel.getMsg())?"获取项目详情失败，请稍后重试":parseModel.getMsg());
 				}
 			}
 		});

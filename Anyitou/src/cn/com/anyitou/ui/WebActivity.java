@@ -133,14 +133,14 @@ public class WebActivity extends BaseActivity {
 				@Override
 				public void execute(ParseModel parseModel) {
 					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//注册汇付成功
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册汇付成功
 						User user = application.getCurrentUser();
 						user.setIshfuser("1");
 						logined("", user);
 						startActivity(MainActivity.class);
 						AppManager.getAppManager().finishActivity();
 					}else{
-						ToastUtils.showToast(mContext, parseModel.getDesc());
+						ToastUtils.showToast(mContext, parseModel.getMsg());
 						AppManager.getAppManager().finishActivity();
 					}
 				}
@@ -150,12 +150,12 @@ public class WebActivity extends BaseActivity {
 				@Override
 				public void execute(ParseModel parseModel) {
 					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//充值成功
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//充值成功
 						application.refresh = ApiConstants.TYPE_RECHARGE;
 						startActivity(MainActivity.class);
 						AppManager.getAppManager().finishActivity();
 					}else{
-						ToastUtils.showToast(mContext, parseModel.getDesc());
+						ToastUtils.showToast(mContext, parseModel.getMsg());
 						AppManager.getAppManager().finishActivity();
 					}
 				}
@@ -165,7 +165,7 @@ public class WebActivity extends BaseActivity {
 				@Override
 				public void execute(ParseModel parseModel) {
 					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//投资成功
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//投资成功
 						application.refresh = ApiConstants.TYPE_INVEST;
 //						startActivity(MainActivity.class);
 						Intent intent = new Intent(mContext,MyInvestmentActivity.class);//我的资产-我的投资-投标中
@@ -173,7 +173,7 @@ public class WebActivity extends BaseActivity {
 						startActivity(intent);
 						AppManager.getAppManager().finishActivity();
 					}else{
-						ToastUtils.showToast(mContext, parseModel.getDesc());
+						ToastUtils.showToast(mContext, parseModel.getMsg());
 						AppManager.getAppManager().finishActivity();
 					}
 				}

@@ -99,13 +99,13 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							ToastUtils.showToast(mContext,"修改成功,请重新登录");
 							logOut();
 							startActivity(LoginActivity.class);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, StringUtils.isEmpty(parseModel.getDesc())?"修改失败,稍后请重试":parseModel.getDesc());
+							ToastUtils.showToast(mContext, StringUtils.isEmpty(parseModel.getMsg())?"修改失败,稍后请重试":parseModel.getMsg());
 						}
 					}
 				});

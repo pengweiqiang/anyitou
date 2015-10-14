@@ -86,14 +86,14 @@ public class BackLoginPassWordActivity extends BaseActivity{
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							Intent intent = new Intent(mContext,BackLoginPWVCodeActivity.class);
 							intent.putExtra("sessionId", parseModel.getSession_id());
 							intent.putExtra("phone", phone);
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});

@@ -116,7 +116,7 @@ public class MyApplication extends Application {
 			@Override
 			public void execute(ParseModel parseModel) {
 				if (!ApiConstants.RESULT_SUCCESS.equals(parseModel
-						.getStatus())) {
+						.getCode())) {
 					String dataStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, "boot", "");
 					if(!StringUtils.isEmpty(dataStr)){
 						mImageView = JsonUtils.fromJson(dataStr, List.class);

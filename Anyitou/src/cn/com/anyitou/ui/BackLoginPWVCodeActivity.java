@@ -79,11 +79,11 @@ public class BackLoginPWVCodeActivity extends BaseActivity {
 						@Override
 						public void execute(ParseModel parseModel) {
 							loadingDialog.cancel();
-							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 								regainCode();
 								sessionId = parseModel.getSession_id();
 							}else{
-								ToastUtils.showToast(mContext, parseModel.getDesc());
+								ToastUtils.showToast(mContext, parseModel.getMsg());
 							}
 						}
 					});
@@ -110,7 +110,7 @@ public class BackLoginPWVCodeActivity extends BaseActivity {
 						@Override
 						public void execute(ParseModel parseModel) {
 							loadingDialog.cancel();
-							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 								regainCode();
 								if(!StringUtils.isEmpty(parseModel.getSession_id())){
 									sessionId = parseModel.getSession_id();
@@ -120,7 +120,7 @@ public class BackLoginPWVCodeActivity extends BaseActivity {
 								startActivity(intent);
 								AppManager.getAppManager().finishActivity();
 							}else{
-								ToastUtils.showToast(mContext, parseModel.getDesc());
+								ToastUtils.showToast(mContext, parseModel.getMsg());
 							}
 						}
 					});

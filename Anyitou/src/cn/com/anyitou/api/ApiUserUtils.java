@@ -3,6 +3,7 @@ package cn.com.anyitou.api;
 import java.util.Map;
 
 import android.content.Context;
+import android.util.Base64;
 
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
@@ -15,6 +16,34 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
  * @author will
  */
 public class ApiUserUtils {
+	
+	/**
+	 * 请求授权
+	 * 
+	 * a1.客户端请求授权详细说明：接口使用HTTP Basic Authentication认证方式，添加Authorization 到 header， 
+	 * 加密方式 Authorization = Basic Base64.encode(client_key:client_secret)；
+	 * POST请求参数只需grant_type，值为client_credentials
+	 * 
+	 * a2.用户请求授权详细说明：接口使用HTTP Basic Authentication认证方式，添加Authorization 到 header， 
+	 * 加密方式 Authorization = Basic Base64.encode(client_key:client_secret)；
+	 * POST请求参数需要grant_type，值为password，以及用户的username和password
+		
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		String authorization = Base64.encodeToString(String.valueOf(ReqUrls.CLIENT_KEY+":"+ReqUrls.CLIENT_SECRET).getBytes(), Base64.DEFAULT);
+		
+		params.put(ReqUrls.AUTHORIZATION, authorization);
+		params.put(ReqUrls.GRANT_TYPE, grant_type);
+		params.put(ReqUrls.USERNAME, username);
+		params.put(ReqUrls.PASSWORD, password);
+		params.put(ReqUrls.REFRESH_TOKEN, refreshToken);
+		
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_AUTH, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
 
 	/**
 	 * 发送短信验证码（注册）

@@ -91,7 +91,7 @@ public class MyBankCardActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancelDialog(loadingDialog);
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					logined(parseModel.getToken(), null);
 					bankCard = JsonUtils.fromJson(parseModel.getData().toString(), BankCard.class);
 					if(bankCard!=null){
@@ -105,7 +105,7 @@ public class MyBankCardActivity extends BaseActivity {
 					mViewContent.setVisibility(View.GONE);
 					mEmptyTextView.setText("暂无绑定银行卡");
 					mEmpty.setVisibility(View.VISIBLE);
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
 		});

@@ -109,12 +109,12 @@ public class RegisteredAccountActivity extends BaseActivity {
 							
 							@Override
 							public void execute(ParseModel parseModel) {
-								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//注册成功
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
 									regainCode();
 									sessionId = parseModel.getSession_id();
 								}else{
 									mGetCode.setEnabled(true);
-									ToastUtils.showToast(mContext, parseModel.getDesc());
+									ToastUtils.showToast(mContext, parseModel.getMsg());
 								}
 							}
 						});
@@ -197,10 +197,10 @@ public class RegisteredAccountActivity extends BaseActivity {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//注册成功
+						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
 							login(userName,passWord);//注册成功调用登录接口
 						}else{
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
 				});
@@ -218,7 +218,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getStatus())){//登录成功
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//登录成功
 					String token = parseModel.getToken();
 					User user = new User();
 					user.setUser_name(userName);
@@ -230,7 +230,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 					AppManager.getAppManager().finishActivity(LoginActivity.class);
 					AppManager.getAppManager().finishActivity();
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getDesc());
+					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
 		});

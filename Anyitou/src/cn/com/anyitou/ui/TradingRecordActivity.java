@@ -126,7 +126,7 @@ public class TradingRecordActivity extends BaseActivity implements
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getStatus())) {
+								.getCode())) {
 							List<Records> records = JsonUtils.fromJson(
 									parseModel.getData().toString(),
 									new TypeToken<List<Records>>() {
@@ -153,7 +153,7 @@ public class TradingRecordActivity extends BaseActivity implements
 							}
 							recordsAdapter.notifyDataSetChanged();
 						} else {
-							ToastUtils.showToast(mContext, parseModel.getDesc());
+							ToastUtils.showToast(mContext, parseModel.getMsg());
 							mListView.onLoadFinish(page, 0, "");
 						}
 
