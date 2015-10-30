@@ -73,7 +73,6 @@ public class MyApplication extends Application {
 			
 			if(!StringUtils.isEmpty(userJson) && !StringUtils.isEmpty(tokenStr)){
 				String refreshTokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, "");
-				gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
 				String tokens[] = tokenStr.split("_");
 				String refreshTokens[] = refreshTokenStr.split("_");
 				
@@ -94,10 +93,11 @@ public class MyApplication extends Application {
 						}
 					}
 				}
+				gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
 				
 			}
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		initImageLoader(this);
 		MobclickAgent.openActivityDurationTrack(false);

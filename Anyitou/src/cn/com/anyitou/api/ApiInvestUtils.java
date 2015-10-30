@@ -51,11 +51,11 @@ public class ApiInvestUtils {
 	 * @param id
 	 * @param requestCallBack
 	 */
-	public static  void contentShow(Context context,String id,RequestCallback requestCallBack){
+	public static  void contentShow(Context context,String id,String type,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
-		params.put(ReqUrls.ID, id);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CONTENT_SHOW, false,
-				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET);
+		params.put(ReqUrls.TYPE, type);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_PROJECT_DETAIL+id, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
 	 * 还款计划

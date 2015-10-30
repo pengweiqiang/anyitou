@@ -30,7 +30,7 @@ public class ApiUserUtils {
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack){
+	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack,boolean isTimer){
 		Map<String,Object> params = new MyConcurrentHashMap<String,Object>();
 		
 		params.put(ReqUrls.GRANT_TYPE, grant_type);
@@ -40,7 +40,7 @@ public class ApiUserUtils {
 		params.put("isUserToken", false);
 		
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_AUTH, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context,isTimer);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class ApiUserUtils {
 	public static void login(Context context, String userName, String passWord,
 			RequestCallback requestCallBack) {
 		
-		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack);
+		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack,false);
 	}
 	/**
 	 * 登出
@@ -217,13 +217,26 @@ public class ApiUserUtils {
 	/**
 	 * 交易记录
 	 * @param context
-	 * @param page
+	 * @param category 交易分类
+	 * @param order 排序
+	 * @param dateRange 时间范围
+	 * @param beginDate 开始日期
+	 * @param endDate 结束日期
+	 * @param page 当前页
+	 * @param num 每页条数
 	 * @param requestCallBack
 	 */
-	public static void getTrade(Context context,String page,RequestCallback requestCallBack){
+	public static void getTrade(Context context,String category,String order,String dateRange,String beginDate
+			,String endDate,String page,String num,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.CATEGORY, category);
+		params.put(ReqUrls.ORDER, order);
+		params.put(ReqUrls.DATE_RANGE, dateRange);
+		params.put(ReqUrls.BEGIN_DATE, beginDate);
+		params.put(ReqUrls.END_DATE, endDate);
 		params.put(ReqUrls.PAGE, page);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRADE, false,
+		params.put(ReqUrls.NUM, num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_LIST, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	

@@ -24,7 +24,7 @@ public class AnyitouService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		timer = new Timer();
-		long perid = Math.round(1000*60*1.5);
+		long perid = Math.round(1000*60*60*1.5);
 		timer.schedule(task, perid, perid);
 	}
 
@@ -50,9 +50,9 @@ public class AnyitouService extends Service {
 					isStarted = true;
 				}
 				cn.com.anyitou.utils.Log.e("Token", "-------刷新token----------");
-				TokenUtil.getClientToken(AnyitouService.this);
+				TokenUtil.getClientToken(AnyitouService.this,true);
 				if(MyApplication.getInstance().getCurrentUser() != null && !StringUtils.isEmpty(GlobalConfig.REFRESH_TOKEN)){
-					TokenUtil.refreshToken(AnyitouService.this, GlobalConfig.REFRESH_TOKEN);
+					TokenUtil.refreshToken(AnyitouService.this, GlobalConfig.REFRESH_TOKEN,true);
 				}
 //				if(isStarted){
 //					Looper.loop();

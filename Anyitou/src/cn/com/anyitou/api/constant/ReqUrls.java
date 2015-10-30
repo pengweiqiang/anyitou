@@ -98,13 +98,19 @@ public interface ReqUrls {
 	
 	public static String INFO_STR = "infoStr";
 	
-	public static String CATEGORY_ID = "industryId";
+	public static String CATEGORY = "category";
 	
 	public static String APP_ID = "appId";
 
     public static String INDUSTRY_ID = "industryId";
 	
 	public static String PRODUCT_MODEL = "productModel";
+	
+	public static String DATE_RANGE = "dateRange";
+	
+	public static String BEGIN_DATE = "beginDate";
+	
+	public static String END_DATE = "endDate";
 	
 
 	
@@ -118,7 +124,7 @@ public interface ReqUrls {
 	
 	public static final String SEARCH_KEY="keyWord";
 	
-	public static final String ORDER_ID = "ordId";
+	public static final String ORDER = "order";
 	public static final String ORDER_TYPE = "orderType";
 	
 	public static final String NICK_NAME = "nickname";
@@ -252,6 +258,28 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_INVESTING = "investment/create";
 	
+	/**
+	 * 26.交易状态查询接口
+	 */
+	public static final String MOBIAPI_TRANSACTION_STATUS = "transaction/status";
+	
+	/**
+	 * 27.获取交易详情
+	 */
+	public static final String MOBIAPI_TRANSACTION_VIEW = "transaction/view";
+	
+	/**
+	 * 28.获取交易记录列表
+	 */
+	public static final String MOBIAPI_TRANSACTION_LIST = "transaction/list";
+	
+	/**
+	 * 29.获取项目投资记录列表接口
+	 */
+	public static final String MOBIAPI_INVESTMENTS = "project/investments";
+	
+	
+	
 	//////////////////////////////////////////////
 	
 	
@@ -310,11 +338,6 @@ public interface ReqUrls {
 	
 	
 	/**
-	 * 项目详情
-	 */
-	public static final String MOBIAPI_CONTENT_SHOW = "mobiapi/contentShow";
-	
-	/**
 	 * 还款计划
 	 */
 	public static final String MOBIAPI_RECEIVING = "mobiapi/receiving";
@@ -323,10 +346,7 @@ public interface ReqUrls {
 	 * 我的投资
 	 */
 	public static final String MOBIAPI_INVEST = "mobiapi/invest";
-	/**
-	 * 交易记录
-	 */
-	public static final String MOBIAPI_TRADE = "mobiapi/trade";
+	
 	/**
 	 * 我的银行卡
 	 */

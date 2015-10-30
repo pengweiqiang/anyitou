@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -25,20 +24,21 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
-
 import cn.com.GlobalConfig;
+import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.api.ApiUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.entity.ParseModel;
+import cn.com.anyitou.ui.LoginActivity;
 
 /**
  * http协议网络请求
@@ -60,8 +60,8 @@ public class HttpConnectionUtil {
 	 * @param callback 回调方法,返回给页面或其他的数据
 	 */
 	public static void asyncConnect(final String url, final HttpMethod method, final RequestCallback callback,
-			final MethodType methodType, final Context context) {
-		asyncConnect(url, null, method, callback, methodType, context);
+			final MethodType methodType, final Context context,boolean isTimer) {
+		asyncConnect(url, null, method, callback, methodType, context,isTimer);
 	}
 	
 	/**
@@ -72,8 +72,8 @@ public class HttpConnectionUtil {
 	 * @param callback 回调方法,返回给页面或其他的数据
 	 */
 	public static void syncConnect(final String url, final HttpMethod method, final RequestCallback callback,
-			final MethodType methodType, Context context) {
-		syncConnect(url, null, method, callback, methodType, context);
+			final MethodType methodType, Context context,boolean isTimer) {
+		syncConnect(url, null, method, callback, methodType, context,isTimer);
 	}
 	
 	/**
@@ -101,7 +101,7 @@ public class HttpConnectionUtil {
 	 * @param callback 回调方法
 	 */
 	public static void asyncConnect(final String url, final Map<String, Object> params, final HttpMethod method,
-			final RequestCallback callback, final MethodType methodType, final Context context) {
+			final RequestCallback callback, final MethodType methodType, final Context context,boolean isTimer) {
 //		Handler handler = new Handler();
 //		Runnable runnable = new Runnable() {
 //			public void run() {
@@ -109,7 +109,7 @@ public class HttpConnectionUtil {
 //			}
 //		};
 //		handler.post(runnable);
-		syncConnect(url, params, method, callback, methodType, context);
+		syncConnect(url, params, method, callback, methodType, context,isTimer);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class HttpConnectionUtil {
 	 * @param callback 回调方法
 	 */
 	private static void syncConnect(final String url, final Map<String, Object> params, final HttpMethod method,
-			final RequestCallback callback, final MethodType methodType, final Context context) {
+			final RequestCallback callback, final MethodType methodType, final Context context,final boolean isTimer) {
 		Log.i(TAG, url+"接口传入参数："+JsonUtils.toJson(params));
 		final Handler handler = new Handler() {
 			@Override
@@ -131,7 +131,15 @@ public class HttpConnectionUtil {
 					String backStr = message.getData().getString(ApiConstants.RESULT_BACK_STR);
 					Log.i(TAG, url+"接口返回结果："+backStr);
 					if (callback != null && null != backStr){
-						callback.execute(getParseModel(backStr, methodType, context,(Boolean)params.get("isUserToken")));
+						ParseModel pm = getParseModel(backStr, methodType, context,(Boolean)params.get("isUserToken"));
+						if(!StringUtils.isEmpty(pm.getError()) && pm.getError().equals("invalid_grant")){
+							Intent loginIntent = new Intent(context,LoginActivity.class);
+							loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+							loginIntent.putExtra("type", 2);
+							loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							context.startActivity(loginIntent);
+						}
+						callback.execute(pm);
 					}
 					break;
 				}
@@ -159,7 +167,12 @@ public class HttpConnectionUtil {
 //					if (statusCode == HttpStatus.SC_OK || statusCode == NetUtil.NET_QUERY_SUCC || statusCode== NetUtil.FAIL_CODE || statusCode == NetUtil.FAIL_CODE_400) {
 //						backStr = EntityUtils.toString(response.getEntity(),HTTP.UTF_8);
 						backStr = handleEntity(response.getEntity(),HTTP.UTF_8);
-						sendMessage(backStr, handler, ApiConstants.RESULT_CODE);
+						if(isTimer){//自动刷新token
+							Log.e(TAG, "自动刷新token "+params.get(ReqUrls.GRANT_TYPE).toString()+"   "+backStr);
+							TokenUtil.saveTokenIsTimer(context, backStr,params.get(ReqUrls.GRANT_TYPE).toString());
+						}else{
+							sendMessage(backStr, handler, ApiConstants.RESULT_CODE);
+						}
 //					}
 				} catch (Exception e) {
 					

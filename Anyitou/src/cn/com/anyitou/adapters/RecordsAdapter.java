@@ -61,16 +61,16 @@ public class RecordsAdapter extends BaseListAdapter{
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
 		
-		viewHolder.mTvAddTime.setText(record.getAddtime());
-		if(!StringUtils.isEmpty(record.getTrans_amt()) && record.getTrans_amt().startsWith("+")){
+		viewHolder.mTvAddTime.setText(record.getDeal_time());
+		if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("1")){
 			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.trade_add));
-		}else if(!StringUtils.isEmpty(record.getTrans_amt()) && record.getTrans_amt().startsWith("-")){
+		}else if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("1")){
 			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.trade_reduce));
 		}else{
 			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.app_bg_color));
 		}
-		viewHolder.mTvTitle.setText(record.getTableName());
-		viewHolder.mTvContent.setText(record.getTrans_amt());
+		viewHolder.mTvTitle.setText(record.getCategory_data().getLabel());
+		viewHolder.mTvContent.setText(record.getCash_num());
 		
 		
 		return convertView;

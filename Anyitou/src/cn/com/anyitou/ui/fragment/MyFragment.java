@@ -16,6 +16,7 @@ import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.LoginActivity;
+import cn.com.anyitou.ui.MyInvestmentActivity;
 import cn.com.anyitou.ui.RechargeActivity;
 import cn.com.anyitou.ui.TradingRecordActivity;
 import cn.com.anyitou.ui.WithdrawalsActivity;
@@ -140,7 +141,7 @@ public class MyFragment extends BaseFragment {
 				intent.setClass(mActivity, RechargeActivity.class);
 				break;
 			case R.id.invest_detail:
-				intent.setClass(mActivity, TradingRecordActivity.class);
+				intent.setClass(mActivity, MyInvestmentActivity.class);
 				break;
 			case R.id.trade_detail:
 				intent.setClass(mActivity, TradingRecordActivity.class);
@@ -172,7 +173,11 @@ public class MyFragment extends BaseFragment {
 			
 			@Override
 			public void onClick(View v) {
-				
+				if(user == null){
+					ToastUtils.showToast(mActivity, "请先登录");
+					Intent loginIntent = new Intent(mActivity,LoginActivity.class);
+					mActivity.startActivity(loginIntent);
+				}
 			}
 		});
 	}

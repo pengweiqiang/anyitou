@@ -14,10 +14,21 @@ public class BaseModel implements Serializable{
 	
 	private String code;
 	
+	private String status;
+	
 	private JsonElement data;
 	
 	private String msg;
 	
+
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getCode() {
 		return code;

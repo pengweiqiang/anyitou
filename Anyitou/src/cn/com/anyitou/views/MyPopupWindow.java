@@ -35,9 +35,8 @@ public class MyPopupWindow{
 			@Override
 			public void onDismiss() {
 				try {
-					Thread.sleep(200);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				setBackgroundAlpha(mActivity, 1f);

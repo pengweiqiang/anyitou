@@ -119,14 +119,14 @@ public class TradingRecordActivity extends BaseActivity implements
 
 	private void initData() {
 		mViewEmpty.setVisibility(View.GONE);
-		ApiUserUtils.getTrade(mContext, String.valueOf(page),
+		ApiUserUtils.getTrade(mContext,"","","","","", String.valueOf(page),"10",
 				new RequestCallback() {
 
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancelDialog(loadingDialog);
-						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getCode())) {
+						if (ApiConstants.RESULT_SUCCESS_BOOLEAN.equals(parseModel
+								.getStatus())) {
 							List<Records> records = JsonUtils.fromJson(
 									parseModel.getData().toString(),
 									new TypeToken<List<Records>>() {
@@ -250,7 +250,7 @@ public class TradingRecordActivity extends BaseActivity implements
 
 		List<Records> records = new ArrayList<Records>();
 		for (Records record : recordLists) {
-			String transAmt = record.getTrans_amt();
+			String transAmt = record.getCash_status();
 			if (type == 1 && transAmt.startsWith("-")) {
 				records.add(record);
 			} else if (type == 2 && transAmt.startsWith("+")) {

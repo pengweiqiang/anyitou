@@ -112,7 +112,7 @@ public class ApiOrderUtils {
 	 */
 	public static void getReChargeResult(Context context,String ordId,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.ORDER_ID, ordId);
+		params.put(ReqUrls.ORDER, ordId);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_ISRECHARGE_SUCCESS, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
@@ -137,7 +137,7 @@ public class ApiOrderUtils {
 	 */
 	public static void getInvestingResult(Context context,String ordId,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.ORDER_ID, ordId);
+		params.put(ReqUrls.ORDER, ordId);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_ISINVESTING_SUCCESS, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}

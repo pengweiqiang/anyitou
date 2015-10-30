@@ -10,6 +10,7 @@ public interface ApiConstants {
 	 * 接口正常
 	 */
 	public static final String RESULT_SUCCESS = "0";
+	public static final String RESULT_SUCCESS_BOOLEAN = "true";
 	
 	/**
 	 * 系统异常

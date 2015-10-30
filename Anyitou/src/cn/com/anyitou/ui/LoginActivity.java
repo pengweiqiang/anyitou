@@ -35,12 +35,17 @@ public class LoginActivity extends BaseActivity {
 	private TextView mTvForgetPwd,mTvCodeMsg;
 	private String username = "";
 	private boolean isFromMy = false;
+	private int type = 0;//2 token失效。重新登陆授权
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_login);
 		super.onCreate(savedInstanceState);
 		username = this.getIntent().getStringExtra("username");
 		isFromMy = this.getIntent().getBooleanExtra("isFromMy", false);
+		type = this.getIntent().getIntExtra("type",0);
+		if(type == 2){
+			ToastUtils.showToast(mContext, "您的账号在其他设备登录，请重新授权登录");
+		}
 		mEtUsername.setText(username);
 	}
 	

@@ -1,12 +1,16 @@
 package cn.com.anyitou.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import cn.com.GlobalConfig;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.api.ApiUserUtils;
+import cn.com.anyitou.api.ApiUtils;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.Constant;
 import cn.com.anyitou.entity.ParseModel;
+import cn.com.anyitou.ui.LoginActivity;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 
 /**
@@ -23,8 +27,12 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
  *
  */
 public class TokenUtil {
-
-	public static void getClientToken(final Context mContext){
+	/**
+	 * 
+	 * @param mContext
+	 * @param isTimer 自动刷新
+	 */
+	public static void getClientToken(final Context mContext,boolean isTimer){
 		ApiUserUtils.oauthAccessToken(mContext, ReqUrls.CLIENT_CREDENTIALS, "", "", "", new RequestCallback() {
 			
 			@Override
@@ -34,7 +42,10 @@ public class TokenUtil {
 					saveToken(mContext,clientToken,"","");
 				}
 			}
-		});
+		},isTimer);
+	}
+	public static void getClientToken(final Context mContext){
+		getClientToken(mContext, false);
 	}
 	
 	public static void getUserToken(final Context mContext,String userName,String password){
@@ -48,11 +59,10 @@ public class TokenUtil {
 					saveToken(mContext,"",accessToken,refreshToken);
 				}
 			}
-		});
+		},false);
 	}
 	
-	
-	public static void refreshToken(final Context mContext,String refreshToken){
+	public static void refreshToken(final Context mContext,String refreshToken,boolean isTimer){
 		ApiUserUtils.oauthAccessToken(mContext, "refresh_token", "", "", refreshToken, new RequestCallback() {
 			
 			@Override
@@ -67,7 +77,11 @@ public class TokenUtil {
 					logOut(mContext);
 				}
 			}
-		});
+		},isTimer);
+	}
+	
+	public static void refreshToken(final Context mContext,String refreshToken){
+		refreshToken(mContext, refreshToken, false);
 	}
 	
 	public static void logOut(Context mContext) {
@@ -83,8 +97,26 @@ public class TokenUtil {
 		GlobalConfig.REFRESH_TOKEN = "";
 		MyApplication.getInstance().setUser(null);
 	}
-	
-	private static void saveToken(Context mContext,String clientToken,String accessToken,String refreshToken){
+	public static void saveTokenIsTimer(Context mContext,String backStr,String type){
+		if (!StringUtils.isEmpty(backStr)){
+			ParseModel pm = ApiUtils.parse2ParseModel(backStr);
+			if(pm != null){
+				if(ReqUrls.CLIENT_CREDENTIALS.equals(type)){//client客户端授权刷新
+					saveToken(mContext, pm.getAccess_token(), "", "");
+				}else if(ReqUrls.REFRESH_TOKEN.equals(type)){//用户授权刷新
+					saveToken(mContext, "", pm.getAccess_token(), pm.getRefresh_token());
+				}
+				if(!StringUtils.isEmpty(pm.getError()) && pm.getError().equals("invalid_grant")){//refresh_token失效，重新登陆
+					Intent loginIntent = new Intent(mContext,LoginActivity.class);
+					loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+					loginIntent.putExtra("type", 2);
+					loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					mContext.startActivity(loginIntent);
+				}
+			}
+		}
+	}
+	public static void saveToken(Context mContext,String clientToken,String accessToken,String refreshToken){
 		if(!StringUtils.isEmpty(clientToken)){
 			GlobalConfig.CLIENT_TOKEN = clientToken;
 			

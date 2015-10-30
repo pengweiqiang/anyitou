@@ -18,8 +18,18 @@ public class ParseModel extends BaseModel {
 	
 	private String scope;
 	
+	private String error;
 	
 	
+	
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
 	public Object getApiResult() {
 		return apiResult;
 	}

@@ -109,11 +109,16 @@ public class ApiUtils {
 	 */
 	public static void getParseModel(Map<String, Object> params, String requestUrl, boolean isAsync,
 			RequestCallback requestCallBack, MethodType methodType, Context context) {
-		getParseModel(params, requestUrl, isAsync, requestCallBack, methodType, context,HttpMethod.POST);
+		getParseModel(params, requestUrl, isAsync, requestCallBack, methodType, context,HttpMethod.POST,false);
 	
 	}
 	public static void getParseModel(Map<String, Object> params, String requestUrl, boolean isAsync,
-			RequestCallback requestCallBack, MethodType methodType, Context context,HttpMethod httpMethod) {
+			RequestCallback requestCallBack, MethodType methodType, Context context,boolean isTimer) {
+		getParseModel(params, requestUrl, isAsync, requestCallBack, methodType, context,HttpMethod.POST,isTimer);
+	
+	}
+	public static void getParseModel(Map<String, Object> params, String requestUrl, boolean isAsync,
+			RequestCallback requestCallBack, MethodType methodType, Context context,HttpMethod httpMethod,boolean isTimer) {
 
 		if (!GlobalConfig.GLOBAL_NET_STATE) { // 无网络
 			ParseModel pm = new ParseModel();
@@ -124,7 +129,7 @@ public class ApiUtils {
 		}
 
 		HttpConnectionUtil.asyncConnect(NetUtil.getConectionUrlWithoutPort(requestUrl, isAsync), params,
-				httpMethod, requestCallBack, methodType, context);
+				httpMethod, requestCallBack, methodType, context,isTimer);
 	
 	}
 		
