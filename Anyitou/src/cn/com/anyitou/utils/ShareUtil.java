@@ -13,8 +13,7 @@ import cn.bidaround.ytcore.data.YtPlatform;
 import cn.bidaround.ytcore.util.HttpUtils;
 import cn.bidaround.ytcore.util.YtToast;
 import cn.com.anyitou.R;
-
-import cn.com.anyitou.ui.MainActivity;
+import cn.com.anyitou.ui.HomeActivity;
 
 /**
  * 分享工具类
@@ -28,7 +27,7 @@ public class ShareUtil {
 		this.context = context;
 		
 		// 友推分享组件初始化
-		YtCore.init((MainActivity)context);
+		YtCore.init((HomeActivity)context);
 		initShareData();
 		initPlatform();
 	}
@@ -52,7 +51,7 @@ public class ShareUtil {
 		for (YtPlatform platform : YtPlatform.values())
 			if (platform.getTitleName(context).equals(platformNames.get(position)))
 				// 指定平台进行分享
-				YtCore.getInstance().share((MainActivity)context, platform, listener, shareData);
+				YtCore.getInstance().share((HomeActivity)context, platform, listener, shareData);
 			
 	}
 	/**
@@ -69,11 +68,11 @@ public class ShareUtil {
 		shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
 		shareData.setDescription("安宜投");// 待分享内容的描述
 		shareData.setTitle("安宜投"); // 待分享的标题
-		shareData.setText("不开玩笑，投资5万元，30天净收550元利息，在1818理财平台，这是个真事儿！");// 待分享的文字
+		shareData.setText("不开玩笑，投资5万元，30天净收550元利息，在安宜投理财平台，这是个真事儿！");// 待分享的文字
 		shareData.setImage(ShareData.IMAGETYPE_APPRESOURE, String.valueOf(R.drawable.ic_launcher));// 设置网络分享地址
 		shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
 		shareData.setTargetId(String.valueOf(100));
-		shareData.setTargetUrl("http://www.18link.com");// 待分享内容的跳转链接
+		shareData.setTargetUrl("http://www.anyitou.com");// 待分享内容的跳转链接
 	}
 
 	/**

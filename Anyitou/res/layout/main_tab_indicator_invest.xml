@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabInteractButton"
+    style="@style/MainTabButton"
+    android:drawableTop="@drawable/ic_tab_invest"
+    android:text="@string/tab_invest" >
+
+</RadioButton>

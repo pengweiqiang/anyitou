@@ -24,7 +24,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_centerVertical="true"
 	            android:layout_marginLeft="10dp"
-	            android:text="1818用户名"
+	            android:text="用户名"
 	            android:textColor="@color/white"
 	            android:textSize="19sp" />
 	</RelativeLayout>

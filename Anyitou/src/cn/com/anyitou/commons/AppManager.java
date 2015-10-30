@@ -60,7 +60,7 @@ public class AppManager {
 	}
 	
 	/**
-	 * 结束当前Activity（堆栈中�?���?��压入的）
+	 * 结束当前Activity
 	 */
 	public void finishActivity() {
 		try{

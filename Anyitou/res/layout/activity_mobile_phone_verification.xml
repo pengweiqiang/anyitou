@@ -8,79 +8,83 @@
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
         android:layout_width="fill_parent"
+        android:background="@color/black"
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/edit_style" >
 
         <cn.com.anyitou.views.ClearEditText
             android:id="@+id/registered_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="0dp"
+            android:padding="15dp"
             android:background="@null"
             android:textSize="@dimen/text_hint_size"
-            android:hint="请输入手机号"
+            android:hint="请输入原手机号码"
             android:inputType="phone"
             android:singleLine="true"
             android:textColorHint="@color/grey_line" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
-
+        
+        <View 
+            android:id="@+id/line"
+            android:layout_below="@+id/registered_phone"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey_line"
+            />
+        
         <RelativeLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/edit_style" >
+            android:layout_below="@+id/line">
 
             <cn.com.anyitou.views.ClearEditText
                 android:id="@+id/registered_code"
+                android:layout_toLeftOf="@+id/get_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/text_hint_size"
                 android:layout_marginLeft="0dp"
                 android:background="@null"
+                android:padding="15dp"
                 android:hint="请输入验证码"
                 android:inputType="number"
                 android:singleLine="true"
                 android:textColorHint="@color/grey_line" />
-        </RelativeLayout>
-
-        <RelativeLayout
+            
+             <RelativeLayout
             android:id="@+id/get_code"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/login_delete_selector" >
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_code_color" >
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/code_msg"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="center"
+                android:padding="5dp"
                 android:singleLine="true"
                 android:text="获取验证码"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textColor="@color/white"/>
         </RelativeLayout>
-    </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/now_check"
@@ -97,45 +101,9 @@
             android:background="@null"
             android:gravity="center"
             android:singleLine="true"
-            android:text="立即验证"
+            android:text="下一步"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal|bottom"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=">>  注册帐号"
-            android:textColor="#5c87e6" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=">>  开通汇付"
-            android:textColor="#81ccbd" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=">>  注册完成"
-            android:textColor="#5c87e6" />
-    </LinearLayout>
 
 </LinearLayout>

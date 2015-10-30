@@ -66,9 +66,9 @@ public class RegisteredActivity extends BaseActivity{
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-							String hfRegisterUrl = parseModel.getHfRegisterUrl();
+//							String hfRegisterUrl = parseModel.getHfRegisterUrl();
 							Intent intent = new Intent(mContext,WebActivity.class);
-							intent.putExtra("url", hfRegisterUrl);
+//							intent.putExtra("url", hfRegisterUrl);
 							intent.putExtra("name", "注册汇付");
 							intent.putExtra("type", 1);
 							startActivity(intent);
@@ -85,7 +85,7 @@ public class RegisteredActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				startActivity(MainActivity.class);
+				startActivity(HomeActivity.class);
 				AppManager.getAppManager().finishActivity();
 			}
 		});

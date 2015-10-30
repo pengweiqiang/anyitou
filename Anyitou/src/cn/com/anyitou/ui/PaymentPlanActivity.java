@@ -121,7 +121,7 @@ import cn.com.anyitou.views.XListView.IXListViewListener;
 								paymentLists.addAll(paymentPlans);
 							}
 							paymentPlanAdapter.notifyDataSetChanged();
-							logined(parseModel.getToken(), null);
+//							logined(parseModel.getToken(), null);
 							mListView.onLoadFinish(page, paymentPlans.size(), "加载完毕");
 							mListView.hideFooterView();
 						} else {

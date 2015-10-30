@@ -3,17 +3,21 @@
 
     <string name="app_name">安宜投</string>
     <string name="home">首页</string>
+    <string name="tab_my">我的</string>
+    <string name="tab_invest">投资</string>
+    <string name="tab_account_setting">账户设置</string>
+    <string name="tab_about_us">关于我们</string>
     <string name="setting">设置</string>
     <string name="my_info">我的资产</string>
     <string name="back">返回</string>
     <string name="gestureLock_pwd">管理手势密码</string>
     <string name="forget_pwd">忘记密码</string>
-    <string name="forget_gesture_pwd">忘记手势?</string>
+    <string name="forget_gesture_pwd">忘记手势密码?</string>
     <string name="restart_gesture_pwd">重新绘制</string>
     <string name="login_other">登录其他帐号</string>
 	<string name="NETWORK_ERROR">网络不给力呀，稍后试试吧！</string>
 	<string name="splash_bottom">Copyright @ 2014-2015 18link. All Rights Reserved</string>
-	<string name="call_custom">400-644-1818</string>
+	<string name="call_custom">400-910-6868</string>
 	<string name="invest_money">投资赚钱</string>
 	<string name="msg_load_ing">加载中...</string>
 	<string name="login_remind">用户名必须是6-25位的英文、数字、特殊字符@._-组合</string>
@@ -22,7 +26,7 @@
 	<string name="registered_kaitong">开通第三方资金托管账户</string>
 	<string name="registered_baozhang">保障资金安全</string>
 	<string name="un_register">暂不开通</string>
-	<string name="registered_shuoming">\t1818平台由权威的第三方支付平台对资金进行托管、结算和监督，严格切断资金和业务的联系，平台不享有在三方账户中资金的支配权，充分保障各方的资金安全。</string>
+	<string name="registered_shuoming">\t安宜投平台由权威的第三方支付平台对资金进行托管、结算和监督，严格切断资金和业务的联系，平台不享有在三方账户中资金的支配权，充分保障各方的资金安全。</string>
 	<string name="invest_description">项目描述</string>
 	<string name="invest_risk_control">风险控制</string>
 	<string name="invest_repayment_plan">还款计划</string>
@@ -43,11 +47,19 @@
 	<string name="overdue_code">验证码已过期</string>
 	<string name="registed_phone">手机号已注册</string>
 	<string name="input_phone">请输入手机号</string>
+	<string name="input_correct_phone">请输入当前的手机号</string>
 	<string name="input_pwd">请输入密码</string>
 	<string name="input_correct_pwd">请输入确认密码</string>
 	<string name="input_code">请输入验证码</string>
+	<string name="send_msg">请先获取验证码</string>
 	<string name="input_old_pwd">请输入原密码</string>
 	<string name="input_new_pwd">请输入新密码</string>
+	<string name="anyitou_introduce">安宜投介绍</string>
+	<string name="anyitou_introduce_content">安宜投(www.anyitou.com)隶属于普惠安宜科技(北京)有限公司,团队由金融、风险、法律及互联网科技人才组成,共同打造一个为普通民众及中小微企业提供专业投融资服务的平台。</string>
+	<string name="input_suggestion">亲，说两句吧！</string>
+	<string name="suggestion_title">您的意见或建议：</string>
+	<string name="contact_title">您的联系方式：</string>
+	<string name="input_email">方便的话留个邮箱吧！</string>
 	
 	<string name="agreement">\n  欢迎您注册成为1818平台用户\n
  请仔细阅读下面的协议，只有接受协议才能继续进行注册。 \n

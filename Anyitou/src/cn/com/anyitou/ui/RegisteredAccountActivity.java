@@ -8,16 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.api.constant.OperationType;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
-import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
@@ -25,16 +26,20 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
-
+/**
+ * 注册
+ * @author will
+ *
+ */
 public class RegisteredAccountActivity extends BaseActivity {
 	
 	private ActionBar mActionBar;
-	private EditText mEtUserName,mEtPassword,mEtPassword2,mEtCode,mEtRecommended;
-	private View mGetCode,mRegister,mHasLogin,mReaded;
+	private EditText mEtUserName,mEtCode,mEtRecommended;
+	private View mRegister/*,mHasLogin*/,mReaded;
 	private LoadingDialog loadingDialog;
-	private TextView mTvGetCode;
+	private TextView mTvGetCode,mTvTime;
 	
-	private String sessionId = "";//用于验证短信验证码
+	private String captcha_key = "";//验证码key
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_registered_account);
@@ -47,14 +52,12 @@ public class RegisteredAccountActivity extends BaseActivity {
 		mActionBar = (ActionBar) findViewById(R.id.actionBar);
 		onConfigureActionBar(mActionBar);
 		mEtUserName = (EditText) findViewById(R.id.registered_un);
-		mEtPassword = (EditText) findViewById(R.id.registered_pw);
-		mEtPassword2 = (EditText) findViewById(R.id.registered_pwd2);
 		mEtCode = (EditText) findViewById(R.id.registered_code);
 		mEtRecommended = (EditText) findViewById(R.id.registered_recommend);
-		mGetCode =  findViewById(R.id.get_code);
-		mTvGetCode = (TextView)findViewById(R.id.get_code_tv);
+		mTvGetCode =  (TextView)findViewById(R.id.get_code);
+		mTvTime = (TextView)findViewById(R.id.time);
 		mRegister = findViewById(R.id.register); 
-		mHasLogin = findViewById(R.id.has_login);
+//		mHasLogin = findViewById(R.id.has_login);
 		mReaded = findViewById(R.id.readed);
 	}
 	protected void onConfigureActionBar(ActionBar actionBar) {
@@ -72,16 +75,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		//已有帐号登录
-		mHasLogin.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mContext,LoginActivity.class);
-				startActivity(intent);
-				AppManager.getAppManager().finishActivity();
-			}
-		});
+		
 		//同意协议
 		mReaded.setOnClickListener(new OnClickListener() {
 			
@@ -91,7 +85,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 			}
 		});
 		//获取验证码
-		mGetCode.setOnClickListener(new OnClickListener() {
+		mTvGetCode.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -103,17 +97,17 @@ public class RegisteredAccountActivity extends BaseActivity {
 				}
 				
 				if(CheckInputUtil.checkPhone(tel, mContext)){
-					if(mGetCode.isEnabled()){
-						mGetCode.setEnabled(false);
-						ApiUserUtils.registerCode(mContext, tel, new RequestCallback() {
+					if(mTvGetCode.isEnabled()){
+						mTvGetCode.setEnabled(false);
+						ApiUserUtils.sendMobileCode(mContext, tel,OperationType.APP_REGISTER.getName(), new RequestCallback() {
 							
 							@Override
 							public void execute(ParseModel parseModel) {
-								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//发送验证码成功
 									regainCode();
-									sessionId = parseModel.getSession_id();
+									captcha_key = parseModel.getData().getAsJsonObject().get("captcha_key").getAsString();
 								}else{
-									mGetCode.setEnabled(true);
+									mTvGetCode.setEnabled(true);
 									ToastUtils.showToast(mContext, parseModel.getMsg());
 								}
 							}
@@ -124,7 +118,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 			}
 		});
 		
-		//注册
+		//下一步
 		mRegister.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -138,42 +132,8 @@ public class RegisteredAccountActivity extends BaseActivity {
 				if(!CheckInputUtil.checkUser(userName, mContext)){
 					return;
 				}
-				final String passWord = mEtPassword.getText().toString().trim();//密码
-				if(StringUtils.isEmpty(passWord)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_pwd));
-					mEtPassword.requestFocus();
-					return;
-				}
-				if(!CheckInputUtil.checkPassword(passWord, mContext)){
-					return;
-				}
 				
-				final String passWord2 = mEtPassword2.getText().toString().trim();//确认密码
-				if(StringUtils.isEmpty(passWord2)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_correct_pwd));
-					mEtPassword2.requestFocus();
-					return;
-				}
-				/*if(!CheckInputUtil.checkPassword(passWord2, mContext)){
-					return;
-				}*/
-				if(!passWord.equals(passWord2)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.error_pwd_again));
-					mEtPassword2.requestFocus();
-					return;
-				}
-				
-				/*String tel = mEtPhone.getText().toString().trim();
-				if(StringUtils.isEmpty(tel)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_phone));
-					mEtPhone.requestFocus();
-					return;
-				}
-				if(!CheckInputUtil.checkPhone(tel, mContext)){
-					return;
-				}*/
-				
-				if(StringUtils.isEmpty(sessionId)){
+				if(StringUtils.isEmpty(captcha_key)){
 					ToastUtils.showToast(mContext, "请先获取验证码");
 					mEtCode.requestFocus();
 					return;
@@ -191,19 +151,24 @@ public class RegisteredAccountActivity extends BaseActivity {
 					return;
 				}*/
 				String choose = "1";//是否同意协议
-				loadingDialog = new LoadingDialog(mContext,"注册中...");
-				loadingDialog.show();
-				ApiUserUtils.register(mContext, sessionId, authCode, userName, passWord, userName, "", choose, new RequestCallback() {
-					
-					@Override
-					public void execute(ParseModel parseModel) {
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
-							login(userName,passWord);//注册成功调用登录接口
-						}else{
-							ToastUtils.showToast(mContext, parseModel.getMsg());
-						}
-					}
-				});
+				Intent intent = new Intent(mContext,RegisteredAccount2Activity.class);
+				intent.putExtra("mobile", userName);
+				intent.putExtra("captcha_key", captcha_key);
+				intent.putExtra("code", authCode);
+				startActivity(intent);
+//				loadingDialog = new LoadingDialog(mContext,"注册中...");
+//				loadingDialog.show();
+//				ApiUserUtils.register(mContext, sessionId, authCode, userName, passWord, userName, "", choose, new RequestCallback() {
+//					
+//					@Override
+//					public void execute(ParseModel parseModel) {
+//						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
+//							login(userName,passWord);//注册成功调用登录接口
+//						}else{
+//							ToastUtils.showToast(mContext, parseModel.getMsg());
+//						}
+//					}
+//				});
 			}
 		});
 	}
@@ -219,16 +184,16 @@ public class RegisteredAccountActivity extends BaseActivity {
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//登录成功
-					String token = parseModel.getToken();
-					User user = new User();
-					user.setUser_name(userName);
-					user.setPass_word(passWord);
-					logined(token,user);
-					ToastUtils.showToast(mContext, "注册成功");
-					Intent intent = new Intent(mContext,RegisteredActivity.class);
-					startActivity(intent);
-					AppManager.getAppManager().finishActivity(LoginActivity.class);
-					AppManager.getAppManager().finishActivity();
+//					String token = parseModel.getToken();
+//					User user = new User();
+//					user.setUser_name(userName);
+//					user.setPass_word(passWord);
+//					logined(token,user);
+//					ToastUtils.showToast(mContext, "注册成功");
+//					Intent intent = new Intent(mContext,RegisteredActivity.class);
+//					startActivity(intent);
+//					AppManager.getAppManager().finishActivity(LoginActivity.class);
+//					AppManager.getAppManager().finishActivity();
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
@@ -237,10 +202,10 @@ public class RegisteredAccountActivity extends BaseActivity {
 	}
 	
 	private Timer timer;// 计时器
-	private int time = 120;//倒计时120秒
+	private int time = 60;//倒计时120秒
 
 	private void regainCode() {
-		time = 120;
+		time = 60;
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 
@@ -254,11 +219,11 @@ public class RegisteredAccountActivity extends BaseActivity {
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 0) {
-				mGetCode.setEnabled(true);
-				mTvGetCode.setText("获取验证码");
+				mTvGetCode.setEnabled(true);
+				//mTvGetCode.setText("获取验证码");
 				timer.cancel();
 			} else {
-				mTvGetCode.setText(msg.what + "秒重发");
+				mTvTime.setText("剩余 "+msg.what + " 秒");
 			}
 		};
 	};

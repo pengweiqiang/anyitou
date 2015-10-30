@@ -9,12 +9,22 @@ public interface ApiConstants {
 	/**
 	 * 接口正常
 	 */
-	public static final String RESULT_SUCCESS = "1";
+	public static final String RESULT_SUCCESS = "0";
 	
 	/**
 	 * 系统异常
 	 */
 	public static final String RESULT_ERROR = "601";
+	
+	/**
+	 * 无效的token
+	 */
+	public static final String RESULT_INVALID_TOKEN = "400";
+	
+	/**
+	 * 未开通汇付
+	 */
+	public static final String RESULT_UNHF_USER = "1002";
 	
 	/**
 	 * 用户不存在

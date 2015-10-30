@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.com.anyitou.R;
+import cn.com.anyitou.utils.StringUtils;
 
 /**
  * 标题栏, 可设置标题和左右图标
@@ -21,7 +22,7 @@ import cn.com.anyitou.R;
 public class ActionBar extends FrameLayout {
 
 	private TextView mTitleView;
-	private TextView mLeftActionButton;
+	private TextView mLeftActionButton,mRightActionButton;
 	private TextView mActionBarTitle;
 	private ImageView mIvCenterImage;
 	private View mViewCenter;
@@ -44,6 +45,7 @@ public class ActionBar extends FrameLayout {
 				this);
 		mTitleView = (TextView) findViewById(R.id.actionBarTitle);
 		mLeftActionButton = (TextView) findViewById(R.id.leftActionButton);
+		mRightActionButton = (TextView) findViewById(R.id.rightActionButton);
 		mActionBarTitle = (TextView)findViewById(R.id.actionBarTitle);
 		mIvCenterImage = (ImageView)findViewById(R.id.center_image);
 		mViewCenter = findViewById(R.id.center_rl);
@@ -74,6 +76,15 @@ public class ActionBar extends FrameLayout {
 		mLeftActionButton.setOnClickListener(listener);
 //		mLeftActionButton.setVisibility(View.VISIBLE);
 	}
+	public void setRightActionButton(String text,OnClickListener listener){
+		if(StringUtils.isEmpty(text)){
+			mRightActionButton.setVisibility(View.GONE);
+		}else{
+			mRightActionButton.setVisibility(View.VISIBLE);
+			mRightActionButton.setText(text);
+			mRightActionButton.setOnClickListener(listener);
+		}
+	}
 	/**
 	 * 给title加点击事件
 	 * @param listener
@@ -92,6 +103,12 @@ public class ActionBar extends FrameLayout {
 	 */
 	public void hideLeftActionButtonText() {
 		mLeftActionButton.setText("");
+	}
+	/**
+	 * 隐藏右上角按钮的文字
+	 */
+	public void hideRightActionButtonText() {
+		mRightActionButton.setVisibility(View.GONE);
 	}
 
 	

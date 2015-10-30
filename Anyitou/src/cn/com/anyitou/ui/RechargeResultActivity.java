@@ -40,7 +40,7 @@ public class RechargeResultActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				startActivity(MainActivity.class);
+				startActivity(HomeActivity.class);
 			}
 		});
 		mBtnResumeRechange.setOnClickListener(new OnClickListener() {

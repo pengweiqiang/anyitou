@@ -12,32 +12,43 @@ public interface ReqUrls {
 	
 	public static String ONLINE_CONFIG_FILE_TYPE=".json";
 	
-	public static String USER_NAME="user_name"; //用户账号
+	public static String USER_NAME="username"; //用户账号
 	
-	public static String AUTHORIZATION = "authorization";
+	public static String AUTHORIZATION = "Authorization";
 	
 	public static String GRANT_TYPE = "grant_type";
 	
-	public static String REFRESH_TOKEN = "refresh_token";
-	
-	//客户端授权默认
+	//客户端授权默认(有效期2小时)
 	public static String CLIENT_CREDENTIALS = "client_credentials";
-	
-	public static String TOKEN = "token";
+	//用户授权token(有效期2小时)
+	public static String ACCESS_TOKEN = "access_token";
+	//通过 refresh_token 获取新的token(有效期30天)
+	public static String REFRESH_TOKEN = "refresh_token";
 	
 	public static String USERNAME = "username";
 	
 	public static String PASSWORD="password";
 	
-	public static String PASS_WORD = "pass_word";
+	public static String SMSCODE_SESSION_ID = "smscode_session_id";
 	
-	public static String SESSION_ID = "session_id";
+	
+	public static String TITLE = "title";
+	
+	public static String CONTENT = "content";
 	
 	public static String MESSAGE_CODE = "msgcode";
 	
-	public static String AUTH_CODE = "auth_code";
+	public static String SMS_CODE = "smscode";
 	
-	public static String TEL = "tel";
+	public static String MOBILE = "mobile";
+	
+	public static String RECID = "recid";
+	
+	public static String FROM = "from";
+	
+	public static String CAPTCHA_KEY = "captcha_key";
+	
+	public static String CAPTCHA = "captcha";
 	
 	public static String CHOOSE = "choose";
 	
@@ -50,6 +61,8 @@ public interface ReqUrls {
 	public static String CURPAGE = "curpage";
 	
 	public static String PAGE = "page";
+	
+	public static String NUM = "num";
 	
 	public static String V = "v";//1.回款中|2.投标中|3.已完成
 	
@@ -69,7 +82,11 @@ public interface ReqUrls {
 	
 	public static String TYPE = "type";
 	
-	public static String MONEY = "money";
+	public static String AMOUNT = "amount";
+	
+	public static String BANK_CARD_ID = "bank_card_id";
+	
+	public static String USE_COUPON_STATUS = "use_coupon_status";
 	
 	public static String ITEM_TYPE = "itemType";
 	
@@ -140,6 +157,20 @@ public interface ReqUrls {
 	public static final String MOBIAPI_AUTH = "oauth2/accessToken";
 	
 	/**
+	 * 获取项目信息
+	 */
+	public static final String MOBIAPI_PROJECT_DETAIL = "projects/";
+	/**
+	 * 获取用户资金信息
+	 */
+	public static final String MOBIAPI_MY_ACCOUNT = "user/account";
+	
+	/**
+	 * 推荐项目
+	 */
+	public static final String MOBIAPI_RECOMMEND = "project/recommend";
+	
+	/**
 	 * 引导页
 	 */
 	public static final String MOBIAPI_BOOT = "mobiapi/boot";
@@ -147,11 +178,15 @@ public interface ReqUrls {
 	 * 验证短信验证码
 	 */
 	public static final String MOBIAPI_REGISTERCODE = "smscode/validate";
+	/**
+	 * 修改手机号
+	 */
+	public static final String MOBIAPI_MODIFY_MOBILE = "userAssist/modifyMobile";
 	
 	/**
 	 * 注册
 	 */
-	public static final String MOBIAPI_REGISTER = "projects";
+	public static final String MOBIAPI_REGISTER = "user/register";
 	
 	/**
 	 * 提现
@@ -206,11 +241,16 @@ public interface ReqUrls {
 	/**
 	 * 获取项目列表
 	 */
-	public static final String MOBIAPI_INDEX = "projects";
+	public static final String MOBIAPI_INDEX = "project/list";
 	/**
 	 * 获取用户银行卡信息
 	 */
 	public static final String MOBIAPI_RECHARGE_INFO = "recharge/info";
+	
+	/**
+	 * 投资
+	 */
+	public static final String MOBIAPI_INVESTING = "investment/create";
 	
 	//////////////////////////////////////////////
 	
@@ -251,10 +291,6 @@ public interface ReqUrls {
 	 * 投资页面
 	 */
 	public static final String MOBIAPI_INVESTING_PAGE = "mobiapi/investingPage";
-	/**
-	 * 投资
-	 */
-	public static final String MOBIAPI_INVESTING = "mobiapi/investing";
 	/**
 	 *查询投资结果 
 	 */

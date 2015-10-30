@@ -1,22 +1,25 @@
 package cn.com.anyitou.entity;
 
-public class LableValue extends Investments{
+import java.io.Serializable;
+
+public class LableValue implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1074067197374220136L;
-	private String label;
+	private String name;
 	private String value;
 	
 	
 
-	public String getLabel() {
-		return label;
+	
+	public String getName() {
+		return name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getValue() {

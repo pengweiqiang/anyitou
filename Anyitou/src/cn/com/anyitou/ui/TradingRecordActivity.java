@@ -35,7 +35,7 @@ import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
 
 /**
- * 交易记录
+ * 安币记录
  * 
  * @author will
  * 
@@ -144,7 +144,7 @@ public class TradingRecordActivity extends BaseActivity implements
 								recordLists.addAll(records);
 								mViewEmpty.setVisibility(View.GONE);
 							}
-							logined(parseModel.getToken(), null);
+//							logined(parseModel.getToken(), null);
 							if (type != 0) {
 								screenAdapter(type);
 							} else {

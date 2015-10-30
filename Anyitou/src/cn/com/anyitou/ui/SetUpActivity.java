@@ -10,7 +10,11 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.views.ActionBar;
-
+/**
+ * 设置
+ * @author pengweiqiang
+ *
+ */
 public class SetUpActivity extends BaseActivity {
 	ActionBar actionBar;
 	private View mGesture;

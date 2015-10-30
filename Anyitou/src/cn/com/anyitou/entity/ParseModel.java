@@ -11,19 +11,13 @@ public class ParseModel extends BaseModel {
 	
 	private int resultCount; //总数
 	
-	private String session_id;
+	private String access_token;
+	private String refresh_token;
 	
-	private String token;
+	private String expires_in;
 	
-	private String hfRegisterUrl;
+	private String scope;
 	
-	private String url;
-	
-	private int ishfuser;//1代表开通汇付  0代表未开通汇付
-	
-	private String ordId;
-	
-	private String otherStr;
 	
 	
 	public Object getApiResult() {
@@ -34,6 +28,15 @@ public class ParseModel extends BaseModel {
 		this.apiResult = apiResult;
 	}
 
+	
+	public String getRefresh_token() {
+		return refresh_token;
+	}
+
+	public void setRefresh_token(String refresh_token) {
+		this.refresh_token = refresh_token;
+	}
+
 	public int getResultCount() {
 		return resultCount;
 	}
@@ -42,62 +45,32 @@ public class ParseModel extends BaseModel {
 		this.resultCount = resultCount;
 	}
 
-	public String getSession_id() {
-		return session_id;
+	public String getAccess_token() {
+		return access_token;
 	}
 
-	public void setSession_id(String session_id) {
-		this.session_id = session_id;
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
 	}
 
-	public String getToken() {
-		return token;
+	public String getExpires_in() {
+		return expires_in;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setExpires_in(String expires_in) {
+		this.expires_in = expires_in;
 	}
 
-	public String getHfRegisterUrl() {
-		return hfRegisterUrl;
+	public String getScope() {
+		return scope;
 	}
 
-	public void setHfRegisterUrl(String hfRegisterUrl) {
-		this.hfRegisterUrl = hfRegisterUrl;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public int getIshfuser() {
-		return ishfuser;
-	}
-
-	public void setIshfuser(int ishfuser) {
-		this.ishfuser = ishfuser;
-	}
-
-	public String getOrdId() {
-		return ordId;
-	}
-
-	public void setOrdId(String ordId) {
-		this.ordId = ordId;
-	}
-
-	public String getOtherStr() {
-		return otherStr;
-	}
-
-	public void setOtherStr(String otherStr) {
-		this.otherStr = otherStr;
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 	
+	
+
 	
 	
 	

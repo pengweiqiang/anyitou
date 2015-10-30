@@ -80,11 +80,11 @@ public class WithdrawalsDialogActivity extends BaseActivity {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//提现成功
 							ToastUtils.showToast(mContext, "提现成功，2秒后返回我的资产");
-							logined(parseModel.getToken(), null);
+//							logined(parseModel.getToken(), null);
 							new Handler().postDelayed(new Runnable() {
 								public void run() {
 									application.refresh = ApiConstants.TYPE_CASH;
-									startActivity(MainActivity.class);
+									startActivity(HomeActivity.class);
 									AppManager.getAppManager().finishActivity();
 								} 
 							}, 2000);

@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_invest_text_color"
+        android:background="@drawable/button_code_color"
         android:padding="13dp" >
 
         <TextView

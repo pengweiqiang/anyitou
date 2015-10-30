@@ -66,15 +66,15 @@ public class InvestListAdapter extends BaseListAdapter{
 		}else{
 			viewHolder.mViewDashLine.setVisibility(View.GONE);
 		}
-		try{
-			String date = DateUtil.getDateStringByMill(Long.valueOf(invest.getTime())*1000, DateUtil.DEFAULT_PATTERN);
-			viewHolder.mTvDate.setText(date);
-		}catch(Exception e){
-			viewHolder.mTvDate.setText(invest.getTime());
-		}
-		
-		viewHolder.mTvUsername.setText(invest.getUsername());
-		viewHolder.mTvMoney.setText(invest.getMoney());
+//		try{
+//			String date = DateUtil.getDateStringByMill(Long.valueOf(invest.getTime())*1000, DateUtil.DEFAULT_PATTERN);
+//			viewHolder.mTvDate.setText(date);
+//		}catch(Exception e){
+//			viewHolder.mTvDate.setText(invest.getTime());
+//		}
+//		
+//		viewHolder.mTvUsername.setText(invest.getUsername());
+//		viewHolder.mTvMoney.setText(invest.getMoney());
 		
 		
 		return convertView;

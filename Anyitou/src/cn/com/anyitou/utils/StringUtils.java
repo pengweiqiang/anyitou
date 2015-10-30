@@ -3,6 +3,7 @@ package cn.com.anyitou.utils;
 import android.annotation.SuppressLint;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.util.Random;
 
 /**
  * 字符串操作工具包
@@ -162,4 +163,37 @@ public class StringUtils {
         }
         return new String(c);
     }  
+	/**
+	 * 取四位随机数
+	 * @return
+	 */
+	public static String getCode(){
+		Random random = new Random();
+		int code1 = random.nextInt(10);
+		int code2 = random.nextInt(10);
+		int code3 = random.nextInt(10);
+		int code4 = random.nextInt(10);
+		String code = code1+""+code2+""+code3+""+code4;
+		return code;
+	}
+	
+	public static String getsubMobileString(String mobile){
+		if(!isEmpty(mobile)){
+			mobile = mobile.replace(mobile.subSequence(3, 7), "****");
+		}
+		return mobile;
+	}
+	
+	public static String getMoneyFormat(String money){
+		if(isEmpty(money)){
+			return "";
+		}
+		Double moneyDouble = Double.valueOf(money);
+		if(moneyDouble == 0d){
+			return "0.00";
+		}
+		DecimalFormat myformat = new DecimalFormat();
+		myformat.applyPattern("##,###.00");
+		return myformat.format(Double.valueOf(money));
+	}
 }

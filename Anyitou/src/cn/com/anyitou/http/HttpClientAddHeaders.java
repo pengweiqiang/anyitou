@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.content.Context;
 
 import cn.com.GlobalConfig;
+import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.Constant;
 import cn.com.anyitou.utils.SharePreferenceManager;
@@ -17,9 +18,14 @@ public class HttpClientAddHeaders {
 	/**
 	 * 获取请求头集合
 	 * isAuthentication 是否需要认证，注册，密码重置 不需要
+	 * isUserToken true 用户授权吗  false客户端授权码
 	 * @return
 	 */
+	
 	public static ConcurrentHashMap<String, Object> getHeaders(Context context){
+		return getHeaders(context, true);
+	}
+	public static ConcurrentHashMap<String, Object> getHeaders(Context context,boolean isUserToken){
 		MyConcurrentHashMap<String, Object> headers = new MyConcurrentHashMap<String,Object>();
 		/*headers.put("source","Android");//客户端系统
 
@@ -38,13 +44,16 @@ public class HttpClientAddHeaders {
 		headers.put("version",GlobalConfig.VERSION_NAME_V);//客户端版本
 		headers.put("appname",GlobalConfig.APP_NAME);//客户端名称
 */		
-		if("".equals(GlobalConfig.USER_NAME)){
-			GlobalConfig.TOKEN = (String)SharePreferenceManager.getSharePreferenceValue(context, Constant.FILE_NAME, ReqUrls.TOKEN, "");
-		}
+//		if("".equals(GlobalConfig.USER_NAME)){
+//			GlobalConfig.ACCESS_TOKEN = (String)SharePreferenceManager.getSharePreferenceValue(context, Constant.FILE_NAME, ReqUrls.ACCESS_TOKEN, "");
+//		}
 		
-		if(!StringUtils.isEmpty(GlobalConfig.TOKEN)){
-			headers.put(ReqUrls.TOKEN,GlobalConfig.TOKEN);//token
+		if(isUserToken && !StringUtils.isEmpty(GlobalConfig.ACCESS_TOKEN)){
+			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.ACCESS_TOKEN);//token
+		}else if(!isUserToken && !StringUtils.isEmpty(GlobalConfig.CLIENT_TOKEN)){
+			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.CLIENT_TOKEN);//token
 		}
+		headers.put("isUserToken", isUserToken);
 //        headers.put("userId",GlobalConfig.USER_ID);
 //        headers.put("enterId",GlobalConfig.ENTER_ID);
 //		if("".equals(GlobalConfig.EQUIPMENT_V)){

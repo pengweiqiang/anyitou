@@ -1,9 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/bg_gesture"
+    android:background="@color/app_bg_color"
     android:gravity="center"
     android:orientation="vertical" >
+    
+     <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+      <View 
+        android:id="@+id/line_top"
+        android:layout_below="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/white"
+        />
 
     <ImageView
         android:id="@+id/head"
@@ -11,6 +26,7 @@
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:visibility="gone"
         android:src="@drawable/user_head_gestrue" />
     <TextView
         android:id="@+id/userName"
@@ -18,21 +34,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/head"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="3dp"
-        android:text="1818用户名"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
+        android:text="用户名"
         android:textColor="@color/bottom_gesture"
         />
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/userName"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line_top"
+        android:layout_above="@+id/gestureLockView"
+        android:gravity="center_vertical"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="15dp"
         android:text="密码错误,还能再输入4次"
-        android:textColor="@color/red_gesture_tip"
-        android:visibility="invisible"
+        android:textColor="@color/white"
+        android:visibility="visible"
          />
 
     <cn.com.anyitou.views.GestureLockView

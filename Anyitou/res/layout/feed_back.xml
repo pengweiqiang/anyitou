@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+      <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+    <!-- <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        > -->
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+          android:layout_marginTop="15dp"
+          android:textColor="#626262"
+          android:textSize="15sp"
+          android:text="@string/suggestion_title" />
+
+    <cn.com.anyitou.views.ClearEditText 
+        android:id="@+id/suggestion"
+        android:background="@drawable/bg_no_corner_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:lines="9"
+        android:textColorHint="#c9c9c9"
+        android:gravity="top"
+        android:padding="10dip"
+        android:hint="@string/input_suggestion"
+        />
+    <!-- <TextView 
+        android:id="@+id/tv_str_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:padding="5dp"
+        android:layout_gravity="bottom|right"
+        android:text="0/500"
+        />
+    
+    </FrameLayout> -->
+    
+    <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+          android:textSize="15sp"
+          android:layout_marginTop="10dp"
+          android:textColor="#626262"
+          android:text="@string/contact_title" />
+    
+    <cn.com.anyitou.views.ClearEditText 
+        android:id="@+id/email"
+        android:background="@drawable/bg_no_corner_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#c9c9c9"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:padding="10dip"
+        android:hint="@string/input_email"
+        />
+    
+    <Button 
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_delete_selector"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="提交"
+        />
+    
+
+</LinearLayout>

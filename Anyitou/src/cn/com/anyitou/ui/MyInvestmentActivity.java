@@ -117,7 +117,7 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 								myInvestList.addAll(myInvestments);
 							}
 							myInvestAdapter.notifyDataSetChanged();
-							logined(parseModel.getToken(), null);
+//							logined(parseModel.getToken(), null);
 							mListView.onLoadFinish(page, myInvestments.size(), "加载完毕");
 						} else {
 							ToastUtils.showToast(mContext, parseModel.getMsg());

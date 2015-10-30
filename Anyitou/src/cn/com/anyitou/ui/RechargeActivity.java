@@ -75,38 +75,53 @@ public class RechargeActivity extends BaseActivity {
 					return;
 				}
 				try{
-					double money = Double.valueOf(moneyStr);
-					if(money<1){
+					double moneyInput = Double.valueOf(moneyStr);
+					if(moneyInput<1){
 						ToastUtils.showToast(mContext, "至少充值1元");
 						mEtMoney.requestFocus();
 						return;
 					}
+					double moneyUser = Double.valueOf(money);
+//					if(moneyInput > moneyUser){
+//						ToastUtils.showToast(mContext, "您的可用余额不足");
+//						mEtMoney.requestFocus();
+//						return;
+//					}
 				}catch(Exception e){
 					ToastUtils.showToast(mContext, "输入金额有误");
 					mEtMoney.requestFocus();
 					return;
 				}
+				String bankCardId = "";
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
-				ApiOrderUtils.reCharge(mContext,moneyStr, new RequestCallback() {
+				ApiOrderUtils.reCharge(mContext,moneyStr,bankCardId, new RequestCallback() {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-							if(!StringUtils.isEmpty(parseModel.getToken())){
-								logined(parseModel.getToken(), null);//刷新token
-							}
-							String url = parseModel.getUrl();
+							
+							String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
 							Intent intent = new Intent(mContext,WebActivity.class);
 							intent.putExtra("url", url);
 							intent.putExtra("name", "充值");
 							intent.putExtra("type", 2);
-							intent.putExtra("ordId", parseModel.getOrdId());
+//							intent.putExtra("ordId", parseModel.getOrdId());
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();
 						}else{
 							ToastUtils.showToast(mContext, parseModel.getMsg());
+							if(ApiConstants.RESULT_UNHF_USER.equals(parseModel.getCode())){
+								String url = parseModel.getData().getAsString();
+								Intent intent = new Intent(mContext,WebActivity.class);
+								intent.putExtra("url", url);
+								intent.putExtra("name", "注册汇付");
+								intent.putExtra("type", 1);
+								startActivity(intent);
+								AppManager.getAppManager().finishActivity();
+							}
+							
 						}
 					}
 				});

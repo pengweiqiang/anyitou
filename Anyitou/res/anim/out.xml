@@ -2,8 +2,12 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <translate
-        android:duration="1500"
+        android:duration="450"
         android:fromYDelta="0"
-        android:toYDelta="5000" />
+        android:toYDelta="100%" />
 
+    <!-- <alpha
+        android:fromAlpha="0.4"
+        android:toAlpha="1"
+        /> -->
 </set>

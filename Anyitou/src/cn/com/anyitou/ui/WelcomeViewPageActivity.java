@@ -45,7 +45,7 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 	 * 启动主页面
 	 */
 	private void startMainActivity() {
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, HomeActivity.class);
 		startActivity(intent);
 		AppManager.getAppManager().finishActivity();
 	}

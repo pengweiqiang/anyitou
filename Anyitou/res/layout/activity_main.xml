@@ -1,49 +1,36 @@
-<cn.com.anyitou.views.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:zhy="http://schemas.android.com/apk/res/cn.com.anyitou"
-    android:id="@+id/id_menu"
-    android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
-    android:background="@drawable/left_background"
-    android:scrollbars="none"
-    zhy:rightPadding="100dp" >
-
-    <RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+    
+      <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+      <TextView 
+          android:text="推荐项目"
+          android:textColor="@color/app_bg_color"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="1dp"
+          android:gravity="center"
+          android:paddingBottom="1dp"
+          android:background="#e7e7e7"
+          />
+    
+    <cn.com.anyitou.views.MyListView 
+        android:id="@+id/listView_list"
+        android:listSelector="@android:color/transparent"
+        android:divider="@color/home_bg"
+        android:dividerHeight="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal" >
-
-        <include
-            android:id="@+id/left_menu"
-            layout="@layout/layout_menu" />
-
-        <LinearLayout
-            android:id="@+id/right_ll"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_toRightOf="@+id/left_menu"
-            android:background="@color/white"
-            android:orientation="vertical" >
-
-            <cn.com.anyitou.views.ActionBar
-                android:id="@+id/actionBar"
-                android:layout_width="fill_parent"
-                android:layout_height="48dp" >
-            </cn.com.anyitou.views.ActionBar>
-
-            <include
-                android:id="@+id/activity_home"
-                layout="@layout/activity_main_right" />
-			
-            <include
-                android:id="@+id/activity_setting"
-                layout="@layout/activity_set_up"
-                android:visibility="gone" />
-             <include
-                android:id="@+id/activity_my_asset"
-                layout="@layout/activity_my_assets"
-                android:visibility="gone" />
-        </LinearLayout>
-    </RelativeLayout>
-
-</cn.com.anyitou.views.SlidingMenu>
+        android:layout_height="wrap_content"
+        >
+    </cn.com.anyitou.views.MyListView>
+    
+</LinearLayout>

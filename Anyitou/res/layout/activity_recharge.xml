@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#F0F0F0"
+    android:background="@color/home_bg"
     android:orientation="vertical" >
 
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
         android:layout_width="fill_parent"
+        android:background="@color/black"
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
 
@@ -104,7 +105,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/sign_out_style" >
+        android:background="@drawable/login_delete_selector" >
 
         <TextView
             android:layout_width="match_parent"

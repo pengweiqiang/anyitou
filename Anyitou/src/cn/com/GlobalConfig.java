@@ -30,11 +30,13 @@ public class GlobalConfig {
     public static boolean SETTING_WIFI = true;//WIFI模式下下载提示
     public static boolean SETTING_AUTO_DELETE_PKG = true;//游戏安装成功后安装包自动删除
 
-    public static String VERSION_NAME_V = "";
+    public static String VERSION_NAME_V = "V1.0.0";
     public static String VERSION_CODE_V = "";
     public static String EQUIPMENT_V = "";
     public static String APP_NAME = "";
-    public static String TOKEN = "";//加密串
+    public static String CLIENT_TOKEN = "";//客户端授权码
+    public static String ACCESS_TOKEN = "";//用户授权码
+    public static String REFRESH_TOKEN = "";
 
 
     //服务器返回码。

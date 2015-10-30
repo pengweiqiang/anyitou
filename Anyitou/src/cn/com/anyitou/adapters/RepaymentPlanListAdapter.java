@@ -66,9 +66,9 @@ public class RepaymentPlanListAdapter extends BaseListAdapter{
 			viewHolder.mViewDashLine.setVisibility(View.GONE);
 		}
 		
-		viewHolder.mTvDate.setText(invest.getDate());
-		viewHolder.mTvBackStyle.setText(invest.getType());
-		viewHolder.mTvMoney.setText(invest.getMoney());
+//		viewHolder.mTvDate.setText(invest.getDate());
+//		viewHolder.mTvBackStyle.setText(invest.getType());
+//		viewHolder.mTvMoney.setText(invest.getMoney());
 		
 		
 		return convertView;

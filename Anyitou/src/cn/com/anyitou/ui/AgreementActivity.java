@@ -28,7 +28,7 @@ public class AgreementActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		mActionBar = (ActionBar)findViewById(R.id.actionBar);
-		mActionBar.setTitle("注册协议");
+		mActionBar.setTitle("用户协议");
 		mActionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
 			
 			@Override

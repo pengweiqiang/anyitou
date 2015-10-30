@@ -50,7 +50,7 @@ public class GestureLockView extends View{
 	private Timer timer;
 	
 	/**未选中颜色*/
-	private final int NORMAL_COLOR = Color.parseColor("#ebf5fa"); 
+	private final int NORMAL_COLOR = Color.parseColor("#ffffff"); 
 	/**错误颜色*/
 	private final int ERROE_COLOR = Color.parseColor("#FF2525"); // 正常外圆颜色
 	/**选中时颜色*/
@@ -76,7 +76,7 @@ public class GestureLockView extends View{
 	{
 		paintNormal = new Paint();
 		paintNormal.setAntiAlias(true);
-		paintNormal.setStrokeWidth(5);
+		paintNormal.setStrokeWidth(2);
 		paintNormal.setStyle(Paint.Style.STROKE);
 		
 		paintInnerCycle=new Paint();
@@ -87,7 +87,7 @@ public class GestureLockView extends View{
 		paintLines = new Paint();
 		paintLines.setAntiAlias(true);
 		paintLines.setStyle(Paint.Style.STROKE);
-		paintLines.setStrokeWidth(10);
+		paintLines.setStrokeWidth(5);
 		
 	}
 

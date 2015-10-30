@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contentView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.CustomViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:background="@color/home_bg"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </cn.com.anyitou.views.CustomViewPager2>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray_line" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="bottom" >
+
+        <RadioGroup
+            android:id="@+id/tabIndicators"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/news"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@+id/tab_home"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_home" />
+
+            <include
+                android:id="@+id/tab_invest"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_invest" />
+            
+			 <include
+                android:id="@+id/tab_my"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_my" />
+            
+            <include
+                android:id="@+id/tab_account_setting"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_account" />
+            
+            <include
+                android:id="@+id/tab_about_us"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_about" />
+
+            <!-- </LinearLayout> -->
+
+        </RadioGroup>
+
+    </RelativeLayout>
+
+</LinearLayout>

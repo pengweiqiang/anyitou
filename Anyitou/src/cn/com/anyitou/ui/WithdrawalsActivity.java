@@ -11,13 +11,10 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
-import cn.com.anyitou.entity.CashFee;
 import cn.com.anyitou.entity.CashPageInfo;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
@@ -92,17 +89,18 @@ public class WithdrawalsActivity extends BaseActivity {
 	private void initData(){
 		loadingDialog = new LoadingDialog(mContext);
 		loadingDialog.show();
-		ApiOrderUtils.cashPage(mContext, new RequestCallback() {
+		ApiOrderUtils.getBankInfo(mContext, new RequestCallback() {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-					logined(parseModel.getToken(), null);
+//					logined(parseModel.getToken(), null);
 					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
-					mTvMoney.setText(cashPageInfo.getAvl_bal());
-					mTvCardNo.setText("默认帐号：**** **** **** "+cashPageInfo.getIdentity().substring(cashPageInfo.getIdentity().length()-4));
-					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
+					nowMoney = cashPageInfo.getMoney().getUsable_money();
+					mTvMoney.setText(nowMoney);
+					mTvCardNo.setText("默认帐号：**** **** **** "+cashPageInfo.getCard().getBank_card_number().substring(cashPageInfo.getCard().getBank_card_number().length()-4));
+//					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
@@ -129,7 +127,7 @@ public class WithdrawalsActivity extends BaseActivity {
 							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 								regainCode();
 								ToastUtils.showToast(mContext, "请等待接收验证码");
-								sessionId = parseModel.getSession_id();
+//								sessionId = parseModel.getSession_id();
 							}else{
 								ToastUtils.showToast(mContext, parseModel.getMsg());
 							}
@@ -169,42 +167,37 @@ public class WithdrawalsActivity extends BaseActivity {
 					return;
 				}
 				
-				if(StringUtils.isEmpty(sessionId)){
-					ToastUtils.showToast(mContext, "请先获取验证码");
-					return;
-				}
-				if(StringUtils.isEmpty(msgCode)){
-					ToastUtils.showToast(mContext, "请输入验证码");
-					mEtMsgCode.requestFocus();
-					return;
-				}
+//				if(StringUtils.isEmpty(sessionId)){
+//					ToastUtils.showToast(mContext, "请先获取验证码");
+//					return;
+//				}
+//				if(StringUtils.isEmpty(msgCode)){
+//					ToastUtils.showToast(mContext, "请输入验证码");
+//					mEtMsgCode.requestFocus();
+//					return;
+//				}
 				
-				getCashCheckMoney(moneyStr, sessionId, msgCode);
+				cash(moneyStr, cashPageInfo.getCard().getBank_card_number(), "0");
 			}
 		});
 	}
 	/**
 	 * 提现手续费查询
 	 */
-	private void getCashCheckMoney(String money,final String sessionId,final String msgCode){
+	private void cash(String money,final String bankCardId,final String useCouponStatus){
 		loadingDialog = new LoadingDialog(mContext);
 		loadingDialog.show();
-		ApiOrderUtils.checkMoney(mContext, money, sessionId, msgCode, new RequestCallback() {
-			
+		ApiOrderUtils.cash(mContext, money, bankCardId, useCouponStatus, new RequestCallback() {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//查询手续费
-					CashFee cashFee = (CashFee)JsonUtils.fromJson(parseModel.getOtherStr(), CashFee.class);
-					if(cashFee==null || "2".equals(cashFee.getError())){
-						ToastUtils.showToast(mContext, "提现失败");
-						return;
-					}
-					Intent intent = new Intent(mContext,WithdrawalsDialogActivity.class);
-					intent.putExtra("cashFee", cashFee);
-					intent.putExtra("msgCode", msgCode);
-					intent.putExtra("sessionId", sessionId);
-					startActivityForResult(intent, 0);
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//提现成功
+					String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
+					Intent intent = new Intent(mContext,WebActivity.class);
+					intent.putExtra("type", 4);
+					intent.putExtra("url", url);
+					intent.putExtra("name", "提现");
+					startActivity(intent);
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}

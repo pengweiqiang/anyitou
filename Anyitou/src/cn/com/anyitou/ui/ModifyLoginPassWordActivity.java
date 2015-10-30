@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-
+import android.widget.TextView;
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
@@ -19,38 +18,49 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
-
+/**
+ * 
+ * @author will
+ * 修改密码
+ *
+ */
 public class ModifyLoginPassWordActivity extends BaseActivity {
 	ActionBar actionBar;
-	private EditText mEtOldPwd,mEtNewPwd,mEtNewPwd2;
+	private EditText mEtOldPwd,mEtNewPwd,mEtNewPwd2,mEtCode;
 	private View mBtnConfirm;
 	LoadingDialog loadingDialog;
+	private TextView mTvCode;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_modify_loginpassword);
 		super.onCreate(savedInstanceState);
 		
+		mTvCode.setText(StringUtils.getCode());
 	}
 	
 	@Override
 	public void initView() {
 		actionBar = (ActionBar)findViewById(R.id.actionBar);
 		actionBar.setTitle("修改密码");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
-			
-			@Override
-			public void onClick(View view) {
-				AppManager.getAppManager().finishActivity();
-			}
-		});
+		
 		mEtOldPwd = (EditText)findViewById(R.id.old_pwd);
 		mEtNewPwd = (EditText)findViewById(R.id.new_pwd);
 		mEtNewPwd2 = (EditText)findViewById(R.id.new_pwd2);
+		mEtCode = (EditText)findViewById(R.id.input_code);
+		mTvCode = (TextView)findViewById(R.id.code_msg);
 		mBtnConfirm = findViewById(R.id.btn_confirm);
 	}
 
 	@Override
 	public void initListener() {
+		mTvCode.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mTvCode.setText(StringUtils.getCode());
+			}
+		});
+		
 		mBtnConfirm.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -91,13 +101,28 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 					mEtNewPwd2.requestFocus();
 					return;
 				}
+				
+				String code = mEtCode.getText().toString().trim();
+				String realCode = mTvCode.getText().toString().trim();
+				if(StringUtils.isEmpty(code)){
+					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_code));
+					mEtCode.requestFocus();
+					return ;
+				}
+				if(!realCode.equals(code)){
+					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_correct_code));
+					mEtCode.requestFocus();
+					return ;
+				}
+				
 				loadingDialog = new LoadingDialog(mContext,"修改密码中...");
 				loadingDialog.show();
 				User user = application.getCurrentUser();
-				ApiUserUtils.updatePwd(mContext, user.getUser_name(), oldPwd, newPwd2, new RequestCallback() {
+				ApiUserUtils.updatePwd(mContext, user.getUsername(), oldPwd, newPwd2, new RequestCallback() {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
+						mTvCode.setText(StringUtils.getCode());
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							ToastUtils.showToast(mContext,"修改成功,请重新登录");

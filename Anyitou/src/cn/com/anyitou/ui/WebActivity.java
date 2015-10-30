@@ -1,8 +1,10 @@
 package cn.com.anyitou.ui;
 
 import android.content.Intent;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -32,7 +34,7 @@ public class WebActivity extends BaseActivity {
 	private ProgressBar progressBar;
 	Object mJsObj = new JSInterface();
 	LoadingDialog loadingDialog;
-	int type; // 1代表注册汇付操作  2 充值操作 3投资操作
+	int type; // 1代表注册汇付操作  2 充值操作 3投资操作  4 提现
 	private String ordId = "";//充值订单号
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,14 @@ public class WebActivity extends BaseActivity {
 				
 				return true;
 			}
+
+			@Override
+			public void onReceivedSslError(WebView view,
+					SslErrorHandler handler, SslError error) {
+				//super.onReceivedSslError(view, handler, error);
+				handler.proceed();
+			}
+			
 		});
 
 		webView.setInitialScale(25);
@@ -80,7 +90,7 @@ public class WebActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 				super.onProgressChanged(view, newProgress);
 				if (newProgress == 100) {
-					/*if("1818平台".equals(title)){
+					/*if("安宜投".equals(title)){
 						startActivity(MainActivity.class);
 						AppManager.getAppManager().finishActivity();
 					}*/
@@ -91,6 +101,7 @@ public class WebActivity extends BaseActivity {
 	                progressBar.setProgress(newProgress);
 	            }
 			}
+			
 			
 			
 		};
@@ -114,15 +125,15 @@ public class WebActivity extends BaseActivity {
 	// 设置activity的导航条
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle(name);
-		actionBar.setLeftActionButton(R.drawable.btn_back, new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				loadingDialog = new LoadingDialog(mContext,"请稍候...");
-				loadingDialog.show();
-				backOperation();
-			}
-		});
+//		actionBar.setLeftActionButton(R.drawable.btn_back, new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				loadingDialog = new LoadingDialog(mContext,"请稍候...");
+//				loadingDialog.show();
+//				backOperation();
+//			}
+//		});
 	}
 	/**
 	 * 点击返回按钮操作
@@ -136,8 +147,8 @@ public class WebActivity extends BaseActivity {
 					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册汇付成功
 						User user = application.getCurrentUser();
 						user.setIshfuser("1");
-						logined("", user);
-						startActivity(MainActivity.class);
+//						logined("", user);
+						startActivity(HomeActivity.class);
 						AppManager.getAppManager().finishActivity();
 					}else{
 						ToastUtils.showToast(mContext, parseModel.getMsg());
@@ -152,7 +163,7 @@ public class WebActivity extends BaseActivity {
 					loadingDialog.cancel();
 					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//充值成功
 						application.refresh = ApiConstants.TYPE_RECHARGE;
-						startActivity(MainActivity.class);
+						startActivity(HomeActivity.class);
 						AppManager.getAppManager().finishActivity();
 					}else{
 						ToastUtils.showToast(mContext, parseModel.getMsg());

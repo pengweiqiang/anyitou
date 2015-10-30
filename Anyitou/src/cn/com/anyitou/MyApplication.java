@@ -3,8 +3,6 @@ package cn.com.anyitou;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
-
-
 import cn.com.GlobalConfig;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.Constant;
@@ -12,6 +10,7 @@ import cn.com.anyitou.entity.User;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.SharePreferenceManager;
 import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.utils.TokenUtil;
 import cn.com.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import cn.com.universalimageloader.cache.memory.MemoryCacheAware;
 import cn.com.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -20,6 +19,7 @@ import cn.com.universalimageloader.core.ImageLoader;
 import cn.com.universalimageloader.core.ImageLoaderConfiguration;
 import cn.com.universalimageloader.core.assist.ImageScaleType;
 import cn.com.universalimageloader.core.assist.QueueProcessingType;
+
 import com.umeng.analytics.MobclickAgent;
 
 public class MyApplication extends Application {
@@ -53,18 +53,46 @@ public class MyApplication extends Application {
 		myApplication = this;
 		try{
 			String userJson = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, "user", "");
-			String tokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.TOKEN, "");
+			String clientTokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.CLIENT_CREDENTIALS, "");
+			String tokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.ACCESS_TOKEN, "");
+			
+			
+			if(!StringUtils.isEmpty(clientTokenStr)){
+				String clientTokens[] = clientTokenStr.split("_");
+				long currentTime = System.currentTimeMillis();
+				long saveCurrentTime = Long.parseLong(clientTokens[1]);
+				if(Math.abs(currentTime - saveCurrentTime) < 1000*60*60*1.5){
+					GlobalConfig.CLIENT_TOKEN = clientTokens[0];
+				}else{
+					TokenUtil.getClientToken(myApplication);
+				}
+			}else{
+				TokenUtil.getClientToken(myApplication);
+			}
+			
+			
 			if(!StringUtils.isEmpty(userJson) && !StringUtils.isEmpty(tokenStr)){
+				String refreshTokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, "");
+				gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
 				String tokens[] = tokenStr.split("_");
+				String refreshTokens[] = refreshTokenStr.split("_");
+				
+				GlobalConfig.REFRESH_TOKEN = refreshTokens[0];
 				long currentTime = System.currentTimeMillis();
 				long saveCurrentTime = Long.parseLong(tokens[1]);
-				if(currentTime - saveCurrentTime < 1000*60*60*24*5){//未超过5天
-					//判断token的有效期(设置了一个礼拜,这里设置5天)
+				if(Math.abs(currentTime - saveCurrentTime) < 1000*60*60*1.5){
+					//判断token的有效期(设置了2个小时,这里设置1.5小时)
 					user = JsonUtils.fromJson(userJson, User.class);
-					GlobalConfig.TOKEN = tokens[0];
+					GlobalConfig.ACCESS_TOKEN = tokens[0];
 					
-					gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUser_name()+Constant.GESTURE_PWD, "");
-					
+				}else if(!StringUtils.isEmpty(userJson)){//重新刷新token
+					if(!StringUtils.isEmpty(GlobalConfig.REFRESH_TOKEN)){
+						long saveRefreshTokenTime = Long.parseLong(tokens[1]);
+						if(Math.abs(currentTime - saveRefreshTokenTime) < 1000*60*60*24*20){//未超过登陆20天
+							user = JsonUtils.fromJson(userJson, User.class);
+							TokenUtil.refreshToken(myApplication, GlobalConfig.REFRESH_TOKEN);
+						}
+					}
 				}
 				
 			}
@@ -73,6 +101,7 @@ public class MyApplication extends Application {
 		}
 		initImageLoader(this);
 		MobclickAgent.openActivityDurationTrack(false);
+		
 	}
 
 	/**
@@ -106,31 +135,24 @@ public class MyApplication extends Application {
 				.cacheOnDisc(true).imageScaleType(ImageScaleType.EXACTLY)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}
-	/**
-	 * 获取导航页
-	 */
-	/*public void getBoot(final Handler handler){
-		
-		ApiHomeUtils.getBoot(myApplication, new RequestCallback() {
-			
-			@Override
-			public void execute(ParseModel parseModel) {
-				if (!ApiConstants.RESULT_SUCCESS.equals(parseModel
-						.getCode())) {
-					String dataStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, "boot", "");
-					if(!StringUtils.isEmpty(dataStr)){
-						mImageView = JsonUtils.fromJson(dataStr, List.class);
-					}
-				} else {
-					mImageView = JsonUtils.fromJson(parseModel.getData().toString(), List.class);
-					SharePreferenceManager.saveBatchSharedPreference(myApplication, Constant.FILE_NAME, "boot", parseModel.getData().toString());
-				}
-				handler.sendEmptyMessage(1);
-			}
-		});
-		
-	}
-*/
+//	/**
+//	 * 获取客户端授权access_token
+//	 */
+//	public void oauth(){
+//		
+//		ApiUserUtils.oauthAccessToken(myApplication, ReqUrls.CLIENT_CREDENTIALS, "", "", "", new RequestCallback() {
+//			
+//			@Override
+//			public void execute(ParseModel parseModel) {
+//				String accessToken = parseModel.getAccess_token();
+//				if(!StringUtils.isEmpty(accessToken)){
+//					GlobalConfig.CLIENT_TOKEN = accessToken;
+//				}
+//			}
+//		});
+//		
+//	}
+
 	
 
 }

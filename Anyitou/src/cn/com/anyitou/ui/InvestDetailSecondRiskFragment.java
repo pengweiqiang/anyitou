@@ -44,7 +44,7 @@ public class InvestDetailSecondRiskFragment extends BaseFragment {
 		if(secondPage!=null && !secondPage.isEmpty()){
 			StringBuffer titleSb = new StringBuffer();
 			for (LableValue lableValue : secondPage) {
-				titleSb.append("<font color='#646464'>"+lableValue.getLabel()+"</font>"+"<BR/><BR/>"+lableValue.getValue()+"<BR/><BR/>");
+//				titleSb.append("<font color='#646464'>"+lableValue.getLabel()+"</font>"+"<BR/><BR/>"+lableValue.getValue()+"<BR/><BR/>");
 			}
 			if(!StringUtils.isEmpty(titleSb.toString())){
 				mTvRisk.setText(Html.fromHtml(titleSb.subSequence(0, titleSb.lastIndexOf("<BR/>")).toString()));

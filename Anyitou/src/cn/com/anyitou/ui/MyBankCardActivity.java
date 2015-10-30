@@ -65,13 +65,13 @@ public class MyBankCardActivity extends BaseActivity {
 	private void setViewData(){
 		if(bankCard!=null){
 			mViewMyCard.setVisibility(View.VISIBLE);
-			if(!StringUtils.isEmpty(bankCard.getIdentity())){
-				mTvBankCardNo.setText("储蓄卡    **** **** **** "+bankCard.getIdentity().substring(bankCard.getIdentity().length()-4));
+			if(!StringUtils.isEmpty(bankCard.getBank_card_number())){
+				mTvBankCardNo.setText("储蓄卡    **** **** **** "+bankCard.getBank_card_number().substring(bankCard.getBank_card_number().length()-4));
 			}else{
 				mTvBankCardNo.setText("储蓄卡    无");
 			}
-			mTvBankName.setText(bankCard.getZh());
-			ImageLoader.getInstance().displayImage(bankCard.getLogo(), mIvBankLogo);
+			mTvBankName.setText(bankCard.getBank_name());
+//			ImageLoader.getInstance().displayImage(bankCard.getLogo(), mIvBankLogo);
 		}
 	}
 	@Override
@@ -92,7 +92,7 @@ public class MyBankCardActivity extends BaseActivity {
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancelDialog(loadingDialog);
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-					logined(parseModel.getToken(), null);
+//					logined(parseModel.getToken(), null);
 					bankCard = JsonUtils.fromJson(parseModel.getData().toString(), BankCard.class);
 					if(bankCard!=null){
 						setViewData();

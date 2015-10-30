@@ -44,11 +44,11 @@ public class InvestDetailSecondProDescFragment extends BaseFragment {
 		if(secondPage!=null && !secondPage.isEmpty()){
 			StringBuffer titleSb = new StringBuffer();
 			for(LableValue lableValue:secondPage){
-				if("detail".equals(lableValue.getLabel()) ||"detial".equals(lableValue.getLabel())){
-					mTvDetail.setText("\t"+StringUtils.ToDBC(lableValue.getValue())+"\n");
-				}else{
-					titleSb.append(lableValue.getLabel()+":   "+lableValue.getValue()+"\n");
-				}
+//				if("detail".equals(lableValue.getLabel()) ||"detial".equals(lableValue.getLabel())){
+//					mTvDetail.setText("\t"+StringUtils.ToDBC(lableValue.getValue())+"\n");
+//				}else{
+//					titleSb.append(lableValue.getLabel()+":   "+lableValue.getValue()+"\n");
+//				}
 			}
 			if(!StringUtils.isEmpty(titleSb.toString())){
 				mTvTitle.setText(titleSb.substring(0, titleSb.lastIndexOf("\n")));

@@ -17,14 +17,31 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
  */
 public class ApiInvestUtils {
 
+	
+	
 	/**
 	 * 投资列表
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void index(Context context,RequestCallback requestCallBack){
-		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+	public static void getInvestList(Context context,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INDEX, false,
+				requestCallBack, MethodType.LOGIN, context);
+		
+	}
+	/**
+	 * 获取推荐项目
+	 * @param context
+	 * @param page 页码
+	 * @param num  条数
+	 * @param requestCallBack
+	 */
+	public static void getRecommend(Context context,String page,String num,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.NUM, num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_RECOMMEND, false,
 				requestCallBack, MethodType.LOGIN, context);
 		
 	}
@@ -35,7 +52,7 @@ public class ApiInvestUtils {
 	 * @param requestCallBack
 	 */
 	public static  void contentShow(Context context,String id,RequestCallback requestCallBack){
-		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
 		params.put(ReqUrls.ID, id);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CONTENT_SHOW, false,
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET);

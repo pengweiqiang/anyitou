@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.com.anyitou"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="V1.0.0" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -42,6 +42,13 @@
             android:name="cn.com.anyitou.ui.WelcomeViewPageActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 首页 -->
+        <activity 
+            android:name="cn.com.anyitou.ui.HomeActivity"
+            android:screenOrientation="portrait"
+             android:launchMode="singleTask"
+            ></activity>
+        
         <!-- 手势密码 -->
         <activity
             android:name="cn.com.anyitou.ui.GestureLockActivity"
@@ -82,9 +89,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 注册帐号 确认密码 -->
+        <activity
+            android:name="cn.com.anyitou.ui.RegisteredAccount2Activity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 手机验证 -->
         <activity
             android:name="cn.com.anyitou.ui.MobilePhoneVerificationActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 手机验证2 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MobilePhoneVerificationActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -141,9 +161,9 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <!-- 关于我们 -->
+        <!-- 意见反馈 -->
         <activity
-            android:name="cn.com.anyitou.ui.AboutUSActivity"
+            android:name="cn.com.anyitou.ui.FeedBackActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -172,13 +192,6 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <!-- 我的资产 -->
-        <activity
-            android:name="cn.com.anyitou.ui.MyAssetsActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-        </activity>
 
         <!-- 提现 -->
         <activity
@@ -258,6 +271,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <service android:name="cn.com.anyitou.service.AnyitouService"></service>
 
         <!-- 微信分享需要注册该activity -->
         <activity

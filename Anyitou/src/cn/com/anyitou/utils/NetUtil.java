@@ -68,6 +68,7 @@ public class NetUtil {
 	public static final int SUCCESS_CODE = 1;
 	public static final int FAIL_CODE = 500;
 	public static final int FAIL_CODE_400 = 400;
+	public static final int FAIL_CODE_403 = 403;
 	
 	public static final int NET_QUERY_SUCC = 201;
 	public static final int NET_ERR = 777;

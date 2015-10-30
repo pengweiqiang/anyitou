@@ -19,13 +19,48 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 public class ApiHomeUtils {
 
 	/**
-	 * 获取引导页图片
+	 * 获取APP BANNER
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void getBoot(Context context, RequestCallback requestCallBack) {
+	public static void getBanner(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_BANNER, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 意见反馈
+	 * @param context
+	 * @param title
+	 * @param content
+	 * @param requestCallBack
+	 */
+	public static void report(Context context,String title,String content,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_BOOT, false,
+		params.put(ReqUrls.TITLE, title);
+		params.put(ReqUrls.CONTENT, content);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_REPORT, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 内容介绍相关
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getIntroduction(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INTRODUCTION, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	/**
+	 * 启动引导
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getGuides(Context context, RequestCallback requestCallBack) {
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GUIDES, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	/**

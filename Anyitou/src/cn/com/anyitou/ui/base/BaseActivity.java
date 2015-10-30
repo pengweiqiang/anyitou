@@ -252,8 +252,11 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 		SharePreferenceManager.saveBatchSharedPreference(mContext,
 				Constant.FILE_NAME, "user", "");
 		SharePreferenceManager.saveBatchSharedPreference(mContext,
-				Constant.FILE_NAME, ReqUrls.TOKEN, "");
-		GlobalConfig.TOKEN = "";
+				Constant.FILE_NAME, ReqUrls.ACCESS_TOKEN, "");
+		SharePreferenceManager.saveBatchSharedPreference(mContext,
+				Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, "");
+		GlobalConfig.ACCESS_TOKEN = "";
+		GlobalConfig.REFRESH_TOKEN = "";
 		application.setUser(null);
 	}
 
@@ -264,12 +267,21 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	 * @param userName
 	 * @param passWord
 	 */
-	public void logined(String token, User user) {
+	public void logined(String token,String refreshToken, User user) {
 		if (!StringUtils.isEmpty(token)) {
-			GlobalConfig.TOKEN = token;
+			GlobalConfig.ACCESS_TOKEN = token;
+			
 			long currentTime = System.currentTimeMillis();
 			SharePreferenceManager.saveBatchSharedPreference(mContext,
-					Constant.FILE_NAME, ReqUrls.TOKEN, token + "_"
+					Constant.FILE_NAME, ReqUrls.ACCESS_TOKEN, token + "_"
+							+ currentTime);
+		}
+		if(!StringUtils.isEmpty(refreshToken)){
+			GlobalConfig.REFRESH_TOKEN = refreshToken;
+			
+			long currentTime = System.currentTimeMillis();
+			SharePreferenceManager.saveBatchSharedPreference(mContext,
+					Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, refreshToken + "_"
 							+ currentTime);
 		}
 		if (user != null) {

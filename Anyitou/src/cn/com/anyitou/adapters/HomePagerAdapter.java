@@ -21,7 +21,6 @@ import android.widget.TextView;
 import cn.com.anyitou.R;
 
 import cn.com.anyitou.entity.Investment;
-import cn.com.anyitou.ui.InVestmentDetailActivity;
 import cn.com.anyitou.utils.StringUtils;
 
 public class HomePagerAdapter extends PagerAdapter{
@@ -64,72 +63,73 @@ public class HomePagerAdapter extends PagerAdapter{
 
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		View view = minflater.inflate(R.layout.home_item, null);
-		ViewHolder viewHolder = new ViewHolder();
-		viewHolder.mTvYearRate = (TextView)view.findViewById(R.id.yearrate);
-		viewHolder.mTvMoney = (TextView) view.findViewById(R.id.money);
-		viewHolder.mTvCalendar = (TextView)view.findViewById(R.id.calendar);
-		viewHolder.mTvTitle = (TextView)view.findViewById(R.id.title_top);
-		viewHolder.mTvContent = (TextView)view.findViewById(R.id.content);
-		viewHolder.mTvCompany = (TextView)view.findViewById(R.id.company);
-		viewHolder.mBtnInvestMoney = (Button)view.findViewById(R.id.invest_money);
-		viewHolder.mHomeCircleCircle = (ImageView)view.findViewById(R.id.home_circle_circle);
-		
-		final Investment investment = investLists.get(position);
-		viewHolder.mTvTitle.setText(investment.getLoantype()+investment.getPnum());
-		StringBuffer sbRate = new StringBuffer(investment.getYearrate()+"%");
-		if(!StringUtils.isEmpty(investment.getAddrate()) && !investment.getAddrate().equals("0")){
-			sbRate.append("+"+investment.getAddrate()+"%");
-		}
-		viewHolder.mTvYearRate.setText(sbRate);
-		viewHolder.mTvMoney.setText(investment.getMoney());
-		viewHolder.mTvCalendar.setText(investment.getXmqx()+"天");
-		viewHolder.mTvCompany.setText(investment.getCompany()+"/"+investment.getLoantype());
-		viewHolder.mTvContent.setText(StringUtils.ToDBC(investment.getContent()));
-		if(position == 0 && !isFinishAnim){
-			startRotate(viewHolder.mHomeCircleCircle);
-		}
-		final String status = investment.getNstatus();
-		/**
-		 * 2：投标中 3：还款中 4：还款完成 5：投标完成
-		 */
-		String statusDesc = "投标中";
-		if("2".equals(status)){
-			statusDesc = "投标中";
-			
-		}else if("3".equals(status)){
-			statusDesc = "还款中";
-		}else if("4".equals(status)){
-			statusDesc = "还款完成";
-		}else if("5".equals(status)){
-			statusDesc = "投标完成";
-		}
-		final String statusDescStr = statusDesc;
-		viewHolder.mBtnInvestMoney.setText(statusDesc);
-		viewHolder.mBtnInvestMoney.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View view) {
-				
-				Intent intent = new Intent(context,InVestmentDetailActivity.class);
-				intent.putExtra("id", investment.getId());
-				intent.putExtra("day", investment.getXmqx());
-				try{
-					double rate = Double.valueOf(investment.getYearrate())+Double.valueOf(investment.getAddrate());
-					intent.putExtra("rate", rate+"");
-				}catch(Exception e){
-					intent.putExtra("rate", investment.getYearrate());
-				}
-				
-				intent.putExtra("statusDesc", statusDescStr);
-				intent.putExtra("status", status);
-				context.startActivity(intent);
-			}
-		});
-		
-		
-		((ViewPager) container).addView(view, 0);
-		return view;
+//		View view = minflater.inflate(R.layout.home_item, null);
+//		ViewHolder viewHolder = new ViewHolder();
+//		viewHolder.mTvYearRate = (TextView)view.findViewById(R.id.yearrate);
+//		viewHolder.mTvMoney = (TextView) view.findViewById(R.id.money);
+//		viewHolder.mTvCalendar = (TextView)view.findViewById(R.id.calendar);
+//		viewHolder.mTvTitle = (TextView)view.findViewById(R.id.title_top);
+//		viewHolder.mTvContent = (TextView)view.findViewById(R.id.content);
+//		viewHolder.mTvCompany = (TextView)view.findViewById(R.id.company);
+//		viewHolder.mBtnInvestMoney = (Button)view.findViewById(R.id.invest_money);
+//		viewHolder.mHomeCircleCircle = (ImageView)view.findViewById(R.id.home_circle_circle);
+//		
+//		final Investment investment = investLists.get(position);
+////		viewHolder.mTvTitle.setText(investment.getLoantype()+investment.getPnum());
+////		StringBuffer sbRate = new StringBuffer(investment.getYearrate()+"%");
+////		if(!StringUtils.isEmpty(investment.getAddrate()) && !investment.getAddrate().equals("0")){
+////			sbRate.append("+"+investment.getAddrate()+"%");
+////		}
+////		viewHolder.mTvYearRate.setText(sbRate);
+////		viewHolder.mTvMoney.setText(investment.getMoney());
+////		viewHolder.mTvCalendar.setText(investment.getXmqx()+"天");
+////		viewHolder.mTvCompany.setText(investment.getCompany()+"/"+investment.getLoantype());
+////		viewHolder.mTvContent.setText(StringUtils.ToDBC(investment.getContent()));
+//		if(position == 0 && !isFinishAnim){
+//			startRotate(viewHolder.mHomeCircleCircle);
+//		}
+////		final String status = investment.getNstatus();
+////		/**
+////		 * 2：投标中 3：还款中 4：还款完成 5：投标完成
+////		 */
+////		String statusDesc = "投标中";
+////		if("2".equals(status)){
+////			statusDesc = "投标中";
+////			
+////		}else if("3".equals(status)){
+////			statusDesc = "还款中";
+////		}else if("4".equals(status)){
+////			statusDesc = "还款完成";
+////		}else if("5".equals(status)){
+////			statusDesc = "投标完成";
+////		}
+////		final String statusDescStr = statusDesc;
+////		viewHolder.mBtnInvestMoney.setText(statusDesc);
+////		viewHolder.mBtnInvestMoney.setOnClickListener(new OnClickListener() {
+////			
+////			@Override
+////			public void onClick(View view) {
+////				
+////				Intent intent = new Intent(context,InVestmentDetailActivity.class);
+////				intent.putExtra("id", investment.getId());
+////				intent.putExtra("day", investment.getXmqx());
+////				try{
+////					double rate = Double.valueOf(investment.getYearrate())+Double.valueOf(investment.getAddrate());
+////					intent.putExtra("rate", rate+"");
+////				}catch(Exception e){
+////					intent.putExtra("rate", investment.getYearrate());
+////				}
+////				
+////				intent.putExtra("statusDesc", statusDescStr);
+////				intent.putExtra("status", status);
+////				context.startActivity(intent);
+////			}
+////		});
+//		
+//		
+//		((ViewPager) container).addView(view, 0);
+//		return view;
+		return null;
 	}
 	Animation operatingAnim;
 	private boolean isFinishAnim;

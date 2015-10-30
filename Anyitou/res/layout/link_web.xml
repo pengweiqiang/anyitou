@@ -7,6 +7,7 @@
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
         android:layout_width="fill_parent"
+        android:background="@color/black"
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
 

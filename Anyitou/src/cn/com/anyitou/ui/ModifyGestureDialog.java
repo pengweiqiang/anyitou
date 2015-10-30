@@ -1,5 +1,7 @@
 package cn.com.anyitou.ui;
 
+import com.sina.weibo.sdk.utils.MD5;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,44 +14,38 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
+import cn.com.anyitou.utils.MD5Util;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
+import cn.com.anyitou.views.ActionBar;
 
+/**
+ * 修改手势密码--》验证登陆密码
+ * @author pengweiqiang
+ *
+ */
 public class ModifyGestureDialog extends BaseActivity{
 	
-	private View mBtnCancel,mBtnConfirm;
+	private View mBtnConfirm;
 	private EditText mEtPwd;
-	private TextView mTvTitle;
+	ActionBar mActionBar;
 	User user ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.modify_gesture_password);
 		super.onCreate(savedInstanceState);
 		user = application.getCurrentUser();
-		
-		
-		initData();
-	}
-	private void initData(){
-		mTvTitle.setText("您好,"+user.getUser_name());
 	}
 	@Override
 	public void initView() {
-		mBtnCancel = findViewById(R.id.btn_cancel);
 		mBtnConfirm = findViewById(R.id.btn_confirm);
 		mEtPwd = (EditText)findViewById(R.id.et_pwd);
-		mTvTitle = (TextView)findViewById(R.id.user_title);
+		mActionBar = (ActionBar)findViewById(R.id.actionBar);
+		mActionBar.setTitle("修改手势密码");
 	}
 
 	@Override
 	public void initListener() {
-		mBtnCancel.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				AppManager.getAppManager().finishActivity();
-			}
-		});
 		mBtnConfirm.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -60,7 +56,8 @@ public class ModifyGestureDialog extends BaseActivity{
 					ToastUtils.showToast(mContext, "请输入密码");
 					return;
 				}
-				if(password.equals(user.getPass_word())){
+				password = MD5Util.MD5(password);
+				if(user!=null && password.equals(user.getPassword())){
 					Intent intent = new Intent(mContext,GestureLockActivity.class);
 					intent.putExtra("type", 2);
 					startActivity(intent);

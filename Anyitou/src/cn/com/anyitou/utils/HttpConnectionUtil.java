@@ -31,10 +31,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 
+import cn.com.GlobalConfig;
 import cn.com.anyitou.api.ApiUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.api.constant.MethodType;
+import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.entity.ParseModel;
 
 /**
@@ -127,8 +130,9 @@ public class HttpConnectionUtil {
 				case ApiConstants.RESULT_CODE: {
 					String backStr = message.getData().getString(ApiConstants.RESULT_BACK_STR);
 					Log.i(TAG, url+"接口返回结果："+backStr);
-					if (callback != null && null != backStr)
-						callback.execute(getParseModel(backStr, methodType, context));
+					if (callback != null && null != backStr){
+						callback.execute(getParseModel(backStr, methodType, context,(Boolean)params.get("isUserToken")));
+					}
 					break;
 				}
 				}
@@ -144,15 +148,19 @@ public class HttpConnectionUtil {
 					HttpConnectionParams.setSoTimeout(httpParameters, ApiConstants.MAX_CONNECTION_TIME);
 					HttpClient client = new DefaultHttpClient(httpParameters);
 					HttpUriRequest request = getRequest(url, params, method);
+					if(url.endsWith(ReqUrls.MOBIAPI_AUTH)){
+						String authorization = Base64.encodeToString(String.valueOf(ReqUrls.CLIENT_KEY+":"+ReqUrls.CLIENT_SECRET).getBytes(), Base64.NO_WRAP);
+						request.addHeader(ReqUrls.AUTHORIZATION, "Basic "+authorization);
+					}
 					HttpResponse response = client.execute(request);
 					int statusCode = response.getStatusLine().getStatusCode();
 					backStr = String.valueOf(statusCode);
 					Log.i(TAG, backStr);
-					if (statusCode == HttpStatus.SC_OK || statusCode == NetUtil.NET_QUERY_SUCC || statusCode== NetUtil.FAIL_CODE || statusCode == NetUtil.FAIL_CODE_400) {
+//					if (statusCode == HttpStatus.SC_OK || statusCode == NetUtil.NET_QUERY_SUCC || statusCode== NetUtil.FAIL_CODE || statusCode == NetUtil.FAIL_CODE_400) {
 //						backStr = EntityUtils.toString(response.getEntity(),HTTP.UTF_8);
 						backStr = handleEntity(response.getEntity(),HTTP.UTF_8);
 						sendMessage(backStr, handler, ApiConstants.RESULT_CODE);
-					}
+//					}
 				} catch (Exception e) {
 					
 					Thread.yield();
@@ -240,19 +248,19 @@ public class HttpConnectionUtil {
 	 * 
 	 * @param backStr
 	 */
-	private static synchronized ParseModel getParseModel(String backStr, MethodType methodType, Context context) {
-		if(MethodType.CHECK_MONEY.getIndex() == methodType.getIndex()){//提现手续费
-			ParseModel pm = new ParseModel();
-			if(!String.valueOf(NetUtil.FAIL_CODE).equals(backStr)){
-				pm.setCode(ApiConstants.RESULT_SUCCESS);
-				pm.setMsg(NetUtil.SERVICE_SUCCESS_MSG);
-				pm.setOtherStr(backStr);
-			}else{
-				pm.setCode(String.valueOf(NetUtil.FAIL_CODE));
-				pm.setMsg(NetUtil.SERVICE_ERR_MSG);
-			}
-			return pm;
-		}
+	private static synchronized ParseModel getParseModel(String backStr, MethodType methodType, Context context,boolean isUserToken) {
+//		if(MethodType.CHECK_MONEY.getIndex() == methodType.getIndex()){//提现手续费
+//			ParseModel pm = new ParseModel();
+//			if(!String.valueOf(NetUtil.FAIL_CODE).equals(backStr)){
+//				pm.setCode(ApiConstants.RESULT_SUCCESS);
+//				pm.setMsg(NetUtil.SERVICE_SUCCESS_MSG);
+//				pm.setOtherStr(backStr);
+//			}else{
+//				pm.setCode(String.valueOf(NetUtil.FAIL_CODE));
+//				pm.setMsg(NetUtil.SERVICE_ERR_MSG);
+//			}
+//			return pm;
+//		}
 		ParseModel pm = ApiUtils.parse2ParseModel(backStr);
 		if (pm == null) {
 			pm = new ParseModel();
@@ -278,6 +286,13 @@ public class HttpConnectionUtil {
 //			}
 			apiResult = pm.getData();
 			pm.setApiResult(apiResult);
+		}else if(pm.getCode()!=null && ApiConstants.RESULT_INVALID_TOKEN.equals(pm.getCode())){
+			//重新刷新token
+			if(isUserToken){
+				TokenUtil.refreshToken(context, GlobalConfig.REFRESH_TOKEN);
+			}else{
+				TokenUtil.getClientToken(context);
+			}
 		}
 		return pm;
 	}

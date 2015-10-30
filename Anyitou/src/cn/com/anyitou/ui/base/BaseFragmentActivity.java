@@ -3,21 +3,20 @@ package cn.com.anyitou.ui.base;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
 import cn.com.anyitou.MyApplication;
-import cn.com.anyitou.R;
-
 import cn.com.anyitou.commons.AppManager;
+import cn.com.anyitou.listener.HomeListener;
+import cn.com.anyitou.listener.HomeListener.OnHomePressedListener;
 import cn.com.anyitou.ui.GestureLockActivity;
+import cn.com.anyitou.utils.Log;
 import cn.com.anyitou.utils.StringUtils;
-import cn.com.anyitou.views.SystemBarTintManager;
+
 import com.umeng.analytics.MobclickAgent;
 
 public class BaseFragmentActivity extends FragmentActivity {
@@ -46,13 +45,11 @@ public class BaseFragmentActivity extends FragmentActivity {
 
 	@Override
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		return super.onCreateView(name, context, attrs);
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		AppManager.getAppManager().finishActivity(this);
 	}
@@ -94,6 +91,31 @@ public class BaseFragmentActivity extends FragmentActivity {
 			winParams.flags &= ~bits;
 		}
 		win.setAttributes(winParams);
+	}
+	
+	/**
+	 * 注册Home键的监听
+	 */
+	HomeListener mHomeWatcher;
+	public void registerHomeListener() {
+		mHomeWatcher = new HomeListener(this); 
+		mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
+			
+			@Override
+			public void onHomePressed() {
+				Log.i("xsl", "0000000000000");
+				application.isLock =false;
+			}
+			
+			@Override
+			public void onHomeLongPressed() {
+				Log.i("xsl", "0000000000000");
+			}
+		});
+		mHomeWatcher.startWatch();
+	}
+	public void unregisterHomeListener(){
+		mHomeWatcher.stopWatch();
 	}
 
 }

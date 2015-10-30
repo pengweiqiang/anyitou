@@ -8,84 +8,105 @@
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
         android:layout_width="fill_parent"
+        android:background="@color/black"
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_style" >
         
-        <ImageView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_username"/>
 
         <cn.com.anyitou.views.ClearEditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="38dp"
             android:background="@null"
             android:textSize="16sp"
+            android:padding="15dp"
             android:textColorHint="@color/grey_line"
-            android:hint="1818用户名"
+            android:hint="用户名/手机号码"
             android:singleLine="true"
             />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="5dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:textColor="@color/grey_line"
-            android:text="@string/login_remind" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edit_style" >
-        
-        <ImageView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_password"/>
-
+        <View 
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/username"
+            android:background="@color/grey_line"
+            />
         <cn.com.anyitou.views.ClearEditText
             android:id="@+id/password"
+            android:layout_below="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="38dp"
             android:background="@null"
-            android:hint="登录密码"
+            android:hint="请输入登录密码"
+            android:padding="15dp"
             android:textSize="16sp"
             android:textColorHint="@color/grey_line"
             android:inputType="textPassword"
             android:singleLine="true"
              />
+         <View 
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/password"
+            android:background="@color/grey_line"
+            />
+         <RelativeLayout 
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/line2"
+             >
+             
+             <cn.com.anyitou.views.ClearEditText
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:padding="15dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/code_msg"
+            android:textSize="16sp"
+            android:textColorHint="@color/grey_line"
+            android:singleLine="true"
+             />
+             
+             
+             <TextView 
+                 android:id="@+id/code_msg"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="7799"
+                 android:background="@drawable/bg_no_corner_style"
+                 android:textSize="16sp"
+                 android:layout_marginRight="10dp"
+                 android:layout_centerVertical="true"
+                 android:textColor="@color/black"
+                 android:layout_alignParentRight="true"
+                 />
+             
+             
+         </RelativeLayout>
+         
+        
     </RelativeLayout>
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp" >
 
         <TextView
@@ -100,9 +121,9 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/login_delete_selector"
         android:clickable="true"
         android:onClick="loginBtn" >
@@ -114,44 +135,42 @@
             android:background="@null"
             android:gravity="center"
             android:singleLine="true"
-            android:text="登录"
+            android:text="立即登录"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/login_delete_selector"
-        android:clickable="true" >
+         >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="注册"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-    </RelativeLayout>
-
-    <TextView
+         <TextView
         android:id="@+id/forgetPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/btn_selector"
-        android:gravity="center"
+        android:layout_alignParentLeft="true"
         android:singleLine="true"
         android:text="忘记密码?"
         android:textColor="#7499EB"
         android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:text="注册"
+            android:textColor="@color/app_bg_color"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+   
 
 </LinearLayout>

@@ -3,12 +3,12 @@ package cn.com.anyitou.api;
 import java.util.Map;
 
 import android.content.Context;
-import android.util.Base64;
-
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
+import cn.com.anyitou.http.MyConcurrentHashMap;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
+import cn.com.anyitou.utils.StringUtils;
 
 /**
  * api user用户相关的接口
@@ -27,72 +27,140 @@ public class ApiUserUtils {
 	 * a2.用户请求授权详细说明：接口使用HTTP Basic Authentication认证方式，添加Authorization 到 header， 
 	 * 加密方式 Authorization = Basic Base64.encode(client_key:client_secret)；
 	 * POST请求参数需要grant_type，值为password，以及用户的username和password
-		
 	 * @param context
 	 * @param requestCallBack
 	 */
 	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack){
-		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
-		String authorization = Base64.encodeToString(String.valueOf(ReqUrls.CLIENT_KEY+":"+ReqUrls.CLIENT_SECRET).getBytes(), Base64.DEFAULT);
+		Map<String,Object> params = new MyConcurrentHashMap<String,Object>();
 		
-		params.put(ReqUrls.AUTHORIZATION, authorization);
 		params.put(ReqUrls.GRANT_TYPE, grant_type);
 		params.put(ReqUrls.USERNAME, username);
 		params.put(ReqUrls.PASSWORD, password);
 		params.put(ReqUrls.REFRESH_TOKEN, refreshToken);
+		params.put("isUserToken", false);
 		
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_AUTH, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 
 	/**
-	 * 发送短信验证码（注册）
-	 * 
+	 * 获取用户资金信息
 	 * @param context
-	 * @param phone
-	 *            电话号码
 	 * @param requestCallBack
 	 */
-	public static void registerCode(Context context, String phone,
+	public static void getMyAccount(Context context,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MY_ACCOUNT, false,
+				requestCallBack, MethodType.LOGIN, context);
+		
+	}
+	
+	/**
+	 * 验证短信验证码
+	 * 
+	 * @param context
+	 * @param captchaKey 验证码存储于服务器键名
+	 * @param captcha 验证码
+	 * @param requestCallBack
+	 */
+	public static void registerCode(Context context, String captchaKey,String captcha,
 			RequestCallback requestCallBack) {
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.PHONE, phone);
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.CAPTCHA_KEY, captchaKey);
+		params.put(ReqUrls.CAPTCHA, captcha);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_REGISTERCODE, false,
 				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 修改手机号
+	 * @param context
+	 * @param mobile 手机号码
+	 * @param captcha_key 存储于服务器验证码键名
+	 * @param captcha 手机验证码
+	 * @param requestBack
+	 */
+	public static void modifyMobile(Context context,String mobile,String captcha_key,String captcha,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.MOBILE, mobile);
+		params.put(ReqUrls.CAPTCHA_KEY, captcha_key);
+		params.put(ReqUrls.CAPTCHA, captcha);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MODIFY_MOBILE, false, requestCallBack, MethodType.LOGIN, context);
+		
 	}
 
 	/**
 	 * 注册
-	 * 
-	 * @param context
-	 * @param session_id
-	 *            用于验证短信验证码
-	 * @param authCode
-	 *            短信验证码
-	 * @param userName
-	 *            用户名
-	 * @param passWord
-	 *            密码
-	 * @param tel
-	 *            手机号码
-	 * @param phone
-	 *            推荐人手机号码
-	 * @param choose
-	 *            是否同意协议
+	 * @param context  
+	 * @param mobile 手机号
+	 * @param userName 用户名
+	 * @param passWord 密码
+	 * @param smscode 短信验证码
+	 * @param smscodeSessionId 短信验证码存储于服务器的键名
+	 * @param recid 邀请人ID
+	 * @param from 渠道标识
 	 * @param requestCallBack
 	 */
-	public static void register(Context context, String session_id,
-			String authCode, String userName, String passWord, String tel,
-			String phone, String choose, RequestCallback requestCallBack) {
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.SESSION_ID, session_id);
-		params.put(ReqUrls.AUTH_CODE, authCode);
-		params.put(ReqUrls.USER_NAME, userName);
-		params.put(ReqUrls.PASS_WORD, passWord);
-		params.put(ReqUrls.TEL, tel);
-		params.put(ReqUrls.PHONE, phone);
-		params.put(ReqUrls.CHOOSE, choose);
+	public static void register(Context context,  String mobile,String userName, String passWord,
+			String smscode ,String smscodeSessionId,String recid,
+			String from, RequestCallback requestCallBack) {
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.MOBILE, mobile);
+		params.put(ReqUrls.SMSCODE_SESSION_ID, smscodeSessionId);
+		params.put(ReqUrls.SMS_CODE, smscode);
+		params.put(ReqUrls.USERNAME, userName);
+		params.put(ReqUrls.PASSWORD, passWord);
+		params.put(ReqUrls.RECID, recid);
+		params.put(ReqUrls.FROM, from);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_REGISTER, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 发送短信验证码（不需要用户进行登录）
+	 * @param context
+	 * @param mobile 手机号码
+	 * @param type
+	 *  app_check_current_mobile（验证当前手机），
+		app_change_mobile（修改手机号），
+		app_register（注册），	
+		app_find_password（找回密码），
+		app_change_password（修改密码）
+	 * @param requestCallBack
+	 */
+	public static void sendMobileCode(Context context,String mobile,String type,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.MOBILE, mobile);
+		params.put(ReqUrls.TYPE, type);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_SMS_CODE, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	/**
+	 * 发送短信验证码（需要用户进行登录）
+	 * @param context
+	 * @param type
+	 *  app_check_current_mobile（验证当前手机），
+		app_change_mobile（修改手机号），
+		app_register（注册），	
+		app_find_password（找回密码），
+		app_change_password（修改密码）
+	 * @param requestCallBack
+	 */
+	public static void sendUserCode(Context context,String type,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.TYPE, type);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_SMS_CODE_USER, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	/**
+	 * 获取用户银行卡信息
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getMyCard(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_RECHARGE_INFO, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 
@@ -108,11 +176,8 @@ public class ApiUserUtils {
 	 */
 	public static void login(Context context, String userName, String passWord,
 			RequestCallback requestCallBack) {
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.USER_NAME, userName);
-		params.put(ReqUrls.PASS_WORD, passWord);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_LOGIN, false,
-				requestCallBack, MethodType.LOGIN, context);
+		
+		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack);
 	}
 	/**
 	 * 登出
@@ -161,16 +226,7 @@ public class ApiUserUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRADE, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
-	/**
-	 * 我的银行卡
-	 * @param context
-	 * @param requestCallBack
-	 */
-	public static void getMyCard(Context context,RequestCallback requestCallBack){
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MYCARD, false,
-				requestCallBack, MethodType.LOGIN, context);
-	}
+	
 	
 	/**
 	 * 修改密码
@@ -185,7 +241,7 @@ public class ApiUserUtils {
 			String password, String newpassword, RequestCallback requestCallback) {
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
 		params.put(ReqUrls.USERNAME, username);
-		params.put(ReqUrls.PASS_WORD, password);
+		params.put(ReqUrls.PASSWORD, password);
 		params.put(ReqUrls.NPASS_WORD, newpassword);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CHANGE_PASSWORD, false,
 				requestCallback, MethodType.UPDATE, context);
@@ -211,7 +267,7 @@ public class ApiUserUtils {
 	 */
 	public static void getPwdCheckCode(Context context,String sessionId,String msgCode,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.SESSION_ID, sessionId);
+		params.put(ReqUrls.SMSCODE_SESSION_ID, sessionId);
 		params.put(ReqUrls.MESSAGE_CODE, msgCode);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GETPWD_CHECKCODE, false,
 				requestCallBack, MethodType.UPDATE, context);
@@ -226,7 +282,7 @@ public class ApiUserUtils {
 	 */
 	public static void getPwd(Context context,String sessionId,String password,String repassword,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.SESSION_ID, sessionId);
+		params.put(ReqUrls.SMSCODE_SESSION_ID, sessionId);
 		params.put(ReqUrls.PASSWORD, password);
 		params.put(ReqUrls.REPASSWORD, repassword);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GETPWD, false,
