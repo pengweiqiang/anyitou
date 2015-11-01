@@ -241,6 +241,38 @@ public class DateUtils {
         sb.append(" ]");
         return sb.toString();
     }
+    /**
+     * 
+     * @param mss
+     * @return
+     */
+    public static String formatDuring(String time) {
+    	if(StringUtils.isEmpty(time)){
+    		return "";
+    	}
+    	StringBuffer sb = new StringBuffer();
+    	long mss = Long.valueOf(time);
+        long days = mss / (1000 * 60 * 60 * 24);
+        if (days > 0) {
+        	sb.append(days).append("天");
+        	return sb.toString();
+        }
+        long hours = (mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        if (hours > 0) {
+        	sb.append(hours).append("小时");
+        	return sb.toString();
+        }
+        long minutes = (mss % (1000 * 60 * 60)) / (1000 * 60);
+        if (minutes > 0) {
+        	sb.append(minutes).append("分钟");
+        	return sb.toString();
+        }
+        long seconds = (mss % (1000 * 60)) / 1000;
+        if (seconds > 0) {
+        	sb.append(seconds).append("秒");
+        }
+        return sb.toString();
+    }
 
     /**
      * 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_bg" >
@@ -28,6 +29,19 @@
                 android:text="安企贷AQD-20151025"
                 android:textColor="#000000"
                 android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/is_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新"
+                android:textColor="@color/white"
+                android:layout_marginLeft="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textSize="12sp"
+                android:background="@drawable/bg_new_status"
+                 />
 
             <TextView
                 android:id="@+id/deadline_time"
@@ -59,8 +73,9 @@
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
+                android:gravity="bottom"
                 android:layout_weight="1" >
 
                 <TextView
@@ -70,10 +85,11 @@
                     android:layout_centerHorizontal="true"
                     android:text="15%"
                     android:textColor="@color/app_bg_color"
+                    android:gravity="bottom"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView
+              <TextView
                     android:id="@+id/rate_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,10 +105,11 @@
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="bottom"
                 android:layout_weight="1" >
 
                 <TextView
@@ -109,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/investment_cycle"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_bg_corner_style"
                     android:text="投资周期"
                     android:singleLine="true"
@@ -119,8 +136,9 @@
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
+                android:gravity="bottom"
                 android:layout_weight="1" >
 
                 <TextView
@@ -137,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/total"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_bg_corner_style"
                     android:text="融资总额"
                     android:singleLine="true"
@@ -147,11 +165,26 @@
 
             </RelativeLayout>
             
-            <ProgressBar
+            <!-- <ProgressBar
                 android:id="@+id/progress"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"/> -->
+                <RelativeLayout 
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+	        		android:layout_marginRight="10dp"
+	        		android:gravity="bottom"
+                    >
+            <cn.com.anyitou.views.PercentageRing
+	        android:id="@+id/progress"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        app:radiusPercent="20"
+	        app:textTitleColor="@color/app_bg_color"
+         	/>
+            </RelativeLayout>
 
             <!-- <cn.com.anyitou.views.CircleProgressBarView
                 android:id="@+id/progress"

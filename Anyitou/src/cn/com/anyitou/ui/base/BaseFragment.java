@@ -47,6 +47,7 @@ public abstract class BaseFragment extends Fragment {
 	    super.onPause();
 	    MobclickAgent.onPageEnd(this.getClass().getName());
 	}
+	
 	/**
 	 * 展示空白页面
 	 * @param view

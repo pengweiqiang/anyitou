@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,9 @@ import cn.com.anyitou.ui.FeedBackActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.MyPopupWindow;
 import cn.com.gson.JsonObject;
 
@@ -38,7 +41,10 @@ public class AboutUSFragment extends BaseFragment {
 	private View mBtnCustom,mBtnFeedback;
 	
 	private TextView mTvContent,mTvWeixin,mTvCallCustom,mTvVersion;
+	
+	private boolean isFirst = true;
 
+	LoadingDialog loadingDialog;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -49,9 +55,18 @@ public class AboutUSFragment extends BaseFragment {
 		
 		initListener();
 		
-		initData();
 		return infoView;
 	}
+	@Override
+	 public void setUserVisibleHint(boolean isVisibleToUser) {
+         //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
+		Log.e("about", "setUserVisibleHint");
+		 if (isVisibleToUser && isVisible() && isFirst) {
+			 Log.e("about", "setUserVisibleHint"+"  initdata");
+			 initData(); //加载数据的方法
+		 }
+		 super.setUserVisibleHint(isVisibleToUser);
+	 }
 	
 	private void initView(){
 		mBtnCustom = infoView.findViewById(R.id.btn_custom);
@@ -85,11 +100,15 @@ public class AboutUSFragment extends BaseFragment {
 	
 	private void initData(){
 		mTvVersion.setText(GlobalConfig.VERSION_NAME_V);
+		loadingDialog = new LoadingDialog(mActivity);
+		loadingDialog.show();
 		ApiHomeUtils.getIntroduction(mActivity, new RequestCallback() {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					isFirst = false;
 					JsonObject dataObject = parseModel.getData().getAsJsonObject();
 					if(dataObject != null){
 						if(!StringUtils.isEmpty(dataObject.get("content").getAsString())){
@@ -110,7 +129,6 @@ public class AboutUSFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	// 设置activity的导航条

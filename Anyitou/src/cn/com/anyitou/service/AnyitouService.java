@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import cn.com.GlobalConfig;

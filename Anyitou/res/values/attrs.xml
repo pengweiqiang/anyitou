@@ -37,6 +37,14 @@
     <declare-styleable name="Themes">
         <attr name="numberProgressBarStyle" format="reference" />
     </declare-styleable>
+    
+    <!-- 项目进度 -->
+    <declare-styleable name="PercentageRing">
+        <attr name="radiusPercent" format="integer"/>
+        <attr name="circleBackground" format="color"/>
+        <attr name="ringColor" format="color"/>
+        <attr name="textTitleColor" format = "color"/>
+    </declare-styleable>
 
     <!-- 自定义textview -->
     <attr name="textwidth" format="integer" />

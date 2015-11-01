@@ -37,9 +37,9 @@ public class ApiInvestUtils {
 	 * @param num  条数
 	 * @param requestCallBack
 	 */
-	public static void getRecommend(Context context,String page,String num,RequestCallback requestCallBack){
+	public static void getRecommend(Context context,int page,String num,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
-		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.PAGE, page==0?1:page);
 		params.put(ReqUrls.NUM, num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_RECOMMEND, false,
 				requestCallBack, MethodType.LOGIN, context);

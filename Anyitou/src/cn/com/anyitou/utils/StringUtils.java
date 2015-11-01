@@ -151,6 +151,33 @@ public class StringUtils {
 			return "0";
 		}
 	}
+	public static String getMoneyFormateWan(String money){
+		if(isEmpty(money)){
+			return money;
+		}
+		Double moneyDouble = Double.valueOf(money);
+		double moneyWan = moneyDouble/10000;
+		if(moneyWan<1d){
+			DecimalFormat myformat = new DecimalFormat();
+			myformat.applyPattern("##,###.0");
+			return myformat.format(moneyWan);
+		}else{
+			DecimalFormat myformat = new DecimalFormat();
+			myformat.applyPattern("##,###");
+			return myformat.format(moneyWan);
+		}
+	}
+	public static int getProgress(String scale){
+		if(isEmpty(scale)){
+			return 0;
+		}
+		Double scaleDouble = Double.valueOf(scale);
+		Long progress = Math.round(scaleDouble);
+		if(progress == 100 && scaleDouble<100){
+			progress = 99l;
+		}
+		return progress.intValue();
+	}
 	public static String ToDBC(String input) {          
         char[] c = input.toCharArray();
         for (int i = 0; i < c.length; i++) {              

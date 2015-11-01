@@ -29,7 +29,6 @@ public class BaseFragmentActivity extends FragmentActivity {
 //				.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		AppManager.getAppManager().addActivity(this);
 		application = MyApplication.getInstance();
-		application.classLast = this.getClass();
 		
 		
 //		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -63,6 +62,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		application.classLast = this.getClass();
 		if(application.getCurrentUser()!=null && !StringUtils.isEmpty(application.gesturePwd) 
 				&& !application.isLock){
 			Intent intent = new Intent(this,GestureLockActivity.class);

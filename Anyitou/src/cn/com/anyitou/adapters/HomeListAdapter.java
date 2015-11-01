@@ -1,6 +1,7 @@
 package cn.com.anyitou.adapters;
 
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.Investment;
+import cn.com.anyitou.utils.DateUtil;
+import cn.com.anyitou.utils.DateUtils;
+import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.views.PercentageRing;
 
 
 public class HomeListAdapter extends BaseListAdapter{
@@ -56,6 +61,7 @@ public class HomeListAdapter extends BaseListAdapter{
 			viewHolder.mTvStatus = (TextView)convertView.findViewById(R.id.invest_status);
 			viewHolder.mTvInvestmentCycle = (TextView)convertView.findViewById(R.id.investment_cycle);
 			viewHolder.mTvMoney = (TextView)convertView.findViewById(R.id.total);
+			viewHolder.mPercentageRing = (PercentageRing)convertView.findViewById(R.id.progress);
 			
 			convertView.setTag(viewHolder);
 		}else{
@@ -74,18 +80,45 @@ public class HomeListAdapter extends BaseListAdapter{
 //		}
 		
 		viewHolder.mTvInvestName.setText(invest.getItem_title());
-		viewHolder.mTvDate.setText(invest.getInvestment());
+		String deadTime = DateUtils.formatDuring(invest.getRaise_remain_time().getDiff());
+		if(!StringUtils.isEmpty(deadTime)){
+			deadTime = deadTime+"后截止";
+		}
+		viewHolder.mTvDate.setText(deadTime);
 		viewHolder.mTvRate.setText(invest.getRate_of_interest()+"%");
-		viewHolder.mTvStatus.setText(invest.getInvest_status());
+//		String status = invest.getInvest_status();
+		viewHolder.mTvStatus.setText(invest.getInvest_status_label());
 		viewHolder.mTvInvestmentCycle.setText(invest.getBorrow_days()+"天");
-		viewHolder.mTvMoney.setText(invest.getInvestment()+"万");
+		String money = StringUtils.getMoneyFormateWan(invest.getFinancing_amount());
+		viewHolder.mTvMoney.setText(money+"万");
+		String scale = invest.getScale();//0.1%
+		viewHolder.mPercentageRing.setTargetPercent(StringUtils.getProgress(scale));
 		
 		
 		return convertView;
 	}
 	
+	public String getStatusName(String status){
+		String statusName = "";
+		if("1".equals(status)){
+			statusName = "未开放";
+		}else if("1".equals(status)){
+			statusName = "募集中...";
+		}else if("2".equals(status)){
+			statusName = "募集完成";
+		}else if("3".equals(status)){
+			statusName = "还款中...";
+		}else if("4".equals(status)){
+			statusName = "还款完成";
+		}else if("5".equals(status)){
+			statusName = "逾期";
+		}
+		return statusName;
+	}
+	
 	static final class ViewHolder{
 //		private View mViewDashLine;
+		private PercentageRing mPercentageRing;
 		private TextView mTvInvestName;//项目名称
 		private TextView mTvRate;//年化利率
 		private TextView mTvDate;//结束日期

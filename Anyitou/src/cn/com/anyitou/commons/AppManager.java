@@ -40,8 +40,12 @@ public class AppManager {
 	 * 获取当前Activity（堆栈中压入的）
 	 */
 	public Activity currentActivity() {
-		Activity activity = activityStack.lastElement();
-		return activity;
+		if(activityStack == null || activityStack.isEmpty()){
+			return null;
+		}else{
+			Activity activity = activityStack.lastElement();
+			return activity;
+		}
 	}
 	
 	/**

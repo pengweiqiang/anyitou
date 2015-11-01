@@ -95,6 +95,11 @@ public class TokenUtil {
 				Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, "");
 		GlobalConfig.ACCESS_TOKEN = "";
 		GlobalConfig.REFRESH_TOKEN = "";
+		Intent loginIntent = new Intent(mContext,LoginActivity.class);
+		loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+		loginIntent.putExtra("type", 2);
+		loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		mContext.startActivity(loginIntent);
 		MyApplication.getInstance().setUser(null);
 	}
 	public static void saveTokenIsTimer(Context mContext,String backStr,String type){

@@ -23,14 +23,25 @@
           android:background="#e7e7e7"
           />
     
-    <cn.com.anyitou.views.MyListView 
-        android:id="@+id/listView_list"
-        android:listSelector="@android:color/transparent"
-        android:divider="@color/home_bg"
-        android:dividerHeight="2dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-    </cn.com.anyitou.views.MyListView>
+     <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/list_title" >
+
+        <cn.com.anyitou.views.XListView
+            android:id="@+id/listView_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+        	android:divider="@color/home_bg"
+        	android:dividerHeight="2dp">
+        </cn.com.anyitou.views.XListView>
+
+        <!-- <include
+            android:id="@+id/empty_listview"
+            layout="@layout/empty_listview"
+            android:visibility="visible" /> -->
+    </FrameLayout>
+    
     
 </LinearLayout>

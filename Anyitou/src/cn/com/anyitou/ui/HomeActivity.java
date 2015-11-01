@@ -113,7 +113,7 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 					return mInvestmentFragment;
 				} else if (position == 2) {
 					if(mMyFragment == null){
-						mMyFragment = new MyFragment();
+						return mMyFragment = new MyFragment();
 					}
 					return mMyFragment;
 				} else if (position == 3) {
@@ -139,18 +139,23 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						for (int i = 0; i < tabIds.length; i++) {
-							if (checkedId == tabIds[i]) {
-								if(i == 2 && MyApplication.getInstance().getCurrentUser() == null){
-									((RadioButton)findViewById(checkId)).setChecked(true);
-									Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
-									intent.putExtra("isFromMy", true);
-									startActivityForResult(intent, 123);
-								}else{
+						if(checkedId == checkId){
+							return;
+						}
+						if(checkedId == tabIds[2] && MyApplication.getInstance().getCurrentUser() == null){
+							ToastUtils.showToast(HomeActivity.this, "请先登录");
+							Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+							intent.putExtra("isFromMy", true);
+							startActivityForResult(intent, 123);
+							((RadioButton)findViewById(checkId)).setChecked(true);
+//							startActivity(intent);
+						}else{
+							for (int i = 0; i < tabIds.length; i++) {
+								if (checkedId == tabIds[i]) {
 									checkId = tabIds[i];
 									mViewPager.setCurrentItem(i, false);
+									break;
 								}
-								break;
 							}
 						}
 					}
@@ -162,9 +167,8 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 
 
 	@Override
-	protected void onActivityResult(int resultCode, int arg1, Intent arg2) {
-		super.onActivityResult(resultCode, arg1, arg2);
-		if(resultCode == 123){
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == 123){
 			checkId = tabIds[2];
 			((RadioButton)findViewById(checkId)).setChecked(true);
 			mViewPager.setCurrentItem(2, false);

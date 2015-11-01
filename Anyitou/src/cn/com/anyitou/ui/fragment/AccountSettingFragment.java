@@ -1,11 +1,7 @@
 package cn.com.anyitou.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +25,8 @@ import cn.com.anyitou.utils.SharePreferenceManager;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.MyPopupWindow;
+import cn.com.anyitou.views.ToggleButton;
+import cn.com.anyitou.views.ToggleButton.OnToggleChanged;
 
 /**
  * 账户设置
@@ -44,8 +42,7 @@ public class AccountSettingFragment extends BaseFragment {
 	private TextView mTvLoginStatus;
 	private View mBtnLogout;
 	private View mBtnUpdatePwd,mBtnUpdatePhone,mBtnUpdateGesture,mBtnShare;
-//	private Switch mTbSwicthPush;
-	
+	private ToggleButton mTbSwicthPush;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +53,12 @@ public class AccountSettingFragment extends BaseFragment {
 		
 		initView();
 		initListener();
+		
+		Boolean isPush = (Boolean)SharePreferenceManager.getSharePreferenceValue(mActivity, Constant.FILE_NAME, Constant.PUSH, true);
+		if (isPush)
+			mTbSwicthPush.toggleOn();
+		else
+			mTbSwicthPush.toggleOff();
 		
 		return infoView;
 	}
@@ -82,7 +85,7 @@ public class AccountSettingFragment extends BaseFragment {
 		mBtnUpdatePwd = infoView.findViewById(R.id.update_pwd);
 		mBtnUpdatePhone = infoView.findViewById(R.id.btn_phone);
 		mBtnUpdateGesture = infoView.findViewById(R.id.btn_gesture);
-//		mTbSwicthPush = (Switch) infoView.findViewById(R.id.switch_push);
+		mTbSwicthPush = (ToggleButton) infoView.findViewById(R.id.switch_push);
 		mBtnShare = infoView.findViewById(R.id.share_friend);
 		mBtnLogout = infoView.findViewById(R.id.logout);
 		mTvLoginStatus = (TextView) infoView.findViewById(R.id.login_title);
@@ -92,7 +95,13 @@ public class AccountSettingFragment extends BaseFragment {
 		mBtnUpdatePwd.setOnClickListener(onClickListener);
 		mBtnUpdatePhone.setOnClickListener(onClickListener);
 		mBtnUpdateGesture.setOnClickListener(onClickListener);
-//		mTbSwicthPush.setOnClickListener(onClickListener);
+	    //推送开关切换事件
+		mTbSwicthPush.setOnToggleChanged(new OnToggleChanged(){
+	            @Override
+	            public void onToggle(boolean on) {
+	            	SharePreferenceManager.saveBatchSharedPreference(mActivity, Constant.FILE_NAME, Constant.PUSH, on);
+	            }
+	    });
 		mBtnShare.setOnClickListener(onClickListener);
 		mBtnLogout.setOnClickListener(onClickListener);
 	}

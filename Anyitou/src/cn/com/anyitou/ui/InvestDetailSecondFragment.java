@@ -52,21 +52,21 @@ public class InvestDetailSecondFragment extends BaseFragment implements
 
 		return infoView;
 	}
-	public void setSecondeList(List<LableData> secondPage){
-		this.secondPage = secondPage;
-		for (LableData lableData : secondPage) {
-			if(getResources().getString(R.string.invest_description).equals(lableData.getLabel())){
-				investProDesc.setSecondeList(lableData.getData());
-			}else if(getResources().getString(R.string.invest_risk_control).equals(lableData.getLabel())){
-				investRisk.setSecondeList(lableData.getData());
-			}else if(getResources().getString(R.string.invest_repayment_plan).equals(lableData.getLabel())){
-				investRepayPlan.setSecondeList(lableData.getData());
-			}else if(getResources().getString(R.string.invest_list).equals(lableData.getLabel())){
-				investList.setSecondeList(lableData.getData());
-			}
-		}
-		
-	}
+//	public void setSecondeList(List<LableData> secondPage){
+//		this.secondPage = secondPage;
+//		for (LableData lableData : secondPage) {
+//			if(getResources().getString(R.string.invest_description).equals(lableData.getLabel())){
+//				investProDesc.setSecondeList(lableData.getData());
+//			}else if(getResources().getString(R.string.invest_risk_control).equals(lableData.getLabel())){
+//				investRisk.setSecondeList(lableData.getData());
+//			}else if(getResources().getString(R.string.invest_repayment_plan).equals(lableData.getLabel())){
+//				investRepayPlan.setSecondeList(lableData.getData());
+//			}else if(getResources().getString(R.string.invest_list).equals(lableData.getLabel())){
+//				investList.setSecondeList(lableData.getData());
+//			}
+//		}
+//		
+//	}
 	InvestDetailSecondProDescFragment investProDesc;
 	InvestDetailSecondRiskFragment investRisk ;
 	InvestDetailSecondRepayPlanFragment investRepayPlan;

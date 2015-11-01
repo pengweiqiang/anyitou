@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity {
 		isFromMy = this.getIntent().getBooleanExtra("isFromMy", false);
 		type = this.getIntent().getIntExtra("type",0);
 		if(type == 2){
-			ToastUtils.showToast(mContext, "您的账号在其他设备登录，请重新授权登录");
+			ToastUtils.showToast(mContext, "您的账号身份过期，请重新授权登录");
 		}
 		mEtUsername.setText(username);
 	}
@@ -140,10 +140,15 @@ public class LoginActivity extends BaseActivity {
 							user.setUsername(userName);
 							logined(accessToken, refreshToken, user);
 							if(isFromMy){
-								setResult(123);
+								Intent intent = new Intent();
+								intent.putExtra("islogin", true);
+								setResult(RESULT_OK,intent);
+								LoginActivity.this.finish();
+							}else{
+								startActivity(HomeActivity.class);
+								AppManager.getAppManager().finishActivity();
 							}
-							startActivity(HomeActivity.class);
-							AppManager.getAppManager().finishActivity();
+							
 						}else{
 							if(!StringUtils.isEmpty(parseModel.getMsg())){
 								ToastUtils.showToast(mContext, parseModel.getMsg());

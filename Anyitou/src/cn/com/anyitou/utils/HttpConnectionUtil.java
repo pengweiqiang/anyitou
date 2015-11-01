@@ -134,7 +134,9 @@ public class HttpConnectionUtil {
 						ParseModel pm = getParseModel(backStr, methodType, context,(Boolean)params.get("isUserToken"));
 						if(!StringUtils.isEmpty(pm.getError()) && pm.getError().equals("invalid_grant")){
 							Intent loginIntent = new Intent(context,LoginActivity.class);
-							loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+							if(MyApplication.getInstance().getCurrentUser()!=null){
+								loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+							}
 							loginIntent.putExtra("type", 2);
 							loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							context.startActivity(loginIntent);

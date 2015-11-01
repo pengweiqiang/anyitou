@@ -145,7 +145,7 @@
 	                        android:layout_height="wrap_content"
 	                        android:text="￥"
 	                        android:layout_alignParentBottom="true"
-	                        android:paddingBottom="2dp"
+	                        android:paddingBottom="3dp"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="12sp" />
 	                    <TextView
@@ -191,7 +191,7 @@
 	                        android:layout_height="wrap_content"
 	                        android:text="￥"
 	                        android:layout_alignParentBottom="true"
-	                        android:paddingBottom="2dp"
+	                        android:paddingBottom="3dp"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="12sp" />
 	                    <TextView
@@ -248,7 +248,7 @@
 	                        android:layout_height="wrap_content"
 	                        android:text="￥"
 	                        android:layout_alignParentBottom="true"
-	                        android:paddingBottom="2dp"
+	                        android:paddingBottom="3dp"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="12sp" />
 	                    <TextView
@@ -294,7 +294,7 @@
 	                        android:layout_height="wrap_content"
 	                        android:text="￥"
 	                        android:layout_alignParentBottom="true"
-	                        android:paddingBottom="2dp"
+	                        android:paddingBottom="3dp"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="12sp" />
 	                    <TextView
@@ -334,7 +334,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/cash_selector"
                     android:gravity="center"
-                    android:text="充值"
+                    android:text="充 值"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -345,7 +345,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_app_bg_selector"
                     android:gravity="center"
-                    android:text="提现"
+                    android:text="提 现"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -452,6 +452,7 @@
             <!-- 优惠券、我的安币、我的等级 -->
 
             <LinearLayout
+                android:id="@+id/center4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/center3"
@@ -541,7 +542,16 @@
                         android:text="我的等级"
                         android:textColor="@color/tab_title_color" />
                 </LinearLayout>
+               
             </LinearLayout>
+            
+             <View
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/center4"
+                android:background="@color/person_center_line" />
+            
         </RelativeLayout>
     </cn.com.anyitou.views.SpringScrollView>
 <!--

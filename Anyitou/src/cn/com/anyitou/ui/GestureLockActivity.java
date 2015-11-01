@@ -22,6 +22,7 @@ import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.GestureLockView;
 import cn.com.anyitou.views.GestureLockView.OnGestureFinishListener;
+import cn.com.anyitou.views.InfoDialog;
 /**
  * 手势密码
  * @author will
@@ -51,7 +52,11 @@ public class GestureLockActivity extends BaseActivity {
 	}
 	private void initData(){
 		User user = application.getCurrentUser();
-		tvUserName.setText(user.getUsername());
+		if(user ==null){
+			Intent intent = new Intent(mContext,LoginActivity.class);
+			startActivity(intent);
+			return;
+		}
 		
 		
 		mTipTextView.setTextColor(getResources().getColor(R.color.gesture_tip2));
@@ -104,13 +109,28 @@ public class GestureLockActivity extends BaseActivity {
 	 * 五次输入密码错误
 	 */
 	private void errorGesturePwd(){
-		ToastUtils.showToast(mContext, "密码输入错误，请重新登录");
+		//ToastUtils.showToast(mContext, "密码输入错误，请重新登录");
 		SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, "");
 		application.gesturePwd = "";
 		application.isLock = false;
 		logOut();
-		startActivity(LoginActivity.class);
-		AppManager.getAppManager().finishActivity();
+		
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+		builder.setMessage("由于手势密码错误超过5次,您将退出登录\n请重新设置新的手势密码");
+		builder.setTitle("手势密码错误超过5次");
+		builder.setButton1("我知道了", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				startActivity(LoginActivity.class);
+				AppManager.getAppManager().finishActivity();
+			}
+		},R.drawable.btn_concer_dialog_selector);
+		builder.setButton2(null, null);
+		builder.create().show();
+		
+		
 	}
 
 	private void gestureListener(){
@@ -144,7 +164,7 @@ public class GestureLockActivity extends BaseActivity {
 											errorCount --;
 //											mTipTextView.setTextColor(Color.parseColor("#FF2525"));
 											mTipTextView.setVisibility(View.VISIBLE);
-											mTipTextView.setText("密码错了,还可以输入"+errorCount+"次");
+											mTipTextView.setText("密码输入错误,还可以尝试"+errorCount+"次");
 											mTipTextView.startAnimation(mAnimation);
 										}else{
 											errorGesturePwd();
@@ -165,7 +185,7 @@ public class GestureLockActivity extends BaseActivity {
 													errorCount --;
 //													mTipTextView.setTextColor(Color.parseColor("#FF2525"));
 													mTipTextView.setVisibility(View.VISIBLE);
-													mTipTextView.setText("密码错了,还可以输入"+errorCount+"次");
+													mTipTextView.setText("密码输入错误,还可以尝试"+errorCount+"次");
 													mTipTextView.startAnimation(mAnimation);
 												}else{
 													errorGesturePwd();

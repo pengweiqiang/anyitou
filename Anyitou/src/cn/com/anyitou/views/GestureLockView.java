@@ -197,7 +197,7 @@ public class GestureLockView extends View{
 						canContinue = true;
 						postInvalidate();//在非ui线程刷新界面
 					}
-				}, 1000);
+				}, 300);
 				break;
 			}
 			invalidate();

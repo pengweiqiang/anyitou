@@ -1,7 +1,11 @@
 package cn.com.anyitou.entity;
 
 import java.io.Serializable;
-
+/**
+ * // 距离募集结束时间差
+ * @author pengweiqiang
+ *
+ */
 public class RaiseRemainTime implements Serializable{
 
 	/**

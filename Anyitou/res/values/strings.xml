@@ -60,6 +60,8 @@
 	<string name="suggestion_title">您的意见或建议：</string>
 	<string name="contact_title">您的联系方式：</string>
 	<string name="input_email">方便的话留个邮箱吧！</string>
+	<string name="project_list">项目列表</string>
+	<string name="credito_transfer">债权转让</string>
 	
 	<string name="agreement">\n  欢迎您注册成为1818平台用户\n
  请仔细阅读下面的协议，只有接受协议才能继续进行注册。 \n

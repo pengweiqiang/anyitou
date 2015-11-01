@@ -3,6 +3,7 @@ package cn.com.anyitou.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -21,8 +22,13 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
-
+/**
+ * 找回密码
+ * @author pengweiqiang
+ *
+ */
 public class BackLoginPassWordActivity extends BaseActivity {
 
 	ActionBar mActionBar;
@@ -49,7 +55,26 @@ public class BackLoginPassWordActivity extends BaseActivity {
 
 					@Override
 					public void onClick(View v) {
-						AppManager.getAppManager().finishActivity();
+						InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+						builder.setMessage("放弃后您的密码不会改变");
+						builder.setTitle("确定要放弃?");
+						builder.setButton1("取消", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
+						builder.setButton2("确定放弃", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+								AppManager.getAppManager().finishActivity();
+							}
+						});
+						builder.create().show();
+						
 					}
 				});
 		mBtnNext = findViewById(R.id.btn_next);

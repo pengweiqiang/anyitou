@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+    
+    
+    <cn.com.anyitou.views.XListView 
+        android:id="@+id/listView_list"
+        android:listSelector="@android:color/transparent"
+        android:dividerHeight="2dp"
+        android:divider="@color/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </cn.com.anyitou.views.XListView>
+    
+</LinearLayout>

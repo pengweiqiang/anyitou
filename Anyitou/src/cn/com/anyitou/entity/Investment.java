@@ -13,34 +13,34 @@ public class Investment implements Serializable{
 	private static final long serialVersionUID = -5203943094386982392L;
 
 	private String id;
-	private String item_title;
-	private String number_id;
-	private String category;
-	private String pay_type;
-	private String guarantee_type;
-	private String guarantee_id;
-	private String rate_of_interest;
-	private String reward_apr;
-	private String financing_amount;
-	private String over_amount;
-	private String investment;
-	private String begin_time;
-	private String repayment_time;
-	private String delay;
-	private String raise_begin_time;
-	private String status;
-	private String invest_status;
-	private String isrecommend;
-	private String invested_nums;
-	private LableValue pay_type_info;
-	private String invest_status_label;
-	private String remain_amount;
-	private String scale;
-	private String borrow_days;
-	private String leave_time;
-	private String isstarted;
-	private RaiseRemainTime raise_remain_time;
-	private String EachInvestmentInterest;
+	private String item_title;//项目名称
+	private String number_id;//项目编号
+	private String category;//项目类型
+	private String pay_type;//还款方式，名字见：pay_type_info
+	private String guarantee_type;//担保方式
+	private String guarantee_id;//担保机构id
+	private String rate_of_interest;//年化收益率
+	private String reward_apr;//平台奖励年化收益率
+	private String financing_amount;//募集金额
+	private String over_amount;//已募集金额
+	private String investment;//起投金额投资递增金额
+	private String begin_time;//项目起始日期
+	private String repayment_time;//还款日期
+	private String delay;//募集天数
+	private String raise_begin_time;//募集开始时间
+	private String status;//项目状态：0：待审核 1：审核通过
+	private String invest_status;//投资状态： 0:未开放  1:开放投资  2:募集完成   3:还款中   4:还款完成   5:逾期
+	private String isrecommend;//推荐状态： 0:不推荐  1:推荐
+	private String invested_nums; // 投资次数
+	private LableValue pay_type_info;// 还款方式信息
+	private String invest_status_label; // 投资状态名称
+	private String remain_amount; // 投资状态名称
+	private String scale;// 募集进度
+	private String borrow_days;// 项目期限
+	private String leave_time;// 募集结束时间戳
+	private String isstarted;// 开放投资状态  true:开放    false:未开放
+	private RaiseRemainTime raise_remain_time;// 距离募集结束时间差
+	private String EachInvestmentInterest; // 千份收益
 	private String rewardEachInvestmentInterest;
 	
 	

@@ -15,6 +15,8 @@ public class Constant {
     public static final String FILE_NAME = "anyitou";
     //手势密码
     public static final String GESTURE_PWD = "gesture_pwd";
+    //推送
+    public static final String PUSH = "push";
     
     public static final String LOCATION = "cn.com.anyitou.location";
 

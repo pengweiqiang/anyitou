@@ -39,12 +39,14 @@
     <color name="app_title_color">#fc8403</color>
     <color name="tab_title_color">#666666</color>
     <color name="cash_rechange">#5b87e7</color>
-    <color name="tab_title_color_2">#323232</color>
+    <color name="tab_title_color_2">#6d6d6d</color>
     <color name="system_status_color_slide">#28393b</color>
     <color name="person_center_line">#e9e9e9</color>
     <color name="home_progress_color">#e6e6e6</color>
     <color name="code_normal">#f45149</color>
     <color name="code_selected">#f96f68</color>
+    <color name="dialog_text_color">#959595</color>
+    <color name="dialog_btn_pressed_color">#e5564f</color>
     
     <color name="transparent">#e0FFFFFF</color>
     

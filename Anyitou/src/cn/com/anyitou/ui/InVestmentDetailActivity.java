@@ -125,7 +125,7 @@ import cn.com.anyitou.views.VerticalViewPager;
 	private void setData(){
 		if(investDetail!=null){
 			investDetailFirstFragment.setFirstPageList(investDetail.getFirstpage());
-			investDetailSecondFragment.setSecondeList(investDetail.getSecondpage());
+//			investDetailSecondFragment.setSecondeList(investDetail.getSecondpage());
 		}
 	}
 	private void initView() {
