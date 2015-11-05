@@ -29,7 +29,7 @@ public class SetUpActivity extends BaseActivity {
 	public void initView() {
 		actionBar = (ActionBar)findViewById(R.id.actionBar);
 		actionBar.setTitle("设置");
-		actionBar.setLeftActionButton(R.drawable.nav_menu, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

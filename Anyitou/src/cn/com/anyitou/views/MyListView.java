@@ -12,71 +12,43 @@ import android.widget.ListView;
  * 重写ListView解决ListView内部ViewPaper滑动事件冲突问题
  * 
  */
-public class MyListView extends ListView {
-	private GestureDetector mGestureDetector;
-	View.OnTouchListener mGestureListener;
-
+public class MyListView extends XListView {
 	public MyListView(Context context) {
 		super(context);
 	}
 
 	public MyListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		mGestureDetector = new GestureDetector(new YScrollDetector());
-		setFadingEdgeLength(0);
 	}
 
 	public MyListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
+	private float xDistance, yDistance, xLast, yLast;
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		return super.onInterceptTouchEvent(ev)
-				&& mGestureDetector.onTouchEvent(ev);
-	}
-	
-	
-	double startY;
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			
-			startY = ev.getY();
+			xDistance = yDistance = 0f;
+			xLast = ev.getX();
+			yLast = ev.getY();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			double currentY = ev.getY();
-			System.out.println(String.valueOf(currentY-startY));
-			if( this.getChildCount() > 0 && this.getFirstVisiblePosition() == 0 && currentY-startY>0 && this.getChildAt(0).getTop() >= 0){//第一个item完成展示
+			final float curX = ev.getX();
+			final float curY = ev.getY();
+			xDistance += Math.abs(curX - xLast);
+			yDistance += Math.abs(curY - yLast);
+			xLast = curX;
+			yLast = curY;
+			if (xDistance > yDistance-10) {
 				return false;
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-			
-			break;
-
-		default:
-			break;
-		}
-		return super.onTouchEvent(ev);
-	}
-
-
-
-	class YScrollDetector extends SimpleOnGestureListener {
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2,
-				float distanceX, float distanceY) {
-			if (distanceY != 0 && distanceX != 0) {
-
-			}
-			System.out.println("  Y"+Math.abs(distanceY) + "   X"+Math.abs(distanceX));
-			if (getFirstVisiblePosition() != 0 && Math.abs(distanceY) >= Math.abs(distanceX)) {
+			}else{
 				return true;
 			}
-			return false;
 		}
+		return super.onInterceptTouchEvent(ev);
 	}
 
 }

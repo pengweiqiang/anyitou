@@ -54,7 +54,7 @@ public class RechargeResultActivity extends BaseActivity {
 	
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("充值结果");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

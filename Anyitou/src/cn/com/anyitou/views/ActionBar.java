@@ -22,7 +22,8 @@ import cn.com.anyitou.utils.StringUtils;
 public class ActionBar extends FrameLayout {
 
 	private TextView mTitleView;
-	private TextView mLeftActionButton,mRightActionButton;
+	private ImageView mLeftActionButton;
+	private TextView mRightActionButton;
 	private TextView mActionBarTitle;
 	private ImageView mIvCenterImage;
 	private View mViewCenter;
@@ -44,7 +45,7 @@ public class ActionBar extends FrameLayout {
 		LayoutInflater.from(getContext()).inflate(R.layout.action_bar_layout,
 				this);
 		mTitleView = (TextView) findViewById(R.id.actionBarTitle);
-		mLeftActionButton = (TextView) findViewById(R.id.leftActionButton);
+		mLeftActionButton = (ImageView) findViewById(R.id.leftActionButton);
 		mRightActionButton = (TextView) findViewById(R.id.rightActionButton);
 		mActionBarTitle = (TextView)findViewById(R.id.actionBarTitle);
 		mIvCenterImage = (ImageView)findViewById(R.id.center_image);
@@ -63,17 +64,12 @@ public class ActionBar extends FrameLayout {
 		mTitleView.setTextColor(getResources().getColor(resId));
 	}
 	
-	public void setLeftActionButton(int icon, OnClickListener listener) {
-		if(icon != R.drawable.btn_back){
+	public void setLeftActionButton(OnClickListener listener) {
+		if(listener==null){
 			hideLeftActionButtonText();
+		}else{
+			mLeftActionButton.setOnClickListener(listener);
 		}
-		if(icon!=0){
-			Drawable drawable= getResources().getDrawable(icon);
-			/// 这一步必须要做,否则不会显示.
-			drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-			mLeftActionButton.setCompoundDrawables(drawable,null,null,null);
-		}
-		mLeftActionButton.setOnClickListener(listener);
 //		mLeftActionButton.setVisibility(View.VISIBLE);
 	}
 	public void setRightActionButton(String text,OnClickListener listener){
@@ -102,7 +98,7 @@ public class ActionBar extends FrameLayout {
 	 * 隐藏左上角按钮的文字
 	 */
 	public void hideLeftActionButtonText() {
-		mLeftActionButton.setText("");
+		mLeftActionButton.setVisibility(View.GONE);
 	}
 	/**
 	 * 隐藏右上角按钮的文字

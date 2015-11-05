@@ -12,6 +12,31 @@
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
     
+    <!--   <RelativeLayout
+          android:id="@+id/banner"
+        android:layout_width="fill_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content">
+
+        <cn.com.anyitou.views.banner.InfiniteViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <cn.com.anyitou.views.banner.LinePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:fillColor="@color/app_bg_color"
+            android:layout_marginBottom="8dp"
+            app:pageColor="@color/white" />
+    </RelativeLayout>
+    
+      
+      
+    
       <TextView 
           android:text="推荐项目"
           android:textColor="@color/app_bg_color"
@@ -21,21 +46,21 @@
           android:gravity="center"
           android:paddingBottom="1dp"
           android:background="#e7e7e7"
-          />
+          /> -->
     
      <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/list_title" >
 
-        <cn.com.anyitou.views.XListView
+        <cn.com.anyitou.views.MyListView
             android:id="@+id/listView_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:listSelector="@android:color/transparent"
         	android:divider="@color/home_bg"
-        	android:dividerHeight="2dp">
-        </cn.com.anyitou.views.XListView>
+        	android:dividerHeight="0dp">
+        </cn.com.anyitou.views.MyListView>
 
         <!-- <include
             android:id="@+id/empty_listview"

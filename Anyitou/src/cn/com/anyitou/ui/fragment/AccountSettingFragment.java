@@ -22,6 +22,7 @@ import cn.com.anyitou.ui.ModifyGestureDialog;
 import cn.com.anyitou.ui.ModifyLoginPassWordActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.SharePreferenceManager;
+import cn.com.anyitou.utils.ShareUtil;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.MyPopupWindow;
@@ -43,7 +44,7 @@ public class AccountSettingFragment extends BaseFragment {
 	private View mBtnLogout;
 	private View mBtnUpdatePwd,mBtnUpdatePhone,mBtnUpdateGesture,mBtnShare;
 	private ToggleButton mTbSwicthPush;
-
+	cn.com.anyitou.utils.ShareUtil shareUtil;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class AccountSettingFragment extends BaseFragment {
 		
 		initView();
 		initListener();
-		
+//		shareUtil = new ShareUtil(mActivity);
 		Boolean isPush = (Boolean)SharePreferenceManager.getSharePreferenceValue(mActivity, Constant.FILE_NAME, Constant.PUSH, true);
 		if (isPush)
 			mTbSwicthPush.toggleOn();
@@ -92,6 +93,7 @@ public class AccountSettingFragment extends BaseFragment {
 	}
 	
 	private void initListener(){
+		mActionBar.hideLeftActionButtonText();
 		mBtnUpdatePwd.setOnClickListener(onClickListener);
 		mBtnUpdatePhone.setOnClickListener(onClickListener);
 		mBtnUpdateGesture.setOnClickListener(onClickListener);
@@ -233,16 +235,16 @@ public class AccountSettingFragment extends BaseFragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.share_wx_friend:
-				
+				shareUtil.share(0,"");
 				break;
 			case R.id.share_wx_line:
-				
+				shareUtil.share(1,"");
 				break;
 			case R.id.share_weibo_sina_friend:
-	
+				shareUtil.share(5,"");
 				break;
 			case R.id.share_qq_friend:
-				
+				shareUtil.share(3,"");
 				break;
 
 			default:

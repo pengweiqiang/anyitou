@@ -1,18 +1,24 @@
 package cn.com.anyitou.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.api.constant.OperationType;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
-import cn.com.anyitou.utils.CheckInputUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
@@ -26,16 +32,43 @@ import cn.com.anyitou.views.LoadingDialog;
  */
 public class ModifyLoginPassWordActivity extends BaseActivity {
 	ActionBar actionBar;
-	private EditText mEtOldPwd,mEtNewPwd,mEtNewPwd2,mEtCode;
+	private TextView mTvSendTip;
+	private EditText mEtCode;
 	private View mBtnConfirm;
 	LoadingDialog loadingDialog;
-	private TextView mTvCode;
+	private TextView mTvSendCode;
+	String captchaKey = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_modify_loginpassword);
 		super.onCreate(savedInstanceState);
+		User user = MyApplication.getInstance().getCurrentUser();
+		if(user !=null){
+			mTvSendTip.setText("请输入"+StringUtils.getsubMobileString(user.getMobile())+"收到的短信验证码");
+		}
+	}
+	
+	private void initData(){
+		if(mTvSendCode.isEnabled()){
+			mTvSendCode.setEnabled(false);
+			loadingDialog = new LoadingDialog(mContext, "发送中...");
+			loadingDialog.show();
+			ApiUserUtils.sendUserCode(mContext, OperationType.APP_CHANGE_PASSWORD.getName(), new RequestCallback() {
+				
+				@Override
+				public void execute(ParseModel parseModel) {
+					loadingDialog.cancel();
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+						regainCode();
+						captchaKey = parseModel.getData().getAsJsonObject().get("captcha_key").getAsString();
+					}else{
+						mTvSendCode.setEnabled(true);
+						ToastUtils.showToast(mContext, "发送验证码错误,稍后请重试");
+					}
+				}
+			});
+		}
 		
-		mTvCode.setText(StringUtils.getCode());
 	}
 	
 	@Override
@@ -43,21 +76,26 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 		actionBar = (ActionBar)findViewById(R.id.actionBar);
 		actionBar.setTitle("修改密码");
 		
-		mEtOldPwd = (EditText)findViewById(R.id.old_pwd);
-		mEtNewPwd = (EditText)findViewById(R.id.new_pwd);
-		mEtNewPwd2 = (EditText)findViewById(R.id.new_pwd2);
-		mEtCode = (EditText)findViewById(R.id.input_code);
-		mTvCode = (TextView)findViewById(R.id.code_msg);
+		mEtCode = (EditText)findViewById(R.id.et_code);
+		mTvSendCode = (TextView)findViewById(R.id.send_code);
 		mBtnConfirm = findViewById(R.id.btn_confirm);
+		mTvSendTip = (TextView)findViewById(R.id.send_tip);
 	}
 
 	@Override
 	public void initListener() {
-		mTvCode.setOnClickListener(new OnClickListener() {
+		actionBar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				mTvCode.setText(StringUtils.getCode());
+				AppManager.getAppManager().finishActivity();
+			}
+		});
+		mTvSendCode.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				initData();
 			}
 		});
 		
@@ -65,79 +103,53 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				String oldPwd = mEtOldPwd.getText().toString().trim();
-				
-				if(StringUtils.isEmpty(oldPwd)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_old_pwd));
-					mEtOldPwd.requestFocus();
-					return;
-				}
-				if(!CheckInputUtil.checkPassword(oldPwd, mContext)){
-					return;
-				}
-				
-				String newPwd = mEtNewPwd.getText().toString().trim();
-				
-				if(StringUtils.isEmpty(newPwd)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_new_pwd));
-					mEtNewPwd.requestFocus();
-					return;
-				}
-				if(!CheckInputUtil.checkPassword(newPwd, mContext)){
-					return;
-				}
-				
-				String newPwd2 = mEtNewPwd2.getText().toString().trim();
-				if(StringUtils.isEmpty(newPwd2)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_correct_pwd));
-					mEtNewPwd2.requestFocus();
-					return;
-				}
-				if(!CheckInputUtil.checkPassword(newPwd2, mContext)){
-					return;
-				}
-				if(!newPwd.equals(newPwd2)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.error_pwd_again));
-					mEtNewPwd2.requestFocus();
+				if(StringUtils.isEmpty(captchaKey)){
+					ToastUtils.showToast(mContext, "清先发送验证码");
 					return;
 				}
 				
 				String code = mEtCode.getText().toString().trim();
-				String realCode = mTvCode.getText().toString().trim();
 				if(StringUtils.isEmpty(code)){
 					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_code));
 					mEtCode.requestFocus();
-					return ;
-				}
-				if(!realCode.equals(code)){
-					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_correct_code));
-					mEtCode.requestFocus();
-					return ;
+					return;
 				}
 				
-				loadingDialog = new LoadingDialog(mContext,"修改密码中...");
-				loadingDialog.show();
-				User user = application.getCurrentUser();
-				ApiUserUtils.updatePwd(mContext, user.getUsername(), oldPwd, newPwd2, new RequestCallback() {
-					
-					@Override
-					public void execute(ParseModel parseModel) {
-						mTvCode.setText(StringUtils.getCode());
-						loadingDialog.cancel();
-						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-							ToastUtils.showToast(mContext,"修改成功,请重新登录");
-							logOut();
-							startActivity(LoginActivity.class);
-							AppManager.getAppManager().finishActivity();
-						}else{
-							ToastUtils.showToast(mContext, StringUtils.isEmpty(parseModel.getMsg())?"修改失败,稍后请重试":parseModel.getMsg());
-						}
-					}
-				});
-				
+				Intent intent = new Intent(mContext,ModifyLoginPassWordActivity2.class);
+				intent.putExtra("code", code);
+				intent.putExtra("captchaKey", captchaKey);
+				startActivity(intent);
+				AppManager.getAppManager().finishActivity();
 				
 			}
 		});
 	}
+	
+	private Timer timer;// 计时器
+	private int time = 60;//倒计时120秒
+
+	private void regainCode() {
+		time = 60;
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				handler.sendEmptyMessage(time--);
+			}
+		}, 0, 1000);
+	}
+
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 0) {
+				mTvSendCode.setEnabled(true);
+				mTvSendCode.setText("获取验证码");
+				timer.cancel();
+			} else {
+				mTvSendCode.setText(msg.what + " 秒重发");
+			}
+		};
+	};
 
 }

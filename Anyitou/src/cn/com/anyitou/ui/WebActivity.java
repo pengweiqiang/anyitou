@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -125,15 +126,13 @@ public class WebActivity extends BaseActivity {
 	// 设置activity的导航条
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle(name);
-//		actionBar.setLeftActionButton(R.drawable.btn_back, new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				loadingDialog = new LoadingDialog(mContext,"请稍候...");
-//				loadingDialog.show();
-//				backOperation();
-//			}
-//		});
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 	}
 	/**
 	 * 点击返回按钮操作

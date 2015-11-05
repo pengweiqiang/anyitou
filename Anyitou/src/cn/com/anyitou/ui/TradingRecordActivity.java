@@ -89,7 +89,7 @@ public class TradingRecordActivity extends BaseActivity implements
 
 	protected void onConfigureActionBar(final ActionBar actionBar) {
 		actionBar.setTitle("交易记录");
-		actionBar.setLeftActionButton(R.drawable.btn_back,
+		actionBar.setLeftActionButton(
 				new OnClickListener() {
 
 					@Override
@@ -164,7 +164,13 @@ public class TradingRecordActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
-
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 	}
 
 	OnClickListener popupwindowListener = new OnClickListener() {

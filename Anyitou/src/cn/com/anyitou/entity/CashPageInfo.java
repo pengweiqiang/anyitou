@@ -3,7 +3,7 @@ package cn.com.anyitou.entity;
 import java.io.Serializable;
 
 /**
- * 提货界面信息
+ * 提现界面信息
  * @author will
  *
  */

@@ -31,7 +31,7 @@
                 android:layout_marginTop="13dip"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingRight="5dp"
                 android:paddingTop="10dp" >
 
                 <TextView
@@ -42,15 +42,23 @@
                     android:text="你好，安宜投用户"
                     android:textColor="#666666" />
                 
-                <TextView
-                    android:id="@+id/level_title"
-                    android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:text="普通用户"
-                    android:textColor="#666666" />
+	                <ImageView 
+	                    android:id="@+id/level_logo"
+	                    android:layout_toRightOf="@+id/username"
+	                    android:layout_marginLeft="12dp"
+	                    android:layout_width="15dp"
+	                    android:layout_centerVertical="true"
+	                    android:layout_height="15dp"
+	                    android:src="@drawable/user_level_diamond_big_icon"
+	                    />
+	                <TextView
+	                    android:id="@+id/level_title"
+	                    android:layout_toRightOf="@+id/level_logo"
+	                    android:layout_width="wrap_content"
+	                    android:layout_marginLeft="4dp"
+	                    android:layout_height="wrap_content"
+	                    android:text="普通会员"
+	                    android:textColor="#666666" />
             </RelativeLayout>
 
             <View
@@ -100,6 +108,7 @@
                     android:layout_toRightOf="@+id/money_type"
                     android:text="0.00"
                     android:textColor="@color/app_bg_color"
+                    android:textStyle="bold"
                     android:textSize="30sp" />
             </RelativeLayout>
 
@@ -154,6 +163,7 @@
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
 	                        android:text="0.00"
+	                        android:textStyle="bold"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="20sp" />
                     </RelativeLayout>
@@ -200,6 +210,7 @@
 	                        android:layout_width="match_parent"
 	                        android:layout_height="wrap_content"
 	                        android:text="0.00"
+	                        android:textStyle="bold"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="20sp" />
                     </RelativeLayout>
@@ -257,6 +268,7 @@
 	                        android:layout_width="match_parent"
 	                        android:layout_height="wrap_content"
 	                        android:text="0.00"
+	                        android:textStyle="bold"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="20sp" />
 	               </RelativeLayout>     
@@ -295,6 +307,7 @@
 	                        android:text="￥"
 	                        android:layout_alignParentBottom="true"
 	                        android:paddingBottom="3dp"
+	                        android:textStyle="bold"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="12sp" />
 	                    <TextView
@@ -303,6 +316,7 @@
 	                        android:layout_width="match_parent"
 	                        android:layout_height="wrap_content"
 	                        android:text="0.00"
+	                        android:textStyle="bold"
 	                        android:textColor="@color/tab_title_color"
 	                        android:textSize="20sp" />
 	                 </RelativeLayout>   
@@ -382,7 +396,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_invest_rec"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -410,7 +425,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_trade_rec"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -439,7 +455,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_nav_debt"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -475,7 +492,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_nav_quan"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -503,7 +521,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_anbi"
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -534,7 +553,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/xuanzhong" />
+                        android:background="@drawable/btn_user_nav_level"/>
 
                     <TextView
                         android:layout_width="wrap_content"

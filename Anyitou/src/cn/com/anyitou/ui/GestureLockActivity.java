@@ -227,6 +227,7 @@ public class GestureLockActivity extends BaseActivity {
 	public void initListener() {
 		
 		gestureListener();
+		mActionBar.hideLeftActionButtonText();
 		//重新绘制
 		mTvRestartPwd.setOnClickListener(new View.OnClickListener() {
 			

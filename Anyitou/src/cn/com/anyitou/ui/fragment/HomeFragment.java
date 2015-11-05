@@ -10,30 +10,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
+import cn.com.anyitou.adapters.BannerPagerAdapter;
 import cn.com.anyitou.adapters.HomeListAdapter;
 import cn.com.anyitou.api.ApiHomeUtils;
 import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.Banner;
 import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.InVestmentDetailActivity;
 import cn.com.anyitou.ui.LoginActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
+import cn.com.anyitou.utils.DeviceInfo;
 import cn.com.anyitou.utils.HttpConnectionUtil;
-import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.MyListView;
-import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.anyitou.views.banner.InfiniteViewPager;
+import cn.com.anyitou.views.banner.LinePageIndicator;
 import cn.com.gson.reflect.TypeToken;
 
 /**
@@ -43,36 +47,63 @@ import cn.com.gson.reflect.TypeToken;
  * 
  */
 @SuppressLint("NewApi")
-public class HomeFragment extends BaseFragment implements IXListViewListener{
+public class HomeFragment extends BaseFragment implements IXListViewListener {
 	private View infoView;
 	private ActionBar mActionBar;
 
-	
 	private LoadingDialog loadingDialog;
-	
-	
-	XListView mListView;
+
+	MyListView mListView;
 	HomeListAdapter homeAdapter;
 	int page = 1;
-	
+
 	List<Investment> investLists;
+
+	// banner
+	InfiniteViewPager mViewPager;
+	LinePageIndicator mLineIndicator;
+	private View mBannerView;
+	int height;
+	 List<Banner> bannerList=new ArrayList<Banner>();
+	
+	//header view
+	private View mHeaderView;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		infoView = inflater.inflate(R.layout.activity_main, container, false);
 		mActionBar = (ActionBar) infoView.findViewById(R.id.actionBar);
-		mListView = (XListView) infoView.findViewById(R.id.listView_list);
+		mListView = (MyListView) infoView.findViewById(R.id.listView_list);
 		mActionBar.setTitle(getResources().getString(R.string.app_name));
 		onConfigureActionBar(mActionBar);
 		
+		//header view
+		getHeaderView();
+
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
-		
+
 		initListener();
 		return infoView;
 	}
-	   
+	
+	private void getHeaderView(){
+		mHeaderView = mActivity.getLayoutInflater().inflate(R.layout.home_header_view, null);
+	
+		//banner
+		mViewPager = (InfiniteViewPager) mHeaderView.findViewById(R.id.viewpager);
+		mLineIndicator = (LinePageIndicator) mHeaderView.findViewById(R.id.indicator);
+		mBannerView = mHeaderView.findViewById(R.id.banner);
+		int width = DeviceInfo.getDisplayMetricsWidth(mActivity);
+		height = (int) (width * 1.0 / 720 * 270);
+		LayoutParams bannerViewParams = mBannerView.getLayoutParams();
+		bannerViewParams.width = width;
+		bannerViewParams.height = height;
+		mBannerView.setLayoutParams(bannerViewParams);
+		mListView.addHeaderView(mHeaderView);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -83,61 +114,103 @@ public class HomeFragment extends BaseFragment implements IXListViewListener{
 		getAppBanner();
 		
 	}
-	
-	
 
-	private void initListener(){
+	private void initBanner() {
+		
+		BannerPagerAdapter pagerAdapter = new BannerPagerAdapter(mActivity,height);
+		pagerAdapter.setDataList(getViewPagerData());
+		mViewPager.setAdapter(pagerAdapter);
+		mViewPager.setAutoScrollTime(5000);
+		mViewPager.startAutoScroll();
+		mLineIndicator.setViewPager(mViewPager);
+	}
+	
+	public List<Banner> getViewPagerData(){
+        Banner item=null;
+        for(int i=0;i<1;i++){
+            item=new Banner();
+            item.setName("Name:"+i);
+            int index=i%3;
+            if(index==1){
+                item.setPic("drawable://" + R.drawable.index_banner);
+            }else if(index==2){
+                item.setPic("http://p8.123.sogoucdn.com/imgu/2015/09/20150924151358_518.png");
+            }else{
+                item.setPic("drawable://" + R.drawable.index_banner);
+            }
+            bannerList.add(item);
+        }
+        if(bannerList.size() == 1 || bannerList.isEmpty()){
+        	mLineIndicator.setVisibility(View.GONE);
+        }
+        return bannerList;
+    }
+
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		if (mViewPager != null)
+			mViewPager.startAutoScroll();
+	}
+
+	@Override
+	public void onStop() {
+		if (mViewPager != null)
+			mViewPager.stopAutoScroll();
+		super.onStop();
+	}
+
+	private void initListener() {
+		mActionBar.hideLeftActionButtonText();
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-				intent.putExtra("id", investLists.get(position-1).getId());
+				Intent intent = new Intent(mActivity,
+						InVestmentDetailActivity.class);
+				intent.putExtra("id", investLists.get(position-2).getId());
 				startActivity(intent);
 			}
-			
+
 		});
 	}
-	
-	
-	
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(MyApplication.getInstance().getCurrentUser() == null){
+		if (MyApplication.getInstance().getCurrentUser() == null) {
 			mActionBar.setRightActionButton("登录", new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					Intent loginIntent = new Intent(mActivity, LoginActivity.class);
+					Intent loginIntent = new Intent(mActivity,
+							LoginActivity.class);
 					mActivity.startActivity(loginIntent);
 				}
 			});
-		}else{
+		} else {
 			mActionBar.hideRightActionButtonText();
 		}
 	}
 
 	// 设置activity的导航条
 	protected void onConfigureActionBar(ActionBar actionBar) {
-		
-		
+
 	}
-	
-	
+
 	/**
 	 * 获取投资列表数据
 	 */
 	private void getInvestList() {
-		if(page != 0){
+		if (page == 1) {
 			loadingDialog = new LoadingDialog(mActivity);
 			loadingDialog.show();
-		}else{
+		} else if(page == 0){
 			page++;
 		}
-		ApiInvestUtils.getRecommend(mActivity,page,"10",
+		ApiInvestUtils.getRecommend(mActivity, page, "10",
 				new HttpConnectionUtil.RequestCallback() {
 
 					@Override
@@ -145,37 +218,38 @@ public class HomeFragment extends BaseFragment implements IXListViewListener{
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
-							 List<Investment> invests = (List<Investment>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<Investment>>() {});
+							List<Investment> invests = (List<Investment>) JsonUtils
+									.fromJson(parseModel.getData().toString(),
+											new TypeToken<List<Investment>>() {
+											});
 
-							 if (page == 1) {
-								 investLists.clear();
+							if (page == 1) {
+								investLists.clear();
 
 								if (invests == null || invests.isEmpty()) {
 									// mListView.setVisibility(View.GONE);
-//									mViewEmpty.setVisibility(View.VISIBLE);
+									// mViewEmpty.setVisibility(View.VISIBLE);
 								}
-							 }
-									 
+							}
+
 							if (invests != null && !invests.isEmpty()) {
 								// initViewPagerData();
-								 investLists.addAll(invests);
-								 
+								investLists.addAll(invests);
+
 							} else {
-								ToastUtils.showToast(mActivity,
-										"暂时没有投资列表");
+								ToastUtils.showToast(mActivity, "暂时没有投资列表");
 							}
-							mListView.onLoadFinish(page, invests.size(),
-									"加载完毕");
-							 homeAdapter.notifyDataSetChanged();
-							
+							mListView.onLoadFinish(page, invests.size(), "加载完毕");
+							homeAdapter.notifyDataSetChanged();
 
 						} else {
-							ToastUtils.showToast(mActivity,
-									parseModel.getMsg());
+							mListView.onLoadFinish(page, 0, "加载完毕");
+							ToastUtils.showToast(mActivity, parseModel.getMsg());
 						}
 					}
 				});
 	}
+
 	/**
 	 * 获取APP Banner
 	 */
@@ -188,23 +262,29 @@ public class HomeFragment extends BaseFragment implements IXListViewListener{
 						loadingDialog.cancel();
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
-							if(StringUtils.isEmpty(parseModel.getData().toString())){
-								ToastUtils.showToast(mActivity,
-										"banner无数据");
+							if (StringUtils.isEmpty(parseModel.getData()
+									.toString())) {
+								mBannerView.setVisibility(View.GONE);
+								ToastUtils.showToast(mActivity, "banner无数据");
 								return;
 							}
-							 List<Banner> banners = (List<Banner>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<Banner>>() {});
-							 
+							List<Banner> banners = (List<Banner>) JsonUtils
+									.fromJson(parseModel.getData().toString(),
+											new TypeToken<List<Banner>>() {
+											});
 							if (banners != null && !banners.isEmpty()) {
-								
+								mBannerView.setVisibility(View.VISIBLE);
+								bannerList.clear();
+								bannerList.addAll(banners);
+								initBanner();
 							} else {
-								ToastUtils.showToast(mActivity,
-										"暂时没有广告");
+//								initBanner();
+								mBannerView.setVisibility(View.GONE);
+								ToastUtils.showToast(mActivity, "暂时没有广告");
 							}
 
 						} else {
-							ToastUtils.showToast(mActivity,
-									parseModel.getMsg());
+							ToastUtils.showToast(mActivity, parseModel.getMsg());
 						}
 					}
 				});
@@ -213,6 +293,9 @@ public class HomeFragment extends BaseFragment implements IXListViewListener{
 	@Override
 	public void onRefresh() {
 		page = 0;
+		if(bannerList == null || bannerList.isEmpty()){
+			getAppBanner();
+		}
 		getInvestList();
 	}
 
@@ -221,27 +304,25 @@ public class HomeFragment extends BaseFragment implements IXListViewListener{
 		page++;
 		getInvestList();
 	}
-	
-	
-//	private List<Investment> getInvests(ParseModel parseModel) {
-//		List<Investment> investments = new ArrayList<Investment>();
-//		if (parseModel.getData().isJsonObject()) {
-//			JsonObject investmentJsonObject = parseModel.getData()
-//					.getAsJsonObject();
-//			Set<Entry<String, JsonElement>> sets = investmentJsonObject
-//					.entrySet();
-//			Iterator<Entry<String, JsonElement>> keys = sets.iterator();
-//			while (keys.hasNext()) {
-//				Entry<String, JsonElement> entry = keys.next();
-//				Investment investment = JsonUtils.fromJson(entry.getValue()
-//						.toString(), Investment.class);
-//				if (investment != null) {
-//					investments.add(investment);
-//				}
-//			}
-//		}
-//		return investments;
-//	}
-	
+
+	// private List<Investment> getInvests(ParseModel parseModel) {
+	// List<Investment> investments = new ArrayList<Investment>();
+	// if (parseModel.getData().isJsonObject()) {
+	// JsonObject investmentJsonObject = parseModel.getData()
+	// .getAsJsonObject();
+	// Set<Entry<String, JsonElement>> sets = investmentJsonObject
+	// .entrySet();
+	// Iterator<Entry<String, JsonElement>> keys = sets.iterator();
+	// while (keys.hasNext()) {
+	// Entry<String, JsonElement> entry = keys.next();
+	// Investment investment = JsonUtils.fromJson(entry.getValue()
+	// .toString(), Investment.class);
+	// if (investment != null) {
+	// investments.add(investment);
+	// }
+	// }
+	// }
+	// return investments;
+	// }
 
 }

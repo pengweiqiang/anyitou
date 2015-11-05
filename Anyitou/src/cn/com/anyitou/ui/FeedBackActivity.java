@@ -2,6 +2,7 @@ package cn.com.anyitou.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import cn.com.anyitou.R;
@@ -32,8 +33,6 @@ public class FeedBackActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.feed_back);
 		super.onCreate(savedInstanceState);
-		mActionBar = (ActionBar)findViewById(R.id.actionBar);
-		onConfigureActionBar(mActionBar);
 	}
 
 	// 设置activity的导航条
@@ -43,6 +42,8 @@ public class FeedBackActivity extends BaseActivity {
 
 	@Override
 	public void initView() {
+		mActionBar = (ActionBar)findViewById(R.id.actionBar);
+		onConfigureActionBar(mActionBar);
 		mEtSuggestion = (EditText)findViewById(R.id.suggestion);
 		btn_submit = (Button)findViewById(R.id.btn_submit);
 		mEtEmail = (EditText)findViewById(R.id.email);
@@ -50,7 +51,13 @@ public class FeedBackActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		
 		btn_submit.setOnClickListener(new View.OnClickListener() {
 			

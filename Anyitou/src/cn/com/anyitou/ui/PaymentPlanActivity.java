@@ -75,7 +75,7 @@ import cn.com.anyitou.views.XListView.IXListViewListener;
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("回款计划");
-		actionBar.setLeftActionButton(R.drawable.btn_back,
+		actionBar.setLeftActionButton(
 				new OnClickListener() {
 
 					@Override

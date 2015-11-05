@@ -60,6 +60,7 @@ public class InvestmentFragment extends BaseFragment {
 	}
 
 	private void initListener() {
+		mActionBar.hideLeftActionButtonText();
 		tab_radioGroup
 				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 

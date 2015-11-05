@@ -133,7 +133,7 @@ import cn.com.anyitou.views.VerticalViewPager;
 		mVerticalViewPager = (VerticalViewPager) findViewById(R.id.verticalViewPager);
 		mActionBar = (ActionBar)findViewById(R.id.actionBar);
 		mActionBar.setTitle("项目详情");
-		mActionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		mActionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

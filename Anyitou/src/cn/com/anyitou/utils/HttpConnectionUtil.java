@@ -289,7 +289,7 @@ public class HttpConnectionUtil {
 			pm.setMsg(NetUtil.NET_ERR_MSG);
 			return pm;
 		}
-		if (pm.getCode()!=null && Integer.parseInt(pm.getCode()) == NetUtil.SUCCESS_CODE) {
+		if (!StringUtils.isEmpty(pm.getCode()) && Integer.parseInt(pm.getCode()) == NetUtil.SUCCESS_CODE) {
 			Object apiResult = null;
 //			if (MethodType.GET_MAINPAGE_AD.getIndex() == methodType.getIndex()) { // 广告
 ////				apiResult = ApiUtils.getAd(pm.getData());
@@ -301,7 +301,7 @@ public class HttpConnectionUtil {
 //			}
 			apiResult = pm.getData();
 			pm.setApiResult(apiResult);
-		}else if(pm.getCode()!=null && ApiConstants.RESULT_INVALID_TOKEN.equals(pm.getCode())){
+		}else if(!StringUtils.isEmpty(pm.getCode()) && ApiConstants.RESULT_INVALID_TOKEN.equals(pm.getCode())){
 			//重新刷新token
 			if(isUserToken){
 				TokenUtil.refreshToken(context, GlobalConfig.REFRESH_TOKEN);

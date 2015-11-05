@@ -12,91 +12,112 @@
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:orientation="vertical" >
 
+    	<View 
+    		android:layout_width="match_parent"
+    		android:layout_height="1px"
+    		android:background="#d6d6d6" 
+    		android:layout_marginTop="25dp"   
+    	    />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/set_up_style" >
-
+            android:background="@color/white"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            >
+			
             <TextView
                 android:id="@+id/lable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:background="@null"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:paddingTop="5dip"
-                android:text="账户余额:"
-                android:textColor="#646464"
+                android:text="充值银行"
+                android:textColor="#1b1b1b"
                 android:textSize="17sp" />
             
             <TextView
-                android:id="@+id/money"
+                android:id="@+id/bank_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:layout_toRightOf="@+id/lable"
                 android:gravity="center"
-                android:textColor="#f66d22"
-                android:textSize="22sp" 
-                android:layout_marginLeft="4dp"
-                android:text="10000"
+                android:textColor="#005bac"
+                android:textSize="17sp" 
+                android:layout_marginLeft="28dp"
+                android:text="民生银行（2867）"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="center"
-                android:singleLine="true"
-                android:layout_toRightOf="@+id/money"
-                android:paddingTop="5dip"
-                android:text="元"
-                android:textColor="@color/tab_title_color"
-                android:textSize="17sp" />
         </RelativeLayout>
+        <View 
+    		android:layout_width="match_parent"
+    		android:layout_height="1px"
+    		android:background="#d6d6d6" 
+    	    />
         
+        <View 
+    		android:layout_width="match_parent"
+    		android:layout_height="1px"
+    		android:background="#d6d6d6" 
+    		android:layout_marginTop="5dp"
+    	    />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginBottom="15dip" >
+            android:paddingLeft="20dip"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@color/white"
+            >
 
             <TextView
                 android:id="@+id/recharge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:background="@null"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:paddingTop="10dip"
-                android:text="充值金额:"
-                android:textColor="@color/tab_title_color"
+                android:text="金额（元）"
+                android:textColor="#1b1b1b"
                 android:textSize="17sp" />
             
             <cn.com.anyitou.views.ClearEditText
                 android:id="@+id/rechange_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="12dp"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:background="@drawable/recharge_edittext"
+                android:background="@null"
                 android:layout_toRightOf="@+id/recharge"
-                android:hint="请输入金额,至少1元"
-                android:textSize="16sp"
-                android:textColorHint="#cccccc"
+                android:hint="当前可用余额为0元"
+                android:textSize="17sp"
+                android:textColorHint="#888888"
                 />
         </RelativeLayout>
         
-    </LinearLayout>
+        <View 
+    		android:layout_width="match_parent"
+    		android:layout_height="1px"
+    		android:background="#d6d6d6" 
+    		android:layout_marginBottom="8dip" 
+    	    />
+        
+        <TextView
+                android:id="@+id/tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="每笔最高充值为5万元"
+                android:textColor="#9c9c9c"
+                 />
+        
+        
+        
     
     <RelativeLayout
         android:id="@+id/btn_rechange"
@@ -104,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/login_delete_selector" >
 
         <TextView
@@ -119,34 +140,6 @@
             android:textSize="17sp" />
     </RelativeLayout>
     
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dip"
-        android:orientation="vertical" >
-    	<TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="温馨提示:"
-            android:textColor="#646464"
-            android:textSize="15sp" />
-    	<ScrollView 
-    	    android:layout_width="match_parent"
-    	    android:layout_height="wrap_content"
-    	    android:scrollbars="none"
-    	    >
-    	<TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:lineSpacingExtra="3dip"
-            android:text="@string/to_rechange_prompt"
-            android:textColor="#646464"
-            />
-    	</ScrollView>
-   	</LinearLayout>
     
 
 </LinearLayout>

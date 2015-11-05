@@ -1,7 +1,6 @@
 package cn.com.anyitou.adapters;
 
 import java.util.List;
-import java.util.Random;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.Investment;
-import cn.com.anyitou.utils.DateUtil;
 import cn.com.anyitou.utils.DateUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.PercentageRing;

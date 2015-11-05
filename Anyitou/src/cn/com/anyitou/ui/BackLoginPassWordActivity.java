@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,16 +19,18 @@ import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
+import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
-import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
+
 /**
  * 找回密码
+ * 
  * @author pengweiqiang
- *
+ * 
  */
 public class BackLoginPassWordActivity extends BaseActivity {
 
@@ -50,36 +53,37 @@ public class BackLoginPassWordActivity extends BaseActivity {
 	public void initView() {
 		mActionBar = (ActionBar) findViewById(R.id.actionBar);
 		mActionBar.setTitle("找回密码");
-		mActionBar.setRightActionButton("放弃",
-				new OnClickListener() {
+		mActionBar.setRightActionButton("放弃", new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+				builder.setMessage("放弃后您的密码不会改变");
+				builder.setTitle("确定要放弃?");
+				builder.setButton1("取消", new DialogInterface.OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
-						InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
-						builder.setMessage("放弃后您的密码不会改变");
-						builder.setTitle("确定要放弃?");
-						builder.setButton1("取消", new DialogInterface.OnClickListener() {
-							
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+				builder.setButton2("确定放弃",
+						new DialogInterface.OnClickListener() {
+
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-						builder.setButton2("确定放弃", new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(DialogInterface dialog,
+									int which) {
 								dialog.cancel();
 								AppManager.getAppManager().finishActivity();
 							}
 						});
-						builder.create().show();
-						
-					}
-				});
+				builder.create().show();
+
+			}
+		});
 		mBtnNext = findViewById(R.id.btn_next);
 		mBtnSendMsg = findViewById(R.id.get_code);
-		mTvTime = (TextView)findViewById(R.id.time);
+		mTvTime = (TextView) findViewById(R.id.time);
 		// mBtnRegister = findViewById(R.id.to_register);
 		mEtPhone = (EditText) findViewById(R.id.phone);
 		mEtCode = (EditText) findViewById(R.id.input_code);
@@ -89,6 +93,13 @@ public class BackLoginPassWordActivity extends BaseActivity {
 	@Override
 	public void initListener() {
 
+		mActionBar.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		// 获取验证码
 		mBtnSendMsg.setOnClickListener(new OnClickListener() {
 
@@ -101,7 +112,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 					mEtPhone.requestFocus();
 					return;
 				}
-				loadingDialog = new LoadingDialog(mContext,"发送中...");
+				loadingDialog = new LoadingDialog(mContext, "发送中...");
 				loadingDialog.show();
 				if (CheckInputUtil.checkPhone(tel, mContext)) {
 					if (mBtnSendMsg.isEnabled()) {
@@ -133,7 +144,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 			}
 		});
 
-		// 下一步
+		// 完成
 		mBtnNext.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -171,24 +182,22 @@ public class BackLoginPassWordActivity extends BaseActivity {
 				}
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
-				// ApiUserUtils.getPwdSendCode(mContext, phone, new
-				// RequestCallback() {
-				//
-				// @Override
-				// public void execute(ParseModel parseModel) {
-				// loadingDialog.cancel();
-				// if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-				// Intent intent = new
-				// Intent(mContext,BackLoginPWVCodeActivity.class);
-				// intent.putExtra("sessionId", parseModel.getSession_id());
-				// intent.putExtra("phone", phone);
-				// startActivity(intent);
-				// AppManager.getAppManager().finishActivity();
-				// }else{
-				// ToastUtils.showToast(mContext, parseModel.getMsg());
-				// }
-				// }
-				// });
+				ApiUserUtils.getPwd(mContext, phone, captcha_key, code,
+						password, new RequestCallback() {
+
+							@Override
+							public void execute(ParseModel parseModel) {
+								loadingDialog.cancel();
+								if (ApiConstants.RESULT_SUCCESS
+										.equals(parseModel.getCode())) {
+									showFindPwdSuccess();
+								} else {
+									ToastUtils.showToast(mContext,
+											parseModel.getMsg());
+								}
+							}
+
+						});
 
 			}
 		});
@@ -199,6 +208,24 @@ public class BackLoginPassWordActivity extends BaseActivity {
 		// startActivity(RegisteredAccountActivity.class);
 		// }
 		// });
+	}
+	
+	private void showFindPwdSuccess() {
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+		builder.setMessage("设置成功,请妥善保管密码");
+		builder.setTitle("提示");
+		builder.setButton1("我知道了", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				Intent intent = new Intent(mContext,
+						LoginActivity.class);
+				startActivity(intent);
+				AppManager.getAppManager().finishActivity();
+			}
+		});
+		builder.create().show();
 	}
 
 	private Timer timer;// 计时器

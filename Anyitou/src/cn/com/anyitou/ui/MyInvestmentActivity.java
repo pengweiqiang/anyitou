@@ -79,7 +79,7 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 	
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("我的投资");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

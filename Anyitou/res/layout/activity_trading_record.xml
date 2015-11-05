@@ -21,7 +21,7 @@
         android:layout_marginTop="15dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@color/grey_line"
+        android:background="#e5e5e5"
         android:orientation="horizontal" >
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="日期"
-            android:textColor="@color/black"
+            android:textColor="#3b3b3b"
             android:textSize="16sp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="操作"
-            android:textColor="@color/black"
+            android:textColor="#3b3b3b"
             android:textSize="16sp" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="安币变化"
-            android:textColor="@color/black"
+            android:textColor="#3b3b3b"
             android:textSize="16sp" />
     </LinearLayout>
 

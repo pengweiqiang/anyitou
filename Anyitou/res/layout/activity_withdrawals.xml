@@ -1,199 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toggle="http://schemas.android.com/apk/res/cn.com.anyitou"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#F0F0F0"
+    android:background="@color/home_bg"
     android:orientation="vertical" >
 
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
         android:layout_width="fill_parent"
-        android:background="@color/black"
-        android:layout_height="48dp" >
+        android:layout_height="48dp"
+        android:background="@color/black" >
     </cn.com.anyitou.views.ActionBar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/set_up_style" >
-
-            <TextView
-                android:id="@+id/label_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:background="@null"
-                android:paddingTop="2dp"
-                android:layout_centerVertical="true"
-                android:singleLine="true"
-                android:text="账户可用余额:"
-                android:textColor="@color/tab_title_color"
-                android:textSize="17sp" />
-            
-            <TextView
-                android:id="@+id/now_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
-                android:layout_toRightOf="@+id/label_title"
-                android:textColor="#f66d22"
-                android:textSize="19sp" 
-                android:text="0.00"
-                />
-            <TextView 
-                android:layout_toRightOf="@+id/now_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="元"
-                android:paddingTop="2dp"
-                android:textColor="@color/tab_title_color"
-                android:textSize="17sp"
-                />
-        </RelativeLayout>
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/set_up_style" >
-
-            <cn.com.anyitou.views.ClearEditText
-                android:id="@+id/money"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:background="@null"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:hint="提现金额(元)"
-                android:inputType="numberDecimal"
-                android:textColorHint="@color/grey_line"
-                />
-            
-        </RelativeLayout>
-    </LinearLayout>
-    
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dip"
-        android:background="#CCCCCC" />
-    
-    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="18dp"
+        android:background="#d6d6d6" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/set_up_style"
-        android:orientation="horizontal" >
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="23dp"
+        android:paddingRight="13dp"
+        android:paddingTop="10dp" >
 
-       <!--  <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/set_up_style" > -->
-
-            <cn.com.anyitou.views.ClearEditText
-                android:id="@+id/msg_code"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:background="@null"
-                android:singleLine="true"
-                android:layout_marginRight="4dp"
-                android:hint="验证码"
-                android:textSize="16sp"
-                android:textColorHint="@color/grey_line"
-                />
-            
-            <TextView
-                android:id="@+id/get_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:gravity="center|right"
-                android:textColor="#5B87E6"
-                android:textSize="16sp" 
-                android:text="获取验证码"
-                />
-       <!--  </RelativeLayout> -->
-    </LinearLayout>
-    
-    
-    <RelativeLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="13dp"
-        >
-        <TextView 
+        <TextView
             android:id="@+id/card_tip"
-            android:background="@drawable/bank_bg_style"
-            android:layout_width="match_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="13dp"
-            android:layout_height="wrap_content"
-            android:text="已绑定银行卡"
-            android:textSize="16sp"
-            android:textColor="@color/app_bg_color"
-            />
-        <RelativeLayout 
-            android:layout_below="@+id/card_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bank_bg_style"
-            >
-            <ImageView 
-                android:id="@+id/bank_logo"
-                android:layout_width="30dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginRight="7dp"
-                android:layout_centerVertical="true"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_launcher"
-                />
-        <TextView 
-            android:id="@+id/card_no"
-            android:layout_toRightOf="@+id/bank_logo"
-            android:layout_centerVertical="true"
-             android:paddingTop="12dp"
-             android:textSize="15sp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/grey_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="默认帐号：**** **** **** 0000"
-            />
-        </RelativeLayout>
-            
-        
-        
+            android:layout_marginRight="22dp"
+            android:text="提现银行"
+            android:textColor="#1b1b1b"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/bank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/card_tip"
+            android:text="民生银行"
+            android:textColor="#005bac"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/withdraw_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bank_name"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/card_tip"
+            android:paddingTop="10dp"
+            android:text="明天24点到账"
+            android:textColor="#888888"
+            android:textSize="17sp" />
     </RelativeLayout>
-    
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d6d6d6" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#d6d6d6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/set_up_style" >
+
+        <TextView
+            android:id="@+id/label_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:text="余额（元）"
+            android:textColor="#1b1b1b"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/label_title"
+            android:background="@null"
+            android:hint="当前可用余额0元"
+            android:inputType="numberDecimal"
+            android:paddingLeft="4dp"
+            android:textColorHint="#d7d7d7"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d6d6d6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <TextView
+            android:id="@+id/service_change_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:singleLine="true"
+            android:text="手续费："
+            android:textColor="#888888"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/service_change_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:text="2.00元"
+            android:textColor="#888888"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <TextView
+            android:id="@+id/real_money_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:singleLine="true"
+            android:text="实际到账金额："
+            android:textColor="#888888"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/real_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:text="0.00元"
+            android:textColor="#888888"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#d6d6d6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/set_up_style" >
+
+        <TextView
+            android:id="@+id/label_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:singleLine="true"
+            android:text="使用提现券："
+            android:textColor="#888888"
+            android:textSize="17sp" />
+
+        <cn.com.anyitou.views.ToggleButton
+            android:id="@+id/switch_quan"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            toggle:borderWidth="1px"
+            toggle:offBorderColor="#a5a5a5"
+            toggle:offColor="#a5a5a5"
+            toggle:onColor="#ef5a50"
+            toggle:spotColor="@color/white" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d6d6d6" />
+
     <RelativeLayout
         android:id="@+id/btn_cash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/sign_out_style" >
+        android:layout_marginTop="25dp"
+        android:background="@drawable/login_delete_selector" >
 
         <TextView
             android:layout_width="match_parent"
@@ -202,37 +226,9 @@
             android:background="@null"
             android:gravity="center"
             android:singleLine="true"
-            android:text="提现"
+            android:text="确认提现"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </RelativeLayout>
-    
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical" >
-    	<TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="温馨提示:"
-            android:textColor="@color/tab_title_color"
-            android:textSize="15sp" />
-    	<ScrollView 
-    	    android:layout_width="match_parent"
-    	    android:layout_height="wrap_content"
-    	    android:scrollbars="none"
-    	    >
-    	<TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:lineSpacingExtra="3dip"
-            android:text="@string/to_cash_tip"
-            android:textColor="@color/tab_title_color"
-             />
-    	</ScrollView>
-	</LinearLayout>
+
 </LinearLayout>

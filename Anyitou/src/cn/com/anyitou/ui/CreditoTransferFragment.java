@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.com.anyitou.R;
+import cn.com.anyitou.adapters.DebtAssignmentAdapter;
 import cn.com.anyitou.adapters.HomeListAdapter;
 import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.entity.DebtAssignment;
 import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseFragment;
@@ -43,9 +45,9 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 	int page = 1;
 	
 	XListView mListView;
-	HomeListAdapter homeAdapter;
+	DebtAssignmentAdapter debtAssignAdpater;
 
-	List<Investment> investLists;
+	List<DebtAssignment> debtAssignmentList;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -64,9 +66,9 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		investLists = new ArrayList<Investment>();
-		homeAdapter = new HomeListAdapter(investLists, mActivity);
-		mListView.setAdapter(homeAdapter);
+		debtAssignmentList = new ArrayList<DebtAssignment>();
+		debtAssignAdpater = new DebtAssignmentAdapter(debtAssignmentList, mActivity);
+		mListView.setAdapter(debtAssignAdpater);
 		
 	}
 	
@@ -89,7 +91,7 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-				intent.putExtra("id", investLists.get(position).getId());
+				intent.putExtra("id", debtAssignmentList.get(position).getId());
 				startActivity(intent);
 			}
 			
@@ -121,7 +123,7 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 		}else{
 			page++;
 		}
-		ApiInvestUtils.getRecommend(mActivity,page,"10",
+		ApiInvestUtils.getDebtAssignment(mActivity,page,"10","","","","",
 				new HttpConnectionUtil.RequestCallback() {
 
 					@Override
@@ -130,21 +132,21 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
 							isFirst = false;
-							 List<Investment> invests = (List<Investment>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<Investment>>() {});
+							 List<DebtAssignment> debtAssignments = (List<DebtAssignment>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<DebtAssignment>>() {});
 //							List<Investment> invests = getInvests(parseModel);
 							 
 							if(page == 1){
-								investLists.clear();
+								debtAssignmentList.clear();
 							}
-							if (invests != null && !invests.isEmpty()) {
+							if (debtAssignments != null && !debtAssignments.isEmpty()) {
 								// initViewPagerData();
-								 investLists.addAll(invests);
+								debtAssignmentList.addAll(debtAssignments);
 							} else {
 								ToastUtils.showToast(mActivity,
-										"暂时没有投资列表");
+										"暂时没有债权列表");
 							}
-							mListView.onLoadFinish(page, invests.size(),"加载完毕");
-							homeAdapter.notifyDataSetChanged();
+							mListView.onLoadFinish(page, debtAssignments.size(),"加载完毕");
+							debtAssignAdpater.notifyDataSetChanged();
 
 						} else {
 							ToastUtils.showToast(mActivity,

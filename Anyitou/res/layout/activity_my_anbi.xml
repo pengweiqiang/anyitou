@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@color/black" >
+    </cn.com.anyitou.views.ActionBar>
+    
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_color"
+        android:layout_marginTop="18dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="15dp"
+        >
+        
+        <TextView 
+            android:id="@+id/anbi_usable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1200"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView 
+            android:id="@+id/anbi_tip"
+            android:layout_below="@+id/anbi_usable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可用安币"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/user_anbi_number_icon"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="3dp"
+            />
+        
+        <View 
+            android:id="@+id/dash_line"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/dash_white_drawable"
+             android:layout_below="@+id/anbi_tip"
+             android:layout_marginTop="12dp"
+             android:layout_marginBottom="2dp"
+            />
+        
+        
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/dash_line"
+            android:layout_marginTop="10dp"
+            >
+            <TextView 
+                android:id="@+id/anbi_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="累计安币：104"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                />
+            
+            <TextView 
+                android:id="@+id/anbi_used"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="已用安币：104"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                />
+            
+            
+        </LinearLayout>
+        
+        
+        
+    </RelativeLayout>
+
+    
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:layout_marginTop="25dp"
+        android:background="#c7c7cc" />
+
+    <RelativeLayout
+        android:id="@+id/anbi_trade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/set_up_style" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/user_anbi_record_icon"
+            android:gravity="center"
+            android:drawablePadding="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:singleLine="true"
+            android:text="安币记录"
+            android:textColor="#4f4f4f"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="2dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_you" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="#c7c7cc" />
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:layout_marginTop="10dp"
+        android:background="#c7c7cc" />
+
+    <RelativeLayout
+        android:id="@+id/anbi_exchange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/set_up_style" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/user_anbi_exchange_icon"
+            android:gravity="center"
+            android:drawablePadding="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:singleLine="true"
+            android:text="安币兑换"
+            android:textColor="#4f4f4f"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="2dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_you" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="#c7c7cc" />
+
+</LinearLayout>

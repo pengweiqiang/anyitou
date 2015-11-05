@@ -41,7 +41,7 @@ public class RegisteredActivity extends BaseActivity{
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("注册");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

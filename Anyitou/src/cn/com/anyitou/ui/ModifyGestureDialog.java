@@ -46,6 +46,13 @@ public class ModifyGestureDialog extends BaseActivity{
 
 	@Override
 	public void initListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		mBtnConfirm.setOnClickListener(new OnClickListener() {
 			
 			@Override

@@ -122,10 +122,17 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
-
+        
         <!-- 修改登录密码 -->
         <activity
             android:name="cn.com.anyitou.ui.ModifyLoginPassWordActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!-- 修改登录密码2 -->
+        <activity
+            android:name="cn.com.anyitou.ui.ModifyLoginPassWordActivity2"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -269,6 +276,44 @@
             android:name="cn.com.anyitou.ui.InvestConfirmActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 会员特权 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MemberPrivilegeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <!-- 我的安币 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MyAnbiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <!-- 我的级别 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MyLevelActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+         <!-- 成长值记录 -->
+        <activity
+            android:name="cn.com.anyitou.ui.GrowthRecordActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <!-- 安币变更记录 -->
+        <activity
+            android:name="cn.com.anyitou.ui.IntegralRecordActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <!-- 会员等级变更记录 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MemberChangeRecordActivity"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         

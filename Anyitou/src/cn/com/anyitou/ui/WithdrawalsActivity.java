@@ -1,15 +1,12 @@
 package cn.com.anyitou.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
@@ -24,7 +21,8 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
-import cn.com.universalimageloader.core.ImageLoader;
+import cn.com.anyitou.views.ToggleButton;
+import cn.com.anyitou.views.ToggleButton.OnToggleChanged;
 
 /**
  * 提现
@@ -36,16 +34,15 @@ public class WithdrawalsActivity extends BaseActivity {
 	private ActionBar mActionBar;
 	private EditText mEtMoney,mEtMsgCode;
 	private View mBtnCash;
-	private TextView mBtnGetCode;
+//	private TextView mBtnGetCode;
 	private LoadingDialog loadingDialog;
 	
-	private String sessionId = "";
-	private TextView mTvMoney;
+	private TextView mTvBankName,mTvServiceChangeMoney,mTvRealMoney;
+	private ToggleButton mToggleQuan;
 	String nowMoney = "";//当前账户余额
 	private CashPageInfo cashPageInfo;//提现界面信息
+	private String quanStatus = "0";//提现券状态，默认0
 	
-	private TextView mTvCardNo;
-	private ImageView mIvBankLogo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +50,7 @@ public class WithdrawalsActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		nowMoney = this.getIntent().getStringExtra("money");
-		mTvMoney.setText(nowMoney);
+		mEtMoney.setHint("当前可用余额"+nowMoney+"元");
 		
 		initData();
 	}
@@ -64,17 +61,16 @@ public class WithdrawalsActivity extends BaseActivity {
 		onConfigureActionBar(mActionBar);
 		
 		mEtMoney = (EditText)findViewById(R.id.money);
-		mEtMsgCode = (EditText)findViewById(R.id.msg_code);
 		mBtnCash = findViewById(R.id.btn_cash);
-		mBtnGetCode = (TextView)findViewById(R.id.get_code);
-		mTvMoney = (TextView)findViewById(R.id.now_money);
-		mTvCardNo = (TextView)findViewById(R.id.card_no);
-		mIvBankLogo = (ImageView)findViewById(R.id.bank_logo);
+		mTvBankName = (TextView)findViewById(R.id.bank_name);
+		mTvServiceChangeMoney = (TextView)findViewById(R.id.service_change_money);
+		mTvRealMoney = (TextView)findViewById(R.id.real_money);
+		mToggleQuan = (ToggleButton)findViewById(R.id.switch_quan);
 	}
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("提现");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
@@ -97,9 +93,7 @@ public class WithdrawalsActivity extends BaseActivity {
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 //					logined(parseModel.getToken(), null);
 					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
-					nowMoney = cashPageInfo.getMoney().getUsable_money();
-					mTvMoney.setText(nowMoney);
-					mTvCardNo.setText("默认帐号：**** **** **** "+cashPageInfo.getCard().getBank_card_number().substring(cashPageInfo.getCard().getBank_card_number().length()-4));
+					showData();
 //					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
@@ -107,41 +101,94 @@ public class WithdrawalsActivity extends BaseActivity {
 			}
 		});
 	}
+	private void showData(){
+		if(cashPageInfo != null){
+			nowMoney = cashPageInfo.getMoney().getUsable_money();
+			mEtMoney.setHint("当前可用余额"+nowMoney+"元");
+			String bankNumber = cashPageInfo.getCard().getBank_card_number();
+			if(!StringUtils.isEmpty(bankNumber) && bankNumber.length() >4){
+				mTvBankName.setText(cashPageInfo.getCard().getBank_name()+"（"+bankNumber.substring(bankNumber.length()-4)+"）");
+			}
+		}
+	}
 	
 	
 	@Override
 	public void initListener() {
-		mBtnGetCode.setOnClickListener(new OnClickListener() {
+		mEtMoney.addTextChangedListener(new TextWatcher() {
 			
 			@Override
-			public void onClick(View arg0) {
-				loadingDialog = new LoadingDialog(mContext);
-				loadingDialog.show();
-				if(mBtnGetCode.isEnabled()){
-					mBtnGetCode.setEnabled(false);
-					ApiOrderUtils.cashCode(mContext, new RequestCallback() {
-						
-						@Override
-						public void execute(ParseModel parseModel) {
-							loadingDialog.cancel();
-							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-								regainCode();
-								ToastUtils.showToast(mContext, "请等待接收验证码");
-//								sessionId = parseModel.getSession_id();
-							}else{
-								ToastUtils.showToast(mContext, parseModel.getMsg());
-							}
-						}
-					});
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				String money = Double.valueOf(s+"");
+				if(s.length()<=0){
+					mTvRealMoney.setText("0.00元");
+				}else{
+					mTvRealMoney.setText(s+"元");
 				}
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
+		mToggleQuan.setOnToggleChanged(new OnToggleChanged(){
+            @Override
+            public void onToggle(boolean on) {
+            	if(on){
+            		quanStatus = "1";
+            	}else{
+            		quanStatus = "0";
+            	}
+            }
+		});
+//		mBtnGetCode.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				loadingDialog = new LoadingDialog(mContext);
+//				loadingDialog.show();
+//				if(mBtnGetCode.isEnabled()){
+//					mBtnGetCode.setEnabled(false);
+//					ApiOrderUtils.cashCode(mContext, new RequestCallback() {
+//						
+//						@Override
+//						public void execute(ParseModel parseModel) {
+//							loadingDialog.cancel();
+//							if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+//								regainCode();
+//								ToastUtils.showToast(mContext, "请等待接收验证码");
+////								sessionId = parseModel.getSession_id();
+//							}else{
+//								ToastUtils.showToast(mContext, parseModel.getMsg());
+//							}
+//						}
+//					});
+//				}
+//			}
+//		});
 		//提现
 		mBtnCash.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				String msgCode = mEtMsgCode.getText().toString();
+//				String msgCode = mEtMsgCode.getText().toString();
 				String moneyStr = mEtMoney.getText().toString();
 				if(StringUtils.isEmpty(moneyStr)){
 					ToastUtils.showToast(mContext, "请输入提现金额");
@@ -176,8 +223,7 @@ public class WithdrawalsActivity extends BaseActivity {
 //					mEtMsgCode.requestFocus();
 //					return;
 //				}
-				
-				cash(moneyStr, cashPageInfo.getCard().getBank_card_number(), "0");
+				cash(moneyStr, cashPageInfo.getCard().getBank_card_number(), quanStatus);
 			}
 		});
 	}
@@ -205,31 +251,31 @@ public class WithdrawalsActivity extends BaseActivity {
 		});
 	}
 	
-	private Timer timer;// 计时器
-	private int time = 60;//倒计时60秒
-
-	private void regainCode() {
-		time = 60;
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				handler.sendEmptyMessage(time--);
-			}
-		}, 0, 1000);
-	}
-
-	private Handler handler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			if (msg.what <= 0) {
-				mBtnGetCode.setEnabled(true);
-				mBtnGetCode.setText("获取验证码");
-				timer.cancel();
-			} else {
-				mBtnGetCode.setText(msg.what + "秒重发");
-			}
-		};
-	};
+//	private Timer timer;// 计时器
+//	private int time = 60;//倒计时60秒
+//
+//	private void regainCode() {
+//		time = 60;
+//		timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				handler.sendEmptyMessage(time--);
+//			}
+//		}, 0, 1000);
+//	}
+//
+//	private Handler handler = new Handler() {
+//		public void handleMessage(android.os.Message msg) {
+//			if (msg.what <= 0) {
+//				mBtnGetCode.setEnabled(true);
+//				mBtnGetCode.setText("获取验证码");
+//				timer.cancel();
+//			} else {
+//				mBtnGetCode.setText(msg.what + "秒重发");
+//			}
+//		};
+//	};
 
 }

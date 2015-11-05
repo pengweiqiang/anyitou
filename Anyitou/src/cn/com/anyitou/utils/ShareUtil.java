@@ -25,11 +25,14 @@ public class ShareUtil {
 	private Context context;
 	public ShareUtil(Context context){
 		this.context = context;
-		
+		try{
 		// 友推分享组件初始化
 		YtCore.init((HomeActivity)context);
 		initShareData();
 		initPlatform();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	/** 分享内容的封装数据 */

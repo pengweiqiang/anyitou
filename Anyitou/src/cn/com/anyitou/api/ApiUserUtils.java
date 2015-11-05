@@ -55,6 +55,18 @@ public class ApiUserUtils {
 				requestCallBack, MethodType.LOGIN, context);
 		
 	}
+	/**
+	 * 获取用户安币信息
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getMyAnbiInfo(Context context,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INTEGRAL, false,
+				requestCallBack, MethodType.LOGIN, context);
+		
+	}
 	
 	/**
 	 * 验证短信验证码
@@ -86,6 +98,16 @@ public class ApiUserUtils {
 		params.put(ReqUrls.CAPTCHA_KEY, captcha_key);
 		params.put(ReqUrls.CAPTCHA, captcha);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MODIFY_MOBILE, false, requestCallBack, MethodType.LOGIN, context);
+		
+	}
+	/**
+	 * 会员特权信息
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getGrades(Context context,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GRADES, false, requestCallBack, MethodType.LOGIN, context);
 		
 	}
 
@@ -179,6 +201,28 @@ public class ApiUserUtils {
 		
 		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack,false);
 	}
+	
+	/**
+	 * 修改密码
+	 * @param context
+	 * @param password
+	 * @param newpassword
+	 * @param captchaKey 验证码存储于服务器键名
+	 * @param captcha 验证码
+	 * @param requestCallback
+	 */
+	public static void updatePwd(Context context,String password, String newpassword, 
+			 String captchaKey,String captcha,RequestCallback requestCallback) {
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.PASSWORD, password);
+		params.put(ReqUrls.NEW_PASSWORD, newpassword);
+		params.put(ReqUrls.REPASSWORD, newpassword);
+		params.put(ReqUrls.CAPTCHA_KEY, captchaKey);
+		params.put(ReqUrls.CAPTCHA, captcha);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CHANGE_PASSWORD, false,
+				requestCallback, MethodType.UPDATE, context);
+	}
+	
 	/**
 	 * 登出
 	 * @param context
@@ -239,26 +283,51 @@ public class ApiUserUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_LIST, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
-	
-	
 	/**
-	 * 修改密码
-	 * 
+	 * 用户成长值记录
 	 * @param context
-	 * @param username
-	 * @param newpassword 新密码
-	 * @param password 原密码
-	 * @param requestCallback
+	 * @param page
+	 * @param num
+	 * @param requestCallBack
 	 */
-	public static void updatePwd(Context context, String username,
-			String password, String newpassword, RequestCallback requestCallback) {
+	public static void getGrowthRecord(Context context,String page,String num,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.USERNAME, username);
-		params.put(ReqUrls.PASSWORD, password);
-		params.put(ReqUrls.NPASS_WORD, newpassword);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_CHANGE_PASSWORD, false,
-				requestCallback, MethodType.UPDATE, context);
+		params.put(ReqUrls.PAGE, page);
+		params.put("page_num", num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GROWTH_RECORD, false,
+				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 会员等级变更记录
+	 * @param context
+	 * @param page
+	 * @param requestCallBack
+	 */
+	public static void getMemberChangeRecord(Context context,String page,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.PAGE, page);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MEMBER_CHANGE_RECORD, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 获取用户安币变更记录
+	 * @param context
+	 * @param page
+	 * @param beginTime
+	 * @param endTime
+	 * @param requestCallBack
+	 */
+	public static void getUserIntegralRecord(Context context,String page,String beginTime,String endTime,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.PAGE, page);
+		params.put("begin_time", beginTime);
+		params.put("end_time", endTime);
+//		params.put("page_num", num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INTEGRAL_RECORD, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	
 	/**
 	 * 密码找回（发送短信验证码）
 	 * @param context
@@ -286,18 +355,20 @@ public class ApiUserUtils {
 				requestCallBack, MethodType.UPDATE, context);
 	}
 	/**
-	 * 密码找回
+	 * 找回密码
 	 * @param context
-	 * @param sessionId
-	 * @param password 新密码
-	 * @param repassword 重复密码
+	 * @param mobile 手机号码
+	 * @param captchaKey 手机验证码key
+	 * @param captcha 手机验证码
+	 * @param newPassword 新密码
 	 * @param requestCallBack
 	 */
-	public static void getPwd(Context context,String sessionId,String password,String repassword,RequestCallback requestCallBack){
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.SMSCODE_SESSION_ID, sessionId);
-		params.put(ReqUrls.PASSWORD, password);
-		params.put(ReqUrls.REPASSWORD, repassword);
+	public static void getPwd(Context context,String mobile,String captchaKey,String captcha,String newPassword,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.MOBILE, mobile);
+		params.put(ReqUrls.CAPTCHA_KEY, captchaKey);
+		params.put(ReqUrls.CAPTCHA, captcha);
+		params.put(ReqUrls.PASSWORD, newPassword);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GETPWD, false,
 				requestCallBack, MethodType.UPDATE, context);
 	}

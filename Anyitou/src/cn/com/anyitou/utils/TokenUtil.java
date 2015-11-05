@@ -96,7 +96,9 @@ public class TokenUtil {
 		GlobalConfig.ACCESS_TOKEN = "";
 		GlobalConfig.REFRESH_TOKEN = "";
 		Intent loginIntent = new Intent(mContext,LoginActivity.class);
-		loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+		if(MyApplication.getInstance().getCurrentUser()!=null){
+			loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
+		}
 		loginIntent.putExtra("type", 2);
 		loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		mContext.startActivity(loginIntent);

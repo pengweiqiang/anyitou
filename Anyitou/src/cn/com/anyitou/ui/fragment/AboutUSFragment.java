@@ -20,8 +20,8 @@ import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.FeedBackActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
+import cn.com.anyitou.utils.ShareUtil;
 import cn.com.anyitou.utils.StringUtils;
-import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.MyPopupWindow;
@@ -80,6 +80,7 @@ public class AboutUSFragment extends BaseFragment {
 	}
 	
 	private void initListener(){
+		mActionBar.hideLeftActionButtonText();
 		mBtnCustom.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -140,10 +141,8 @@ public class AboutUSFragment extends BaseFragment {
 	
 	private PopupWindow popupWindow;
 	private TextView confirmTextView,cancleTextView;
-	
 	@SuppressWarnings("deprecation")
 	public void callPhone(View view){
-		
 		popupWindow = MyPopupWindow.getPopupWindow(R.layout.call_phone_popupwindow, mActivity);
 		confirmTextView = (TextView) popupWindow.getContentView().findViewById(R.id.confirmTextView);
 		confirmTextView.setOnClickListener(new OnClickListener() {

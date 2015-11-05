@@ -26,7 +26,7 @@
             android:textColor="#cdcdcd"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="暂无交易记录" />
+            android:text="暂无数据" />
         </LinearLayout>
         
     </RelativeLayout>

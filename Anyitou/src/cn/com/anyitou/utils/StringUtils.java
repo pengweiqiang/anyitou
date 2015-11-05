@@ -159,11 +159,11 @@ public class StringUtils {
 		double moneyWan = moneyDouble/10000;
 		if(moneyWan<1d){
 			DecimalFormat myformat = new DecimalFormat();
-			myformat.applyPattern("##,###.0");
+			myformat.applyPattern("##,###0.0");
 			return myformat.format(moneyWan);
 		}else{
 			DecimalFormat myformat = new DecimalFormat();
-			myformat.applyPattern("##,###");
+			myformat.applyPattern("##,###0.0");
 			return myformat.format(moneyWan);
 		}
 	}

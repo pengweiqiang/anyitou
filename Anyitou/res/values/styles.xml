@@ -65,6 +65,10 @@
         <item name="progress_fill_mode">rising_water</item>
     </style>
     
+      <style name="CustomRadioButtonTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_selector</item>
+    </style>
+    
      <style name="MainTabButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -76,7 +80,7 @@
         <item name="android:textColor">@color/main_tab_button_text</item>
         <item name="android:textSize">11sp</item>
         <item name="android:paddingBottom">3dp</item>
-        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingTop">0dp</item>
         <item name="android:drawablePadding">3dip</item>
     </style>
      <style name="Dialog" parent="android:style/Theme.Dialog">  

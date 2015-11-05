@@ -10,11 +10,14 @@ import android.widget.TextView;
 import cn.com.anyitou.R;
 
 import cn.com.anyitou.api.ApiOrderUtils;
+import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
+import cn.com.anyitou.entity.CashPageInfo;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
+import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
@@ -31,14 +34,18 @@ public class RechargeActivity extends BaseActivity {
 	private EditText mEtMoney;
 	private LoadingDialog loadingDialog;
 	String money = "";
-	private TextView mTvMoney;
+	private TextView mTvBankName;
+	
+	CashPageInfo cashPageInfo;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_recharge);
 		super.onCreate(savedInstanceState);
 		money = this.getIntent().getStringExtra("money");//账户余额
 		
-		mTvMoney.setText(money);
+		mEtMoney.setHint("当前可用余额为"+money+"元");
+		
+		initData();
 	}
 	
 	@Override
@@ -48,12 +55,12 @@ public class RechargeActivity extends BaseActivity {
 		
 		mBtnRechange = findViewById(R.id.btn_rechange);
 		mEtMoney = (EditText) findViewById(R.id.rechange_money);
-		mTvMoney = (TextView)findViewById(R.id.money);
+		mTvBankName = (TextView)findViewById(R.id.bank_name);
 	}
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("充值");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
@@ -61,6 +68,36 @@ public class RechargeActivity extends BaseActivity {
 			}
 		});
 		
+	}
+	
+	private void initData(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.getMyCard(mContext, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
+					showData();
+				}else{
+					ToastUtils.showToast(mContext, parseModel.getMsg());
+				}
+			}
+		});
+	}
+	private void showData(){
+		if(cashPageInfo !=null){
+			String bankNumber = cashPageInfo.getCard().getBank_card_number();
+			if(!StringUtils.isEmpty(bankNumber) && bankNumber.length()>4){
+				String bankNumberLength4 = bankNumber.substring(bankNumber.length()-4);
+				mTvBankName.setText(cashPageInfo.getCard().getBank_name()+"（"+bankNumberLength4+"）");
+			}
+			
+			mEtMoney.setHint("当前可用余额为"+cashPageInfo.getMoney().getUsable_money()+"元");
+			
+		}
 	}
 	@Override
 	public void initListener() {
@@ -78,6 +115,11 @@ public class RechargeActivity extends BaseActivity {
 					double moneyInput = Double.valueOf(moneyStr);
 					if(moneyInput<1){
 						ToastUtils.showToast(mContext, "至少充值1元");
+						mEtMoney.requestFocus();
+						return;
+					}
+					if(moneyInput>50000){
+						ToastUtils.showToast(mContext, "最高充值为5万元");
 						mEtMoney.requestFocus();
 						return;
 					}

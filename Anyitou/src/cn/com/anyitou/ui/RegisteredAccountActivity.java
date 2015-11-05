@@ -62,7 +62,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 	}
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("注册帐号");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
@@ -75,7 +75,13 @@ public class RegisteredAccountActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		//同意协议
 		mReaded.setOnClickListener(new OnClickListener() {
 			

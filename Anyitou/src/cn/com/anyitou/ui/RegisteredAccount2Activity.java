@@ -57,7 +57,7 @@ public class RegisteredAccount2Activity extends BaseActivity {
 	}
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("注册帐号");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
@@ -70,6 +70,13 @@ public class RegisteredAccount2Activity extends BaseActivity {
 
 	@Override
 	public void initListener() {
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		cbShowPassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override

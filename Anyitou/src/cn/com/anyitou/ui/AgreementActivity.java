@@ -29,7 +29,7 @@ public class AgreementActivity extends BaseActivity {
 	public void initView() {
 		mActionBar = (ActionBar)findViewById(R.id.actionBar);
 		mActionBar.setTitle("用户协议");
-		mActionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

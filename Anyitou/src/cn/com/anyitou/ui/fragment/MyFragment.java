@@ -7,16 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.entity.Grades;
 import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.LoginActivity;
+import cn.com.anyitou.ui.MyAnbiActivity;
 import cn.com.anyitou.ui.MyInvestmentActivity;
+import cn.com.anyitou.ui.MyLevelActivity;
 import cn.com.anyitou.ui.RechargeActivity;
 import cn.com.anyitou.ui.TradingRecordActivity;
 import cn.com.anyitou.ui.WithdrawalsActivity;
@@ -41,9 +45,12 @@ public class MyFragment extends BaseFragment {
 
 	private TextView mTvUserName,mTvEarningsYesterday;
 	private TextView mTvBalance,mTvWaitProfit,mTvWaitPrincipal,mTvProfitCount;
+	private TextView mTvLevelTitle;//会员等级名称
+	private ImageView mIvLevelLogo;
 
 	private User user ;
-	private MyCapital myCapital;
+	private MyCapital myCapital;//我的资金
+	private Grades mGrades;//等级
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -63,9 +70,9 @@ public class MyFragment extends BaseFragment {
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		// 判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示
 		// 通过这两个判断，就可以知道什么时候去加载数据了
-		if (isVisibleToUser && isVisible()) {
-			getMyInfo();
-		}
+//		if (isVisibleToUser && isVisible()) {
+//			getMyInfo();
+//		}
 		super.setUserVisibleHint(isVisibleToUser);
 	}
 	@Override
@@ -82,14 +89,15 @@ public class MyFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(myCapital == null){
+//		if(myCapital == null){
 			getMyInfo();
-		}
+//		}
 	}
 
 
 
 	private void initListener() {
+		mActionBar.hideLeftActionButtonText();
 		mBtnCash.setOnClickListener(onClickListener);
 		mBtnRechange.setOnClickListener(onClickListener);
 		mBtnInvestDetail.setOnClickListener(onClickListener);
@@ -116,6 +124,9 @@ public class MyFragment extends BaseFragment {
 		mTvWaitProfit = (TextView)infoView.findViewById(R.id.wait_profit);
 		mTvWaitPrincipal = (TextView)infoView.findViewById(R.id.wait_principal);
 		mTvProfitCount = (TextView)infoView.findViewById(R.id.profit_count);
+		
+		mTvLevelTitle = (TextView)infoView.findViewById(R.id.level_title);
+		mIvLevelLogo = (ImageView)infoView.findViewById(R.id.level_logo);
 		
 	}
 	
@@ -152,10 +163,11 @@ public class MyFragment extends BaseFragment {
 				
 				break;
 			case R.id.my_coin://我的安币
-				intent.setClass(mActivity, TradingRecordActivity.class);
+				intent.setClass(mActivity, MyAnbiActivity.class);
 				break;
 			case R.id.my_level://我的等级
-				
+				intent.putExtra("grades", mGrades);
+				intent.setClass(mActivity, MyLevelActivity.class);
 				break;
 
 			default:
@@ -199,6 +211,18 @@ public class MyFragment extends BaseFragment {
 					}
 				}
 			});
+			
+			ApiUserUtils.getGrades(mActivity, new RequestCallback() {
+				
+				@Override
+				public void execute(ParseModel parseModel) {
+					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+						mGrades = JsonUtils.fromJson(parseModel.getData()
+								.toString(), Grades.class);
+						showMyLevel();
+					}
+				}
+			});
 				
 		}
 	}
@@ -213,6 +237,23 @@ public class MyFragment extends BaseFragment {
 			mTvWaitPrincipal.setText(StringUtils.getMoneyFormat(myCapital.getCollected_interest()));
 			mTvProfitCount.setText(StringUtils.getMoneyFormat(myCapital.getAll_income()));
 			mTvUserName.setText("^_^  你好,"+myCapital.getUser_name());
+		}
+	}
+	
+	private void showMyLevel(){
+		if(mGrades !=null){
+			mTvLevelTitle.setText(mGrades.getName());
+			int levelLogo = R.drawable.user_level_normal_big_icon;
+			if("1".equals(mGrades.getUser_level())){
+				levelLogo = R.drawable.user_level_normal_big_icon;
+			}else if("2".equals(mGrades.getUser_level())){
+				levelLogo = R.drawable.user_level_star_big_icon;
+			}else if("3".equals(mGrades.getUser_level())){
+				levelLogo = R.drawable.user_level_gold_big_icon;
+			}else if("4".equals(mGrades.getUser_level())){
+				levelLogo = R.drawable.user_level_diamond_big_icon;
+			}
+			mIvLevelLogo.setImageDrawable(getResources().getDrawable(levelLogo));
 		}
 	}
 	

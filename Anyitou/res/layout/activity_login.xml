@@ -90,7 +90,7 @@
                  android:textSize="16sp"
                  android:layout_marginRight="10dp"
                  android:layout_centerVertical="true"
-                 android:textColor="@color/black"
+                 android:textColor="#bfbfbf"
                  android:layout_alignParentRight="true"
                  />
              
@@ -155,8 +155,8 @@
         android:background="@drawable/btn_selector"
         android:layout_alignParentLeft="true"
         android:singleLine="true"
-        android:text="忘记密码?"
-        android:textColor="#7499EB"
+        android:text="忘记密码"
+        android:textColor="#7d7d7d"
         android:textSize="18sp" />
         
         <TextView

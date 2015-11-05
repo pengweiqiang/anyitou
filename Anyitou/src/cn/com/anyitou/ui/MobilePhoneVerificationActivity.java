@@ -14,6 +14,7 @@ import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
@@ -61,6 +62,13 @@ public class MobilePhoneVerificationActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
+		actionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		mGetCode.setOnClickListener(new OnClickListener() {
 
 			@Override

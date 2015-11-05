@@ -36,7 +36,7 @@ public class ConfirmRechargeActivity extends BaseActivity {
 	}
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("确认充值");
-		actionBar.setLeftActionButton(R.drawable.btn_back, new OnClickListener() {
+		actionBar.setLeftActionButton( new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {

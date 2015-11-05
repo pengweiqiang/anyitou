@@ -42,7 +42,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
 
                 <RelativeLayout
                     android:id="@+id/update_pwd"
@@ -71,7 +71,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
 
                 <RelativeLayout
                     android:id="@+id/btn_phone"
@@ -101,7 +101,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
 
                 <RelativeLayout
                     android:id="@+id/btn_gesture"
@@ -131,7 +131,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
             </LinearLayout>
 
             <TextView
@@ -153,7 +153,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -184,9 +184,9 @@
                             android:id="@+id/switch_push"
                             android:layout_width="50dp"
 					        toggle:onColor="#ef5a50"
-					        toggle:offColor="@color/white"
+					        toggle:offColor="#a5a5a5"
 					        toggle:spotColor="@color/white"
-					        toggle:offBorderColor="#e4e2e2"
+					        toggle:offBorderColor="#a5a5a5"
 					        toggle:borderWidth="1px"
 					        android:layout_height="30dp"
                             android:layout_alignParentRight="true"
@@ -197,7 +197,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
 
                 <RelativeLayout
                     android:id="@+id/share_friend"
@@ -227,7 +227,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7c7" />
+                    android:background="#c7c7cc" />
             </LinearLayout>
 
             <RelativeLayout

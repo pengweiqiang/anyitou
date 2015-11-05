@@ -3,6 +3,7 @@ package cn.com.anyitou.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
 /**
  * 修改手机号2-->输入新手机号
@@ -59,7 +61,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle("验证新手机号");
-		actionBar.setLeftActionButton(R.drawable.btn_back,
+		actionBar.setLeftActionButton(
 				new OnClickListener() {
 
 					@Override
@@ -72,6 +74,13 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 
 	@Override
 	public void initListener() {
+		actionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		mGetCode.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -152,6 +161,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 			}
 		});
 	}
+	
 	
 	private Timer timer;// 计时器
 	private int time = 60;// 倒计时120秒

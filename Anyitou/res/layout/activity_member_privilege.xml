@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+      <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+          android:layout_marginTop="20dp"
+          android:textColor="@color/app_bg_color"
+          android:textSize="17sp"
+          android:text="星级会员特权及优惠" />
+
+      <TextView
+          android:id="@+id/info"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:layout_marginRight="15dp"
+          android:layout_marginLeft="20dp"
+          android:lineSpacingExtra="8dp"
+          android:text="@string/member_privilege_tip"
+          android:textColor="#797979"
+          android:textSize="16sp" />
+
+</LinearLayout>

@@ -58,6 +58,42 @@ public class ApiInvestUtils {
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
+	 * 获取债权列表
+	 * @param context
+	 * @param page
+	 * @param num
+	 * @param order 排序
+	 * @param amount 转让金额
+	 * @param apr 认购收益
+	 * @param repayment 剩余期限
+	 * @param requestCallBack
+	 */
+	public static void getDebtAssignment(Context context,int page,String num,
+			String order,String amount,String apr,String repayment,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.PAGE, page==0?1:page);
+		params.put(ReqUrls.NUM, num);
+		params.put(ReqUrls.ORDER, order);
+		params.put(ReqUrls.AMOUNT, amount);
+		params.put("apr", apr);
+		params.put("repayment", repayment);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_ASSIGNMENT, false,
+				requestCallBack, MethodType.LOGIN,context,HttpMethod.GET,false);
+	}
+	/**
+	 * 获取债权详情
+	 * @param context
+	 * @param id
+	 * @param requestCallBack
+	 */
+	public static  void getDebtAssignmentDetail(Context context,String id,String type,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		params.put(ReqUrls.ID, id);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_ASSIGNMENT_DETAIL, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
+	}
+	
+	/**
 	 * 还款计划
 	 * @param context
 	 * @param page

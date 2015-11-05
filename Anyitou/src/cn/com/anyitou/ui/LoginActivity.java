@@ -70,6 +70,13 @@ public class LoginActivity extends BaseActivity {
 	
 	@Override
 	public void initListener() {
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		mTvCodeMsg.setOnClickListener(new OnClickListener() {
 			
 			@Override

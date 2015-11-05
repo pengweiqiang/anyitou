@@ -52,9 +52,9 @@ public interface ReqUrls {
 	
 	public static String CHOOSE = "choose";
 	
-	public static String NPASS_WORD = "npass_word";
+	public static String NEW_PASSWORD = "new_password";
 	
-	public static String REPASSWORD = "repassword";
+	public static String REPASSWORD = "confirm_password";
 	
 	public static String STREAM = "stream";
 	
@@ -278,6 +278,62 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_INVESTMENTS = "project/investments";
 	
+	/**
+	 * 30.修改密码
+	 */
+	public static final String MOBIAPI_CHANGE_PASSWORD = "userAssist/modifyPassword";
+	
+	/**
+	 * 31.修改手势密码
+	 */
+	public static final String MOBIAPI_CHANGE_GESTURE_PASSWORD = "userAssist/modifySignpassword";
+	
+	/**
+	 * 32.设置手势密码
+	 */
+	public static final String MOBIAPI_SET_GESTURE_PASSWORD = "userAssist/setSignpassword";
+	
+	/**
+	 * 33.获取债权列表
+	 */
+	public static final String MOBIAPI_DEBT_ASSIGNMENT = "debtAssignment/list";
+	
+	/**
+	 * 34.获取债权详情
+	 */
+	public static final String MOBIAPI_DEBT_ASSIGNMENT_DETAIL = "debtAssignment/view";
+	
+	
+	/**
+	 * 43.安币变更记录
+	 */
+	public static final String MOBIAPI_USER_INTEGRAL_RECORD = "integral/userIntegralRecord";
+	/**
+	 * 44.密码找回
+	 */
+	public static final String MOBIAPI_GETPWD = "userAssist/findPassword";
+	/**
+	 * 47.会员特权信息(/grade/info)
+	 */
+	public static final String MOBIAPI_GRADES = "grade/info";
+	
+	/**
+	 * 48.会员等级变更记录
+	 */
+	public static final String MOBIAPI_MEMBER_CHANGE_RECORD = "grade/gradeRecord";
+
+	/**
+	 * 49.用户成长值记录
+	 */
+	public static final String MOBIAPI_GROWTH_RECORD = "grade/growthRecord";
+	
+	/**
+	 * 50.用户安币信息
+	 */
+	public static final String MOBIAPI_USER_INTEGRAL = "integral/userIntegral";
+	
+	
+	
 	
 	
 	//////////////////////////////////////////////
@@ -352,10 +408,6 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_MYCARD = "mobiapi/myCard";
 	
-	/**
-	 * 修改密码
-	 */
-	public static final String MOBIAPI_CHANGE_PASSWORD = "mobiapi/changePassword";
 	
 	/**
 	 * 密码找回（发送短信验证码）
@@ -367,10 +419,7 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_GETPWD_CHECKCODE = "mobiapi/getPwdCheckCode";
 	
-	/**
-	 * 密码找回
-	 */
-	public static final String MOBIAPI_GETPWD = "mobiapi/getPwd";
+	
 	/**
 	 * 红包列表
 	 */

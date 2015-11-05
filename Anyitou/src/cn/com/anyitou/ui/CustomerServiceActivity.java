@@ -48,7 +48,7 @@ public class CustomerServiceActivity extends BaseActivity {
 	public void initView() {
 		mActionBar = (ActionBar) findViewById(R.id.actionBar);
 		mActionBar.setTitle("客户服务");
-		mActionBar.setLeftActionButton(R.drawable.btn_back,
+		mActionBar.setLeftActionButton(
 				new OnClickListener() {
 
 					@Override
@@ -71,6 +71,13 @@ public class CustomerServiceActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
+		mActionBar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AppManager.getAppManager().finishActivity();
+			}
+		});
 		mCall.setOnClickListener(new OnClickListener() {
 			@SuppressLint("InlinedApi")
 			@Override
