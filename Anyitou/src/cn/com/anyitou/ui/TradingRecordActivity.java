@@ -3,22 +3,14 @@ package cn.com.anyitou.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.LayoutParams;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
-import cn.com.gson.reflect.TypeToken;
 import cn.com.anyitou.adapters.RecordsAdapter;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -31,11 +23,13 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.anyitou.views.MyPopupWindow;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.gson.reflect.TypeToken;
 
 /**
- * 安币记录
+ * 交易记录
  * 
  * @author will
  * 
@@ -43,11 +37,6 @@ import cn.com.anyitou.views.XListView.IXListViewListener;
 public class TradingRecordActivity extends BaseActivity implements
 		IXListViewListener {
 	private ActionBar mActionBar;
-	PopupWindow popupWindow;
-	private View mViewAllSelcted, mViewExSelected, mViewIncomeSelected;
-	private View mViewAll, mViewEx, mViewIncome;
-	private View popupWindowOut;
-	int type = 0;
 	RotateAnimation rotateAnim1, rotateAnim2;
 
 	View view;
@@ -61,6 +50,14 @@ public class TradingRecordActivity extends BaseActivity implements
 	private XListView mListView;
 	private View mViewEmpty;
 	private TextView mViewEmptyTip;
+	
+	//condition
+	String category = "all";
+	String order = "";
+	String dateRange = "";
+	String beginDate= "";
+	String endDate = "";
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +85,7 @@ public class TradingRecordActivity extends BaseActivity implements
 	}
 
 	protected void onConfigureActionBar(final ActionBar actionBar) {
-		actionBar.setTitle("交易记录");
+		actionBar.setTitle("交易明细");
 		actionBar.setLeftActionButton(
 				new OnClickListener() {
 
@@ -97,29 +94,36 @@ public class TradingRecordActivity extends BaseActivity implements
 						AppManager.getAppManager().finishActivity();
 					}
 				});
-		actionBar.setActionBarTitleClickListener(new OnClickListener() {
-
+//		actionBar.setActionBarTitleClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				if (rotateAnim1 == null) {
+//					rotateAnim1 = new RotateAnimation(0f, 180f,
+//							Animation.RELATIVE_TO_SELF, 0.5f,
+//							Animation.RELATIVE_TO_SELF, 0.5f);
+//					rotateAnim1.setInterpolator(new LinearInterpolator());
+//					// rotateAnim1.setRepeatCount(1);
+//					rotateAnim1.setFillAfter(true);
+//					rotateAnim1.setDuration(300);
+//				}
+//				actionBar.startRotateAnimImageView(rotateAnim1);
+//				showWindow(v);
+//			}
+//		});
+		actionBar.setRightActionButton("筛选",new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-				if (rotateAnim1 == null) {
-					rotateAnim1 = new RotateAnimation(0f, 180f,
-							Animation.RELATIVE_TO_SELF, 0.5f,
-							Animation.RELATIVE_TO_SELF, 0.5f);
-					rotateAnim1.setInterpolator(new LinearInterpolator());
-					// rotateAnim1.setRepeatCount(1);
-					rotateAnim1.setFillAfter(true);
-					rotateAnim1.setDuration(300);
-				}
-				actionBar.startRotateAnimImageView(rotateAnim1);
-				showWindow(v);
+				showConditionDialog(v);
 			}
 		});
 
 	}
-
+	
 	private void initData() {
 		mViewEmpty.setVisibility(View.GONE);
-		ApiUserUtils.getTrade(mContext,"","","","","", String.valueOf(page),"10",
+		ApiUserUtils.getTrade(mContext,category,order,dateRange,beginDate,endDate, String.valueOf(page),"10",
 				new RequestCallback() {
 
 					@Override
@@ -136,21 +140,19 @@ public class TradingRecordActivity extends BaseActivity implements
 
 								if (records == null || records.isEmpty()) {
 									// mListView.setVisibility(View.GONE);
+									showEmptyListView(true);
 									mViewEmpty.setVisibility(View.VISIBLE);
 								}
 							}
 
 							if (records != null && !records.isEmpty()) {
+								showEmptyListView(false);
 								recordLists.addAll(records);
-								mViewEmpty.setVisibility(View.GONE);
+							}else{
+								showEmptyListView(true);
 							}
-//							logined(parseModel.getToken(), null);
-							if (type != 0) {
-								screenAdapter(type);
-							} else {
-								mListView.onLoadFinish(page, records.size(),
+							mListView.onLoadFinish(page, records.size(),
 										"加载完毕");
-							}
 							recordsAdapter.notifyDataSetChanged();
 						} else {
 							ToastUtils.showToast(mContext, parseModel.getMsg());
@@ -160,6 +162,15 @@ public class TradingRecordActivity extends BaseActivity implements
 					}
 				});
 
+	}
+	
+	private void showEmptyListView(boolean isEmpty){
+		if(isEmpty){
+			mViewEmpty.setVisibility(View.VISIBLE);
+			mViewEmptyTip.setText("暂无记录");
+		}else{
+			mViewEmpty.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -173,128 +184,6 @@ public class TradingRecordActivity extends BaseActivity implements
 		});
 	}
 
-	OnClickListener popupwindowListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			startAnimationCancelPopupwindow();
-			if (v.getId() == R.id.all_rl) {
-				type = 0;
-				mViewAllSelcted.setVisibility(View.VISIBLE);
-				mViewExSelected.setVisibility(View.GONE);
-				mViewIncomeSelected.setVisibility(View.GONE);
-			} else if (v.getId() == R.id.expenditure) {
-				type = 1;
-				mViewAllSelcted.setVisibility(View.GONE);
-				mViewExSelected.setVisibility(View.VISIBLE);
-				mViewIncomeSelected.setVisibility(View.GONE);
-			} else if (v.getId() == R.id.income) {
-				type = 2;
-				mViewAllSelcted.setVisibility(View.GONE);
-				mViewExSelected.setVisibility(View.GONE);
-				mViewIncomeSelected.setVisibility(View.VISIBLE);
-			}
-
-			onRefresh();
-
-		}
-	};
-
-	private void showWindow(View parent) {
-
-		if (popupWindow == null) {
-			view = View.inflate(this, R.layout.trading_record_pop, null);// 自定义layout
-
-			popupWindowOut = view.findViewById(R.id.linear_will_show);
-			popupWindowOut.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					startAnimationCancelPopupwindow();
-				}
-			});
-
-			mViewAllSelcted = view.findViewById(R.id.all_selected);
-			mViewExSelected = view.findViewById(R.id.expenditure_selected);
-			mViewIncomeSelected = view.findViewById(R.id.income_selected);
-
-			mViewAll = view.findViewById(R.id.all_rl);
-			mViewEx = view.findViewById(R.id.expenditure);
-			mViewIncome = view.findViewById(R.id.income);
-			mViewAll.setOnClickListener(popupwindowListener);
-			mViewEx.setOnClickListener(popupwindowListener);
-			mViewIncome.setOnClickListener(popupwindowListener);
-
-			popupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
-		}
-		popupWindow.setFocusable(true);
-		popupWindow.setOutsideTouchable(false);
-		popupWindow.setOnDismissListener(new OnDismissListener() {
-
-			@Override
-			public void onDismiss() {
-				startAnimationCancelPopupwindow();
-			}
-		});
-		// 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		if (!popupWindow.isShowing()) {
-			// PopupWindow 弹出时外部区域背景透明度降低
-			popupWindow.showAsDropDown(mActionBar);
-			// WindowManager.LayoutParams params = getWindow().getAttributes();
-			// params.alpha = 0.7f;
-			// getWindow().setAttributes(params);
-		}
-	}
-
-	/**
-	 * @param type
-	 *            0 是全部 1是支出 2是收入
-	 */
-	private void screenAdapter(int type) {
-
-		List<Records> records = new ArrayList<Records>();
-		for (Records record : recordLists) {
-			String transAmt = record.getCash_status();
-			if (type == 1 && transAmt.startsWith("-")) {
-				records.add(record);
-			} else if (type == 2 && transAmt.startsWith("+")) {
-				records.add(record);
-			}
-		}
-		recordLists.clear();
-		recordLists.addAll(records);
-		if (recordLists == null || recordLists.isEmpty()) {
-			// mListView.setVisibility(View.GONE);
-			mViewEmpty.setVisibility(View.VISIBLE);
-			String tipStr = "暂无收入交易记录";
-			if (type == 1) {
-				tipStr = "暂无支出交易记录";
-			} else if (type == 2) {
-				tipStr = "暂无收入交易记录";
-			}
-			mViewEmptyTip.setText(tipStr);
-		}
-
-		mListView.onLoadFinish(page, recordLists.size(), "加载完毕");
-	}
-
-	private void startAnimationCancelPopupwindow() {
-		if (popupWindow.isShowing()) {
-			popupWindow.dismiss();
-		}
-		if (rotateAnim2 == null) {
-			rotateAnim2 = new RotateAnimation(180f, 0f,
-					Animation.RELATIVE_TO_SELF, 0.5f,
-					Animation.RELATIVE_TO_SELF, 0.5f);
-			rotateAnim2.setInterpolator(new LinearInterpolator());
-			// rotateAnim1.setRepeatCount(1);
-			rotateAnim2.setFillAfter(true);
-			rotateAnim2.setDuration(300);
-		}
-		mActionBar.startRotateAnimImageView(rotateAnim2);
-	}
 
 	@Override
 	public void onRefresh() {
@@ -307,5 +196,77 @@ public class TradingRecordActivity extends BaseActivity implements
 		page++;
 		initData();
 	}
+	
+	private PopupWindow popupWindow;
+	@SuppressWarnings("deprecation")
+	public void showConditionDialog(View view){
+		popupWindow = MyPopupWindow.getPopupWindow(R.layout.trade_condition_popupwindow, TradingRecordActivity.this,0);
+		popupWindow.getContentView().findViewById(R.id.category_all).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_recharge).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_cash).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_profit).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_capital).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_other).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.category_invest).setOnClickListener(popupWindowListener);
+		
+		
+		popupWindow.getContentView().findViewById(R.id.time_all).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.time_day).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.time_week).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.time_month).setOnClickListener(popupWindowListener);
+		popupWindow.getContentView().findViewById(R.id.time_three_month).setOnClickListener(popupWindowListener);
+		popupWindow.showAsDropDown(view);
+	}
+	private OnClickListener popupWindowListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.category_all:
+				category = "all";
+				break;
+			case R.id.category_recharge:
+				category = "recharge";
+				break;
+			case R.id.category_cash:
+				category = "withdraw";
+				break;
+			case R.id.category_profit:
+				category = "fangdai";
+				break;
+			case R.id.category_capital:
+				category = "capital";
+				break;
+			case R.id.category_other:
+				category = "other";
+				break;
+			case R.id.category_invest:
+				category = "invest";
+				break;
+			case R.id.time_all:
+				dateRange = "all";
+				break;
+			case R.id.time_day:
+				dateRange = "day";
+				break;
+			case R.id.time_week:
+				dateRange = "oneWeek";
+				break;
+			case R.id.time_month:
+				dateRange = "oneMonth";
+				break;
+			case R.id.time_three_month:
+				dateRange = "threeMonth";
+				break;
+
+			default:
+				break;
+			}
+			popupWindow.dismiss();
+			page = 1;
+			initData();
+			
+		}
+	};
 
 }

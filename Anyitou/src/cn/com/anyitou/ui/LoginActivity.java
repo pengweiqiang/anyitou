@@ -65,6 +65,9 @@ public class LoginActivity extends BaseActivity {
 		mTvCodeMsg = (TextView) findViewById(R.id.code_msg);
 		
 		mTvCodeMsg.setText(StringUtils.getCode());
+		if(ApiConstants.ISDEBUG){
+			mEtCode.setText(mTvCodeMsg.getText().toString());
+		}
 		
 	}
 	
@@ -136,6 +139,9 @@ public class LoginActivity extends BaseActivity {
 					@Override
 					public void execute(ParseModel parseModel) {
 						mTvCodeMsg.setText(StringUtils.getCode());
+						if(ApiConstants.ISDEBUG){
+							mEtCode.setText(mTvCodeMsg.getText().toString());
+						}
 						loadingDialog.cancel();
 						String accessToken = parseModel.getAccess_token();
 						if(!StringUtils.isEmpty(accessToken)){//登陆成功

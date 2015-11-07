@@ -61,7 +61,11 @@
 	<string name="contact_title">您的联系方式：</string>
 	<string name="input_email">方便的话留个邮箱吧！</string>
 	<string name="project_list">项目列表</string>
+	<string name="my_coupon">优惠券</string>
 	<string name="credito_transfer">债权转让</string>
+	<string name="coupon_unuse">未使用</string>
+	<string name="coupon_used">已使用</string>
+	<string name="coupon_outdate">已过期</string>
 	
 	<string name="member_privilege_tip">1、消费1元送0.15积分；\n2、免充值手续费；\n3、免提现手续费(两月一次发一次提现券,所有提现券一个月过期)；\n4、奖励188(投三万)元投资券(不能取现)；\n5、身份铭牌:用户名左侧显示星级会员图标 . 生日当天投标享额外双倍几分(2 * 1.5)</string>
 	

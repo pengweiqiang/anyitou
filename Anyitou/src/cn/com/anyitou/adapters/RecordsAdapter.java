@@ -52,34 +52,49 @@ public class RecordsAdapter extends BaseListAdapter{
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.trading_record_item, null);
 			
-			viewHolder.mTvTitle = (TextView)convertView.findViewById(R.id.title);
-			viewHolder.mTvAddTime = (TextView)convertView.findViewById(R.id.addtime);
-			viewHolder.mTvContent = (TextView)convertView.findViewById(R.id.content);
+			viewHolder.mTvMonth = (TextView)convertView.findViewById(R.id.month);
+			viewHolder.mTvCategory = (TextView)convertView.findViewById(R.id.category);
+			viewHolder.mTvCashNum = (TextView)convertView.findViewById(R.id.cash_num);
+			viewHolder.mTvTime = (TextView)convertView.findViewById(R.id.time);
+			viewHolder.mTvStatus = (TextView)convertView.findViewById(R.id.status);
 			
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
 		
-		viewHolder.mTvAddTime.setText(record.getDeal_time());
+		viewHolder.mTvMonth.setText(record.getDeal_time());
+		viewHolder.mTvCategory.setText(record.getCategory_data().getLabel());
+		StringBuffer sbCashNum = new StringBuffer();
 		if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("1")){
-			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.trade_add));
-		}else if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("1")){
-			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.trade_reduce));
+			sbCashNum.append("+");
+			viewHolder.mTvCashNum.setTextColor(context.getResources().getColor(R.color.app_bg_color));
+		}else if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("2")){
+			sbCashNum.append("-");
+			viewHolder.mTvCashNum.setTextColor(context.getResources().getColor(R.color.trade_reduce2));
 		}else{
-			viewHolder.mTvContent.setTextColor(context.getResources().getColor(R.color.app_bg_color));
+			viewHolder.mTvCashNum.setTextColor(context.getResources().getColor(R.color.app_bg_color));
 		}
-		viewHolder.mTvTitle.setText(record.getCategory_data().getLabel());
-		viewHolder.mTvContent.setText(record.getCash_num());
+		viewHolder.mTvCashNum.setText(sbCashNum.toString()+record.getCash_num());
+		viewHolder.mTvTime.setText(record.getDeal_time());
+		String status = record.getStatus();
+		if("1".equals(status)){
+			viewHolder.mTvStatus.setText("交易成功");
+		}else {
+			viewHolder.mTvStatus.setText(record.getStatus());
+		}
+		
 		
 		
 		return convertView;
 	}
 	
 	static final class ViewHolder{
-		private TextView mTvTitle;
-		private TextView mTvAddTime;
-		private TextView mTvContent;
+		private TextView mTvMonth;
+		private TextView mTvCategory;
+		private TextView mTvCashNum;
+		private TextView mTvTime;
+		private TextView mTvStatus;
 	}
 
 	

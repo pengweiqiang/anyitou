@@ -1,17 +1,21 @@
 package cn.com.anyitou.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
+import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
+import cn.com.anyitou.entity.BankCard;
 import cn.com.anyitou.entity.CashPageInfo;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
@@ -20,9 +24,11 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.ToggleButton;
 import cn.com.anyitou.views.ToggleButton.OnToggleChanged;
+import cn.com.gson.JsonObject;
 
 /**
  * 提现
@@ -96,6 +102,7 @@ public class WithdrawalsActivity extends BaseActivity {
 					showData();
 //					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
 				}else{
+					
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
 			}
@@ -105,11 +112,62 @@ public class WithdrawalsActivity extends BaseActivity {
 		if(cashPageInfo != null){
 			nowMoney = cashPageInfo.getMoney().getUsable_money();
 			mEtMoney.setHint("当前可用余额"+nowMoney+"元");
-			String bankNumber = cashPageInfo.getCard().getBank_card_number();
+			BankCard bankCard = cashPageInfo.getCard();
+			if(bankCard == null){//未绑定银行卡
+				showUnbindBankCard();
+				return;
+			}
+			String bankNumber = bankCard.getBank_card_number();
 			if(!StringUtils.isEmpty(bankNumber) && bankNumber.length() >4){
-				mTvBankName.setText(cashPageInfo.getCard().getBank_name()+"（"+bankNumber.substring(bankNumber.length()-4)+"）");
+				mTvBankName.setText(bankCard.getBank_name()+"（"+bankNumber.substring(bankNumber.length()-4)+"）");
 			}
 		}
+	}
+	/*
+	 * 未绑定银行卡
+	 */
+	private void showUnbindBankCard(){
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.unbind_bankcard_dialog);
+		View view = builder.getViewLayout();
+		builder.setMessage("你未绑定银行卡 不能提现");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("立即绑定",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						bindingBankCard();
+					}
+				});
+		InfoDialog infoDialog = builder.create();
+		infoDialog.show();
+	}
+	
+	private void bindingBankCard(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiOrderUtils.bindBank(mContext, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
+					Intent intent = new Intent(mContext,WebActivity.class);
+					intent.putExtra("url", url);
+					intent.putExtra("name", "绑定银行卡");
+					startActivity(intent);
+				}
+			}
+		});
 	}
 	
 	
@@ -238,15 +296,24 @@ public class WithdrawalsActivity extends BaseActivity {
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//提现成功
-					String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
-					Intent intent = new Intent(mContext,WebActivity.class);
-					intent.putExtra("type", 4);
-					intent.putExtra("url", url);
-					intent.putExtra("name", "提现");
-					startActivity(intent);
+					JsonObject data = parseModel.getData().getAsJsonObject();
+					if(data!=null){
+						String url = data.get("request_url").getAsString();
+						String ordId = "";
+						if(data.has("id")){
+							ordId = data.get("id").getAsString();
+							String tradeNo = data.get("trade_no").getAsString();
+						}
+						Intent intent = new Intent(mContext,WebActivity.class);
+						intent.putExtra("type", 4);
+						intent.putExtra("url", url);
+						intent.putExtra("ordId", ordId);
+						intent.putExtra("name", "提现");
+						startActivity(intent);
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
+			}
 			}
 		});
 	}

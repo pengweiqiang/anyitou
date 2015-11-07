@@ -22,6 +22,8 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.gson.JsonNull;
+import cn.com.gson.JsonObject;
 /**
  * 充值界面
  * @author will
@@ -143,15 +145,24 @@ public class RechargeActivity extends BaseActivity {
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-							
-							String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
-							Intent intent = new Intent(mContext,WebActivity.class);
-							intent.putExtra("url", url);
-							intent.putExtra("name", "充值");
-							intent.putExtra("type", 2);
-//							intent.putExtra("ordId", parseModel.getOrdId());
-							startActivity(intent);
-							AppManager.getAppManager().finishActivity();
+							JsonObject data = parseModel.getData().getAsJsonObject();
+							if(data!=null){
+								String url = data.get("request_url").getAsString();
+								String ordId = "";
+								if(data.has("id") && data.get("id")!=JsonNull.INSTANCE){
+									ordId = data.get("id").getAsString();
+//									String tradeNo = data.get("trade_no").getAsString();
+								}
+								
+								Intent intent = new Intent(mContext,WebActivity.class);
+								intent.putExtra("url", url);
+								intent.putExtra("name", "充值");
+								intent.putExtra("type", 2);
+								intent.putExtra("ordId", ordId);
+	//							intent.putExtra("ordId", parseModel.getOrdId());
+								startActivity(intent);
+								AppManager.getAppManager().finishActivity();
+							}
 						}else{
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 							if(ApiConstants.RESULT_UNHF_USER.equals(parseModel.getCode())){

@@ -22,6 +22,8 @@ import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.gson.JsonElement;
+import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
 /**
@@ -95,26 +97,32 @@ public class IntegralRecordActivity extends BaseActivity implements
 						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
-							List<IntegralRecords> records = JsonUtils.fromJson(
-									parseModel.getData().toString(),
-									new TypeToken<List<IntegralRecords>>() {
-									});
-							if (page == 1) {
-								recordLists.clear();
-
-								if (records == null || records.isEmpty()) {
-									// mListView.setVisibility(View.GONE);
-									mViewEmpty.setVisibility(View.VISIBLE);
+							JsonObject data = parseModel.getData().getAsJsonObject();
+							if(data != null){
+								JsonElement list = data.get("list");
+								List<IntegralRecords> records = JsonUtils.fromJson(
+										list.toString(),
+										new TypeToken<List<IntegralRecords>>() {
+										});
+								if (page == 1) {
+									recordLists.clear();
+	
+									if (records == null || records.isEmpty()) {
+										// mListView.setVisibility(View.GONE);
+										mViewEmpty.setVisibility(View.VISIBLE);
+									}
 								}
+	
+								if (records != null && !records.isEmpty()) {
+									recordLists.addAll(records);
+									mViewEmpty.setVisibility(View.GONE);
+								}
+								mListView.onLoadFinish(page, records.size(),
+										"加载完毕");
+								recordsAdapter.notifyDataSetChanged();
+							}else{
+								mViewEmpty.setVisibility(View.VISIBLE);
 							}
-
-							if (records != null && !records.isEmpty()) {
-								recordLists.addAll(records);
-								mViewEmpty.setVisibility(View.GONE);
-							}
-							mListView.onLoadFinish(page, records.size(),
-									"加载完毕");
-							recordsAdapter.notifyDataSetChanged();
 						} else {
 							mViewEmpty.setVisibility(View.VISIBLE);
 							ToastUtils.showToast(mContext, parseModel.getMsg());

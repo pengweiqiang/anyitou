@@ -35,9 +35,17 @@ public class MyAnbiActivity extends BaseActivity {
 		setContentView(R.layout.activity_my_anbi);
 		super.onCreate(savedInstanceState);
 		
-		
+	}
+	
+	
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		initData();
 	}
+
+
 
 	// 设置activity的导航条
 	protected void onConfigureActionBar(ActionBar actionBar) {
@@ -98,7 +106,7 @@ public class MyAnbiActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext,IntegralRecordActivity.class);
+				Intent intent = new Intent(mContext,IntegralGoodActivity.class);
 				startActivity(intent);
 			}
 		});

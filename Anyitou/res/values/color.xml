@@ -35,6 +35,7 @@
     <color name="invest_detail_bottom_color_enable">#9d9d9e</color>
     <color name="invest_detail_text_color">#f7fd45</color>
     <color name="trade_reduce">#f66d22</color>
+    <color name="trade_reduce2">#22ac38</color>
     <color name="trade_add">#1d802a</color>
     <color name="app_title_color">#fc8403</color>
     <color name="tab_title_color">#666666</color>
@@ -48,7 +49,9 @@
     <color name="dialog_text_color">#959595</color>
     <color name="dialog_btn_pressed_color">#e5564f</color>
     <color name="subtract_color">#097c25</color>
+    <color name="dialog_enable_text_color">#4d4d4d</color>
     
     <color name="transparent">#e0FFFFFF</color>
+    <color name="transparent_background">#60000000</color>
     
 </resources>

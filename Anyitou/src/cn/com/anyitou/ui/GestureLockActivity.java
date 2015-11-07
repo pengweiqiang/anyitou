@@ -115,7 +115,7 @@ public class GestureLockActivity extends BaseActivity {
 		application.isLock = false;
 		logOut();
 		
-		InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
 		builder.setMessage("由于手势密码错误超过5次,您将退出登录\n请重新设置新的手势密码");
 		builder.setTitle("手势密码错误超过5次");
 		builder.setButton1("我知道了", new DialogInterface.OnClickListener() {

@@ -20,7 +20,6 @@ import cn.com.anyitou.adapters.HomeListAdapter;
 import cn.com.anyitou.api.ApiHomeUtils;
 import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
-import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.Banner;
 import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.ParseModel;
@@ -118,34 +117,13 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 	private void initBanner() {
 		
 		BannerPagerAdapter pagerAdapter = new BannerPagerAdapter(mActivity,height);
-		pagerAdapter.setDataList(getViewPagerData());
+		pagerAdapter.setDataList(bannerList);
 		mViewPager.setAdapter(pagerAdapter);
 		mViewPager.setAutoScrollTime(5000);
 		mViewPager.startAutoScroll();
 		mLineIndicator.setViewPager(mViewPager);
 	}
 	
-	public List<Banner> getViewPagerData(){
-        Banner item=null;
-        for(int i=0;i<1;i++){
-            item=new Banner();
-            item.setName("Name:"+i);
-            int index=i%3;
-            if(index==1){
-                item.setPic("drawable://" + R.drawable.index_banner);
-            }else if(index==2){
-                item.setPic("http://p8.123.sogoucdn.com/imgu/2015/09/20150924151358_518.png");
-            }else{
-                item.setPic("drawable://" + R.drawable.index_banner);
-            }
-            bannerList.add(item);
-        }
-        if(bannerList.size() == 1 || bannerList.isEmpty()){
-        	mLineIndicator.setVisibility(View.GONE);
-        }
-        return bannerList;
-    }
-
 
 	@Override
 	public void onStart() {

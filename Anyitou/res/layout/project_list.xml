@@ -28,7 +28,7 @@
         <RadioGroup
             android:id="@+id/rg_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal" >
 
@@ -36,11 +36,9 @@
             <RadioButton
             android:id="@+id/radio_project"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="10dp"
-        	android:paddingBottom="10dp"
             android:textSize="16sp"
             android:layout_gravity="center_vertical"
             android:textColor="@color/tab_title_text"
@@ -52,11 +50,9 @@
             <RadioButton
             android:id="@+id/radio_credito"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="10dp"
-        	android:paddingBottom="10dp"
             android:textSize="16sp"
             android:layout_gravity="center_vertical"
             android:textColor="@color/tab_title_text"

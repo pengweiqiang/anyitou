@@ -245,17 +245,42 @@ public class ApiUserUtils {
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	/**
-	 * 我的投资
+	 * 我的投资 
 	 * @param context
-	 * @param v
+	 * @param category  交易分类
+	 * all: 全部 qidai：企贷 reward：新手体验 chedai: 车贷 fangdai: 房贷 debt: 债权
+	 * @param status 状态
+	 * 1:还款中 2: 已还款 3: 部分转让 4: 全部转让
+	 * @param order 排序
+	 * all: 全部 repaytime_up: 还款日期升序 repaytime_down: amount_up: 投资金额升序 amount_down: investtime_up: 投资时间升序 investtime_down:
+	 * @param investDateRange 投资时间范围
+	 * day:当日  oneWeek:最近7天  oneMonth:一个月  threeMonth:三个月  all:全部
+	 * @param investBeginDate 投资日期起始日期
+	 * @param investEndDate 投资日期结束日期 
+	 * @param repayDateRange 还款时间范围
+	 * day:当日  oneWeek:最近7天  oneMonth:一个月  threeMonth:三个月  all:全部
+	 * @param repayBeginDate 还款日期起始日期
+	 * @param repayEndDate 还款日期结束日期
 	 * @param page
+	 * @param num
 	 * @param requestCallBack
 	 */
-	public static void getMyInvest(Context context,String v,String page,RequestCallback requestCallBack){
+	public static void getMyInvestList(Context context,String category,String status,String order,
+			String investDateRange,String investBeginDate,String investEndDate,String repayDateRange,
+			String repayBeginDate,String repayEndDate,String page,String num,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.V, v);
+		params.put(ReqUrls.CATEGORY, category);
+		params.put("status", status);
+		params.put(ReqUrls.ORDER, order);
+		params.put("investDateRange", investDateRange);
+		params.put("investBeginDate", investBeginDate);
+		params.put("investEndDate", investEndDate);
+		params.put("repayDateRange", repayDateRange);
+		params.put("repayBeginDate", repayBeginDate);
+		params.put("repayEndDate", repayEndDate);
 		params.put(ReqUrls.PAGE, page);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVEST, false,
+		params.put(ReqUrls.NUM, num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INVESTMENT_LIST, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	/**
@@ -283,6 +308,57 @@ public class ApiUserUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_LIST, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 获取项目投资记录列表
+	 * @param context
+	 * @param pid
+	 * @param page
+	 * @param num
+	 * @param requestCallBack
+	 */
+	public static void getInvestTradeById(Context context,String pid,String page,String num,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("pid", pid);
+		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.NUM, num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTMENTS, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 获取用户优惠券
+	 * @param context
+	 * @param category 现金券cash，利息券interest，提现券draw
+	 * @param type 1未使用，2已使用，3已过期
+	 * @param page
+	 * @param pageNum
+	 * @param requestCallBack
+	 */
+	public static void getMyCoupons(Context context,String category,String type,String page,String pageNum,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.CATEGORY, category);
+		params.put(ReqUrls.TYPE, type);
+		params.put(ReqUrls.PAGE, page);
+		params.put("page_num", pageNum);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_COUPON, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	/**
+	 * 获取用户自己债权转让列表
+	 * @param context
+	 * @param status
+	 * @param page
+	 * @param pageNum
+	 * @param requestCallBack
+	 */
+	public static void getMyDebtTransfer(Context context,String status,String page,String pageNum,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("status", status);
+		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.NUM, pageNum);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_TRANSFER_LIST, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
 	/**
 	 * 用户成长值记录
 	 * @param context

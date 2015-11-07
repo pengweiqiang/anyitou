@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:background="@color/white" >
+	
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+    <RelativeLayout 
+        android:id="@+id/bg_type"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/user_lilvquan_bg"
+        >
+        
+        <TextView 
+            android:id="@+id/coupon_type"
+            android:singleLine="false"
+            android:text="利率券"
+            android:ems="1"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            />
+        <RelativeLayout 
+             android:layout_toRightOf="@+id/coupon_type"
+              android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            
+            >
+        <TextView 
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="1%"
+            />
+        <TextView 
+            android:id="@+id/use_conditions"
+            android:layout_below="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="满10000可用"
+            android:layout_centerHorizontal="true"
+           android:textColor="@color/white"
+           android:textSize="12sp"
+            />
+        <TextView 
+            android:id="@+id/use_time"
+            android:layout_below="@+id/use_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截至：2015-08-02"
+            android:layout_centerHorizontal="true"
+           android:textColor="@color/white"
+           android:textSize="12sp"
+            />
+        </RelativeLayout>
+        
+        
+        
+    </RelativeLayout>
+    	
+    <View 
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d1d1d1"
+        />
+    
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/coupon_item2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+    
+    <RelativeLayout 
+         android:id="@+id/bg_type2"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/user_xianjinquan_bg"
+        >
+        
+        <TextView 
+            android:id="@+id/coupon_type2"
+            android:singleLine="false"
+            android:text="现金券"
+            android:ems="1"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            />
+        
+        <RelativeLayout 
+             android:layout_toRightOf="@+id/coupon_type2"
+              android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            
+            >
+        <TextView 
+            android:id="@+id/price2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="1%"
+            />
+        <TextView 
+            android:id="@+id/use_conditions2"
+            android:layout_below="@+id/price2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="满10000可用"
+            android:layout_centerHorizontal="true"
+           android:textColor="@color/white"
+           android:textSize="12sp"
+            />
+        <TextView 
+            android:id="@+id/use_time2"
+            android:layout_below="@+id/use_conditions2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截至：2015-08-02"
+            android:layout_centerHorizontal="true"
+           android:textColor="@color/white"
+           android:textSize="12sp"
+            />
+        </RelativeLayout>
+        
+       
+        
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d1d1d1"
+        />
+    </LinearLayout>
+    
+
+</LinearLayout>

@@ -263,6 +263,14 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <!-- 投资明细记录 -->
+        <activity
+            android:name="cn.com.anyitou.ui.InvestRecordActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- 我的投资 -->
         <activity
@@ -278,10 +286,32 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <!-- 我的优惠券 -->
+        <activity
+            android:name="cn.com.anyitou.ui.fragment.MyCouponFragment"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 我的债权转让 -->
+        <activity
+            android:name="cn.com.anyitou.ui.fragment.DebtTransferFragment"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 会员特权 -->
         <activity
             android:name="cn.com.anyitou.ui.MemberPrivilegeActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 成功 -->
+        <activity
+            android:name="cn.com.anyitou.ui.SuccessActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Transparent"
             android:screenOrientation="portrait" >
         </activity>
          <!-- 我的安币 -->
@@ -290,6 +320,13 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 安币兑换 -->
+        <activity
+            android:name="cn.com.anyitou.ui.IntegralGoodActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
          <!-- 我的级别 -->
         <activity
             android:name="cn.com.anyitou.ui.MyLevelActivity"

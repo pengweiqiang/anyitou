@@ -124,7 +124,7 @@ public class ModifyLoginPassWordActivity2 extends BaseActivity {
 	}
 	
 	private void showUpdateSuccess(){
-		InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
 		builder.setMessage("密码修改成功,请记住您的新密码");
 		builder.setTitle("修改成功");
 		builder.setButton1("我知道了", new DialogInterface.OnClickListener() {

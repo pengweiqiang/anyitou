@@ -98,6 +98,7 @@ public class MyFragment extends BaseFragment {
 
 	private void initListener() {
 		mActionBar.hideLeftActionButtonText();
+		mActionBar.setHasMsg(false);
 		mBtnCash.setOnClickListener(onClickListener);
 		mBtnRechange.setOnClickListener(onClickListener);
 		mBtnInvestDetail.setOnClickListener(onClickListener);
@@ -145,6 +146,7 @@ public class MyFragment extends BaseFragment {
 			switch (v.getId()) {
 			case R.id.to_cash://提现
 				intent.setClass(mActivity, WithdrawalsActivity.class);
+				intent.putExtra("money", myCapital.getUse_money());
 				break;
 			case R.id.to_rechange://充值
 				intent.putExtra("money", myCapital.getUse_money());
@@ -157,10 +159,10 @@ public class MyFragment extends BaseFragment {
 				intent.setClass(mActivity, TradingRecordActivity.class);
 				break;
 			case R.id.bond_assign://债券转让
-				
+				intent.setClass(mActivity, DebtTransferFragment.class);
 				break;
 			case R.id.coupon://优惠券
-				
+				intent.setClass(mActivity, MyCouponFragment.class);
 				break;
 			case R.id.my_coin://我的安币
 				intent.setClass(mActivity, MyAnbiActivity.class);

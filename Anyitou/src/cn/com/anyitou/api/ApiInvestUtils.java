@@ -81,6 +81,34 @@ public class ApiInvestUtils {
 				requestCallBack, MethodType.LOGIN,context,HttpMethod.GET,false);
 	}
 	/**
+	 *  获取兑换物品列表
+	 * @param context
+	 * @param page
+	 * @param num
+	 * @param requestCallBack
+	 */
+	public static  void getIntegalGoods(Context context,String page ,String num,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.PAGE, page);
+		params.put("page_num", num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INTEGRAL_GOODS, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
+	}
+	/**
+	 * 兑换物品
+	 * @param context
+	 * @param goodsId 兑换物品ID
+	 * @param requestCallBack
+	 */
+	public static  void exchangeGoods(Context context,String goodsId,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("goods_id", goodsId);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_EXCHANGE_GOODS, false,
+				requestCallBack, MethodType.LOGIN,context);
+	}
+	
+	
+	/**
 	 * 获取债权详情
 	 * @param context
 	 * @param id

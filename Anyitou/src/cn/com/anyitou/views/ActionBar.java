@@ -1,7 +1,6 @@
 package cn.com.anyitou.views;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
 import cn.com.anyitou.utils.StringUtils;
 
@@ -27,6 +25,10 @@ public class ActionBar extends FrameLayout {
 	private TextView mActionBarTitle;
 	private ImageView mIvCenterImage;
 	private View mViewCenter;
+	
+	//消息
+	private View mViewMsg;
+	private ImageView mIvMsgLogo;
 
 	public ActionBar(Context context) {
 		super(context);
@@ -50,6 +52,9 @@ public class ActionBar extends FrameLayout {
 		mActionBarTitle = (TextView)findViewById(R.id.actionBarTitle);
 		mIvCenterImage = (ImageView)findViewById(R.id.center_image);
 		mViewCenter = findViewById(R.id.center_rl);
+		
+		mViewMsg = findViewById(R.id.msg);
+		mIvMsgLogo = (ImageView)findViewById(R.id.msg_logo);
 	}
 
 	public void setTitle(int resId) {
@@ -64,6 +69,17 @@ public class ActionBar extends FrameLayout {
 		mTitleView.setTextColor(getResources().getColor(resId));
 	}
 	
+	public void setHasMsg(boolean isexist){
+		hideRightActionButtonText();
+		mViewMsg.setVisibility(View.VISIBLE);
+		if(isexist){
+			mIvMsgLogo.setImageDrawable(getResources().getDrawable(R.drawable.user_msg_have));
+		}else{
+			mIvMsgLogo.setImageDrawable(getResources().getDrawable(R.drawable.user_msg_no));
+		}
+	}
+	
+	
 	public void setLeftActionButton(OnClickListener listener) {
 		if(listener==null){
 			hideLeftActionButtonText();
@@ -73,6 +89,7 @@ public class ActionBar extends FrameLayout {
 //		mLeftActionButton.setVisibility(View.VISIBLE);
 	}
 	public void setRightActionButton(String text,OnClickListener listener){
+		mViewMsg.setVisibility(View.GONE);
 		if(StringUtils.isEmpty(text)){
 			mRightActionButton.setVisibility(View.GONE);
 		}else{

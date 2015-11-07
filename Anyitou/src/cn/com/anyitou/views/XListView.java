@@ -232,8 +232,12 @@ public class XListView extends ListView implements OnScrollListener {
 			}
 			mFooterView.setOnClickListener(null);
 		}else if(count>0){//本次加载数据大于0
-			mFootHintView.setText("上拉加载");
-			mFooterView.show();
+			if(count>=10){
+				mFootHintView.setText("上拉加载");
+				mFooterView.show();
+			}else{
+				mFooterView.hide();
+			}
 		}else if(count ==0 &&StringUtils.isEmpty(str)){
 			mFooterView.hide();
 		}

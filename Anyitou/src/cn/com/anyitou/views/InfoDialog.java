@@ -28,13 +28,13 @@ public class InfoDialog extends Dialog {
     public InfoDialog(Context context) {
         super(context);
     }
-
-
+    
+    
     public InfoDialog(Context context, int theme) {
         super(context, theme);
         Log.e(TAG, "InfoDialog");
-        
     }
+    
     
     public static class Builder {
     	private Context context;
@@ -43,17 +43,22 @@ public class InfoDialog extends Dialog {
     	
     	private String btnText1,btnText2;
     	private int backgroundDrawable = R.drawable.btn_left_concer_dialog_selector;
+    	private int backgroundDrawable2 = backgroundDrawable;
     	
     	private String message;
     	private String title;
     	
     	private TextView mTvTitle,mTvMessage;
     	
+    	private View layout;
+    	
     	private DialogInterface.OnClickListener btn1ClickListener,btn2ClickListener;
     	
     	
-    	public Builder(Context context) {
+    	public Builder(Context context,int layoutId) {
 			this.context = context;
+			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			layout = inflater.inflate(layoutId, null);
 		}
 
 		public Builder setTitle(String title){
@@ -64,6 +69,20 @@ public class InfoDialog extends Dialog {
     	public Builder setMessage(String message){
     		this.message = message;
     		return this;
+    	}
+    	
+    	public void setButton1Background(int drawable){
+    		this.backgroundDrawable = drawable;
+//    		btn1.setBackgroundDrawable(context.getResources().getDrawable(drawable)); 
+    	}
+    	
+    	public void setButton2Background(int drawable){
+    		this.backgroundDrawable2 = drawable;
+//    		btn2.setBackgroundDrawable(context.getResources().getDrawable(drawable)); 
+    	}
+    	
+    	public View getViewLayout(){
+    		return layout;
     	}
     	
     	
@@ -84,18 +103,20 @@ public class InfoDialog extends Dialog {
     	}
     	
     	public InfoDialog create(){
-    		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    		
     		final InfoDialog dialog = new InfoDialog(context,R.style.Dialog);
-    		View layout = inflater.inflate(R.layout.info_dialog, null);
     		dialog.setContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
     		
-    		((TextView) layout.findViewById(R.id.title)).setText(title); 
+    		mTvTitle = ((TextView) layout.findViewById(R.id.title));
+    		if(mTvTitle != null){
+    			mTvTitle.setText(title);
+    		}
     		
     		// set the confirm button  
             if (btnText1 != null) {  
-                ((Button) layout.findViewById(R.id.btn1))  
-                        .setText(btnText1);  
-                ((Button) layout.findViewById(R.id.btn1)).setBackgroundDrawable(context.getResources().getDrawable(backgroundDrawable));
+                btn1 = (Button) layout.findViewById(R.id.btn1);
+                btn1.setText(btnText1);  
+//                btn1.setBackgroundDrawable(context.getResources().getDrawable(backgroundDrawable));
                 if (btn1ClickListener != null) {  
                     ((Button) layout.findViewById(R.id.btn1))  
                             .setOnClickListener(new View.OnClickListener() {  
@@ -107,17 +128,17 @@ public class InfoDialog extends Dialog {
                 }  
             } else {  
                 // if no confirm button just set the visibility to GONE  
-                layout.findViewById(R.id.btn1).setVisibility(  
-                        View.GONE);  
+                btn1 = (Button)layout.findViewById(R.id.btn1);
+                btn1.setVisibility(View.GONE);  
             }  
             
          // set the cancel button  
             if (btnText2 != null) {  
-                ((Button) layout.findViewById(R.id.btn2))  
-                        .setText(btnText2);  
+                btn2 = (Button) layout.findViewById(R.id.btn2); 
+                btn2.setText(btnText2);  
+//                btn1.setBackgroundDrawable(context.getResources().getDrawable(backgroundDrawable2));
                 if (btn2ClickListener != null) {  
-                    ((Button) layout.findViewById(R.id.btn2))  
-                            .setOnClickListener(new View.OnClickListener() {  
+                    btn2.setOnClickListener(new View.OnClickListener() {  
                                 public void onClick(View v) {  
                                 	btn2ClickListener.onClick(dialog,  
                                             DialogInterface.BUTTON_NEGATIVE);  
@@ -126,12 +147,14 @@ public class InfoDialog extends Dialog {
                 }  
             } else {  
                 // if no confirm button just set the visibility to GONE  
-                layout.findViewById(R.id.btn2).setVisibility(  
-                        View.GONE);  
+            	btn2 = (Button)layout.findViewById(R.id.btn2);
+            	btn2.setVisibility(View.GONE);  
             }  
             // set the content message  
             if (message != null) {  
                 ((TextView) layout.findViewById(R.id.message)).setText(message);  
+            }else{
+            	 ((TextView) layout.findViewById(R.id.message)).setVisibility(View.GONE); 
             }
             dialog.setContentView(layout);  
             dialog.setCanceledOnTouchOutside(false);

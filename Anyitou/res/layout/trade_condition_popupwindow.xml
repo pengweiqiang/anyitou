@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:background="@color/white"
+    android:gravity="top" >
+    
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="起止时间"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:layout_marginTop="10dp"
+        />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView 
+            android:id="@+id/time_all"
+            android:layout_weight="1"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textColor="#a3a3a3"
+            />
+        
+        <TextView 
+            android:id="@+id/time_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/time_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一周"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/time_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一个月"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/time_three_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="三个月"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        
+    </LinearLayout>
+	
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="交易类型"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:layout_marginTop="10dp"
+        />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        >
+        <TextView 
+            android:id="@+id/category_all"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textColor="#a3a3a3"
+            />
+        
+        <TextView 
+            android:id="@+id/category_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充值"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/category_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/category_invest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="投资"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        <TextView 
+            android:id="@+id/category_profit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收益"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+       
+        
+    </LinearLayout>
+      <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:weightSum="5"
+        >
+        <TextView 
+            android:id="@+id/category_capital"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收回本金"
+            android:textColor="#a3a3a3"
+            />
+        
+        <TextView 
+            android:id="@+id/category_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其它"
+            android:layout_weight="1"
+            android:textColor="#a3a3a3"
+            />
+        </LinearLayout>
+    
+    
+    
+    
+	
+</LinearLayout>

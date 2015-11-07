@@ -14,6 +14,9 @@ import cn.com.anyitou.R;
 public class MyPopupWindow{
 	
 	public static PopupWindow getPopupWindow(int layoutViewId,final Activity mActivity){
+		return getPopupWindow(layoutViewId, mActivity, R.style.popupAnimation);
+	}
+	public static PopupWindow getPopupWindow(int layoutViewId,final Activity mActivity,int animation){
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		View popupWindowView = inflater.inflate(layoutViewId, null);
 		final PopupWindow popupWindow = new PopupWindow(popupWindowView,
@@ -28,7 +31,9 @@ public class MyPopupWindow{
 		popupWindow.setFocusable(true);
 		setBackgroundAlpha(mActivity, 0.4f);
 		// 设置PopupWindow的弹出和消失效果
-		popupWindow.setAnimationStyle(R.style.popupAnimation);
+		if(animation != 0){
+			popupWindow.setAnimationStyle(R.style.popupAnimation);
+		}
 		
 		popupWindow.setOnDismissListener(new OnDismissListener() {
 			

@@ -6,6 +6,7 @@ import android.content.Context;
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
+import cn.com.anyitou.utils.HttpConnectionUtil.HttpMethod;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 
 /**
@@ -91,6 +92,23 @@ public class ApiOrderUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_RECHARGE, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 交易状态查询接口
+	 * 使用场景：
+		例如：投资流程中，在汇付确认提交返回后，需要通过该接口查询交易是否成功，确认成功后进行相应后续操作
+	 * @param context
+	 * @param ordId
+	 * @param type
+	 * @param requestCallBack
+	 */
+	public static void getTradeStatus(Context context,String ordId,String type,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.ID, ordId);
+		params.put(ReqUrls.TYPE, type);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_STATUS, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
+	}
+	
 	
 	/**
 	 * 查询注册汇付结果

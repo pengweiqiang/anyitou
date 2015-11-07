@@ -303,7 +303,16 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_DEBT_ASSIGNMENT_DETAIL = "debtAssignment/view";
 	
+	/**
+	 * 38.获取用户自己债权转让列表
+	 */
+	public static final String MOBIAPI_DEBT_TRANSFER_LIST = "debt/TransferList";
 	
+	
+	/**
+	 * 41.获取兑换物品列表
+	 */
+	public static final String MOBIAPI_INTEGRAL_GOODS = "integral/goods";
 	/**
 	 * 43.安币变更记录
 	 */
@@ -312,6 +321,11 @@ public interface ReqUrls {
 	 * 44.密码找回
 	 */
 	public static final String MOBIAPI_GETPWD = "userAssist/findPassword";
+	
+	/**
+	 * 45.兑换物品
+	 */
+	public static final String MOBIAPI_EXCHANGE_GOODS = "integral/exchangeGoods";
 	/**
 	 * 47.会员特权信息(/grade/info)
 	 */
@@ -331,6 +345,16 @@ public interface ReqUrls {
 	 * 50.用户安币信息
 	 */
 	public static final String MOBIAPI_USER_INTEGRAL = "integral/userIntegral";
+	
+	/**
+	 * 51.获取用户优惠券信息
+	 */
+	public static final String MOBIAPI_USER_COUPON = "coupon/list";
+	
+	/**
+	 * 52. 获取用户自己的投资记录
+	 */
+	public static final String MOBIAPI_USER_INVESTMENT_LIST = "investment/list";
 	
 	
 	
@@ -389,8 +413,6 @@ public interface ReqUrls {
 	 * 提现手续费查询
 	 */
 	public static final String MOBIAPI_CHECK_MONEY = "mobiapi/checkmoney";
-	
-	
 	
 	
 	/**

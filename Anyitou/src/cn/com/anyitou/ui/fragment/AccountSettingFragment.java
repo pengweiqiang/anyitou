@@ -250,6 +250,7 @@ public class AccountSettingFragment extends BaseFragment {
 			default:
 				break;
 			}
+			popupWindow.dismiss();
 		}
 	};
 	

@@ -3,6 +3,7 @@ package cn.com.anyitou.ui;
 import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.SslErrorHandler;
@@ -11,9 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
@@ -25,6 +24,7 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.gson.JsonObject;
 
 public class WebActivity extends BaseActivity {
 
@@ -84,6 +84,7 @@ public class WebActivity extends BaseActivity {
 			public void onReceivedTitle(WebView view, String str) {
 				super.onReceivedTitle(view, str);
 				mActionBar.setTitle(StringUtils.isEmpty(str)?name:str);
+				getWebTitle(str);
 			}
 
 			@Override
@@ -131,6 +132,61 @@ public class WebActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				AppManager.getAppManager().finishActivity();
+			}
+		});
+	}
+	private void getWebTitle(String title){
+		if("充值成功".equals(title) || "提现成功".equals(title)){
+			ToastUtils.showToast(mContext, title+",2秒后跳入主页");
+			new Handler().postDelayed(new Runnable(){   
+			    public void run() {   
+			    	getTradeStatus();
+			    }   
+			 }, 3000); 
+			
+		}
+	}
+	private void getTradeStatus(){
+		
+		String operationTpe = "";
+		switch (type) {
+		case 1://注册汇付结果
+			
+			break;
+		case 2://充值结果	
+			operationTpe = "recharge";
+			break;
+		case 3://投资结果
+			operationTpe = "invest";
+			break;
+		case 4://提现结果
+			operationTpe = "withdraw";
+			break;
+		case 5://购买债权结果
+			operationTpe = "debt";
+			break;
+		default:
+			break;
+		}
+		ApiOrderUtils.getTradeStatus(mContext, String.valueOf(ordId), operationTpe, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS_BOOLEAN.equals(parseModel.getStatus())){
+					JsonObject data = parseModel.getData().getAsJsonObject();
+					if(data!=null){
+						String status = data.get("status").getAsString();//I:初始  S:成功  F:失败
+						if("S".equals(status)){//交易成功
+							startActivity(HomeActivity.class);
+							AppManager.getAppManager().finishActivity();
+						}else if("F".equals(status)){
+							ToastUtils.showToast(mContext, "操作失败");
+						}else if("I".equalsIgnoreCase(status)){
+//							startActivity(HomeActivity.class);
+//							AppManager.getAppManager().finishActivity();
+						}
+					}
+				}
 			}
 		});
 	}

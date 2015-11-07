@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.HomeListAdapter;
 import cn.com.anyitou.api.ApiInvestUtils;
@@ -23,7 +24,6 @@ import cn.com.anyitou.utils.HttpConnectionUtil;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.LoadingDialog;
-import cn.com.anyitou.views.MyListView;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
 import cn.com.gson.reflect.TypeToken;
@@ -44,6 +44,8 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 	int page = 1;
 	
 	XListView mListView;
+	private View mViewEmpty;
+	private TextView mViewEmptyTip;
 	HomeListAdapter homeAdapter;
 	private boolean isFirst = true;
 
@@ -54,6 +56,8 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 		
 		infoView = inflater.inflate(R.layout.activity_project_list, container, false);
 		mListView = (XListView) infoView.findViewById(R.id.listView_list);
+		mViewEmpty = infoView.findViewById(R.id.empty_listview);
+		mViewEmptyTip = (TextView) infoView.findViewById(R.id.xlistview_empty_tip);
 		
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
@@ -137,10 +141,10 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 							 
 							if (invests != null && !invests.isEmpty()) {
 								// initViewPagerData();
+								showEmptyListView(false);
 								 investLists.addAll(invests);
 							} else {
-								ToastUtils.showToast(mActivity,
-										"暂时没有投资列表");
+								showEmptyListView(true);
 							}
 							mListView.onLoadFinish(page, invests.size(),"加载完毕");
 							homeAdapter.notifyDataSetChanged();
@@ -151,6 +155,15 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 						}
 					}
 				});
+	}
+	
+	private void showEmptyListView(boolean isEmpty){
+		if(isEmpty){
+			mViewEmpty.setVisibility(View.VISIBLE);
+			mViewEmptyTip.setText("暂时没有投资列表");
+		}else{
+			mViewEmpty.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

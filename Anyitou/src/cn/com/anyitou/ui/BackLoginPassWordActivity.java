@@ -57,7 +57,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+				InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
 				builder.setMessage("放弃后您的密码不会改变");
 				builder.setTitle("确定要放弃?");
 				builder.setButton1("取消", new DialogInterface.OnClickListener() {
@@ -211,7 +211,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 	}
 	
 	private void showFindPwdSuccess() {
-		InfoDialog.Builder builder = new InfoDialog.Builder(mContext);
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
 		builder.setMessage("设置成功,请妥善保管密码");
 		builder.setTitle("提示");
 		builder.setButton1("我知道了", new DialogInterface.OnClickListener() {
