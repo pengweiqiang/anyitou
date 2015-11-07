@@ -32,14 +32,14 @@
 	
     <!-- 微信 -->
     <Wechat
-        AppId="wx49fde02062d7875b"
-        AppSecret="26ec6d1112dceb34d54c744b644ab2b4"
+        AppId="wx63046cc335471339"
+        AppSecret="a6e48077024ddd570b8b45675bc643b7"
         Enable="true" />
 
     <!-- 微信朋友圈 -->
     <WechatMoments
-        AppId="wx49fde02062d7875b"
-        AppSecret="26ec6d1112dceb34d54c744b644ab2b4"
+        AppId="wx63046cc335471339"
+        AppSecret="a6e48077024ddd570b8b45675bc643b7"
         Enable="true" />
 
    
@@ -56,9 +56,9 @@
     
     <!-- 新浪微博 -->
     <SinaWeibo
-        AppId="4113227033"
-        AppSecret="d835fd353aa318d3684894aa12ad309f"
-        RedirectUrl="http://www.18link.com" 
+        AppId="1676097348"
+        AppSecret="a6e48077024ddd570b8b45675bc643b7"
+        RedirectUrl="http://www.anyitou.com" 
         IsWebShare="true"
         Enable="true"
         />
