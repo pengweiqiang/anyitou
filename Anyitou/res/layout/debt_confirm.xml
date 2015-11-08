@@ -161,27 +161,14 @@
 	        	android:paddingRight="5dp"
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:paddingTop="5dp"
-			    android:paddingBottom="5dp"
+			    android:paddingTop="10dp"
+			    android:paddingBottom="10dp"
 			    android:background="@null"
 			    android:inputType="number"
 			    android:layout_toLeftOf="@+id/all_invest"
 			    android:layout_centerVertical="true"
 			    android:textColorHint="#c9c9c9"
-			    android:hint="请按1000元的倍数起投"
-			    />
-			<TextView 
-			    android:id="@+id/all_invest"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="全投"
-			    android:paddingBottom="10dp"
-			    android:paddingLeft="20dp"
-	        	android:paddingRight="20dp"
-	        	android:paddingTop="10dp"
-			    android:layout_alignParentRight="true"
-			    android:textColor="@color/white"
-			    android:background="@drawable/btn_right_all_concer_dialog_selector"
+			    android:hint="认购份额1000"
 			    />
 		    
 		</RelativeLayout>
@@ -211,52 +198,8 @@
 			    android:textColor="@color/app_bg_color"
 			    />
 			
-			<TextView 
-			    android:id="@+id/pre_anbi_title"
-			    android:layout_toLeftOf="@+id/pre_anbi"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="获取安币："
-			    android:textColor="@color/tab_title_color"
-			    />
-			<TextView 
-			    android:id="@+id/pre_anbi"
-			    android:layout_width="wrap_content"
-			    android:layout_alignParentRight="true"
-			    android:layout_height="wrap_content"
-			    android:text="0"
-			    android:textColor="@color/app_bg_color"
-			    />
+		</RelativeLayout>
 			
-		</RelativeLayout>
-		<!-- 优惠券 -->
-		
-		<RelativeLayout 
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:background="@drawable/concer_coupon_bg_style"
-		    android:layout_marginLeft="13dp"
-        	android:layout_marginRight="8dp"
-        	android:layout_marginTop="10dp"
-		    >
-			<TextView 
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:text="使用优惠券"
-			    android:layout_centerVertical="true"
-			    android:textColor="@color/white"
-			    android:textSize="17sp"
-			    />
-			<ImageView 
-			    android:id="@+id/coupon_right"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_centerVertical="true"
-			    android:layout_alignParentRight="true"
-			    android:src="@drawable/pull_down__num1_icon"
-			    />					    
-		    
-		</RelativeLayout>
 		
 		
         

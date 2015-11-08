@@ -4,6 +4,7 @@
     <item android:state_selected="true" android:drawable="@color/code_selected"/>
     <item android:state_checked="true" android:drawable="@color/code_selected"/>
     <item android:state_pressed="true" android:drawable="@color/code_selected"/>
+    <item android:state_enabled="false" android:drawable="@color/invest_detail_bottom_color_enable"></item>
     <item android:drawable="@color/code_normal"/>
 
 </selector>

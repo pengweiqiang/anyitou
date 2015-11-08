@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +16,19 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.DebtTransferAdapter;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.entity.DebtAssignment;
 import cn.com.anyitou.entity.DebtTransfer;
 import cn.com.anyitou.entity.ParseModel;
+import cn.com.anyitou.ui.InVestmentDetailActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil;
 import cn.com.anyitou.utils.JsonUtils;
+import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
-import cn.com.gson.JsonElement;
-import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
 /**
@@ -86,15 +88,28 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				ToastUtils.showToast(mActivity, "po: "+(position-1));
-//				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-//				intent.putExtra("id", debtAssignmentList.get(position).getId());
-//				startActivity(intent);
+				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
+				DebtAssignment debtAssgiment = new DebtAssignment();
+				DebtTransfer debtTransfer = debtTransferLists.get(position);
+				debtAssgiment.setId(debtTransfer.getId());
+				debtAssgiment.setStatus(debtTransfer.getStatus());
+				intent.putExtra("debt", debtAssgiment);
+				intent.putExtra("type", 2);
+				startActivity(intent);
 			}
 			
 		});
 	}
-	
+//	mTvInvestName.setText(debtAssignment.getNumber());
+//	mTvYearrate.setText(debtAssignment.getBuyer_apr()+"%");
+//	mTvRepayType.setText("");
+//	mTvRepayDate.setText(debtAssignment.getRepayment_time());
+//	mTvEndDate.setText(debtAssignment.getSell_end_time());
+//	
+//	mTvInvestMoney.setText(StringUtils.getMoneyFormat(debtAssignment.getRemainAmount()));
+//	mTvFinancingAmount.setText(StringUtils.getMoneyFormat(debtAssignment.getTransferred_amount()));
+//	mTvInvestStatus.setText(debtAssignment.getStatus());
+//	mTvFinancingDate.setText("获取哪个值？");
 	
 	
 

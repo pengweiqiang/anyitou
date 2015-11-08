@@ -114,7 +114,7 @@ public class ApiInvestUtils {
 	 * @param id
 	 * @param requestCallBack
 	 */
-	public static  void getDebtAssignmentDetail(Context context,String id,String type,RequestCallback requestCallBack){
+	public static  void getDebtAssignmentDetail(Context context,String id,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
 		params.put(ReqUrls.ID, id);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_ASSIGNMENT_DETAIL, false,

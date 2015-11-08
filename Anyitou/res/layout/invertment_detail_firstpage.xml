@@ -1,329 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res/cn.com.anyitou"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@color/home_bg" >
 
-    <RelativeLayout
-        android:background="@drawable/investment_detail_bg4"
-        android:id="@+id/first_page_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="4" >
+            android:layout_height="wrap_content" >
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.1" >
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
-                <View
-                    android:id="@+id/center_view_1"
-                    android:layout_width="30dp"
-                    android:layout_height="10dp"
-                    android:layout_centerInParent="true" />
+                <!-- 投资名称 -->
 
                 <TextView
-                    android:id="@+id/invest_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/center_view_1"
-                    android:background="@drawable/invest_detail_small_dialog2"
-                    android:gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:paddingRight="6dp"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                     />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/center_view_1"
-                    android:orientation="horizontal"
-                    android:weightSum="3" >
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.1" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:layout_weight="2" >
-
-                        <TextView
-                            android:id="@+id/yearrate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/invest_detail_small_dialog2"
-                            android:gravity="center"
-                            android:paddingLeft="8dp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:paddingRight="6dp"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.1" >
-
-                <View
-                    android:id="@+id/center_view_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:id="@+id/invest_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/center_view_2"
-                    android:background="@drawable/invest_detail_small_dialog2"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <View
-                    android:id="@+id/center_view_bottom"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
-
-                <LinearLayout
+                    android:id="@+id/invest_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:weightSum="3" >
+                    android:background="@color/white"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="3dp"
+                    android:paddingTop="8dp"
+                    android:text="安企贷 AQD-20151108"
+                    android:textColor="#666666" />
 
-                    <View
-                        android:layout_width="0dp"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#dbdbdb" />
+                <!-- 投资年化率 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/invest_rate_bg" >
+
+                    <LinearLayout 
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.2" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1.55" >
-
-                        <TextView
-                            android:id="@+id/now_money"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/invest_detail_big_dialog2"
-                            android:gravity="center"
-                            android:paddingBottom="7dp"
-                            android:paddingLeft="7dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="7dp"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                             />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="0.8"
+                        android:layout_centerInParent="true"
                         android:orientation="vertical"
-                        android:weightSum="2" >
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="0.73" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="0.8" >
-
-                            <cn.com.anyitou.views.NumberCircleProgressBar
-                                android:id="@+id/finish"
-                                android:paddingLeft="2dp"
-                                style="@style/NumberCircleProgressBar_Default"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:paddingBottom="2dp"
-                                android:layout_centerInParent="true"
-                                 />
-                        </RelativeLayout>
+                        android:gravity="center"
+                        >
+	                    <TextView
+	                        android:id="@+id/rate"
+	                        android:gravity="center"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:text="15.00%"
+	                        android:textSize="38sp"
+	                        android:textColor="@color/app_bg_color" />
+	
+	                    <TextView
+	                        android:id="@+id/rate_title"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:text="年化收益率"
+	                        android:textColor="#666666" />
                     </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
+                    
+                     <!-- 预上线标识 -->
+		            <ImageView
+		                android:id="@+id/pre_on_line_logo"
+		                android:layout_width="wrap_content"
+		                android:layout_alignParentRight="true"
+		                android:layout_marginRight="10dp"
+		                android:layout_centerVertical="true"
+		                android:visibility="gone"
+		                android:layout_height="wrap_content"
+		                android:src="@drawable/invest_prepare_online_icon" />
+                </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
-
-                <View
-                    android:id="@+id/center_view"
-                    android:layout_width="0px"
-                    android:layout_height="0px"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:id="@+id/now_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toLeftOf="@+id/center_view"
-                    android:background="@drawable/invest_detail_big_dialog"
-                    android:gravity="center"
-                    android:paddingBottom="7dp"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="7dp"
-                    android:text="已投金额/融资金额"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:visibility="gone" />
-            </RelativeLayout>
-        </LinearLayout>
-
+            <!-- 还款标识 -->
+            <ImageView
+                android:id="@+id/repaying_logo"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:src="@drawable/invest_repay_icon" />
+        </FrameLayout>
         
-    </RelativeLayout>
-    
-    <RelativeLayout
-            android:id="@+id/next_rl"
+        <!-- 进度 -->
+        
+		        
+        
+        <!-- 基本信息 -->
+        <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:layout_marginBottom="5dp" >
-
-            <TextView
-                android:id="@+id/tv_detail_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/tab_title_color"
-                android:textSize="16sp" />
-
-            <View
-                android:id="@+id/dash_line"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            >
+            <RelativeLayout 
                 android:layout_width="match_parent"
-                android:layout_height="3px"
-                android:layout_below="@+id/tv_detail_name"
-                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+	            <TextView 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="还款方式："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/repay_type"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="每日付息,到期还本"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:id="@+id/financing_date_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/dash_line_drawable" />
-
-            <LinearLayout
-                android:id="@+id/back_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dash_line"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="还款方式:"
-                    android:textColor="@color/tab_title_color"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tv_back_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:textColor="@color/tab_title_color"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/dead_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/back_style"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="截止时间:"
-                    android:textColor="@color/tab_title_color"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tv_dead_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:textColor="@color/tab_title_color"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dead_time"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/invest_detail_next" />
-
-            <LinearLayout
-                android:id="@+id/bottom_tip"
+                >
+	            <TextView 
+	                android:id="@+id/deadline_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="融资期限："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/financing_date"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="3个月"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/next"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp" >
+                android:layout_marginTop="8dp"
+                >
+	            <TextView 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="还款日期："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/repay_date"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="2015-07-06"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                >
+	            <TextView 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="截止时间："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/end_date"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="本日24点前"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                >
+	            <TextView 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="项目状态："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/invest_status"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="即将上线"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                >
+	            <TextView 
+	                android:id="@+id/money_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="可投金额："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/invest_money"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="1000万"
+	                android:textColor="@color/app_bg_color"
+	                />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                >
+	            <TextView 
+	                android:id="@+id/last_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="融资金额："
+	                android:textColor="#666666"
+	                />
+	            <TextView
+	                android:id="@+id/financing_money"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:text="1500万"
+	                android:textColor="@color/tab_title_color"
+	                />
+            </RelativeLayout>
+            
+            
+            
+            
+        </LinearLayout>
+        
+        
+        
+        
+    </LinearLayout>
 
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="1px"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/line" />
+    <LinearLayout
+        android:id="@+id/bottom_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="3dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="继续拖动,查看详情"
-                    android:textColor="#c8c8c8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="继续拖动,查看详情"
+            android:textColor="#9c9c9c"
+            android:textSize="13sp" />
 
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="1px"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/line" />
-            </LinearLayout>
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pull_down_icon" />
+    </LinearLayout>
 
 </RelativeLayout>

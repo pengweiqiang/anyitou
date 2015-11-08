@@ -48,7 +48,7 @@
                 android:textColor="#005bac"
                 android:textSize="17sp" 
                 android:layout_marginLeft="28dp"
-                android:text="民生银行（2867）"
+                android:text=""
                 />
         </RelativeLayout>
         <View 
@@ -92,7 +92,7 @@
                 android:singleLine="true"
                 android:background="@null"
                 android:layout_toRightOf="@+id/recharge"
-                android:hint="当前可用余额为0元"
+                android:hint="可用余额为0元"
                 android:textSize="17sp"
                 android:textColorHint="#888888"
                 />

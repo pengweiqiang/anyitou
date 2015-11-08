@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import cn.com.GlobalConfig;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.Constant;
+import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.SharePreferenceManager;
@@ -33,10 +34,20 @@ public class MyApplication extends Application {
 	public boolean isLock = false;//是否解锁
 	public Class classLast =null;
 	private User user;
+	private MyCapital myCapital;
 	
 	public static MyApplication getInstance() {
 		return myApplication;
 	}
+
+	public MyCapital getMyCapital() {
+		return myCapital;
+	}
+
+	public void setMyCapital(MyCapital myCapital) {
+		this.myCapital = myCapital;
+	}
+
 
 	public void setUser(User user) {
 		this.user = user;
@@ -63,9 +74,9 @@ public class MyApplication extends Application {
 				long saveCurrentTime = Long.parseLong(clientTokens[1]);
 				if(Math.abs(currentTime - saveCurrentTime) < 1000*60*60*1.5){
 					GlobalConfig.CLIENT_TOKEN = clientTokens[0];
-				}else{
-					TokenUtil.getClientToken(myApplication);
 				}
+				TokenUtil.getClientToken(myApplication);
+				
 			}else{
 				TokenUtil.getClientToken(myApplication);
 			}

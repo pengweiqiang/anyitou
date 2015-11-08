@@ -3,7 +3,6 @@ package cn.com.anyitou.views;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +101,10 @@ public class InfoDialog extends Dialog {
     		return this;
     	}
     	
+    	public TextView getTitltView(){
+    		return mTvTitle;
+    	}
+    	
     	public InfoDialog create(){
     		
     		final InfoDialog dialog = new InfoDialog(context,R.style.Dialog);
@@ -129,7 +132,9 @@ public class InfoDialog extends Dialog {
             } else {  
                 // if no confirm button just set the visibility to GONE  
                 btn1 = (Button)layout.findViewById(R.id.btn1);
-                btn1.setVisibility(View.GONE);  
+                if(btn1!=null){
+                	btn1.setVisibility(View.GONE);  
+                }
             }  
             
          // set the cancel button  
@@ -148,13 +153,14 @@ public class InfoDialog extends Dialog {
             } else {  
                 // if no confirm button just set the visibility to GONE  
             	btn2 = (Button)layout.findViewById(R.id.btn2);
-            	btn2.setVisibility(View.GONE);  
+            	if(btn2!=null) btn2.setVisibility(View.GONE);  
             }  
             // set the content message  
             if (message != null) {  
                 ((TextView) layout.findViewById(R.id.message)).setText(message);  
             }else{
-            	 ((TextView) layout.findViewById(R.id.message)).setVisibility(View.GONE); 
+            	 mTvMessage = ((TextView) layout.findViewById(R.id.message));
+            	 if(mTvMessage != null) mTvMessage.setVisibility(View.GONE);
             }
             dialog.setContentView(layout);  
             dialog.setCanceledOnTouchOutside(false);

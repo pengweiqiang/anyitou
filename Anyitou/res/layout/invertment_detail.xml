@@ -25,16 +25,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_code_color"
-        android:padding="13dp" >
+        android:orientation="horizontal"
+       
+         >
 
+        <ImageView 
+            android:id="@+id/invest_calu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/invest_calculator_icon"
+            />
         <TextView
-            android:id="@+id/bottom_textView"
+            android:id="@+id/bottom_invest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+             android:background="@drawable/button_code_color"
             android:gravity="center"
-            android:text="投资赚钱"
+            android:padding="10dp"
+            android:enabled="false"
+            android:clickable="false"
+            android:text="立即投标"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>

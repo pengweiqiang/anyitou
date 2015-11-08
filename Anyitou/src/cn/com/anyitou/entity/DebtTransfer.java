@@ -1,7 +1,11 @@
 package cn.com.anyitou.entity;
 
 import java.io.Serializable;
-
+/**
+ * 用户的债权转让列表
+ * @author pengweiqiang
+ *
+ */
 public class DebtTransfer implements Serializable{
 
 	/**
@@ -43,7 +47,13 @@ public class DebtTransfer implements Serializable{
 	private TimeData timeData;
 	private String realApr;
 	
-	public class TimeData{
+	public class TimeData implements Serializable{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2617434537635405384L;
+		
 		private String sell_end_timestamp;
 		private String diff;
 		private String today_invest_days;
@@ -69,13 +79,31 @@ public class DebtTransfer implements Serializable{
 		
 	}
 	
-	public class InvestData{
+	public class InvestData implements Serializable{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6332039208615457223L;
 		private String id;
 		private String amount;
 		private String money;
 		private String transferring_amount;
 		private String transferred_amount;
 		private String invest_time;
+		
+		private String trade_no;
+		private String user_id;
+		private String item_id;
+		private String category;
+		private String item_amount;
+		private String real_amount;
+		private String status;
+		private String debt_status;
+		private String type;
+		private String use_coupon;
+		private String coupon_ids;
+		
 		public String getId() {
 			return id;
 		}
@@ -112,6 +140,73 @@ public class DebtTransfer implements Serializable{
 		public void setInvest_time(String invest_time) {
 			this.invest_time = invest_time;
 		}
+		public String getTrade_no() {
+			return trade_no;
+		}
+		public void setTrade_no(String trade_no) {
+			this.trade_no = trade_no;
+		}
+		public String getUser_id() {
+			return user_id;
+		}
+		public void setUser_id(String user_id) {
+			this.user_id = user_id;
+		}
+		public String getItem_id() {
+			return item_id;
+		}
+		public void setItem_id(String item_id) {
+			this.item_id = item_id;
+		}
+		public String getCategory() {
+			return category;
+		}
+		public void setCategory(String category) {
+			this.category = category;
+		}
+		public String getItem_amount() {
+			return item_amount;
+		}
+		public void setItem_amount(String item_amount) {
+			this.item_amount = item_amount;
+		}
+		public String getReal_amount() {
+			return real_amount;
+		}
+		public void setReal_amount(String real_amount) {
+			this.real_amount = real_amount;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
+		public String getDebt_status() {
+			return debt_status;
+		}
+		public void setDebt_status(String debt_status) {
+			this.debt_status = debt_status;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+		public String getUse_coupon() {
+			return use_coupon;
+		}
+		public void setUse_coupon(String use_coupon) {
+			this.use_coupon = use_coupon;
+		}
+		public String getCoupon_ids() {
+			return coupon_ids;
+		}
+		public void setCoupon_ids(String coupon_ids) {
+			this.coupon_ids = coupon_ids;
+		}
+		
 		
 	}
 

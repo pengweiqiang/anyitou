@@ -67,8 +67,6 @@ public class TradingRecordActivity extends BaseActivity implements
 		recordsAdapter = new RecordsAdapter(recordLists, mContext);
 
 		mListView.setAdapter(recordsAdapter);
-		loadingDialog = new LoadingDialog(mContext);
-		loadingDialog.show();
 		initData();
 	}
 
@@ -122,6 +120,8 @@ public class TradingRecordActivity extends BaseActivity implements
 	}
 	
 	private void initData() {
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
 		mViewEmpty.setVisibility(View.GONE);
 		ApiUserUtils.getTrade(mContext,category,order,dateRange,beginDate,endDate, String.valueOf(page),"10",
 				new RequestCallback() {

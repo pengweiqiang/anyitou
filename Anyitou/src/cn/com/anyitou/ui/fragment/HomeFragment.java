@@ -148,7 +148,8 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 					int position, long id) {
 				Intent intent = new Intent(mActivity,
 						InVestmentDetailActivity.class);
-				intent.putExtra("id", investLists.get(position-2).getId());
+				intent.putExtra("type", 1);//投资
+				intent.putExtra("invest", investLists.get(position-2));
 				startActivity(intent);
 			}
 

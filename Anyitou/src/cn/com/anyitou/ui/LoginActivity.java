@@ -1,5 +1,6 @@
 package cn.com.anyitou.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -77,7 +78,12 @@ public class LoginActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				AppManager.getAppManager().finishActivity();
+				AppManager.getAppManager().finishActivity(LoginActivity.this);
+				Activity currentActivity = AppManager.getAppManager().currentActivity();
+				if(currentActivity.getClass().getName().equals(SplashActivity.class.getName())){
+					startActivity(HomeActivity.class);
+				}
+				
 			}
 		});
 		mTvCodeMsg.setOnClickListener(new OnClickListener() {
@@ -158,7 +164,7 @@ public class LoginActivity extends BaseActivity {
 								setResult(RESULT_OK,intent);
 								LoginActivity.this.finish();
 							}else{
-								startActivity(HomeActivity.class);
+//								startActivity(HomeActivity.class);
 								AppManager.getAppManager().finishActivity();
 							}
 							

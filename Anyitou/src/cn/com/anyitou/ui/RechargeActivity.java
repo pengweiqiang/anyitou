@@ -45,7 +45,7 @@ public class RechargeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		money = this.getIntent().getStringExtra("money");//账户余额
 		
-		mEtMoney.setHint("当前可用余额为"+money+"元");
+		mEtMoney.setHint("可用余额为"+money+"元");
 		
 		initData();
 	}
@@ -97,7 +97,7 @@ public class RechargeActivity extends BaseActivity {
 				mTvBankName.setText(cashPageInfo.getCard().getBank_name()+"（"+bankNumberLength4+"）");
 			}
 			
-			mEtMoney.setHint("当前可用余额为"+cashPageInfo.getMoney().getUsable_money()+"元");
+			mEtMoney.setHint("可用余额为"+cashPageInfo.getMoney().getUsable_money()+"元");
 			
 		}
 	}

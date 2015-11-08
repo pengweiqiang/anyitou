@@ -136,7 +136,7 @@ public class WebActivity extends BaseActivity {
 		});
 	}
 	private void getWebTitle(String title){
-		if("充值成功".equals(title) || "提现成功".equals(title)){
+		if("充值成功".equals(title) || "提现成功".equals(title) ||"投资成功".equals(title)){
 			ToastUtils.showToast(mContext, title+",2秒后跳入主页");
 			new Handler().postDelayed(new Runnable(){   
 			    public void run() {   

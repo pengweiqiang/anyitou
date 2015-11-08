@@ -90,8 +90,10 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-				intent.putExtra("id", debtAssignmentList.get(position).getId());
+				Intent intent = new Intent(mActivity,
+						InVestmentDetailActivity.class);
+				intent.putExtra("type", 2);//债权
+				intent.putExtra("debt", debtAssignmentList.get(position-1));
 				startActivity(intent);
 			}
 			

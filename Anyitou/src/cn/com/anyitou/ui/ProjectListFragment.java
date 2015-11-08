@@ -96,8 +96,10 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-				intent.putExtra("id", investLists.get(position).getId());
+				Intent intent = new Intent(mActivity,
+						InVestmentDetailActivity.class);
+				intent.putExtra("type", 1);//投资
+				intent.putExtra("invest", investLists.get(position-1));
 				startActivity(intent);
 			}
 			

@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.Coupon;
 import cn.com.anyitou.utils.DateUtil;
+import cn.com.anyitou.utils.TextViewUtils;
 
 
 public class CouponAdapter extends BaseListAdapter{
@@ -96,13 +98,12 @@ public class CouponAdapter extends BaseListAdapter{
 //		}else{
 //			price.append("元");
 //		}
-		SpannableString spannString = new SpannableString(price);
 		String lastChar = price.substring(price.length()-1);
 		try{
 			Integer.valueOf(lastChar);
 			viewHolder.mTvPrice.setText(price);
 		}catch(Exception e){
-			spannString.setSpan(new AbsoluteSizeSpan(14,true), price.length()-1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
+			SpannableString spannString = TextViewUtils.getSpannableStringSize(price.toString(), price.length()-1, price.length(), 14);
 			viewHolder.mTvPrice.setText(spannString);
 		}
 		
@@ -128,13 +129,12 @@ public class CouponAdapter extends BaseListAdapter{
 //			}else{
 //				price2.append("元");
 //			}
-			SpannableString spannString2 = new SpannableString(price2);
 			String lastChar2 = price2.substring(price2.length()-1);
 			try{
 				Integer.valueOf(lastChar2);
 				viewHolder.mTvPrice2.setText(price2);
 			}catch(Exception e){
-				spannString2.setSpan(new AbsoluteSizeSpan(14,true), price2.length()-1, price2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
+				SpannableString spannString2 = TextViewUtils.getSpannableStringSize(price2.toString(), price2.length()-1, price2.length(), 14);
 				viewHolder.mTvPrice2.setText(spannString2);
 			}
 			

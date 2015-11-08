@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+   	<LinearLayout 
+   	    android:background="@drawable/modify_pw_dialog"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="20dp"
+   	    android:layout_marginRight="20dp"
+   	    android:orientation="vertical"
+   	    >
+   	   
+	   	
+	   	
+	   	<LinearLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:layout_marginTop="20dp"
+   	        android:layout_marginBottom="10dp"
+   	        android:orientation="horizontal"
+   	        android:gravity="center_horizontal"
+   	        >
+	   	    <TextView 
+	   	        android:id="@+id/title"
+	   	        android:layout_width="wrap_content"
+	   	        android:layout_height="wrap_content"
+	   	        android:text="账户余额不足"
+	   	        android:textColor="#959595"
+	   	        android:textSize="16sp"
+	   	        android:layout_marginLeft="6dp"
+	   	        />
+	   	</LinearLayout>
+   	    
+   	    <LinearLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:orientation="horizontal"
+   	        android:gravity="center_horizontal"
+   	        android:layout_marginLeft="5dp"
+   	        android:layout_marginRight="5dp"
+   	        >
+	   	    <TextView 
+	   	        android:id="@+id/message"
+	   	        android:layout_width="wrap_content"
+	   	        android:layout_height="wrap_content"
+	   	        android:text="差额为：573.83元"
+	   	        android:gravity="center_horizontal"
+	   	        android:lineSpacingExtra="3dp"
+	   	        android:textColor="@color/dialog_text_color"
+	   	        android:layout_marginBottom="5dp"
+	   	        android:textSize="16sp"
+	   	        />
+	   	    
+	   	</LinearLayout>
+   	    <LinearLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:layout_marginTop="15dp"
+   	        android:orientation="horizontal"
+   	        android:layout_gravity="bottom"
+   	        android:gravity="bottom"
+   	        >
+   	        <Button 
+   	            android:id="@+id/btn1"
+	   	        android:layout_width="0dp"
+	   	        android:layout_height="wrap_content"
+	   	        android:layout_weight="1"
+	   	        android:text="取消"
+	   	        android:textColor="@color/white"
+	   	        android:padding="10dp"
+	   	        android:background="@drawable/btn_left_concer_dialog_selector"
+	   	        />
+   	        <Button 
+   	            android:id="@+id/btn2"
+	   	        android:layout_width="0dp"
+	   	        android:layout_height="wrap_content"
+	   	        android:layout_weight="1"
+	   	        android:layout_marginLeft="1px"
+	   	        android:textColor="@color/white"
+	   	        android:background="@drawable/btn_right_concer_dialog_selector"
+	   	        android:text="立即充值"/>
+   	    </LinearLayout>
+   	    
+   	</LinearLayout>
+
+</RelativeLayout>

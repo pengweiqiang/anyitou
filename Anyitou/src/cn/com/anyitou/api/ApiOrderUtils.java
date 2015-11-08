@@ -22,17 +22,35 @@ public class ApiOrderUtils {
 	/**
 	 * 投资
 	 * @param context
-	 * @param id
-	 * @param money
+	 * @param id  项目id
+	 * @param money  投资金额
+	 * @param couponId 优惠券id
 	 * @param requestCallBack
 	 */
-	public static void investing(Context context,String id,String money,RequestCallback requestCallBack){
+	public static void investing(Context context,String id,String money,String couponId,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put(ReqUrls.ID, id);
+		params.put("pid", id);
 		params.put(ReqUrls.AMOUNT, money);
+		params.put("coupons", couponId);
+		params.put("agree", "true");//同意借款协议
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTING, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 认购债权
+	 * @param context
+	 * @param id
+	 * @param amount
+	 * @param requestCallBack
+	 */
+	public static void buyDebt(Context context,String id,String amount,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.AMOUNT, amount);
+		params.put(ReqUrls.ID, id);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_BUY, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
 	
 	/**
 	 * 提现  

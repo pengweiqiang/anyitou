@@ -239,6 +239,8 @@ public class MyFragment extends BaseFragment {
 			mTvWaitPrincipal.setText(StringUtils.getMoneyFormat(myCapital.getCollected_interest()));
 			mTvProfitCount.setText(StringUtils.getMoneyFormat(myCapital.getAll_income()));
 			mTvUserName.setText("^_^  你好,"+myCapital.getUser_name());
+			
+			MyApplication.getInstance().setMyCapital(myCapital);
 		}
 	}
 	

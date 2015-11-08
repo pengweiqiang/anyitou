@@ -3,7 +3,7 @@ package cn.com.anyitou.entity;
 import java.io.Serializable;
 
 /**
- * 债权
+ * 债权列表
  */
 public class DebtAssignment implements Serializable{
 
@@ -23,7 +23,7 @@ public class DebtAssignment implements Serializable{
 	private String amount;
 	private String real_amount;
 	private String buyer_apr;
-	private String repament_time;
+	private String repayment_time;
 	private String price;
 	private String transferred_amount;
 	private String transferred_num;
@@ -173,14 +173,14 @@ public class DebtAssignment implements Serializable{
 
 
 
-	public String getRepament_time() {
-		return repament_time;
+	public String getRepayment_time() {
+		return repayment_time;
 	}
 
 
 
-	public void setRepament_time(String repament_time) {
-		this.repament_time = repament_time;
+	public void setRepayment_time(String repayment_time) {
+		this.repayment_time = repayment_time;
 	}
 
 
@@ -353,7 +353,13 @@ public class DebtAssignment implements Serializable{
 
 
 
-	public class TimeData{
+	public class TimeData implements Serializable{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2342133574834181966L;
+		
 		private String sell_end_timestamp;
 		private String diff;
 		private String today_invest_days;

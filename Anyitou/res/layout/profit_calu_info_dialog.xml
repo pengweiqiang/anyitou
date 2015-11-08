@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+   	<LinearLayout 
+   	    android:background="@drawable/modify_pw_dialog"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="15dp"
+   	    android:layout_marginRight="15dp"
+   	    android:orientation="vertical"
+   	    android:paddingTop="10dp"
+   	    >
+   	   
+	   	
+	   	
+	   	<RelativeLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:layout_marginBottom="10dp"
+   	        >
+	   	    <TextView 
+	   	        android:id="@+id/title"
+	   	        android:layout_width="wrap_content"
+	   	        android:layout_height="wrap_content"
+	   	        android:text="收益计算器"
+	   	        android:layout_centerHorizontal="true"
+	   	        android:layout_centerVertical="true"
+	   	        android:textColor="@color/black"
+	   	        android:textSize="18sp"
+	   	        />
+	   	    <ImageView 
+	   	        android:id="@+id/close"
+	   	        android:layout_width="wrap_content"
+	   	        android:layout_height="wrap_content"
+	   	        android:padding="8dp"
+	   	        android:src="@drawable/close_icon"
+	   	        android:layout_marginRight="7dp"
+	   	        android:layout_centerVertical="true"
+	   	        android:layout_alignParentRight="true"
+	   	        />
+	   	</RelativeLayout>
+	   	<View 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="1dp"
+	   	    android:background="#f9a8a4"
+	   	    />
+   	    
+   	    <LinearLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:orientation="horizontal"
+   	        android:gravity="center_horizontal"
+   	        android:layout_marginLeft="5dp"
+   	        android:layout_marginRight="5dp"
+   	        android:layout_marginTop="15dp"
+   	        >
+	   	    <RelativeLayout 
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        >
+		        <TextView 
+		            android:id="@+id/pre_profit"
+		            android:layout_centerHorizontal="true"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="0元"
+		            android:textColor="@color/app_bg_color"
+		            android:textSize="17sp"
+		            />
+		        <TextView 
+		            android:layout_below="@+id/pre_profit"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerHorizontal="true"
+		            android:text="预期收益"
+		            android:textColor="#959595"
+		            />
+		        
+		        
+		    </RelativeLayout>
+		    
+		    <View 
+		        android:layout_width="35dp"
+		        android:layout_height="match_parent"
+		        android:background="@drawable/dash_grey_drawable"
+		        />
+		    
+		    <RelativeLayout 
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        >
+		        <TextView 
+		            android:id="@+id/invest_day"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="90天"
+		            android:textColor="#959595"
+		            android:textSize="16sp"
+		            android:layout_centerHorizontal="true"
+		            />
+		        <TextView 
+		            android:layout_below="@+id/invest_day"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="计息天数"
+		            android:layout_centerHorizontal="true"
+		            android:textColor="#959595"
+		            />
+		        
+		        
+		    </RelativeLayout>
+	   	    
+	   	</LinearLayout>
+   	    <RelativeLayout 
+   	        android:layout_width="match_parent"
+   	        android:layout_height="wrap_content"
+   	        android:layout_marginTop="15dp"
+   	        android:orientation="horizontal"
+   	        android:layout_gravity="bottom"
+   	        android:gravity="bottom"
+   	        android:background="@drawable/btn_concer_dialog_normal"
+   	        >
+		    <TextView 
+		        android:id="@+id/invest_money_title"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="投资金额"
+		            android:layout_centerVertical="true"
+		            android:textColor="@color/white"
+		            />
+		    <EditText 
+		        android:id="@+id/invest_money"
+		        android:layout_toRightOf="@+id/invest_money_title"
+		        android:layout_marginLeft="8dp"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:inputType="number"
+		        android:background="@drawable/et_invest_cal_money_bg"
+		        android:hint="1000元起投,1000元递增"
+		        />
+   	    </RelativeLayout>
+   	    
+   	</LinearLayout>
+
+</RelativeLayout>

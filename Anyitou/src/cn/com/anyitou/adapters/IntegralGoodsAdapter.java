@@ -26,6 +26,7 @@ import cn.com.anyitou.ui.SuccessActivity;
 import cn.com.anyitou.utils.DateUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.utils.TextViewUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
@@ -115,13 +116,12 @@ public class IntegralGoodsAdapter extends BaseListAdapter{
 //		}else{
 //			price.append("元");
 //		}
-		SpannableString spannString = new SpannableString(price);
 		String lastChar = price.substring(price.length()-1);
 		try{
 			Integer.valueOf(lastChar);
 			viewHolder.mTvPrice.setText(price);
 		}catch(Exception e){
-			spannString.setSpan(new AbsoluteSizeSpan(14,true), price.length()-1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
+			SpannableString spannString = TextViewUtils.getSpannableStringSize(price.toString(), price.length()-1, price.length(), 14);
 			viewHolder.mTvPrice.setText(spannString);
 		}
 		
@@ -141,13 +141,12 @@ public class IntegralGoodsAdapter extends BaseListAdapter{
 //			}else{
 //				price2.append("元");
 //			}
-			SpannableString spannString2 = new SpannableString(price2);
 			String lastChar2 = price2.substring(price2.length()-1);
 			try{
 				Integer.valueOf(lastChar2);
 				viewHolder.mTvPrice2.setText(price2);
 			}catch(Exception e){
-				spannString2.setSpan(new AbsoluteSizeSpan(14,true), price2.length()-1, price2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
+				SpannableString spannString2 = TextViewUtils.getSpannableStringSize(price2.toString(), price2.length()-1, price2.length(), 14);
 				viewHolder.mTvPrice2.setText(spannString2);
 			}
 			

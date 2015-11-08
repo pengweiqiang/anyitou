@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +18,7 @@ import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
-import cn.com.anyitou.entity.Investment;
+import cn.com.anyitou.entity.DebtAssignment;
 import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
@@ -32,11 +31,11 @@ import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
 /**
- * 投资确认信息
+ * 债权确认信息
  * @author will
  *
  */
-public class InvestConfirmActivity extends BaseActivity {
+public class DebtTransferConfirmActivity extends BaseActivity {
 	
 	private ActionBar mActionBar;
 	private LoadingDialog loadingDialog;
@@ -44,20 +43,18 @@ public class InvestConfirmActivity extends BaseActivity {
 	private TextView mTvYearRate;
 	private TextView mTvInvestDay;
 	private TextView mTvRestMoney,mTvMyMoney,mTvPreProfit,mTvPreAnbi;
-	private View mViewCoupon;
 	private EditText mEtBuyMoney;
 	private View mViewConfirm;
-	private View mBtnAllInvest;
 	private View mBtnProfitCal;
 	
-	private Investment investment;//投资项目
+	private DebtAssignment debt;//债权项目
 	String useMoney = "";//可用金额
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.invest_confirm);
+		setContentView(R.layout.debt_confirm);
 		super.onCreate(savedInstanceState);
 		
-		investment = (Investment)this.getIntent().getSerializableExtra("investment");
+		debt = (DebtAssignment)this.getIntent().getSerializableExtra("debt");
 		if(MyApplication.getInstance().getMyCapital()!=null){
 			useMoney = MyApplication.getInstance().getMyCapital().getUse_money();
 		}else{
@@ -110,21 +107,18 @@ public class InvestConfirmActivity extends BaseActivity {
 		mTvRestMoney = (TextView)findViewById(R.id.invest_money);
 		mTvMyMoney = (TextView)findViewById(R.id.useable_money);
 		mTvPreProfit = (TextView)findViewById(R.id.pre_profit);
-		mTvPreAnbi = (TextView)findViewById(R.id.pre_anbi);
-		mBtnAllInvest = findViewById(R.id.all_invest);
 		mBtnProfitCal = findViewById(R.id.invest_calu);
 		
 		mViewConfirm = findViewById(R.id.bottom_invest);
 		mEtBuyMoney = (EditText)findViewById(R.id.buy_money);
-		mViewCoupon = findViewById(R.id.coupon_right);
 		
 	}
 	private void initData(){
-		if(investment!=null){
-			mTvInvestName.setText(investment.getItem_title());
-			mTvYearRate.setText(investment.getRate_of_interest()+"%");
-			mTvInvestDay.setText(investment.getBorrow_days()+"天");
-			mTvRestMoney.setText(StringUtils.getMoneyFormat(investment.getRemain_amount()));
+		if(debt!=null){
+			mTvInvestName.setText(debt.getNumber());
+			mTvYearRate.setText(debt.getBuyer_apr()+"%");
+			mTvInvestDay.setText(debt.getSell_days()+"天");
+			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getAmount()));
 			mTvMyMoney.setText(StringUtils.getMoneyFormat(useMoney));
 			
 		}
@@ -142,7 +136,7 @@ public class InvestConfirmActivity extends BaseActivity {
 		}
 		try{
 			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(investment.getRate_of_interest())/100) * (Double.valueOf(investment.getBorrow_days())/365);
+			double futureMoney =  money * (Double.parseDouble(debt.getBuyer_apr())/100) * (Double.valueOf(debt.getSell_days())/365);
 			DecimalFormat df   = new DecimalFormat("######0.00");   
 			mTvPreProfit.setText(df.format(futureMoney));
 		}catch(Exception e){
@@ -157,7 +151,7 @@ public class InvestConfirmActivity extends BaseActivity {
 		String moneyProfit = "0";
 		try{
 			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(investment.getRate_of_interest())/100) * (Double.valueOf(investment.getBorrow_days())/365);
+			double futureMoney =  money * (Double.parseDouble(debt.getBuyer_apr())/100) * (Double.valueOf(debt.getSell_days())/365);
 			DecimalFormat df   = new DecimalFormat("######0.00");   
 			moneyProfit = df.format(futureMoney);
 		}catch(Exception e){
@@ -177,7 +171,7 @@ public class InvestConfirmActivity extends BaseActivity {
 				final InfoDialog infoDialog = builder.create();
 				final TextView mTvRate = (TextView)infoDialog.findViewById(R.id.pre_profit);
 				TextView mTvInvestDay = (TextView)infoDialog.findViewById(R.id.invest_day);
-				mTvInvestDay.setText(investment.getBorrow_days()+"天");
+				mTvInvestDay.setText(debt.getSell_days()+"天");
 				infoDialog.findViewById(R.id.close).setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -211,21 +205,6 @@ public class InvestConfirmActivity extends BaseActivity {
 				infoDialog.show();
 			}
 		});
-		mBtnAllInvest.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mEtBuyMoney.setText(investment.getRemain_amount());
-			}
-		});
-		//获取可用的优惠券
-		mViewCoupon.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-			}
-		});
 		mEtBuyMoney.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -251,17 +230,12 @@ public class InvestConfirmActivity extends BaseActivity {
 			public void onClick(View v) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
 				if(StringUtils.isEmpty(moneyStr)){
-					ToastUtils.showToast(mContext, "请输入投资金额");
+					ToastUtils.showToast(mContext, "请输入认购份额");
 					mEtBuyMoney.requestFocus();
 					return;
 				}
 				if(Double.valueOf(moneyStr)<100){
 					ToastUtils.showToast(mContext, "购买金额须大于1000元");
-					mEtBuyMoney.requestFocus();
-					return;
-				}
-				if(Double.valueOf(moneyStr)%1000!=0){
-					ToastUtils.showToast(mContext, "投资金额须为1000的整数倍");
 					mEtBuyMoney.requestFocus();
 					return;
 				}
@@ -277,9 +251,8 @@ public class InvestConfirmActivity extends BaseActivity {
 				}
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
-				String couponId = "";
-				String id = investment.getId();
-				ApiOrderUtils.investing(mContext, id, moneyStr,couponId, new RequestCallback() {
+				String id = debt.getId();
+				ApiOrderUtils.buyDebt(mContext, id, moneyStr, new RequestCallback() {
 					
 					@Override
 					public void execute(ParseModel parseModel) {

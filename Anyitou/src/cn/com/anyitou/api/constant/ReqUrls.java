@@ -302,6 +302,10 @@ public interface ReqUrls {
 	 * 34.获取债权详情
 	 */
 	public static final String MOBIAPI_DEBT_ASSIGNMENT_DETAIL = "debtAssignment/view";
+	/**
+	 * 35.认购债权接口
+	 */
+	public static final String MOBIAPI_DEBT_BUY = "debtAssignment/buy";
 	
 	/**
 	 * 38.获取用户自己债权转让列表

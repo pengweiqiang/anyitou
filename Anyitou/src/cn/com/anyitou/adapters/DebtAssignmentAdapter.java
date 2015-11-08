@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.DebtAssignment;
+import cn.com.anyitou.utils.AnyitouStatusUtils;
 import cn.com.anyitou.utils.DateUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.PercentageRing;
@@ -68,7 +69,7 @@ public class DebtAssignmentAdapter extends BaseListAdapter{
 		viewHolder.mTvInvestName.setText(debtAssignment.getNumber());
 		viewHolder.mTvRate.setText(debtAssignment.getBuyer_apr()+"%");
 		String status = debtAssignment.getStatus();
-		viewHolder.mTvStatus.setText(getStatusName(status));
+		viewHolder.mTvStatus.setText(AnyitouStatusUtils.getDebtStatusName(status));
 		viewHolder.mTvInvestmentCycle.setText(debtAssignment.getSell_days()+"天");
 		String money = StringUtils.getMoneyFormateWan(debtAssignment.getAmount());
 		viewHolder.mTvMoney.setText(money+"万");
@@ -79,22 +80,6 @@ public class DebtAssignmentAdapter extends BaseListAdapter{
 		return convertView;
 	}
 	
-	public String getStatusName(String status){
-		String statusName = "";
-		if("0".equals(status)){
-			statusName = "待审核";
-		}else if("1".equals(status)){
-			statusName = "通过审核";
-		}else if("2".equals(status)){
-			statusName = "转让完成";
-		}else if("3".equals(status)){
-			statusName = "关闭";
-		}else {
-			statusName = status;
-		}
-			
-		return statusName;
-	}
 	
 	static final class ViewHolder{
 //		private View mViewDashLine;
