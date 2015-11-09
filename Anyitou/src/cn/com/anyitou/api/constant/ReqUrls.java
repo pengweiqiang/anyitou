@@ -308,6 +308,11 @@ public interface ReqUrls {
 	public static final String MOBIAPI_DEBT_BUY = "debtAssignment/buy";
 	
 	/**
+	 * 37.获取可转让债权列表
+	 */
+	public static final String MOBIAPI_MY_DEBT_TRANSFERABLE = "debt/transferabeList";
+	
+	/**
 	 * 38.获取用户自己债权转让列表
 	 */
 	public static final String MOBIAPI_DEBT_TRANSFER_LIST = "debt/TransferList";

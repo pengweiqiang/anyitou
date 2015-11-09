@@ -232,7 +232,7 @@ public class TradingRecordActivity extends BaseActivity implements
 				category = "withdraw";
 				break;
 			case R.id.category_profit:
-				category = "fangdai";
+				category = "income";
 				break;
 			case R.id.category_capital:
 				category = "capital";

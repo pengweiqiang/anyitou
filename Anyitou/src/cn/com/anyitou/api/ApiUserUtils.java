@@ -358,6 +358,22 @@ public class ApiUserUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_TRANSFER_LIST, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 获取用户可转让债权列表
+	 * @param context
+	 * @param page
+	 * @param pageNum
+	 * @param requestCallBack
+	 */
+	public static void getMyDebtTransferable(Context context,String page,String pageNum,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.NUM, pageNum);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MY_DEBT_TRANSFERABLE, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	
 	
 	/**
 	 * 用户成长值记录

@@ -92,11 +92,11 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvYearrate.setText(investment.getRate_of_interest()+"%");
 			mTvRepayType.setText(investment.getPay_type_info().getName());
 			mTvRepayDate.setText(investment.getRepayment_time());
-			mTvEndDate.setText("获取哪个值?1");
-			mTvInvestMoney.setText(StringUtils.getMoneyFormat(investment.getInvestment()));
+			mTvEndDate.setText(investment.getLeave_time());//截至时间
+			mTvInvestMoney.setText(StringUtils.getMoneyFormat(investment.getRemain_amount()));
 			mTvFinancingAmount.setText(StringUtils.getMoneyFormat(investment.getFinancing_amount()));
 			mTvInvestStatus.setText(investment.getInvest_status_label());
-			mTvFinancingDate.setText("获取哪个值？1");
+			mTvFinancingDate.setText(investment.getBorrow_days()+"天");//融资期限
 			investTypeShow(investment.getInvest_status());
 		}
 		
@@ -105,11 +105,12 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvYearrate.setText(investDetail.getApr()+"%");
 			mTvRepayType.setText(investDetail.getPay_type_info().getName());
 			mTvRepayDate.setText(investDetail.getRepayment_time());
-			mTvEndDate.setText("获取哪个值?2");
+//			mTvEndDate.setText("获取哪个值?2");
+			//可投金额
 			mTvInvestMoney.setText(StringUtils.getMoneyFormat(investDetail.getInvestment()));
 			mTvFinancingAmount.setText(StringUtils.getMoneyFormat(investDetail.getFinancing_amount()));
 //			mTvInvestStatus.setText(investDetail.getInvest_status());
-			mTvFinancingDate.setText("获取哪个值？2");
+			mTvFinancingDate.setText(investDetail.getBorrow_days()+"天");
 			investTypeShow(investDetail.getInvest_status());
 		}
 		

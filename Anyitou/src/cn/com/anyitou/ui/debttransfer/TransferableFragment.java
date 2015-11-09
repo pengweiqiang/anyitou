@@ -13,17 +13,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import cn.com.anyitou.R;
-import cn.com.anyitou.adapters.DebtTransferAdapter;
+import cn.com.anyitou.adapters.MyDebtTransferableAdapter;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.entity.DebtAssignment;
-import cn.com.anyitou.entity.DebtTransfer;
+import cn.com.anyitou.entity.MyDebtTransferable;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.InVestmentDetailActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil;
 import cn.com.anyitou.utils.JsonUtils;
-import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
@@ -45,14 +44,13 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 	private LoadingDialog loadingDialog;
 	private boolean isFirst = true;
 	int page = 1;
-	int type = 0;//0:全部  1:转让中  2:已转让
 	
 	XListView mListView;
 	private View mViewEmpty;
 	private TextView mViewEmptyTip;
-	DebtTransferAdapter transAdapter;
+	MyDebtTransferableAdapter transAdapter;
 
-	List<DebtTransfer> debtTransferLists;
+	List<MyDebtTransferable> debtTransferLists;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -73,8 +71,8 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		debtTransferLists = new ArrayList<DebtTransfer>();
-		transAdapter = new DebtTransferAdapter(debtTransferLists, mActivity,type);
+		debtTransferLists = new ArrayList<MyDebtTransferable>();
+		transAdapter = new MyDebtTransferableAdapter(debtTransferLists, mActivity);
 		mListView.setAdapter(transAdapter);
 		
 		getMyUnuseCoupon();
@@ -90,9 +88,11 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 					int position, long id) {
 				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
 				DebtAssignment debtAssgiment = new DebtAssignment();
-				DebtTransfer debtTransfer = debtTransferLists.get(position);
+				MyDebtTransferable debtTransfer = debtTransferLists.get(position);
 				debtAssgiment.setId(debtTransfer.getId());
 				debtAssgiment.setStatus(debtTransfer.getStatus());
+				debtAssgiment.setBuyer_apr(debtTransfer.getRate_of_interest());
+				debtAssgiment.setSell_days(debtTransfer.getRemainDays());
 				intent.putExtra("debt", debtAssgiment);
 				intent.putExtra("type", 2);
 				startActivity(intent);
@@ -135,7 +135,7 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 		}else{
 			page++;
 		}
-		ApiUserUtils.getMyDebtTransfer(mActivity, String.valueOf(type),String.valueOf(page), "10",
+		ApiUserUtils.getMyDebtTransferable(mActivity,String.valueOf(page), "10",
 				new HttpConnectionUtil.RequestCallback() {
 
 					@Override
@@ -144,8 +144,8 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
 							isFirst = false;
-							 List<DebtTransfer> debtTransfers
-							 = (List<DebtTransfer>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<DebtTransfer>>() {});
+							 List<MyDebtTransferable> debtTransfers
+							 = (List<MyDebtTransferable>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<MyDebtTransferable>>() {});
 							 
 							if(page == 1){
 								debtTransferLists.clear();
@@ -170,7 +170,7 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 	private void showEmptyListView(boolean isEmpty){
 		if(isEmpty){
 			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无未使用的优惠券");
+			mViewEmptyTip.setText("暂无记录");
 		}else{
 			mViewEmpty.setVisibility(View.GONE);
 		}
