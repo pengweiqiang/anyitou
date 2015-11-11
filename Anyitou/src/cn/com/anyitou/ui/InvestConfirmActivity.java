@@ -7,14 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
+import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -49,6 +50,8 @@ public class InvestConfirmActivity extends BaseActivity {
 	private View mViewConfirm;
 	private View mBtnAllInvest;
 	private View mBtnProfitCal;
+	
+	private ListView mCouponListView;//优惠券
 	
 	private Investment investment;//投资项目
 	String useMoney = "";//可用金额
@@ -118,6 +121,9 @@ public class InvestConfirmActivity extends BaseActivity {
 		mEtBuyMoney = (EditText)findViewById(R.id.buy_money);
 		mViewCoupon = findViewById(R.id.coupon_right);
 		
+		
+		mCouponListView = (ListView)findViewById(R.id.coupon_listview);
+		
 	}
 	private void initData(){
 		if(investment!=null){
@@ -136,8 +142,8 @@ public class InvestConfirmActivity extends BaseActivity {
 	 */
 	private void caluFutureMoney(String moneyStr){
 		if(StringUtils.isEmpty(moneyStr)){
-			mTvPreProfit.setText("");
-			mTvPreAnbi.setText("");
+			mTvPreProfit.setText("0");
+			mTvPreAnbi.setText("0");
 			return;
 		}
 		try{
@@ -223,7 +229,7 @@ public class InvestConfirmActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				
+				getCouponForProject();
 			}
 		});
 		mEtBuyMoney.addTextChangedListener(new TextWatcher() {
@@ -261,7 +267,7 @@ public class InvestConfirmActivity extends BaseActivity {
 					return;
 				}
 				if(Double.valueOf(moneyStr)%1000!=0){
-					ToastUtils.showToast(mContext, "投资金额须为1000的整数倍");
+					ToastUtils.showToast(mContext, "请输入1000的整数倍");
 					mEtBuyMoney.requestFocus();
 					return;
 				}
@@ -334,31 +340,26 @@ public class InvestConfirmActivity extends BaseActivity {
 		mTvMessgae.setText(TextViewUtils.getSpannableStringColor(message, 4, message.lastIndexOf("元"), getResources().getColor(R.color.app_bg_color)));
 		infoDialog.show();
 	}
-	
-//	private void initData(){
-//		loadingDialog = new LoadingDialog(mContext);
-//		loadingDialog.show();
-//		ApiOrderUtils.investingPage(mContext,id, new RequestCallback() {
-//			
-//			@Override
-//			public void execute(ParseModel parseModel) {
-//				loadingDialog.cancel();
-//				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-//					investingPage = JsonUtils.fromJson(parseModel.getData().toString(), InvestingPageInfo.class);
-//					setViewData();
-//				}else{
-//					ToastUtils.showToast(mContext, parseModel.getMsg());
-//					if("3".equals(parseModel.getCode())){
-//						new Handler().postDelayed(new Runnable() {
-//							public void run() {
-//								startActivity(RegisteredActivity.class);
-//							} 
-//						}, 2000);
-//					}
-//				}
-//			}
-//		});
-//		
-//	}
+	/**
+	 * 获取项目可用的优惠券
+	 */
+	private void getCouponForProject(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		String amount = mEtBuyMoney.getText().toString().trim();
+		ApiInvestUtils.getCouponForProject(mContext, investment.getId(), amount,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					
+				}else{
+					ToastUtils.showToast(mContext, parseModel.getMsg());
+				}
+			}
+		});
+		
+	}
 	
 }

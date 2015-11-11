@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.utils.TextViewUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 /**
@@ -159,7 +161,9 @@ public class MobilePhoneVerificationActivity extends BaseActivity {
 				mTvCodeMsg.setText("获取验证码");
 				timer.cancel();
 			} else {
-				mTvCodeMsg.setText("剩余 " + msg.what + " 秒");
+				String str = "剩余 "+msg.what + " 秒";
+				SpannableString span = TextViewUtils.getSpannableStringColor(str, 2, str.indexOf("秒"), getResources().getColor(R.color.app_bg_color));
+				mTvCodeMsg.setText(span);
 			}
 		};
 	};

@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -35,7 +36,7 @@ public class WebActivity extends BaseActivity {
 	private ProgressBar progressBar;
 	Object mJsObj = new JSInterface();
 	LoadingDialog loadingDialog;
-	int type; // 1代表注册汇付操作  2 充值操作 3投资操作  4 提现
+	int type; // 1代表注册汇付操作  2 充值操作 3投资操作  4 提现   5 债权
 	private String ordId = "";//充值订单号
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +137,8 @@ public class WebActivity extends BaseActivity {
 		});
 	}
 	private void getWebTitle(String title){
-		if("充值成功".equals(title) || "提现成功".equals(title) ||"投资成功".equals(title)){
-			ToastUtils.showToast(mContext, title+",2秒后跳入主页");
+		if("充值成功".equals(title) || "提现成功".equals(title) ||"投资成功".equals(title)||"认购成功".equals(title)){
+			ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
 			new Handler().postDelayed(new Runnable(){   
 			    public void run() {   
 			    	getTradeStatus();

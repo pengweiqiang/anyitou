@@ -104,27 +104,15 @@ public class IntegralRecordActivity extends BaseActivity implements
 										list.toString(),
 										new TypeToken<List<IntegralRecords>>() {
 										});
-								if (page == 1) {
-									recordLists.clear();
-	
-									if (records == null || records.isEmpty()) {
-										// mListView.setVisibility(View.GONE);
-										mViewEmpty.setVisibility(View.VISIBLE);
-									}
-								}
-	
-								if (records != null && !records.isEmpty()) {
-									recordLists.addAll(records);
-									mViewEmpty.setVisibility(View.GONE);
-								}
+								showEmptyListView(records);
 								mListView.onLoadFinish(page, records.size(),
 										"加载完毕");
 								recordsAdapter.notifyDataSetChanged();
 							}else{
-								mViewEmpty.setVisibility(View.VISIBLE);
+								showEmptyListView(null);
 							}
 						} else {
-							mViewEmpty.setVisibility(View.VISIBLE);
+							showEmptyListView(null);
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 							mListView.onLoadFinish(page, 0, "");
 						}
@@ -132,6 +120,28 @@ public class IntegralRecordActivity extends BaseActivity implements
 					}
 				});
 
+	}
+	
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
+		}
+		if(page == 1){
+			recordLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				recordLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				recordLists.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override

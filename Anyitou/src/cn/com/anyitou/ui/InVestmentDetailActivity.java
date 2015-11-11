@@ -26,7 +26,6 @@ import cn.com.anyitou.entity.InVestDetail;
 import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseFragmentActivity;
-import cn.com.anyitou.utils.AnyitouStatusUtils;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
@@ -150,7 +149,7 @@ import cn.com.anyitou.views.VerticalViewPager;
 					startActivity(intent);
 				}else if(type == 2){
 					Intent intent = new Intent(InVestmentDetailActivity.this,DebtTransferConfirmActivity.class);
-					intent.putExtra("debt", debtAssigment);
+					intent.putExtra("debt", debtTransfer);
 					startActivity(intent);
 				}
 				

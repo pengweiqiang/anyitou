@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -117,23 +117,13 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 							if(data !=null){
 								JsonElement list = data.get("record_invest");
 								List<InvestRecords> myInvestments = JsonUtils.fromJson(list.toString(), new TypeToken<List<InvestRecords>>() {});
-								if (page == 1) {
-									myInvestList.clear();
-									if(myInvestments ==null || myInvestments.isEmpty()){
-										showEmptyListView(true);
-									}
-								}
-								if (myInvestments != null && !myInvestments.isEmpty()) {
-									showEmptyListView(false);
-									myInvestList.addAll(myInvestments);
-								}
+								showEmptyListView(myInvestments);
 								myInvestAdapter.notifyDataSetChanged();
 								mListView.onLoadFinish(page, myInvestments.size(), "加载完毕");
 							}else{
-								showEmptyListView(true);
+								showEmptyListView(null);
 							}
 						} else {
-							showEmptyListView(true);
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 							mListView.onLoadFinish(page, 0, "");
 						}
@@ -142,18 +132,41 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 				});
 
 	}
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无记录");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			myInvestList.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				myInvestList.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				myInvestList.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override
 	public void initListener() {
-		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(mContext,InvestmentRecordDetailActivity.class);
+				intent.putExtra("investment", myInvestList.get(position-1));
+				startActivity(intent);
+			}
+			
+		});
 	}
 
 	@Override
@@ -170,28 +183,41 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 	
 	
 	private PopupWindow popupWindow;
+	private View mLastCategory,mLastStatus,mLastTime;
 	@SuppressWarnings("deprecation")
 	public void showConditionDialog(View view){
-		popupWindow = MyPopupWindow.getPopupWindow(R.layout.invest_condition_popupwindow, MyInvestmentActivity.this,0);
-		popupWindow.getContentView().findViewById(R.id.category_all).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_anqidai).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_anchedai).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_anfangdai).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_debt).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.status_all).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.status_repayment).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.status_repayed).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.status_part_debt).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.status_all_debt).setOnClickListener(popupWindowListener);
-		
-		popupWindow.getContentView().findViewById(R.id.time_all).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_day).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_week).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_month).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_three_month).setOnClickListener(popupWindowListener);
+		if(popupWindow == null){
+			popupWindow = MyPopupWindow.getPopupWindow(R.layout.invest_condition_popupwindow, MyInvestmentActivity.this,0);
+			popupWindow.getContentView().findViewById(R.id.category_all).setOnClickListener(popupWindowCategoryListener);
+			popupWindow.getContentView().findViewById(R.id.category_anqidai).setOnClickListener(popupWindowCategoryListener);
+			popupWindow.getContentView().findViewById(R.id.category_anchedai).setOnClickListener(popupWindowCategoryListener);
+			popupWindow.getContentView().findViewById(R.id.category_anfangdai).setOnClickListener(popupWindowCategoryListener);
+			popupWindow.getContentView().findViewById(R.id.category_debt).setOnClickListener(popupWindowCategoryListener);
+			
+			mLastCategory = popupWindow.getContentView().findViewById(R.id.category_all);
+			
+			popupWindow.getContentView().findViewById(R.id.status_all).setOnClickListener(popupWindowStatusListener);
+			popupWindow.getContentView().findViewById(R.id.status_repayment).setOnClickListener(popupWindowStatusListener);
+			popupWindow.getContentView().findViewById(R.id.status_repayed).setOnClickListener(popupWindowStatusListener);
+			popupWindow.getContentView().findViewById(R.id.status_part_debt).setOnClickListener(popupWindowStatusListener);
+			popupWindow.getContentView().findViewById(R.id.status_all_debt).setOnClickListener(popupWindowStatusListener);
+			
+			mLastStatus = popupWindow.getContentView().findViewById(R.id.status_all);
+			
+			popupWindow.getContentView().findViewById(R.id.time_all).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_day).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_week).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_month).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_three_month).setOnClickListener(popupWindowTimeListener);
+			
+			mLastTime = popupWindow.getContentView().findViewById(R.id.time_all);
+			
+		}else{
+			MyPopupWindow.setBackgroundAlpha(MyInvestmentActivity.this, 0.4f);
+		}
 		popupWindow.showAsDropDown(view);
 	}
-	private OnClickListener popupWindowListener = new OnClickListener() {
+	private OnClickListener popupWindowCategoryListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -211,6 +237,25 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 			case R.id.category_debt:
 				category = "debt";
 				break;
+
+			default:
+				break;
+			}
+			mLastCategory.setEnabled(true);
+			v.setEnabled(false);
+			mLastCategory = v;
+			popupWindow.dismiss();
+			page = 1;
+			initData();
+			
+		}
+	};
+	
+	private OnClickListener popupWindowStatusListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
 			case R.id.status_all:
 				status = "";
 				break;
@@ -226,6 +271,25 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 			case R.id.status_all_debt:
 				status = "4";
 				break;
+
+			default:
+				break;
+			}
+			mLastStatus.setEnabled(true);
+			v.setEnabled(false);
+			mLastStatus = v;
+			popupWindow.dismiss();
+			page = 1;
+			initData();
+			
+		}
+	};
+	
+	private OnClickListener popupWindowTimeListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
 			case R.id.time_all:
 				investDateRange = "all";
 				break;
@@ -245,6 +309,9 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 			default:
 				break;
 			}
+			mLastTime.setEnabled(true);
+			v.setEnabled(false);
+			mLastTime = v;
 			popupWindow.dismiss();
 			page = 1;
 			initData();

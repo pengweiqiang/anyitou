@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -52,11 +53,11 @@ public class TradingRecordActivity extends BaseActivity implements
 	private TextView mViewEmptyTip;
 	
 	//condition
-	String category = "all";
-	String order = "";
-	String dateRange = "";
-	String beginDate= "";
-	String endDate = "";
+	String category = "all";//交易分类
+	String order = "default";//排序
+	String dateRange = "all";//时间范围 day:当日  oneWeek:最近7天  oneMonth:一个月  threeMonth:三个月  all:全部
+	String beginDate= "";//开始日期
+	String endDate = "";//结束日期
 	
 
 	@Override
@@ -135,22 +136,8 @@ public class TradingRecordActivity extends BaseActivity implements
 									parseModel.getData().toString(),
 									new TypeToken<List<Records>>() {
 									});
-							if (page == 1) {
-								recordLists.clear();
-
-								if (records == null || records.isEmpty()) {
-									// mListView.setVisibility(View.GONE);
-									showEmptyListView(true);
-									mViewEmpty.setVisibility(View.VISIBLE);
-								}
-							}
-
-							if (records != null && !records.isEmpty()) {
-								showEmptyListView(false);
-								recordLists.addAll(records);
-							}else{
-								showEmptyListView(true);
-							}
+							
+							showEmptyListView(records);
 							mListView.onLoadFinish(page, records.size(),
 										"加载完毕");
 							recordsAdapter.notifyDataSetChanged();
@@ -164,13 +151,26 @@ public class TradingRecordActivity extends BaseActivity implements
 
 	}
 	
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无记录");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			recordLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				recordLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				recordLists.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override
@@ -198,26 +198,47 @@ public class TradingRecordActivity extends BaseActivity implements
 	}
 	
 	private PopupWindow popupWindow;
+	private TextView mTvCategoryAll,mTvCategoryRecharge,mTvCategoryCash,mTvCategoryProfit,mTvCategoryCapital,mTvCategoryOther,mTvCategoryInvest;
+	private TextView mTvTimeAll,mTvTimeDay,mTvTimeWeek,mTvTimeMonth,mTvTimeThreeMonth;
+	
+	private View mLastCategory,mLastTime;
 	@SuppressWarnings("deprecation")
 	public void showConditionDialog(View view){
-		popupWindow = MyPopupWindow.getPopupWindow(R.layout.trade_condition_popupwindow, TradingRecordActivity.this,0);
-		popupWindow.getContentView().findViewById(R.id.category_all).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_recharge).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_cash).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_profit).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_capital).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_other).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.category_invest).setOnClickListener(popupWindowListener);
-		
-		
-		popupWindow.getContentView().findViewById(R.id.time_all).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_day).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_week).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_month).setOnClickListener(popupWindowListener);
-		popupWindow.getContentView().findViewById(R.id.time_three_month).setOnClickListener(popupWindowListener);
-		popupWindow.showAsDropDown(view);
+		if(popupWindow == null){
+			popupWindow = MyPopupWindow.getPopupWindow(R.layout.trade_condition_popupwindow, TradingRecordActivity.this,0);
+			
+			
+			mTvCategoryAll = (TextView)popupWindow.getContentView().findViewById(R.id.category_all);
+			mLastCategory = mTvCategoryAll;
+			mTvCategoryRecharge = (TextView)popupWindow.getContentView().findViewById(R.id.category_recharge);
+			mTvCategoryCash = (TextView)popupWindow.getContentView().findViewById(R.id.category_cash);
+			mTvCategoryProfit = (TextView)popupWindow.getContentView().findViewById(R.id.category_profit);
+			mTvCategoryCapital = (TextView)popupWindow.getContentView().findViewById(R.id.category_capital);
+			mTvCategoryOther = (TextView)popupWindow.getContentView().findViewById(R.id.category_other);
+			mTvCategoryInvest = (TextView)popupWindow.getContentView().findViewById(R.id.category_invest);
+			
+			
+			mTvCategoryAll.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryRecharge.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryCash.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryProfit.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryCapital.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryOther.setOnClickListener(popupWindowCategoryListener);
+			mTvCategoryInvest.setOnClickListener(popupWindowCategoryListener);
+			
+			popupWindow.getContentView().findViewById(R.id.time_all).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_day).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_week).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_month).setOnClickListener(popupWindowTimeListener);
+			popupWindow.getContentView().findViewById(R.id.time_three_month).setOnClickListener(popupWindowTimeListener);
+			mLastTime = popupWindow.getContentView().findViewById(R.id.time_all);
+			
+		}else{
+			MyPopupWindow.setBackgroundAlpha(TradingRecordActivity.this, 0.4f);
+		}
+			popupWindow.showAsDropDown(view);
 	}
-	private OnClickListener popupWindowListener = new OnClickListener() {
+	private OnClickListener popupWindowCategoryListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -243,6 +264,25 @@ public class TradingRecordActivity extends BaseActivity implements
 			case R.id.category_invest:
 				category = "invest";
 				break;
+
+			default:
+				break;
+			}
+			mLastCategory.setEnabled(true);
+			v.setEnabled(false);
+			mLastCategory = v;
+			popupWindow.dismiss();
+			page = 1;
+			initData();
+			
+		}
+	};
+	
+	private OnClickListener popupWindowTimeListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
 			case R.id.time_all:
 				dateRange = "all";
 				break;
@@ -262,6 +302,9 @@ public class TradingRecordActivity extends BaseActivity implements
 			default:
 				break;
 			}
+			mLastTime.setEnabled(true);
+			v.setEnabled(false);
+			mLastTime = v;
 			popupWindow.dismiss();
 			page = 1;
 			initData();

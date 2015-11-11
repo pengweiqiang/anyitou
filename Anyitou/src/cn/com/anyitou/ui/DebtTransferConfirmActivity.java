@@ -18,7 +18,7 @@ import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
-import cn.com.anyitou.entity.DebtAssignment;
+import cn.com.anyitou.entity.DebtTransferDetail;
 import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
@@ -42,21 +42,23 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 	private TextView mTvInvestName;
 	private TextView mTvYearRate;
 	private TextView mTvInvestDay;
-	private TextView mTvRestMoney,mTvMyMoney,mTvPreProfit,mTvPreAnbi;
+	private TextView mTvRestMoney,mTvMyMoney,mTvPreProfit;
 	private EditText mEtBuyMoney;
 	private View mViewConfirm;
 	private View mBtnProfitCal;
 	
-	private DebtAssignment debt;//债权项目
+	private DebtTransferDetail debt;//债权项目
 	String useMoney = "";//可用金额
+	String myUserId = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.debt_confirm);
 		super.onCreate(savedInstanceState);
 		
-		debt = (DebtAssignment)this.getIntent().getSerializableExtra("debt");
+		debt = (DebtTransferDetail)this.getIntent().getSerializableExtra("debt");
 		if(MyApplication.getInstance().getMyCapital()!=null){
 			useMoney = MyApplication.getInstance().getMyCapital().getUse_money();
+			myUserId = MyApplication.getInstance().getMyCapital().getUser_id();
 		}else{
 			//加载可用余额
 			getMyUseMoney();
@@ -75,6 +77,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 					if(myCapital != null){
 						MyApplication.getInstance().setMyCapital(myCapital);
 						useMoney = myCapital.getUse_money();
+						myUserId = myCapital.getUser_id();
 					}
 				}
 			}
@@ -115,10 +118,10 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 	}
 	private void initData(){
 		if(debt!=null){
-			mTvInvestName.setText(debt.getNumber());
-			mTvYearRate.setText(debt.getBuyer_apr()+"%");
-			mTvInvestDay.setText(debt.getSell_days()+"天");
-			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getAmount()));
+			mTvInvestName.setText(debt.getProjectData().getItem_title());
+			mTvYearRate.setText(debt.getDebtData().getBuyer_apr()+"%");
+			mTvInvestDay.setText(debt.getDebtData().getSell_days()+"天");
+			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getDebtData().getAmount()));
 			mTvMyMoney.setText(StringUtils.getMoneyFormat(useMoney));
 			
 		}
@@ -131,12 +134,11 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 	private void caluFutureMoney(String moneyStr){
 		if(StringUtils.isEmpty(moneyStr)){
 			mTvPreProfit.setText("");
-			mTvPreAnbi.setText("");
 			return;
 		}
 		try{
 			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(debt.getBuyer_apr())/100) * (Double.valueOf(debt.getSell_days())/365);
+			double futureMoney =  money * (Double.parseDouble(debt.getDebtData().getBuyer_apr())/100) * (Double.valueOf(debt.getDebtData().getSell_days())/365);
 			DecimalFormat df   = new DecimalFormat("######0.00");   
 			mTvPreProfit.setText(df.format(futureMoney));
 		}catch(Exception e){
@@ -151,7 +153,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		String moneyProfit = "0";
 		try{
 			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(debt.getBuyer_apr())/100) * (Double.valueOf(debt.getSell_days())/365);
+			double futureMoney =  money * (Double.parseDouble(debt.getDebtData().getBuyer_apr())/100) * (Double.valueOf(debt.getDebtData().getSell_days())/365);
 			DecimalFormat df   = new DecimalFormat("######0.00");   
 			moneyProfit = df.format(futureMoney);
 		}catch(Exception e){
@@ -171,7 +173,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 				final InfoDialog infoDialog = builder.create();
 				final TextView mTvRate = (TextView)infoDialog.findViewById(R.id.pre_profit);
 				TextView mTvInvestDay = (TextView)infoDialog.findViewById(R.id.invest_day);
-				mTvInvestDay.setText(debt.getSell_days()+"天");
+				mTvInvestDay.setText(debt.getDebtData().getSell_days()+"天");
 				infoDialog.findViewById(R.id.close).setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -229,6 +231,10 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
+				if(myUserId.equals(debt.getDebtData().getUser_id())){
+					ToastUtils.showToast(mContext, "不能认购自己债权");
+					return;
+				}
 				if(StringUtils.isEmpty(moneyStr)){
 					ToastUtils.showToast(mContext, "请输入认购份额");
 					mEtBuyMoney.requestFocus();
@@ -251,20 +257,20 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 				}
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
-				String id = debt.getId();
+				String id = debt.getDebtData().getId();
 				ApiOrderUtils.buyDebt(mContext, id, moneyStr, new RequestCallback() {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-							String url = parseModel.getUrl();
+							String url = parseModel.getData().getAsJsonObject().get("url").getAsString();
 							String ordId = parseModel.getData().getAsJsonObject().get("id").getAsString();
-							String tradeNo = parseModel.getData().getAsJsonObject().get("trade_no").getAsString();
+//							String tradeNo = parseModel.getData().getAsJsonObject().get("trade_no").getAsString();
 							Intent intent = new Intent(mContext,WebActivity.class);
 							intent.putExtra("url", url);
-							intent.putExtra("type", 3);
-							intent.putExtra("name", "投资");
+							intent.putExtra("type", 5);
+							intent.putExtra("name", "债权");
 							intent.putExtra("ordId", ordId);
 							startActivity(intent);
 							AppManager.getAppManager().finishActivity();

@@ -3,6 +3,7 @@ package cn.com.anyitou.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
@@ -12,13 +13,12 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
-import cn.com.gson.reflect.TypeToken;
 import cn.com.anyitou.adapters.RecordsAdapter;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -33,6 +33,7 @@ import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.gson.reflect.TypeToken;
 
 /**
  * 投资明细
@@ -170,6 +171,17 @@ public class InvestRecordActivity extends BaseActivity implements
 			public void onClick(View v) {
 				AppManager.getAppManager().finishActivity();
 			}
+		});
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(mContext,InvestmentRecordDetailActivity.class);
+				intent.putExtra("investment", recordLists.get(position));
+				startActivity(intent);
+			}
+			
 		});
 	}
 

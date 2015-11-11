@@ -126,7 +126,7 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 		}else{
 			page++;
 		}
-		ApiInvestUtils.getInvestList(mActivity,
+		ApiInvestUtils.getInvestList(mActivity,String.valueOf(page),"10",
 				new HttpConnectionUtil.RequestCallback() {
 
 					@Override

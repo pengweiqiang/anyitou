@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
+import cn.com.anyitou.utils.TextViewUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
@@ -147,7 +149,9 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 				mTvSendCode.setText("获取验证码");
 				timer.cancel();
 			} else {
-				mTvSendCode.setText(msg.what + " 秒重发");
+				String str = msg.what + " 秒重发";
+				SpannableString span = TextViewUtils.getSpannableStringColor(str, 0, str.indexOf("秒"), getResources().getColor(R.color.app_bg_color));
+				mTvSendCode.setText(span);
 			}
 		};
 	};
