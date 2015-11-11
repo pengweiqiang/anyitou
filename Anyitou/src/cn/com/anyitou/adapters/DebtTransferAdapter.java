@@ -63,8 +63,6 @@ public class DebtTransferAdapter extends BaseListAdapter{
 			if(status==1 || status == 2){
 				viewHolder.mTvDateTitle.setText("转让时间");
 				viewHolder.mTvRateTitle.setText("转让后收益");
-				viewHolder.mLeftView = convertView.findViewById(R.id.icon_left);
-				viewHolder.mLeftView.setVisibility(View.GONE);
 			}
 			
 			convertView.setTag(viewHolder);
@@ -90,7 +88,6 @@ public class DebtTransferAdapter extends BaseListAdapter{
 		private TextView mTvDate;//结束日期
 		private TextView mTvDateTitle;
 		private TextView mTvTransferCount;//转让份额
-		private View mLeftView;
 	}
 
 	

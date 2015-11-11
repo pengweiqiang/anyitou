@@ -7,6 +7,7 @@ import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
 import cn.com.anyitou.http.MyConcurrentHashMap;
+import cn.com.anyitou.utils.HttpConnectionUtil.HttpMethod;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
 
@@ -281,7 +282,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INVESTMENT_LIST, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
 	 * 交易记录
@@ -306,7 +307,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_LIST, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
 	 * 获取项目投资记录列表
@@ -322,7 +323,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTMENTS, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
 	 * 获取用户优惠券
@@ -340,7 +341,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put("page_num", pageNum);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_COUPON, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN,context, HttpMethod.GET,false);
 	}
 	/**
 	 * 获取用户自己债权转让列表
@@ -356,7 +357,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, pageNum);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_DEBT_TRANSFER_LIST, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context, HttpMethod.GET,false);
 	}
 	/**
 	 * 获取用户可转让债权列表
@@ -370,7 +371,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, pageNum);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MY_DEBT_TRANSFERABLE, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context, HttpMethod.GET,false);
 	}
 	
 	
@@ -387,7 +388,7 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PAGE, page);
 		params.put("page_num", num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_GROWTH_RECORD, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context, HttpMethod.GET,false);
 	}
 	/**
 	 * 会员等级变更记录
@@ -399,7 +400,7 @@ public class ApiUserUtils {
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
 		params.put(ReqUrls.PAGE, page);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MEMBER_CHANGE_RECORD, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context, HttpMethod.GET,false);
 	}
 	/**
 	 * 获取用户安币变更记录
@@ -416,7 +417,7 @@ public class ApiUserUtils {
 		params.put("end_time", endTime);
 //		params.put("page_num", num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INTEGRAL_RECORD, false,
-				requestCallBack, MethodType.LOGIN, context);
+				requestCallBack, MethodType.LOGIN, context, HttpMethod.GET,false);
 	}
 	
 	

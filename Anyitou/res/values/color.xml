@@ -13,6 +13,7 @@
     <color name="backColor">#2000</color>
     
 	<color name="white">#ffffffff</color>  
+	<color name="banner_unselected">#9c9a9a</color>
 	<color name="line">#c9c9c9</color>
 	<color name="grey_line">#cccccc</color>
 	<color name="grey_cicrle_unselected">#dae0e8</color>
@@ -51,7 +52,10 @@
     <color name="subtract_color">#097c25</color>
     <color name="dialog_enable_text_color">#4d4d4d</color>
     
+    <color name="et_un_focus">#a6a6a6</color>
+    
     <color name="transparent">#e0FFFFFF</color>
+    <color name="all_transparent">#00000000</color>
     <color name="transparent_background">#60000000</color>
     
 </resources>

@@ -74,7 +74,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@color/transparent</item>
-        <item name="android:background">@drawable/bg_main_tab_button</item>
+        <item name="android:background">@color/all_transparent</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/main_tab_button_text</item>

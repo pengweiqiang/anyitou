@@ -60,10 +60,16 @@ public class HomeListAdapter extends BaseListAdapter{
 			viewHolder.mTvInvestmentCycle = (TextView)convertView.findViewById(R.id.investment_cycle);
 			viewHolder.mTvMoney = (TextView)convertView.findViewById(R.id.total);
 			viewHolder.mPercentageRing = (PercentageRing)convertView.findViewById(R.id.progress);
+			viewHolder.mLastPadding = convertView.findViewById(R.id.last_position_bottom);
 			
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder)convertView.getTag();
+		}
+		if(position == investments.size()-1){
+			viewHolder.mLastPadding.setVisibility(View.GONE);
+		}else{
+			viewHolder.mLastPadding.setVisibility(View.GONE);
 		}
 //		if(position == 0){
 //			viewHolder.mViewDashLine.setVisibility(View.VISIBLE);
@@ -123,6 +129,7 @@ public class HomeListAdapter extends BaseListAdapter{
 		private TextView mTvStatus;//状态
 		private TextView mTvInvestmentCycle;//投资周期
 		private TextView mTvMoney;//投资金额
+		private View mLastPadding;
 	}
 
 	

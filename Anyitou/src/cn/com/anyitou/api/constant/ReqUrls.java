@@ -316,7 +316,15 @@ public interface ReqUrls {
 	 * 38.获取用户自己债权转让列表
 	 */
 	public static final String MOBIAPI_DEBT_TRANSFER_LIST = "debt/TransferList";
+	/**
+	 * 39.发起债权转让请求接口
+	 */
+	public static final String MOBIAPI_DEBT_CREATE = "debt/create";
 	
+	/**
+	 * 40.获取债权转让参数接口
+	 */
+	public static final String MOBIAPI_DEBT_GETPARAMS = "debt/GetSellParams";
 	
 	/**
 	 * 41.获取兑换物品列表
@@ -335,6 +343,11 @@ public interface ReqUrls {
 	 * 45.兑换物品
 	 */
 	public static final String MOBIAPI_EXCHANGE_GOODS = "integral/exchangeGoods";
+	
+	/**
+	 * 46.获取投资可用优惠券接口
+	 */
+	public static final String MOBIAPI_PROJECT_COUPON = "coupon/GetListForProject";
 	/**
 	 * 47.会员特权信息(/grade/info)
 	 */
@@ -364,6 +377,11 @@ public interface ReqUrls {
 	 * 52. 获取用户自己的投资记录
 	 */
 	public static final String MOBIAPI_USER_INVESTMENT_LIST = "investment/list";
+	
+	/**
+	 * 53. 获取投资记录详情
+	 */
+	public static final String MOBIAPI_INVESTMENT_VIEW = "investment/view";
 	
 	
 	
