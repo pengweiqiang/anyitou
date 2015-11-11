@@ -22,7 +22,6 @@ import cn.com.anyitou.ui.ModifyGestureDialog;
 import cn.com.anyitou.ui.ModifyLoginPassWordActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.SharePreferenceManager;
-import cn.com.anyitou.utils.ShareUtil;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.MyPopupWindow;

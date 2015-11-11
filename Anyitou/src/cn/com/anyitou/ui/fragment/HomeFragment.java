@@ -82,7 +82,6 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
-
 		initListener();
 		return infoView;
 	}

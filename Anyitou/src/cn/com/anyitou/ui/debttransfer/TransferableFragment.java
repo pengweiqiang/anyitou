@@ -81,24 +81,24 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 	
 
 	private void initListener(){
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
-				DebtAssignment debtAssgiment = new DebtAssignment();
-				MyDebtTransferable debtTransfer = debtTransferLists.get(position);
-				debtAssgiment.setId(debtTransfer.getId());
-				debtAssgiment.setStatus(debtTransfer.getStatus());
-				debtAssgiment.setBuyer_apr(debtTransfer.getRate_of_interest());
-				debtAssgiment.setSell_days(debtTransfer.getRemainDays());
-				intent.putExtra("debt", debtAssgiment);
-				intent.putExtra("type", 2);
-				startActivity(intent);
-			}
-			
-		});
+//		mListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				Intent intent = new Intent(mActivity,InVestmentDetailActivity.class);
+//				DebtAssignment debtAssgiment = new DebtAssignment();
+//				MyDebtTransferable debtTransfer = debtTransferLists.get(position);
+//				debtAssgiment.setId(debtTransfer.getId());
+//				debtAssgiment.setStatus(debtTransfer.getStatus());
+//				debtAssgiment.setBuyer_apr(debtTransfer.getRate_of_interest());
+//				debtAssgiment.setSell_days(debtTransfer.getRemainDays());
+//				intent.putExtra("debt", debtAssgiment);
+//				intent.putExtra("type", 2);
+//				startActivity(intent);
+//			}
+//			
+//		});
 	}
 //	mTvInvestName.setText(debtAssignment.getNumber());
 //	mTvYearrate.setText(debtAssignment.getBuyer_apr()+"%");
@@ -147,16 +147,7 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 							 List<MyDebtTransferable> debtTransfers
 							 = (List<MyDebtTransferable>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<MyDebtTransferable>>() {});
 							 
-							if(page == 1){
-								debtTransferLists.clear();
-							}
-							if (debtTransfers != null && !debtTransfers.isEmpty()) {
-								// initViewPagerData();
-								showEmptyListView(false);
-								debtTransferLists.addAll(debtTransfers);
-							} else {
-								showEmptyListView(true);
-							}
+							showEmptyListView(debtTransfers);
 							mListView.onLoadFinish(page, debtTransfers.size(),"加载完毕");
 							transAdapter.notifyDataSetChanged();
 
@@ -167,13 +158,26 @@ public class TransferableFragment extends BaseFragment implements IXListViewList
 					}
 				});
 	}
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无记录");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			debtTransferLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				debtTransferLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				debtTransferLists.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override

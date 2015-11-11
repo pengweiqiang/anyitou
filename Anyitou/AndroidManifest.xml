@@ -109,19 +109,19 @@
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册结果 -->
-        <activity
+       <!--  <activity
             android:name="cn.com.anyitou.ui.RegistereResultActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
-        </activity>
+        </activity> -->
         <!-- 设置 -->
-        <activity
+        <!-- <activity
             android:name="cn.com.anyitou.ui.SetUpActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
-        </activity>
+        </activity> -->
         
         <!-- 修改登录密码 -->
         <activity
@@ -224,13 +224,6 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <!-- 充值结果 -->
-        <activity
-            android:name="cn.com.anyitou.ui.RechargeResultActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-        </activity>
 
         <!-- 确认充值 -->
         <activity
@@ -249,12 +242,12 @@
         </activity>
 
         <!-- 回款计划 -->
-        <activity
+       <!--  <activity
             android:name="cn.com.anyitou.ui.PaymentPlanActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
-        </activity>
+        </activity> -->
 
         <!-- 交易记录 -->
         <activity
@@ -267,6 +260,14 @@
         <!-- 投资明细记录 -->
         <activity
             android:name="cn.com.anyitou.ui.InvestRecordActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <!-- 投资详情 -->
+        <activity
+            android:name="cn.com.anyitou.ui.InvestmentRecordDetailActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -289,6 +290,22 @@
          <!-- 确认债权信息 -->
         <activity
             android:name="cn.com.anyitou.ui.DebtTransferConfirmActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+         <!-- 发起债权转让 -->
+        <activity
+            android:name="cn.com.anyitou.ui.PublishDebtTransferActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+          <!-- 确认债权转让 -->
+        <activity
+            android:name="cn.com.anyitou.ui.ConfirmPublishDebtTransferActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >

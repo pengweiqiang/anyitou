@@ -123,16 +123,7 @@ public class TransferingFragment extends BaseFragment implements IXListViewListe
 								.getCode())) {
 							isFirst = false;
 							 List<DebtTransfer> debtTransfers = (List<DebtTransfer>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<DebtTransfer>>() {});
-							if(page == 1){
-								debtTransferLists.clear();
-							}
-							if (debtTransfers != null && !debtTransfers.isEmpty()) {
-								// initViewPagerData();
-								showEmptyListView(false);
-								debtTransferLists.addAll(debtTransfers);
-							} else {
-								showEmptyListView(true);
-							}
+							showEmptyListView(debtTransfers);
 							mListView.onLoadFinish(page, debtTransfers.size(),"加载完毕");
 							transAdpater.notifyDataSetChanged();
 
@@ -144,13 +135,26 @@ public class TransferingFragment extends BaseFragment implements IXListViewListe
 				});
 	}
 	
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无已使用的优惠券");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			debtTransferLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				debtTransferLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				debtTransferLists.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override

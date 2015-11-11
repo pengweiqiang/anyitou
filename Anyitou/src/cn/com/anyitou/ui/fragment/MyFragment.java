@@ -152,10 +152,10 @@ public class MyFragment extends BaseFragment {
 				intent.putExtra("money", myCapital.getUse_money());
 				intent.setClass(mActivity, RechargeActivity.class);
 				break;
-			case R.id.invest_detail:
+			case R.id.invest_detail://投资明细
 				intent.setClass(mActivity, MyInvestmentActivity.class);
 				break;
-			case R.id.trade_detail:
+			case R.id.trade_detail://交易记录
 				intent.setClass(mActivity, TradingRecordActivity.class);
 				break;
 			case R.id.bond_assign://债券转让

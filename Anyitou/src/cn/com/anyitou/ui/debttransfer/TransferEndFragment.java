@@ -125,16 +125,7 @@ public class TransferEndFragment extends BaseFragment implements IXListViewListe
 							isFirst = false;
 							 List<DebtTransfer> transfers = (List<DebtTransfer>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<DebtTransfer>>() {});
 						 
-							if(page == 1){
-								transferLists.clear();
-							}
-							if (transfers != null && !transfers.isEmpty()) {
-								// initViewPagerData();
-								showEmptyListView(false);
-								transferLists.addAll(transfers);
-							} else {
-								showEmptyListView(true);
-							}
+							showEmptyListView(transfers);
 							mListView.onLoadFinish(page, transfers.size(),"加载完毕");
 							transferAdapter.notifyDataSetChanged();
 
@@ -145,13 +136,26 @@ public class TransferEndFragment extends BaseFragment implements IXListViewListe
 					}
 				});
 	}
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无已过期的优惠券");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			transferLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无记录");
+			}else{
+				transferLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				transferLists.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override

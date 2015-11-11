@@ -132,20 +132,11 @@ public class UnuseCouponFragment extends BaseFragment implements IXListViewListe
 								 List<Coupon> coupons = (List<Coupon>)JsonUtils.fromJson(list.toString(),new TypeToken<List<Coupon>>() {});
 	//							List<Investment> invests = getInvests(parseModel);
 								 
-								if(page == 1){
-									couponList.clear();
-								}
-								if (coupons != null && !coupons.isEmpty()) {
-									// initViewPagerData();
-									showEmptyListView(false);
-									couponList.addAll(coupons);
-								} else {
-									showEmptyListView(true);
-								}
+								 showEmptyListView(coupons);
 								mListView.onLoadFinish(page, coupons.size(),"加载完毕");
 								couponAdapter.notifyDataSetChanged();
 							}else{
-								showEmptyListView(true);
+								showEmptyListView(null);
 							}
 
 						} else {
@@ -155,13 +146,26 @@ public class UnuseCouponFragment extends BaseFragment implements IXListViewListe
 					}
 				});
 	}
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂无未使用的优惠券");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			couponList.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无未使用的优惠券");
+			}else{
+				couponList.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+			}
+		}else{
+			if(!isEmpty){
+				couponList.addAll(list);
+			}
+		}
+		
 	}
 
 	@Override
