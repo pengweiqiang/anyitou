@@ -13,7 +13,7 @@
         <cn.com.anyitou.views.XListView
             android:id="@+id/listView_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:divider="@color/home_bg"
             android:dividerHeight="2dp"
             android:listSelector="@android:color/transparent" >

@@ -193,5 +193,11 @@
                 android:layout_height="wrap_content" /> -->
         </LinearLayout>
     </RelativeLayout>
+    <View 
+        android:layout_below="@+id/relativeLayout1"
+        android:id="@+id/last_position_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        />
 
 </RelativeLayout>

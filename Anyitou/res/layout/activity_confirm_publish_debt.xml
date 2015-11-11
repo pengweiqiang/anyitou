@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical"
+     >
+
+    <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+   
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="项目名称："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/project_name"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="安企贷"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="#e6e6e6"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="出让债权份额："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/debt_count"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="1000份"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+    
+    
+    
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="发布收益："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/publish_profit"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="12%"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="#e6e6e6"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="出让价格："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/debt_money"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="1000元"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+    
+     <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="发布期限："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/publish_date"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="1天"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+    
+      <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="#e6e6e6"
+        >
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="手续费："
+		    android:textColor="#a6a6a6"
+		    />  
+		    <TextView 
+		        android:id="@+id/service_chagne"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="5.00元"
+		    android:layout_alignParentRight="true"
+		    android:textColor="#a6a6a6"
+		    />        
+        
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="bottom|center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/login_delete_selector"
+         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="确认发起"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+   
+
+</LinearLayout>

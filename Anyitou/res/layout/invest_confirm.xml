@@ -257,6 +257,13 @@
 			    />					    
 		    
 		</RelativeLayout>
+		<ListView 
+		    android:id="@+id/coupon_listview"
+		    android:layout_width="match_parent"
+		    android:layout_height="50dp"
+		    android:layout_marginLeft="13dp"
+        	android:layout_marginRight="8dp"
+		    ></ListView>
 		
 		
         

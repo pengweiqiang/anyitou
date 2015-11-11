@@ -80,3 +80,86 @@
     </RelativeLayout>
 
 </LinearLayout>
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contentView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <cn.com.anyitou.views.CustomViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:background="@color/home_bg"
+        android:layout_height="match_parent"
+         >
+    </cn.com.anyitou.views.CustomViewPager2> -->
+
+    <!-- s<View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray_line" />s -->
+			    
+			    
+            
+
+    <!-- <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="#f0ffffff"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView 
+            	android:id="@+id/line_bottom"
+            	android:layout_above="@+id/tabIndicators"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:background="@drawable/bottom_nav_bg"
+			    android:layout_gravity="center_horizontal"
+			    />
+
+        <RadioGroup
+            android:id="@+id/tabIndicators"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/news"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@+id/tab_home"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_home" />
+
+            <include
+                android:id="@+id/tab_invest"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_invest" />
+            
+			 <include
+                android:id="@+id/tab_my"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_my" />
+            
+            <include
+                android:id="@+id/tab_account_setting"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_account" />
+            
+            <include
+                android:id="@+id/tab_about_us"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                layout="@layout/main_tab_indicator_about" /> -->
+
+            <!--s </LinearLayout> -->
+
+   <!--      </RadioGroup>
+
+    </RelativeLayout>
+
+</RelativeLayout> -->

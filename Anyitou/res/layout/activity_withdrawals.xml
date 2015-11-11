@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/card_tip"
-            android:text="民生银行"
+            android:text=""
             android:textColor="#005bac"
             android:textSize="17sp" />
 

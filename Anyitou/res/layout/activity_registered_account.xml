@@ -213,17 +213,35 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_selector"
         android:padding="5dp"
+        android:gravity="center"
         >
 		
         
+        <CheckBox
+                android:id="@+id/check_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="14sp"
+                android:checked="true"
+                android:clickable="false"
+                style="@style/CustomRadioButtonTheme"
+                android:textColor="@color/black"
+                android:text="我已阅读并同意"
+                />
         <TextView
             android:id="@+id/readed"
+            android:layout_toRightOf="@+id/check_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_selector"
             android:singleLine="true"
-            android:text="我已阅读并同意协议"
-            android:textColor="#4F7AD3"
+            android:text="《安宜投网站用户协议》"
+            android:textColor="@color/app_bg_color"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
              />
         

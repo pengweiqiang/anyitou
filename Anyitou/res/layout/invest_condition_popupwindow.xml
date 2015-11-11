@@ -32,7 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部"
-            android:textColor="#a3a3a3"
+            android:enabled="false"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         
         <TextView 
@@ -41,7 +44,10 @@
             android:layout_height="wrap_content"
             android:text="安车贷"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/category_anqidai"
@@ -49,7 +55,10 @@
             android:layout_height="wrap_content"
             android:text="安企贷"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/category_anfangdai"
@@ -57,7 +66,10 @@
             android:layout_height="wrap_content"
             android:text="安房贷"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/category_debt"
@@ -65,7 +77,10 @@
             android:layout_height="wrap_content"
             android:text="债权转让"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         
     </LinearLayout>
@@ -91,7 +106,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部"
-            android:textColor="#a3a3a3"
+            android:enabled="false"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         
         <TextView 
@@ -100,7 +118,10 @@
             android:layout_height="wrap_content"
             android:text="还款中"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/status_repayed"
@@ -108,7 +129,10 @@
             android:layout_height="wrap_content"
             android:text="已还款"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/status_part_debt"
@@ -116,7 +140,10 @@
             android:layout_height="wrap_content"
             android:text="部分转让"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/status_all_debt"
@@ -124,7 +151,10 @@
             android:layout_height="wrap_content"
             android:text="全部转让"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         
     </LinearLayout>
@@ -151,7 +181,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部"
-            android:textColor="#a3a3a3"
+			android:enabled="false"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"            
             />
         
         <TextView 
@@ -160,7 +193,10 @@
             android:layout_height="wrap_content"
             android:text="今天"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/time_week"
@@ -168,7 +204,10 @@
             android:layout_height="wrap_content"
             android:text="一周"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/time_month"
@@ -176,7 +215,10 @@
             android:layout_height="wrap_content"
             android:text="一个月"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         <TextView 
             android:id="@+id/time_three_month"
@@ -184,7 +226,10 @@
             android:layout_height="wrap_content"
             android:text="三个月"
             android:layout_weight="1"
-            android:textColor="#a3a3a3"
+            android:enabled="true"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
             />
         
     </LinearLayout>
