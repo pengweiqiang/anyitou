@@ -19,7 +19,12 @@ public class DebtTransferDetail implements Serializable{
 	
 	private ProjectData projectData;
 	
-	public class ProjectData{
+	public class ProjectData implements Serializable{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7411353733374008599L;
 		private String item_title;
 		private String rate_of_interest;
 		private String borrower_user_id;

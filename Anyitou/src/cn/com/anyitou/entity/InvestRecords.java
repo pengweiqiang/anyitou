@@ -17,13 +17,13 @@ public class InvestRecords implements Serializable{
 	private String trade_no;
 	private String user_id;//+
 	private String item_id;
-	private String category;
+	private String category;//  类型:  invest:企贷  chedai:车贷  fangdai：房贷  reward:新手体验
 	private String item_amount; // 投资金额
 	private String money;// 支付金额
 	private String real_amount;//
 	private String transferring_amount;// 转让中金额
 	private String transferred_amount;// 已转让金额
-	private String item_income; // 总收益
+	private String item_income; // 预期收益
 	private String invest_time; // 投资时间
 	private String success_time; // 投资时间
 	private String agreement_id;//合同编号
@@ -50,7 +50,12 @@ public class InvestRecords implements Serializable{
 	private PayTypeInfo pay_type_info;//
 	private String invest_days;//投资天数
 	
-	public class PayTypeInfo{
+	public class PayTypeInfo implements Serializable{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3551027147786639247L;
 		private String name;
 		private String value;
 		public String getName() {
