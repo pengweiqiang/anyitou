@@ -67,10 +67,15 @@
 		        
 		    </RelativeLayout>
 		    
-		    <View 
+		    <!-- <View 
 		        android:layout_width="35dp"
 		        android:layout_height="match_parent"
 		        android:background="@drawable/dash_grey_drawable"
+		        /> -->
+		        <View 
+		        android:layout_width="4px"
+		        android:layout_height="match_parent"
+		        android:background="@drawable/dash_line_confirm_drawable"
 		        />
 		    
 		    <RelativeLayout 
