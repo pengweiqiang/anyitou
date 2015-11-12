@@ -1,11 +1,13 @@
 package cn.com.anyitou.ui;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.DebtAssignment;
@@ -40,6 +42,10 @@ public class InvestDetailFirstFragment extends BaseFragment {
 	private TextView mTvInvestStatus;//项目状态
 	private TextView mTvFinancingDate;//融资期限
 	
+	
+	private ProgressBar mProgressBar;
+	private TextView mTvProgressText;
+	
 	private TextView mTvDealLine,mTvMoneyTitle,mTvLastTitle;
 	
 	@Override
@@ -66,6 +72,10 @@ public class InvestDetailFirstFragment extends BaseFragment {
 		mTvDealLine = (TextView)infoView.findViewById(R.id.deadline_title);
 		mTvMoneyTitle = (TextView)infoView.findViewById(R.id.money_title);
 		mTvLastTitle = (TextView)infoView.findViewById(R.id.last_title);
+		
+		
+		mProgressBar = (ProgressBar)infoView.findViewById(R.id.progressBar);
+		mTvProgressText = (TextView)infoView.findViewById(R.id.progress_text);
 		
 		
 		mIvRepayingLogo = (ImageView)infoView.findViewById(R.id.repaying_logo);
@@ -97,6 +107,14 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvFinancingAmount.setText(StringUtils.getMoneyFormat(investment.getFinancing_amount()));
 			mTvInvestStatus.setText(investment.getInvest_status_label());
 			mTvFinancingDate.setText(investment.getBorrow_days()+"天");//融资期限
+			
+			String scale = investment.getScale();
+			int progress = StringUtils.getProgress(scale);
+			mProgressBar.setProgress(progress);
+			if(progress<50){
+				mTvProgressText.setTextColor(Color.BLACK);
+			}
+			mTvProgressText.setText("已募集"+progress+"%");
 			investTypeShow(investment.getInvest_status());
 		}
 		
@@ -111,6 +129,15 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvFinancingAmount.setText(StringUtils.getMoneyFormat(investDetail.getFinancing_amount()));
 //			mTvInvestStatus.setText(investDetail.getInvest_status());
 			mTvFinancingDate.setText(investDetail.getBorrow_days()+"天");
+			
+			String scale = investDetail.getScale();
+			int progress = StringUtils.getProgress(scale);
+			mProgressBar.setProgress(progress);
+			if(progress<50){
+				mTvProgressText.setTextColor(Color.BLACK);
+			}
+			mTvProgressText.setText("已募集"+progress+"%");
+			
 			investTypeShow(investDetail.getInvest_status());
 		}
 		
@@ -168,6 +195,14 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvFinancingAmount.setText(StringUtils.getMoneyFormat(debtAssignment.getTransferred_amount()));
 			mTvInvestStatus.setText(debtAssignment.getStatus());
 			mTvFinancingDate.setText("获取哪个值？");
+			
+			String scale = debtAssignment.getBuyProgress();
+			int scaleProgress = StringUtils.getProgress(scale);
+			mProgressBar.setProgress(scaleProgress);
+			if(scaleProgress<50){
+				mTvProgressText.setTextColor(Color.BLACK);
+			}
+			mTvProgressText.setText("已认购"+scaleProgress+"%");
 		}
 		
 		if(debtDetail!=null){
@@ -184,6 +219,11 @@ public class InvestDetailFirstFragment extends BaseFragment {
 			mTvFinancingAmount.setText(debtData.getAmount());
 			mTvInvestStatus.setText(AnyitouStatusUtils.getDebtStatusName(debtData.getStatus()));
 			mTvFinancingDate.setText("获取哪个值？");
+			
+//			String scale = debtData.getBuyProgress();
+//			mProgressBar.setProgress(StringUtils.getProgress(scale));
+//			mTvProgressText.setText("已认购"+StringUtils.getProgress(scale)+"%");
+			
 		}
 		
 	}
