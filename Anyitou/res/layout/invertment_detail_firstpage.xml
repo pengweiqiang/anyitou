@@ -78,6 +78,29 @@
 		                android:layout_height="wrap_content"
 		                android:src="@drawable/invest_prepare_online_icon" />
                 </RelativeLayout>
+                
+                <RelativeLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+	                <ProgressBar  
+					    android:id="@+id/progressBar"  
+					    style="?android:attr/progressBarStyleHorizontal"  
+					    android:layout_width="fill_parent"  
+					    android:layout_height="30dp"  
+					    android:max="100"  
+					    android:progress="80"   
+					    android:progressDrawable="@drawable/progress_detail"   
+					    android:visibility="visible"/> 
+				    <TextView 
+				        android:id="@+id/progress_text"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_centerInParent="true"
+				        android:text="已募集80%"
+				        android:textColor="@color/white"
+				        /> 
+    </RelativeLayout>
             </LinearLayout>
 
             <!-- 还款标识 -->
