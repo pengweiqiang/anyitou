@@ -44,7 +44,7 @@
             android:drawablePadding="3dp"
             />
         
-        <View 
+        <!-- <View 
             android:id="@+id/dash_line"
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -52,7 +52,16 @@
              android:layout_below="@+id/anbi_tip"
              android:layout_marginTop="12dp"
              android:layout_marginBottom="2dp"
-            />
+            /> -->
+            <View 
+            android:id="@+id/dash_line"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/dash_myanbi_point_drawable"
+             android:layout_below="@+id/anbi_tip"
+             android:layout_marginTop="12dp"
+             android:layout_marginBottom="2dp"
+            /> 
         
         
         
