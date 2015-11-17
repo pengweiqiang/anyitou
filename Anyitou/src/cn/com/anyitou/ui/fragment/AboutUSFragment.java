@@ -20,7 +20,6 @@ import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.FeedBackActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
-import cn.com.anyitou.utils.ShareUtil;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
