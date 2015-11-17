@@ -1,9 +1,5 @@
 package cn.com.anyitou.ui;
 
-import org.json.JSONObject;
-
-import com.tencent.weibo.sdk.android.api.util.JsonUtil;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,10 +12,10 @@ import cn.com.anyitou.entity.InvestRecords;
 import cn.com.anyitou.entity.MyInvestmentDetail;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
+import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
-import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 /**
