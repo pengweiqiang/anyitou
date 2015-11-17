@@ -1,16 +1,11 @@
 package cn.com.anyitou.ui;
 
-import com.sina.weibo.sdk.utils.MD5;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
