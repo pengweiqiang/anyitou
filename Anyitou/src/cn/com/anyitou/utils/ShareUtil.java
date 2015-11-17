@@ -23,13 +23,19 @@ import cn.com.anyitou.ui.HomeActivity;
 public class ShareUtil {
 	
 	private Context context;
+	boolean isExist = false;
 	public ShareUtil(Context context){
 		this.context = context;
 		try{
-		// 友推分享组件初始化
-		YtCore.init((HomeActivity)context);
-		initShareData();
-		initPlatform();
+			if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+			{
+				isExist = true;
+				// 友推分享组件初始化
+				YtCore.init((HomeActivity)context);
+				initShareData();
+				initPlatform();
+			}
+		
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -43,18 +49,22 @@ public class ShareUtil {
 	
 	
 	public void share(int position,String text){
-		if(!StringUtils.isEmpty(text)){
-			shareData.setText(text);
-			shareData.setDescription(text);
-			if(position == 1){
-				shareData.setTitle(text);
+		if(isExist){
+			if(!StringUtils.isEmpty(text)){
+				shareData.setText(text);
+				shareData.setDescription(text);
+				if(position == 1){
+					shareData.setTitle(text);
+				}
 			}
+			
+			for (YtPlatform platform : YtPlatform.values())
+				if (platform.getTitleName(context).equals(platformNames.get(position)))
+					// 指定平台进行分享
+					YtCore.getInstance().share((HomeActivity)context, platform, listener, shareData);
+		}else{
+			ToastUtils.showToast(context, "SD卡不存在");
 		}
-		
-		for (YtPlatform platform : YtPlatform.values())
-			if (platform.getTitleName(context).equals(platformNames.get(position)))
-				// 指定平台进行分享
-				YtCore.getInstance().share((HomeActivity)context, platform, listener, shareData);
 			
 	}
 	/**
