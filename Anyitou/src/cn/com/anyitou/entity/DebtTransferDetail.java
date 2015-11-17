@@ -1,6 +1,8 @@
 package cn.com.anyitou.entity;
 
 import java.io.Serializable;
+
+import cn.com.anyitou.entity.InvestRecords.PayTypeInfo;
 /**
  * 债权转让明细
  * @author pengweiqiang
@@ -29,6 +31,16 @@ public class DebtTransferDetail implements Serializable{
 		private String rate_of_interest;
 		private String borrower_user_id;
 		private String repayment_time;
+		private PayTypeInfo pay_type_info;
+		
+		
+		
+		public PayTypeInfo getPay_type_info() {
+			return pay_type_info;
+		}
+		public void setPay_type_info(PayTypeInfo pay_type_info) {
+			this.pay_type_info = pay_type_info;
+		}
 		public String getItem_title() {
 			return item_title;
 		}

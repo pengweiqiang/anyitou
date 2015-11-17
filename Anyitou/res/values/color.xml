@@ -13,7 +13,7 @@
     <color name="backColor">#2000</color>
     
 	<color name="white">#ffffffff</color>  
-	<color name="banner_unselected">#9c9a9a</color>
+	<color name="banner_unselected">#b7b3b3</color>
 	<color name="line">#c9c9c9</color>
 	<color name="grey_line">#cccccc</color>
 	<color name="grey_cicrle_unselected">#dae0e8</color>
@@ -30,6 +30,7 @@
     
     <!-- 新版 -->
     <color name="app_bg_color">#f45149</color>
+    <color name="app_blue_color">#1acb50</color>
     <color name="tab_unselect_color">#8a8a8a</color>
     <color name="invest_detail_bottom_color">#4756c8</color>
     <color name="invest_detail_bottom_color_pressed">#2a33e5</color>
@@ -51,6 +52,7 @@
     <color name="dialog_btn_pressed_color">#e5564f</color>
     <color name="subtract_color">#097c25</color>
     <color name="dialog_enable_text_color">#4d4d4d</color>
+    <color name="time_cicle">#e1e1e1</color>
     
     <color name="et_un_focus">#a6a6a6</color>
     

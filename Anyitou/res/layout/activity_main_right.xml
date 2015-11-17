@@ -32,7 +32,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:padding="4dp"
-            myCiclePage:cicle_color="@color/grey_cicrle_selected" />
+            />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -3,6 +3,8 @@ package cn.com.anyitou.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import cn.com.GlobalConfig;
 import cn.com.anyitou.R;
 import cn.com.anyitou.commons.AppManager;
@@ -22,7 +24,7 @@ import cn.com.anyitou.utils.StringUtils;
 public class SplashActivity extends BaseActivity {
 
 	private long delayTime = 2000;
-//	private ImageView mImageView;
+	private ImageView mImageView;
 	
 
 	@Override
@@ -37,12 +39,12 @@ public class SplashActivity extends BaseActivity {
 		
 		Intent startService = new Intent(mContext,AnyitouService.class);
 		startService(startService);
-		/*
-		 * LayoutParams imageLayoutParams = mImageView.getLayoutParams();
-		 * imageLayoutParams.width = DeviceInfo.getScreenWidth(this);
-		 * imageLayoutParams.height = (int) (imageLayoutParams.width * 1.0 / 553
-		 * * 297); mImageView.setLayoutParams(imageLayoutParams);
-		 */
+		
+		 LayoutParams imageLayoutParams = mImageView.getLayoutParams();
+		 imageLayoutParams.width = DeviceInfo.getScreenWidth(this);
+		 imageLayoutParams.height = (int) (imageLayoutParams.width * 1.0 / 720*1280); 
+		 mImageView.setLayoutParams(imageLayoutParams);
+		 
 		if (StringUtils.isEmpty(appVersionName) || !nowVersionName.equals(appVersionName)) {// 首次打开app,进入引导页面
 			// findViewById(R.id.loading).setVisibility(View.VISIBLE);
 			// application.getBoot(handler);
@@ -89,7 +91,7 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	public void initView() {
-//		mImageView = (ImageView) findViewById(R.id.splash);
+		mImageView = (ImageView) findViewById(R.id.splash);
 	}
 
 	@Override

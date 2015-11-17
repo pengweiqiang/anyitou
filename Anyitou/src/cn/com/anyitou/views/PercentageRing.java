@@ -66,7 +66,7 @@ public class PercentageRing extends View{
 		init(context);
 	}
 
-	private void init(Context context){
+	private synchronized void init(Context context){
 		//圆环开始角度 -90° 正北方向
 		mStartSweepValue = -90;
 		//当前角度
@@ -108,7 +108,7 @@ public class PercentageRing extends View{
 
 	//主要是测量wrap_content时候的宽和高，因为宽高一样，只需要测量一次宽即可，高等于宽
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		setMeasuredDimension(measure(widthMeasureSpec), measure(widthMeasureSpec));
 		//设置圆心坐标
 		mCircleX = getMeasuredWidth()/2;
@@ -134,7 +134,7 @@ public class PercentageRing extends View{
 	}
 
 	//当wrap_content的时候，view的大小根据半径大小改变，但最大不会超过屏幕
-	private int measure(int measureSpec){
+	private synchronized int measure(int measureSpec){
 		int result=0;
 		int specMode = MeasureSpec.getMode(measureSpec);
 		int specSize = MeasureSpec.getSize(measureSpec);
@@ -151,16 +151,53 @@ public class PercentageRing extends View{
 	}
     //开始画中间圆、文字和外圆环
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected synchronized void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
         //画中间圆
-		canvas.drawCircle(mCircleX, mCircleY, mRadius, mCirclePaint);
+//		canvas.drawCircle(mCircleX, mCircleY, mRadius, mCirclePaint);
 		canvas.drawCircle(mCircleX, mCircleY ,mRadius, mArcPaint2);
-        //画圆环
+		//画圆环
 		canvas.drawArc(mArcRectF, mStartSweepValue ,mCurrentAngle, false, mArcPaint);
+//		canvas.drawArc(mArcRectF, mStartSweepValue ,3.6f*mTargetPercent, false, mArcPaint);
+				
+//		while (mCurrentPercent<mTargetPercent) {
+		
+			
+//			if(mTargetPercent<21){
+//				drawArc(canvas, 0, mTargetPercent);
+////				mArcPaint.setColor(Color.RED);
+////				//画圆环
+////				canvas.drawArc(mArcRectF, mStartSweepValue ,mCurrentAngle*(mTargetPercent-mCurrentPercent), false, mArcPaint);
+//			}else if(mTargetPercent>20 && mTargetPercent<41){
+//				drawArc(canvas, 0, 20);
+//				
+//				drawArc(canvas, 1, mTargetPercent-20);
+//				//画圆环
+//				canvas.drawArc(mArcRectF, mStartSweepValue+90 ,mCurrentAngle*(mTargetPercent-mCurrentPercent), false, mArcPaint);
+//			}else if(mTargetPercent>40 && mTargetPercent<61){
+//				mArcPaint.setColor(Color.BLACK);
+//				//画圆环
+//				canvas.drawArc(mArcRectF, mStartSweepValue+180 ,mCurrentAngle*mTargetPercent, false, mArcPaint);
+//			}
+//			else if(mTargetPercent >60 && mTargetPercent<81){
+//				mArcPaint.setColor(Color.BLUE);
+//				//画圆环
+//				canvas.drawArc(mArcRectF, mStartSweepValue+270 ,mCurrentAngle*mTargetPercent, false, mArcPaint);
+//			}else if(mTargetPercent >80 && mTargetPercent<101){
+//				mArcPaint.setColor(Color.RED);
+//				//画圆环
+//				canvas.drawArc(mArcRectF, mStartSweepValue+360 ,mCurrentAngle*mTargetPercent, false, mArcPaint);
+//			}
+				 //当前百分比+1
+//				mCurrentPercent+=1;
+//	            //当前角度+360
+//				mCurrentAngle+=3.6;
+			
+//		}
 		
 		
-        //画文字
+//		mStartSweepValue=mCurrentAngle;
+		
 		canvas.drawText(String.valueOf(Math.round(mCurrentPercent))+"%", mCircleX, mCircleY+mTextSize/4, mTextPaint);
         //判断当前百分比是否小于设置目标的百分比
 		if (mCurrentPercent<mTargetPercent) {
@@ -171,13 +208,24 @@ public class PercentageRing extends View{
             //每4ms重画一次
 //			postInvalidateDelayed(4);
 			postInvalidate();
+			
 		}
 
 	}
+	
+	private void drawArc(Canvas canvas,int position,float target){
+		if(position == 0){//-90到0
+			mArcPaint.setColor(Color.RED);
+		}else if(position == 1){//0-90
+			mArcPaint.setColor(Color.BLUE);
+		}
+		canvas.drawArc(mArcRectF, position*90-90 ,target*3.6f, false, mArcPaint);
+	}
 
     //设置目标的百分比
-	public void setTargetPercent(int percent){
+	public synchronized void setTargetPercent(int percent){
 		this.mTargetPercent = percent;
+//		postInvalidate();
 	}
 
 }

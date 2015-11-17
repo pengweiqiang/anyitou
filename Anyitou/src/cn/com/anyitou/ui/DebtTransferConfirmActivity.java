@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
+import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -22,6 +23,7 @@ import cn.com.anyitou.entity.DebtTransferDetail;
 import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
+import cn.com.anyitou.utils.AnyitouUtils;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
@@ -30,6 +32,8 @@ import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.gson.JsonNull;
+import cn.com.gson.JsonObject;
 /**
  * 债权确认信息
  * @author will
@@ -48,6 +52,8 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 	private View mBtnProfitCal;
 	
 	private DebtTransferDetail debt;//债权项目
+	private int investmentMoney = 1000;//最小认购份额
+//	String id = "";
 	String useMoney = "";//可用金额
 	String myUserId = "";
 	@Override
@@ -56,6 +62,8 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		debt = (DebtTransferDetail)this.getIntent().getSerializableExtra("debt");
+//		id = debt.getDebtData().getInvest_id();
+		investmentMoney = StringUtils.getMoney2Int(Double.valueOf(debt.getDebtData().getMinBuyAmount()));
 		if(MyApplication.getInstance().getMyCapital()!=null){
 			useMoney = MyApplication.getInstance().getMyCapital().getUse_money();
 			myUserId = MyApplication.getInstance().getMyCapital().getUser_id();
@@ -127,41 +135,23 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		}
 	}
 	/**
-	 * 算出预期收益
-	 * //预期收益=投资金额*年利率*（投资期的天数/365）
-	 * @param money
+	 * 债权收益计算器
+	 * @param moneyStr
+	 * @return
 	 */
-	private void caluFutureMoney(String moneyStr){
-		if(StringUtils.isEmpty(moneyStr)){
-			mTvPreProfit.setText("");
-			return;
-		}
-		try{
-			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(debt.getDebtData().getBuyer_apr())/100) * (Double.valueOf(debt.getDebtData().getSell_days())/365);
-			DecimalFormat df   = new DecimalFormat("######0.00");   
-			mTvPreProfit.setText(df.format(futureMoney));
-		}catch(Exception e){
-			
-		}
-	}
-	
 	private String caluProfitMoney(String moneyStr){
 		if(StringUtils.isEmpty(moneyStr)){
 			return "0";
 		}
-		String moneyProfit = "0";
-		try{
-			double money = Double.valueOf(moneyStr);
-			double futureMoney =  money * (Double.parseDouble(debt.getDebtData().getBuyer_apr())/100) * (Double.valueOf(debt.getDebtData().getSell_days())/365);
-			DecimalFormat df   = new DecimalFormat("######0.00");   
-			moneyProfit = df.format(futureMoney);
-		}catch(Exception e){
-			
+		double money = Double.valueOf(moneyStr);
+		double yushu = money%investmentMoney;
+		if(money<investmentMoney || yushu!=0d){
+			return "0";
 		}
-		return moneyProfit;
+		String proFit = AnyitouUtils.getDebtPreProfit(debt.getDebtData().getPrice(),debt.getDebtData().getAmount(),moneyStr, debt.getDebtData().getBuyer_apr(), debt.getDebtData().getSell_days());//预期收益
+		return proFit;	
 	}
-
+	TextView mTvRate;
 	@Override
 	public void initListener() {
 		mBtnProfitCal.setOnClickListener(new OnClickListener() {
@@ -171,7 +161,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 				InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.profit_calu_info_dialog);
 				builder.setTitle("收益计算器");
 				final InfoDialog infoDialog = builder.create();
-				final TextView mTvRate = (TextView)infoDialog.findViewById(R.id.pre_profit);
+				mTvRate = (TextView)infoDialog.findViewById(R.id.pre_profit);
 				TextView mTvInvestDay = (TextView)infoDialog.findViewById(R.id.invest_day);
 				mTvInvestDay.setText(debt.getDebtData().getSell_days()+"天");
 				infoDialog.findViewById(R.id.close).setOnClickListener(new OnClickListener() {
@@ -182,6 +172,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 					}
 				});
 				final EditText mEtInvestMoney = (EditText)infoDialog.findViewById(R.id.invest_money);
+				mEtInvestMoney.setHint("最小认购"+investmentMoney+"份");
 				mEtInvestMoney.addTextChangedListener(new TextWatcher() {
 					
 					@Override
@@ -223,7 +214,8 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				caluFutureMoney(moneyStr);
+				String profit = caluProfitMoney(moneyStr);
+				mTvPreProfit.setText(profit);
 			}
 		});
 		mViewConfirm.setOnClickListener(new OnClickListener() {
@@ -313,31 +305,5 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		mTvMessgae.setText(TextViewUtils.getSpannableStringColor(message, 4, message.lastIndexOf("元"), getResources().getColor(R.color.app_bg_color)));
 		infoDialog.show();
 	}
-	
-//	private void initData(){
-//		loadingDialog = new LoadingDialog(mContext);
-//		loadingDialog.show();
-//		ApiOrderUtils.investingPage(mContext,id, new RequestCallback() {
-//			
-//			@Override
-//			public void execute(ParseModel parseModel) {
-//				loadingDialog.cancel();
-//				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-//					investingPage = JsonUtils.fromJson(parseModel.getData().toString(), InvestingPageInfo.class);
-//					setViewData();
-//				}else{
-//					ToastUtils.showToast(mContext, parseModel.getMsg());
-//					if("3".equals(parseModel.getCode())){
-//						new Handler().postDelayed(new Runnable() {
-//							public void run() {
-//								startActivity(RegisteredActivity.class);
-//							} 
-//						}, 2000);
-//					}
-//				}
-//			}
-//		});
-//		
-//	}
 	
 }

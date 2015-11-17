@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contentView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,11 +13,6 @@
         android:layout_weight="1" >
     </cn.com.anyitou.views.CustomViewPager2>
 
-    <!-- <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/light_gray_line" /> -->
-			    
 			    <ImageView 
             	android:id="@+id/line_bottom"
 			    android:layout_width="match_parent"
@@ -73,14 +68,13 @@
                 android:layout_width="0dp"
                 layout="@layout/main_tab_indicator_about" />
 
-            <!-- </LinearLayout> -->
 
         </RadioGroup>
 
-    </RelativeLayout>
+    </RelativeLayout> 
 
-</LinearLayout>
-<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</LinearLayout>-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contentView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -101,22 +95,21 @@
 			    
 			    
             
-
-    <!-- <RelativeLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="#f0ffffff"
-        android:layout_alignParentBottom="true"
-        >
-        <ImageView 
+	<ImageView 
             	android:id="@+id/line_bottom"
-            	android:layout_above="@+id/tabIndicators"
+            	android:layout_above="@+id/bottom"
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:background="@drawable/bottom_nav_bg"
 			    android:layout_gravity="center_horizontal"
 			    />
+   <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#eeffffff"
+        android:layout_alignParentBottom="true"
+        >
 
         <RadioGroup
             android:id="@+id/tabIndicators"
@@ -158,8 +151,8 @@
 
             <!--s </LinearLayout> -->
 
-   <!--      </RadioGroup>
+        </RadioGroup>
 
     </RelativeLayout>
 
-</RelativeLayout> -->
+</RelativeLayout>

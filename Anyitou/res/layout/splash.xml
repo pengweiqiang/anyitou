@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@color/white"
+    android:background="#fff45c"
     >
 
     <ImageView
         android:id="@+id/splash"
         android:layout_width="wrap_content"
-        android:paddingBottom="30dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/splash" >
     </ImageView>
 
-    <TextView
+   <!--  <TextView
         android:id="@+id/loading"
         android:layout_above="@+id/bottom"
         android:visibility="gone"
@@ -32,8 +32,9 @@
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:textColor="#7d7d7d"
+        android:visibility="gone"
         android:layout_marginBottom="20dp"
         android:text="@string/splash_bottom"
-        />
+        /> -->
 
 </RelativeLayout>

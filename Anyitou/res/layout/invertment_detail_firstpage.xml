@@ -24,13 +24,13 @@
                     android:id="@+id/invest_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/home_bg"
                     android:paddingBottom="8dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="3dp"
                     android:paddingTop="8dp"
                     android:text="安企贷 AQD-20151108"
-                    android:textColor="#666666" />
+                    android:textColor="@color/tab_title_color" />
 
                 <View
                     android:layout_width="match_parent"
@@ -64,7 +64,7 @@
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
 	                        android:text="年化收益率"
-	                        android:textColor="#666666" />
+	                        android:textColor="@color/tab_title_color" />
                     </LinearLayout>
                     
                      <!-- 预上线标识 -->
@@ -79,7 +79,9 @@
 		                android:src="@drawable/invest_prepare_online_icon" />
                 </RelativeLayout>
                 
+                <!-- 募集中 -->
                 <RelativeLayout 
+                    android:id="@+id/fundraising"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
@@ -87,7 +89,7 @@
 					    android:id="@+id/progressBar"  
 					    style="?android:attr/progressBarStyleHorizontal"  
 					    android:layout_width="fill_parent"  
-					    android:layout_height="30dp"  
+					    android:layout_height="35dp"  
 					    android:max="100"  
 					    android:progress="80"   
 					    android:progressDrawable="@drawable/progress_detail"   
@@ -98,9 +100,77 @@
 				        android:layout_height="wrap_content"
 				        android:layout_centerInParent="true"
 				        android:text="已募集80%"
+				        android:textSize="16sp"
 				        android:textColor="@color/white"
 				        /> 
-    </RelativeLayout>
+    			</RelativeLayout>
+    			<!-- 倒计时 -->
+    			<LinearLayout
+    			    android:id="@+id/count_down"
+    			    android:layout_width="match_parent"
+    			    android:layout_height="wrap_content"
+    			    android:background="@color/white"
+    			    android:orientation="vertical"
+    			    android:visibility="gone"
+	    			>
+				    <View 
+				        android:background="@drawable/dash_line_hor_drawable"
+				        android:layout_width="match_parent"
+				        android:layout_height="2px"
+				        android:layout_marginTop="3dp"
+				        />
+				    <LinearLayout 
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:orientation="horizontal"
+				        android:gravity="center"
+				        android:background="#f8f8f8"
+				        android:paddingTop="5dp"
+				        >
+	                    <cn.com.anyitou.views.ProgressView 
+	                        android:id="@+id/hour"
+	                        android:layout_width="75dp"
+	                        android:layout_height="75dp"
+	                        
+	                        />
+	                     <cn.com.anyitou.views.ProgressView 
+	                        android:id="@+id/minute"
+	                        android:layout_width="75dp"
+	                        android:layout_marginLeft="15dp"
+	                        android:layout_marginRight="15dp"
+	                        android:layout_height="75dp"
+	                        
+	                        />
+	                      <cn.com.anyitou.views.ProgressView 
+	                        android:id="@+id/seconds"
+	                        android:layout_width="75dp"
+	                        android:layout_height="75dp"
+	                        />
+				        
+				    </LinearLayout>
+				    <TextView 
+				        android:id="@+id/online_time"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:gravity="center_horizontal"
+				        android:text="上线时间：2016-11-29"
+				        android:textColor="#363636"
+				        android:background="#f8f8f8"
+				        android:textSize="13sp"
+				        android:paddingBottom="5dp"
+				        android:paddingTop="3dp"
+				        />
+				    <View 
+				        android:background="@drawable/dash_line_hor_drawable"
+				        android:layout_width="match_parent"
+				        android:layout_height="2px"
+				        />
+					    			    
+    			    
+    			    
+    			</LinearLayout>
+    			
+                
             </LinearLayout>
 
             <!-- 还款标识 -->
@@ -198,6 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:visibility="gone"
                 >
 	            <TextView 
 	                android:layout_width="wrap_content"

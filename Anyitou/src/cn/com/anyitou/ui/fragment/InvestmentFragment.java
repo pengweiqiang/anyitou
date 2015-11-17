@@ -6,20 +6,19 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import cn.com.anyitou.R;
+import cn.com.anyitou.adapters.FragmentAdapter;
 import cn.com.anyitou.ui.CreditoTransferFragment;
 import cn.com.anyitou.ui.ProjectListFragment;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.CustomViewPager;
+import cn.com.anyitou.views.PagerSlidingTabStrip;
 
 /**
  * 投资
@@ -34,11 +33,12 @@ public class InvestmentFragment extends BaseFragment {
 	
 	
 	CustomViewPager mViewPager;
+	PagerSlidingTabStrip tabs;
 	private ActionBar mActionBar;
 
-	private RadioGroup tab_radioGroup;
-	private RadioButton tab_project_list;
-	private RadioButton tab_credito_transfer;
+//	private RadioGroup tab_radioGroup;
+//	private RadioButton tab_project_list;
+//	private RadioButton tab_credito_transfer;
 
 	List<Fragment> list;
 	int showIndex;
@@ -50,9 +50,11 @@ public class InvestmentFragment extends BaseFragment {
 		mActionBar = (ActionBar) infoView.findViewById(R.id.actionBar);
 		onConfigureActionBar(mActionBar);
 
-		tab_radioGroup = (RadioGroup) infoView.findViewById(R.id.rg_title);
-		tab_project_list = (RadioButton) infoView.findViewById(R.id.radio_project);
-		tab_credito_transfer = (RadioButton) infoView.findViewById(R.id.radio_credito);
+//		tab_radioGroup = (RadioGroup) infoView.findViewById(R.id.rg_title);
+//		tab_project_list = (RadioButton) infoView.findViewById(R.id.radio_project);
+//		tab_credito_transfer = (RadioButton) infoView.findViewById(R.id.radio_credito);
+		tabs = (PagerSlidingTabStrip)infoView.findViewById(R.id.tabs);
+		
 
 		// 实例化对象
 		list = new ArrayList<Fragment>();
@@ -61,18 +63,18 @@ public class InvestmentFragment extends BaseFragment {
 
 	private void initListener() {
 		mActionBar.hideLeftActionButtonText();
-		tab_radioGroup
-				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-					@Override
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						if (checkedId == R.id.radio_project) {
-							mViewPager.setCurrentItem(0, false);
-						} else if (checkedId == R.id.radio_credito) {
-							mViewPager.setCurrentItem(1, false);
-						}
-					}
-				});
+//		tab_radioGroup
+//				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//
+//					@Override
+//					public void onCheckedChanged(RadioGroup group, int checkedId) {
+//						if (checkedId == R.id.radio_project) {
+//							mViewPager.setCurrentItem(0, false);
+//						} else if (checkedId == R.id.radio_credito) {
+//							mViewPager.setCurrentItem(1, false);
+//						}
+//					}
+//				});
 
 	}
 
@@ -98,50 +100,39 @@ public class InvestmentFragment extends BaseFragment {
 			
 			list.add(jlysFragment);
 			list.add(kmrsFragment);
-
+			String [] titles = new String[]{"项目列表","债权转让"};
 			// 设置适配器
-			FragmentPagerAdapter adapter = new FragmentPagerAdapter(
-					this.getChildFragmentManager()) {
-
-				@Override
-				public int getCount() {
-					return list.size();
-				}
-
-				@Override
-				public Fragment getItem(int arg0) {
-					return list.get(arg0);
-				}
-			};
+			FragmentAdapter adapter = new FragmentAdapter(this.getChildFragmentManager(),titles,list);
 
 			// 绑定适配器
 			mViewPager.setAdapter(adapter);
 			mViewPager.setOffscreenPageLimit(2);
-			// 设置滑动监听
-			mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-				@Override
-				public void onPageSelected(int position) {
-					if(position == 0){
-						tab_project_list.setChecked(true);
-					}else if(position ==1){
-						tab_credito_transfer.setChecked(true);
-					}
-
-				}
-
-				@Override
-				public void onPageScrolled(int arg0, float arg1, int arg2) {
-					Log.i("tuzi", arg0 + "," + arg1 + "," + arg2);
-
-				}
-
-				@Override
-				public void onPageScrollStateChanged(int arg0) {
-					// TODO Auto-generated method stub
-
-				}
-			});
+			tabs.setViewPager(mViewPager);
+//			// 设置滑动监听
+//			mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+//
+//				@Override
+//				public void onPageSelected(int position) {
+////					if(position == 0){
+////						tab_project_list.setChecked(true);
+////					}else if(position ==1){
+////						tab_credito_transfer.setChecked(true);
+////					}
+//
+//				}
+//
+//				@Override
+//				public void onPageScrolled(int arg0, float arg1, int arg2) {
+//					Log.i("tuzi", arg0 + "," + arg1 + "," + arg2);
+//
+//				}
+//
+//				@Override
+//				public void onPageScrollStateChanged(int arg0) {
+//					// TODO Auto-generated method stub
+//
+//				}
+//			});
 			mViewPager.setCurrentItem(showIndex);
 	}
 	   

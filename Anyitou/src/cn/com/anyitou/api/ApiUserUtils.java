@@ -309,22 +309,7 @@ public class ApiUserUtils {
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_TRANSACTION_LIST, false,
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
-	/**
-	 * 获取项目投资记录列表
-	 * @param context
-	 * @param pid
-	 * @param page
-	 * @param num
-	 * @param requestCallBack
-	 */
-	public static void getInvestTradeById(Context context,String pid,String page,String num,RequestCallback requestCallBack){
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		params.put("pid", pid);
-		params.put(ReqUrls.PAGE, page);
-		params.put(ReqUrls.NUM, num);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTMENTS, false,
-				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
-	}
+	
 	/**
 	 * 获取用户优惠券
 	 * @param context

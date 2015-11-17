@@ -35,9 +35,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-
 import cn.com.anyitou.R;
-
 
 /**
  * Draws circles (one for each view). The current view position is filled and
@@ -65,28 +63,25 @@ public class CirclePageIndicator extends View implements PageIndicator {
     private int mActivePointerId = INVALID_POINTER;
     private boolean mIsDragging;
 
-    private int cicleColor;//自定义圆点颜色，从xml传入进来
+
     public CirclePageIndicator(Context context) {
         this(context, null);
     }
 
     public CirclePageIndicator(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.vpiCirclePageIndicatorStyle);
-        getAttrs(context,attrs);
     }
 
     public CirclePageIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        getAttrs(context,attrs);
         if (isInEditMode()) return;
 
         //Load defaults from resources
         final Resources res = getResources();
         final int defaultPageColor = res.getColor(R.color.default_circle_indicator_page_color);
-        final int defaultFillColor = cicleColor;
+        final int defaultFillColor = res.getColor(R.color.app_bg_color);
         final int defaultOrientation = res.getInteger(R.integer.default_circle_indicator_orientation);
-//        final int defaultStrokeColor = res.getColor(R.color.default_circle_indicator_stroke_color);
-        final int defaultStrokeColor = res.getColor(R.color.grey_cicrle_unselected);
+        final int defaultStrokeColor = res.getColor(R.color.default_circle_indicator_stroke_color);
         final float defaultStrokeWidth = res.getDimension(R.dimen.default_circle_indicator_stroke_width);
         final float defaultRadius = res.getDimension(R.dimen.default_circle_indicator_radius);
         final boolean defaultCentered = res.getBoolean(R.bool.default_circle_indicator_centered);
@@ -99,8 +94,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mOrientation = a.getInt(R.styleable.CirclePageIndicator_android_orientation, defaultOrientation);
         mPaintPageFill.setStyle(Style.FILL);
         mPaintPageFill.setColor(a.getColor(R.styleable.CirclePageIndicator_pageColor, defaultPageColor));
-//        mPaintStroke.setStyle(Style.STROKE);
-        mPaintStroke.setStyle(Style.FILL);
+        mPaintStroke.setStyle(Style.STROKE);
         mPaintStroke.setColor(a.getColor(R.styleable.CirclePageIndicator_strokeColor, defaultStrokeColor));
         mPaintStroke.setStrokeWidth(a.getDimension(R.styleable.CirclePageIndicator_strokeWidth, defaultStrokeWidth));
         mPaintFill.setStyle(Style.FILL);
@@ -117,11 +111,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
-    }
-    private void getAttrs(Context context,AttributeSet attrs){
-    	TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.myCiclePageColor);
-    	cicleColor = ta.getColor(R.styleable.myCiclePageColor_cicle_color, R.color.app_bg_color);
-    	ta.recycle();
     }
 
 
@@ -238,8 +227,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             shortPaddingBefore = getPaddingLeft();
         }
 
-//        final float threeRadius = mRadius * 3;
-        final float threeRadius = mRadius * 6;
+        final float threeRadius = mRadius * 3;
         final float shortOffset = shortPaddingBefore + mRadius;
         float longOffset = longPaddingBefore + mRadius;
         if (mCentered) {
@@ -248,6 +236,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         float dX;
         float dY;
+
         float pageFillRadius = mRadius;
         if (mPaintStroke.getStrokeWidth() > 0) {
             pageFillRadius -= mPaintStroke.getStrokeWidth() / 2.0f;
@@ -265,12 +254,12 @@ public class CirclePageIndicator extends View implements PageIndicator {
             }
             // Only paint fill if not completely transparent
             if (mPaintPageFill.getAlpha() > 0) {
-                canvas.drawCircle(dX, dY, pageFillRadius+3, mPaintPageFill);
+                canvas.drawCircle(dX, dY, pageFillRadius, mPaintPageFill);
             }
 
             // Only paint stroke if a stroke width was non-zero
             if (pageFillRadius != mRadius) {
-                canvas.drawCircle(dX, dY, mRadius+3, mPaintStroke);
+                canvas.drawCircle(dX, dY, mRadius, mPaintStroke);
             }
         }
 
@@ -286,94 +275,90 @@ public class CirclePageIndicator extends View implements PageIndicator {
             dX = shortOffset;
             dY = longOffset + cx;
         }
-        canvas.drawCircle(dX, dY, mRadius+3, mPaintFill);
+        canvas.drawCircle(dX, dY, mRadius, mPaintFill);
     }
 
     public boolean onTouchEvent(android.view.MotionEvent ev) {
-//    	if(mViewPager.getCurrentItem() == 0){
-//    		return false;
-//    	}
-//        if (super.onTouchEvent(ev)) {
-//            return true;
-//        }
-//        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
-//            return false;
-//        }
-//
-//        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
-//        switch (action) {
-//            case MotionEvent.ACTION_DOWN:
-//                mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-//                mLastMotionX = ev.getX();
-//                break;
-//
-//            case MotionEvent.ACTION_MOVE: {
-//                final int activePointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
-//                final float x = MotionEventCompat.getX(ev, activePointerIndex);
-//                final float deltaX = x - mLastMotionX;
-//
-//                if (!mIsDragging) {
-//                    if (Math.abs(deltaX) > mTouchSlop) {
-//                        mIsDragging = true;
-//                    }
-//                }
-//
-//                if (mIsDragging) {
-//                    mLastMotionX = x;
-//                    if (mViewPager.isFakeDragging() || mViewPager.beginFakeDrag()) {
-//                        mViewPager.fakeDragBy(deltaX);
-//                    }
-//                }
-//
-//                break;
-//            }
-//
-//            case MotionEvent.ACTION_CANCEL:
-//            case MotionEvent.ACTION_UP:
-//                if (!mIsDragging) {
-//                    final int count = mViewPager.getAdapter().getCount();
-//                    final int width = getWidth();
-//                    final float halfWidth = width / 2f;
-//                    final float sixthWidth = width / 6f;
-//
-//                    if ((mCurrentPage > 0) && (ev.getX() < halfWidth - sixthWidth)) {
-//                        if (action != MotionEvent.ACTION_CANCEL) {
-//                            mViewPager.setCurrentItem(mCurrentPage - 1);
-//                        }
-//                        return true;
-//                    } else if ((mCurrentPage < count - 1) && (ev.getX() > halfWidth + sixthWidth)) {
-//                        if (action != MotionEvent.ACTION_CANCEL) {
-//                            mViewPager.setCurrentItem(mCurrentPage + 1);
-//                        }
-//                        return true;
-//                    }
-//                }
-//
-//                mIsDragging = false;
-//                mActivePointerId = INVALID_POINTER;
-//                if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
-//                break;
-//
-//            case MotionEventCompat.ACTION_POINTER_DOWN: {
-//                final int index = MotionEventCompat.getActionIndex(ev);
-//                mLastMotionX = MotionEventCompat.getX(ev, index);
-//                mActivePointerId = MotionEventCompat.getPointerId(ev, index);
-//                break;
-//            }
-//
-//            case MotionEventCompat.ACTION_POINTER_UP:
-//                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-//                final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
-//                if (pointerId == mActivePointerId) {
-//                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-//                    mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
-//                }
-//                mLastMotionX = MotionEventCompat.getX(ev, MotionEventCompat.findPointerIndex(ev, mActivePointerId));
-//                break;
-//        }
-//
-//        return true;
-    	return super.onTouchEvent(ev);
+        if (super.onTouchEvent(ev)) {
+            return true;
+        }
+        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
+            return false;
+        }
+
+        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                mLastMotionX = ev.getX();
+                break;
+
+            case MotionEvent.ACTION_MOVE: {
+                final int activePointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
+                final float x = MotionEventCompat.getX(ev, activePointerIndex);
+                final float deltaX = x - mLastMotionX;
+
+                if (!mIsDragging) {
+                    if (Math.abs(deltaX) > mTouchSlop) {
+                        mIsDragging = true;
+                    }
+                }
+
+                if (mIsDragging) {
+                    mLastMotionX = x;
+                    if (mViewPager.isFakeDragging() || mViewPager.beginFakeDrag()) {
+                        mViewPager.fakeDragBy(deltaX);
+                    }
+                }
+
+                break;
+            }
+
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                if (!mIsDragging) {
+                    final int count = mViewPager.getAdapter().getCount();
+                    final int width = getWidth();
+                    final float halfWidth = width / 2f;
+                    final float sixthWidth = width / 6f;
+
+                    if ((mCurrentPage > 0) && (ev.getX() < halfWidth - sixthWidth)) {
+                        if (action != MotionEvent.ACTION_CANCEL) {
+                            mViewPager.setCurrentItem(mCurrentPage - 1);
+                        }
+                        return true;
+                    } else if ((mCurrentPage < count - 1) && (ev.getX() > halfWidth + sixthWidth)) {
+                        if (action != MotionEvent.ACTION_CANCEL) {
+                            mViewPager.setCurrentItem(mCurrentPage + 1);
+                        }
+                        return true;
+                    }
+                }
+
+                mIsDragging = false;
+                mActivePointerId = INVALID_POINTER;
+                if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
+                break;
+
+            case MotionEventCompat.ACTION_POINTER_DOWN: {
+                final int index = MotionEventCompat.getActionIndex(ev);
+                mLastMotionX = MotionEventCompat.getX(ev, index);
+                mActivePointerId = MotionEventCompat.getPointerId(ev, index);
+                break;
+            }
+
+            case MotionEventCompat.ACTION_POINTER_UP:
+                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
+                final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
+                if (pointerId == mActivePointerId) {
+                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                    mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
+                }
+                mLastMotionX = MotionEventCompat.getX(ev, MotionEventCompat.findPointerIndex(ev, mActivePointerId));
+                break;
+        }
+
+        return true;
     }
 
     @Override
@@ -425,7 +410,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         mCurrentPage = position;
-//        mPageOffset = positionOffset;//去掉圆点滑动动画
+        mPageOffset = positionOffset;
         invalidate();
 
         if (mListener != null) {

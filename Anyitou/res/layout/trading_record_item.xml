@@ -5,28 +5,36 @@
     android:background="@color/home_bg"
     android:orientation="vertical" >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="15dp"
-        android:background="#dedede" />
-
-    <TextView
-        android:id="@+id/month"
+    
+    <LinearLayout 
+        android:id="@+id/date_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="2015年5月"
-        android:textColor="#797979"
-        android:textSize="16sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginBottom="10dp"
-        android:background="#dedede" />
+        android:orientation="vertical"
+        >
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="1px"
+	        android:layout_marginTop="15dp"
+	        android:background="#dedede" />
+	
+	    <TextView
+	        android:id="@+id/month"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@color/white"
+	        android:gravity="center_horizontal"
+	        android:padding="5dp"
+	        android:text="2015年5月"
+	        android:textColor="#797979"
+	        android:textSize="16sp" />
+	
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="1px"
+	        android:layout_marginBottom="10dp"
+	        android:background="#dedede" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/actionbt"

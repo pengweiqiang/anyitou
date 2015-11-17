@@ -1,5 +1,7 @@
 package cn.com.anyitou.adapters;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -9,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.Investment;
+import cn.com.anyitou.utils.DateUtil;
 import cn.com.anyitou.utils.DateUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.PercentageRing;
+import cn.com.anyitou.views.RoundProgressBar;
 
 
 public class HomeListAdapter extends BaseListAdapter{
@@ -48,7 +52,7 @@ public class HomeListAdapter extends BaseListAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
 		Investment invest = investments.get(position);
-		if(convertView == null){
+//		if(convertView == null){
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.home_item, null);
 			
@@ -60,17 +64,14 @@ public class HomeListAdapter extends BaseListAdapter{
 			viewHolder.mTvInvestmentCycle = (TextView)convertView.findViewById(R.id.investment_cycle);
 			viewHolder.mTvMoney = (TextView)convertView.findViewById(R.id.total);
 			viewHolder.mPercentageRing = (PercentageRing)convertView.findViewById(R.id.progress);
-			viewHolder.mLastPadding = convertView.findViewById(R.id.last_position_bottom);
-			
+//			viewHolder.mPercentageRing.setTag(position);
 			convertView.setTag(viewHolder);
-		}else{
-			viewHolder = (ViewHolder)convertView.getTag();
-		}
-		if(position == investments.size()-1){
-			viewHolder.mLastPadding.setVisibility(View.GONE);
-		}else{
-			viewHolder.mLastPadding.setVisibility(View.GONE);
-		}
+			
+//		}else{
+//			viewHolder = (ViewHolder)convertView.getTag();
+//		}
+		
+//		viewHolder.mPercentageRing.setTag(position);
 //		if(position == 0){
 //			viewHolder.mViewDashLine.setVisibility(View.VISIBLE);
 //		}else{
@@ -84,23 +85,40 @@ public class HomeListAdapter extends BaseListAdapter{
 //		}
 		
 		viewHolder.mTvInvestName.setText(invest.getItem_title());
-		String deadTime = DateUtils.formatDuring(invest.getRaise_remain_time().getDiff());
-		if(!StringUtils.isEmpty(deadTime)){
-			deadTime = deadTime+"后截止";
-		}
-		viewHolder.mTvDate.setText(deadTime);
-		viewHolder.mTvRate.setText(invest.getRate_of_interest()+"%");
+//		Date timeDate;
+//		try {
+//			timeDate = DateUtil.getDate(invest.getRaise_begin_time(), DateUtil.DEFAULT_PATTERN);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		long mss = timeDate.getTime();
+//		String deadTime = DateUtils.formatDuring(invest.getRaise_begin_time());
+//		if(StringUtils.isEmpty(deadTime)){
+//			viewHolder.mTvDate.setVisibility(View.GONE);
+//		}else{
+//			viewHolder.mTvDate.setVisibility(View.VISIBLE);
+//			viewHolder.mTvDate.setText(deadTime);
+//			deadTime = deadTime+"后截止";
+//			
+//		}
+		
+		
 //		String status = invest.getInvest_status();
 		viewHolder.mTvStatus.setText(invest.getInvest_status_label());
 		viewHolder.mTvInvestmentCycle.setText(invest.getBorrow_days()+"天");
 		String money = StringUtils.getMoneyFormateWan(invest.getFinancing_amount());
 		viewHolder.mTvMoney.setText(money+"万");
 		String scale = invest.getScale();//0.1%
+//		if(viewHolder.mPercentageRing.getTag()!=null && position == (Integer)viewHolder.mPercentageRing.getTag()){
+//			viewHolder.mPercentageRing.setTargetPercent(StringUtils.getProgress(scale));
+//		}
+		
 		viewHolder.mPercentageRing.setTargetPercent(StringUtils.getProgress(scale));
-		
-		
+			viewHolder.mTvRate.setText(invest.getRate_of_interest()+"%");
 		return convertView;
 	}
+	
 	
 	public String getStatusName(String status){
 		String statusName = "";
@@ -129,7 +147,6 @@ public class HomeListAdapter extends BaseListAdapter{
 		private TextView mTvStatus;//状态
 		private TextView mTvInvestmentCycle;//投资周期
 		private TextView mTvMoney;//投资金额
-		private View mLastPadding;
 	}
 
 	

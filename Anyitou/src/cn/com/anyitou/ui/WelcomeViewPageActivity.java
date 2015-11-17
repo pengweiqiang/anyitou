@@ -9,11 +9,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-
+import android.widget.ImageView.ScaleType;
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.adapters.ViewPagerAdapter;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.ui.base.BaseActivity;
@@ -30,7 +28,7 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 
 	// 引导图片资源
 
-	private static final int[] pics = { R.drawable.guide1,R.drawable.guide2, R.drawable.guide3,R.drawable.guide4 };
+	private static final int[] pics = { R.drawable.guide1,R.drawable.guide2, R.drawable.guide3 };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +68,15 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 		int width = DeviceInfo.getScreenWidth(mContext);
 
 		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
-				width, (int) (width * 1.0 / 640 * 1136));
-
+				width, (int) (width * 1.0 / 720 * 1280));
+		
 		// 初始化引导图片列表
 		for (int i = 0; i < pics.length; i++) {
 			ImageView iv = new ImageView(this);
 			iv.setLayoutParams(mParams);
+			
 			// 防止图片不能填满屏幕
-//			iv.setScaleType(ScaleType.FIT_XY);
+			iv.setScaleType(ScaleType.CENTER_CROP);
 			// 加载图片资源
 			iv.setImageResource(pics[i]);
 			// ImageLoader.getInstance().displayImage(mImageViews.get(i), iv);

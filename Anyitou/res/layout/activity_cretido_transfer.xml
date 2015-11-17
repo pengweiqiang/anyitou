@@ -5,14 +5,24 @@
     android:background="@color/home_bg"
     android:orientation="vertical" >
     
-    <cn.com.anyitou.views.XListView 
-        android:id="@+id/listView_list"
-        android:listSelector="@android:color/transparent"
-        android:divider="@color/home_bg"
-        android:dividerHeight="2dp"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-    </cn.com.anyitou.views.XListView>
+         >
+
+        <cn.com.anyitou.views.XListView
+            android:id="@+id/listView_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/home_bg"
+            android:dividerHeight="2dp"
+            android:listSelector="@android:color/transparent" >
+        </cn.com.anyitou.views.XListView>
+
+        <include
+            android:id="@+id/empty_listview"
+            layout="@layout/empty_listview"
+            android:visibility="gone" />
+    </FrameLayout>
     
 </LinearLayout>

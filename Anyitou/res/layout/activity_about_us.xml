@@ -179,11 +179,12 @@
                 android:textSize="18sp"
                 android:drawableRight="@drawable/icon_you"/>
         </RelativeLayout>
-        <View
+    </LinearLayout>
+    <View
             android:layout_width="fill_parent"
             android:layout_height="1px"
+            android:layout_marginBottom="62dp"
             android:background="#c7c7cc" />
-    </LinearLayout>
 
    
 

@@ -245,6 +245,7 @@
         	android:layout_marginTop="10dp"
 		    >
 			<TextView 
+			    android:id="@+id/coupon_name"
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:text="使用优惠券"
@@ -265,9 +266,10 @@
 		<ListView 
 		    android:id="@+id/coupon_listview"
 		    android:layout_width="match_parent"
-		    android:layout_height="50dp"
+		    android:layout_height="match_parent"
 		    android:layout_marginLeft="13dp"
         	android:layout_marginRight="8dp"
+        	android:layout_marginBottom="2dp"
 		    ></ListView>
 		
 		

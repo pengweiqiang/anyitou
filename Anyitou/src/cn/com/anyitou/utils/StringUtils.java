@@ -151,6 +151,9 @@ public class StringUtils {
 			return "0";
 		}
 	}
+	public static int getMoney2Int(double money){
+		return (int)money;
+	}
 	public static String getMoneyFormateWan(String money){
 		if(isEmpty(money)){
 			return money;
@@ -209,6 +212,15 @@ public class StringUtils {
 			mobile = mobile.replace(mobile.subSequence(3, 7), "****");
 		}
 		return mobile;
+	}
+	public static String getSubUserName(String userName){
+		StringBuffer sbUserName = new StringBuffer();
+		if(!isEmpty(userName)){
+			sbUserName.append(userName.charAt(0));
+			sbUserName.append("****");
+			sbUserName.append(userName.charAt(userName.length()-1));
+		}
+		return sbUserName.toString();
 	}
 	
 	public static String getMoneyFormat(String money){

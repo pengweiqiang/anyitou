@@ -30,6 +30,8 @@ import cn.com.anyitou.utils.Log;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.CustomViewPager2;
 
+import com.umeng.update.UmengUpdateAgent;
+
 /**
  * 首页
  * 
@@ -75,6 +77,7 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 		
 		registerHomeListener();
 		intScreenListener();
+		UmengUpdateAgent.update(this);
 	}
 
 	/**

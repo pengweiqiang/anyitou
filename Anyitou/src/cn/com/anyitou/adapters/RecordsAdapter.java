@@ -57,13 +57,18 @@ public class RecordsAdapter extends BaseListAdapter{
 			viewHolder.mTvCashNum = (TextView)convertView.findViewById(R.id.cash_num);
 			viewHolder.mTvTime = (TextView)convertView.findViewById(R.id.time);
 			viewHolder.mTvStatus = (TextView)convertView.findViewById(R.id.status);
+			viewHolder.mViewDateTile = convertView.findViewById(R.id.date_title);
 			
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
-		
-		viewHolder.mTvMonth.setText(record.getDeal_time());
+		if(StringUtils.isEmpty(record.getMonthFirstDate())){
+			viewHolder.mViewDateTile.setVisibility(View.GONE);
+		}else{
+			viewHolder.mViewDateTile.setVisibility(View.VISIBLE);
+			viewHolder.mTvMonth.setText(record.getMonthFirstDate());
+		}
 		viewHolder.mTvCategory.setText(record.getCategory_data().getLabel());
 		StringBuffer sbCashNum = new StringBuffer();
 		if(!StringUtils.isEmpty(record.getCash_status()) && record.getCash_status().equals("1")){
@@ -95,6 +100,7 @@ public class RecordsAdapter extends BaseListAdapter{
 		private TextView mTvCashNum;
 		private TextView mTvTime;
 		private TextView mTvStatus;
+		private View mViewDateTile;
 	}
 
 	

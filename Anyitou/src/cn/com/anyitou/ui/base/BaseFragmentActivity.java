@@ -105,13 +105,11 @@ public class BaseFragmentActivity extends FragmentActivity {
 			
 			@Override
 			public void onHomePressed() {
-				Log.i("xsl", "0000000000000");
 				application.isLock =false;
 			}
 			
 			@Override
 			public void onHomeLongPressed() {
-				Log.i("xsl", "0000000000000");
 			}
 		});
 		mHomeWatcher.startWatch();

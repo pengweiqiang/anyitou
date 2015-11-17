@@ -74,6 +74,11 @@ public class FeedBackActivity extends BaseActivity {
 					return ;
 				}
 				String email = mEtEmail.getText().toString().trim();
+				if(StringUtils.isEmpty(email)){
+					ToastUtils.showToast(FeedBackActivity.this, "请输入邮箱地址");
+					return ;
+				}
+				
 				loading = new LoadingDialog(mContext);
 				loading.show();
 				ApiHomeUtils.report(FeedBackActivity.this, email, suggestion, new HttpConnectionUtil.RequestCallback(){

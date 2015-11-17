@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:id="@+id/linearlayout1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -39,6 +39,7 @@
                 android:layout_marginLeft="3dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
+                android:visibility="gone"
                 android:textSize="12sp"
                 android:background="@drawable/bg_new_status"
                  />
@@ -49,14 +50,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="24点前结束"
+                android:visibility="gone"
                 android:textColor="#a6a6a6"
                 android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/invest_status"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="7dp"
                 android:text="募集中..."
                 android:textColor="#a6a6a6"
                 android:textSize="13sp" />
@@ -184,6 +186,11 @@
 	        app:radiusPercent="20"
 	        app:textTitleColor="@color/app_bg_color"
          	/>
+            <!--  <cn.com.anyitou.views.RoundProgressBar
+        android:id="@+id/progress"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/prpgress3" /> -->
             </RelativeLayout>
 
             <!-- <cn.com.anyitou.views.CircleProgressBarView
@@ -193,11 +200,5 @@
                 android:layout_height="wrap_content" /> -->
         </LinearLayout>
     </RelativeLayout>
-    <View 
-        android:layout_below="@+id/relativeLayout1"
-        android:id="@+id/last_position_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        />
 
 </RelativeLayout>

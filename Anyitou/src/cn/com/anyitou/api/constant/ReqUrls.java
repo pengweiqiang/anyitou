@@ -383,6 +383,11 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_INVESTMENT_VIEW = "investment/view";
 	
+	/**
+	 * 54. 投资计算器接口
+	 */
+	public static final String MOBIAPI_INVESTMENT_CALCULATOR = "investment/calculator";
+	
 	
 	
 	

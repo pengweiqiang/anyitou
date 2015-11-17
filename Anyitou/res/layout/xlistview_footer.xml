@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     >
 
     <RelativeLayout
@@ -25,6 +26,13 @@
             android:layout_centerInParent="true"
             android:text="@string/xlistview_footer_hint_normal" />
     </RelativeLayout>
+    
+    <View 
+        android:id="@+id/last_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        />
     
 
 </LinearLayout>

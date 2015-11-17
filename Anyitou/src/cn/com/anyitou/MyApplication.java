@@ -146,6 +146,13 @@ public class MyApplication extends Application {
 				.cacheOnDisc(true).imageScaleType(ImageScaleType.EXACTLY)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}
+	public DisplayImageOptions getOptions2(int drawableId) {
+		return new DisplayImageOptions.Builder().showImageOnLoading(drawableId)
+				.showImageForEmptyUri(drawableId).showImageOnFail(drawableId)
+				.resetViewBeforeLoading(true).cacheInMemory(true)
+				.cacheOnDisc(true).imageScaleType(ImageScaleType.EXACTLY)
+				.bitmapConfig(Bitmap.Config.ARGB_8888).build();
+	}
 //	/**
 //	 * 获取客户端授权access_token
 //	 */

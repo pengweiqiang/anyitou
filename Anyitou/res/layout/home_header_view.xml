@@ -23,9 +23,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:fillColor="@color/app_bg_color"
+            app:fillColor="@color/banner_unselected"
             android:layout_marginBottom="8dp"
             app:pageColor="@color/white" />
+            <!-- <cn.com.anyitou.views.banner.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            /> -->
     </RelativeLayout>
     
       

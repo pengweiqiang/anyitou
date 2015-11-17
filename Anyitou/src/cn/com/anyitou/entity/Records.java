@@ -15,15 +15,25 @@ public class Records implements Serializable{
 	private static final long serialVersionUID = 6539933435377478147L;
 	private String id;
 	private String user_id;//+
-	private String category;
-	private String status;
-	private String trans_id;
-	private String cash_status;
-	private String cash_num;
-	private String use_money;
-	private String deal_time;
-	private String remark;
+	private String category;//交易类型
+	private String status;//状态
+	private String trans_id;//交易id
+	private String cash_status;//资金流向  1 收入  2 支出
+	private String cash_num;//交易金额
+	private String use_money;//余额
+	private String deal_time;//交易时间
+	private String remark;//备注
 	private CategoryData category_data;
+	private String monthFirstDate;//
+	
+	
+	
+	public String getMonthFirstDate() {
+		return monthFirstDate;
+	}
+	public void setMonthFirstDate(String monthFirstDate) {
+		this.monthFirstDate = monthFirstDate;
+	}
 	public String getId() {
 		return id;
 	}

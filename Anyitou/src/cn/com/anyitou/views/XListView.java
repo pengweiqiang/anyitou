@@ -169,6 +169,13 @@ public class XListView extends ListView implements OnScrollListener {
 			});
 		}
 	}
+	//added by pengweiqiang
+	/**
+	 * show margin bottom 
+	 */
+	public void showLastView(){
+		mFooterView.findViewById(R.id.last_view).setVisibility(View.VISIBLE);
+	}
 
 	/**
 	 * stop refresh, reset header view.

@@ -61,6 +61,39 @@ public class ApiInvestUtils {
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
+	 * 获取项目投资记录列表
+	 * @param context
+	 * @param pid
+	 * @param page
+	 * @param num
+	 * @param requestCallBack
+	 */
+	public static void getInvestTradeById(Context context,String pid,String page,String num,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("pid", pid);
+		params.put(ReqUrls.PAGE, page);
+		params.put(ReqUrls.NUM, num);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTMENTS, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
+	}
+	/**
+	 * 投资计算器
+	 * @param context
+	 * @param id
+	 * @param amount
+	 * @param coupons
+	 * @param requestCallBack
+	 */
+	public static void calculatorInvest(Context context,String id,String amount,String coupons,RequestCallback requestCallBack){
+		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("pid", id);
+		params.put(ReqUrls.AMOUNT, amount);
+		params.put("coupons", coupons);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVESTMENT_CALCULATOR, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
+		
+	}
+	/**
 	 * 获取债权列表
 	 * @param context
 	 * @param page

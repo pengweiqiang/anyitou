@@ -36,9 +36,15 @@ public class VerticalScrollView extends ScrollView {
 			break;
 		case MotionEvent.ACTION_MOVE:
 			double currentY = ev.getY();
-			if( (getScrollY() == 0 && isCanPullUp() )||(isCanPullDown() && !isCanPullUp() && currentY-startY>0)){
+//			if( (getScrollY() == 0 && isCanPullUp() )||(isCanPullDown() && !isCanPullUp() && currentY-startY>0)){
+//				return false;
+//			}
+//			System.out.println("sssssssssssssssss: "+currentY +"   "+startY+"   "+"   "+(currentY-startY));
+			if(isCanPullDown() &&currentY-startY>0){
 				return false;
 			}
+		case MotionEvent.ACTION_UP:
+			
 			break;
 
 		default:

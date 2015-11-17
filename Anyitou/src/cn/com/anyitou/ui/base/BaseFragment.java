@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -69,4 +72,34 @@ public abstract class BaseFragment extends Fragment {
 		}
 		textGo.setOnClickListener(emptyClick);
 	}*/
+	
+	public void setListViewHeightBasedOnChildren(ListView listView) {
+
+		  ListAdapter listAdapter = listView.getAdapter();
+
+		  if (listAdapter == null) {
+			  return;
+		  }
+
+		  int totalHeight = 0;
+
+		  for (int i = 0; i < listAdapter.getCount(); i++) {
+		   View listItem = listAdapter.getView(i, null, listView);
+		   listItem.measure(0, 0);
+//		   listItem.measure(  
+//	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),  
+//	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)); 
+//		   totalHeight += listItem.getMeasuredHeightAndState();
+		   totalHeight += listItem.getMeasuredHeight();
+		  }
+
+		  ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+		  params.height = totalHeight
+		    + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+
+//		  ((MarginLayoutParams) params).setMargins(10, 10, 10, 10); // 可删除
+
+		  listView.setLayoutParams(params);
+		 }
 }

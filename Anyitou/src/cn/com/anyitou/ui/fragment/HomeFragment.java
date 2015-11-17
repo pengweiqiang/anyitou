@@ -34,7 +34,9 @@ import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.MyListView;
+import cn.com.anyitou.views.PageIndicator;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.anyitou.views.banner.CirclePageIndicator;
 import cn.com.anyitou.views.banner.InfiniteViewPager;
 import cn.com.anyitou.views.banner.LinePageIndicator;
 import cn.com.gson.reflect.TypeToken;
@@ -80,6 +82,7 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 		//header view
 		getHeaderView();
 
+		mListView.showLastView();
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
 		initListener();
@@ -193,7 +196,6 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 
 					@Override
 					public void execute(ParseModel parseModel) {
-						loadingDialog.cancelDialog(loadingDialog);
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
 							List<Investment> invests = (List<Investment>) JsonUtils
@@ -203,27 +205,24 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 
 							if (page == 1) {
 								investLists.clear();
-
-								if (invests == null || invests.isEmpty()) {
-									// mListView.setVisibility(View.GONE);
-									// mViewEmpty.setVisibility(View.VISIBLE);
-								}
 							}
 
 							if (invests != null && !invests.isEmpty()) {
 								// initViewPagerData();
 								investLists.addAll(invests);
-
+								homeAdapter.notifyDataSetChanged();
 							} else {
 								ToastUtils.showToast(mActivity, "暂时没有投资列表");
 							}
 							mListView.onLoadFinish(page, invests.size(), "加载完毕");
-							homeAdapter.notifyDataSetChanged();
+							
 
 						} else {
 							mListView.onLoadFinish(page, 0, "加载完毕");
 							ToastUtils.showToast(mActivity, parseModel.getMsg());
 						}
+						
+						loadingDialog.cancelDialog(loadingDialog);
 					}
 				});
 	}
@@ -237,13 +236,12 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 
 					@Override
 					public void execute(ParseModel parseModel) {
-						loadingDialog.cancel();
 						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
 								.getCode())) {
 							if (StringUtils.isEmpty(parseModel.getData()
 									.toString())) {
 								mBannerView.setVisibility(View.GONE);
-								ToastUtils.showToast(mActivity, "banner无数据");
+//								ToastUtils.showToast(mActivity, "banner无数据");
 								return;
 							}
 							List<Banner> banners = (List<Banner>) JsonUtils
@@ -258,7 +256,7 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 							} else {
 //								initBanner();
 								mBannerView.setVisibility(View.GONE);
-								ToastUtils.showToast(mActivity, "暂时没有广告");
+//								ToastUtils.showToast(mActivity, "暂时没有广告");
 							}
 
 						} else {

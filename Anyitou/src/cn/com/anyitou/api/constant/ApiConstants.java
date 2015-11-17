@@ -66,7 +66,7 @@ public interface ApiConstants {
     public static final int MAX_STATUS = 99999;
     
     //是否打印日志 上线改为false
-    public static boolean ISDEBUG = true;
+    public static boolean ISDEBUG = false;
     
     //充值
     public static int TYPE_RECHARGE = 1001;

@@ -59,6 +59,7 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 		mViewEmpty = infoView.findViewById(R.id.empty_listview);
 		mViewEmptyTip = (TextView) infoView.findViewById(R.id.xlistview_empty_tip);
 		
+		mListView.showLastView();
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
 		
@@ -137,20 +138,9 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 							isFirst = false;
 							 List<Investment> invests = (List<Investment>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<Investment>>() {});
 //							List<Investment> invests = getInvests(parseModel);
-							if(page == 1){
-								investLists.clear();
-							}
-							 
-							if (invests != null && !invests.isEmpty()) {
-								// initViewPagerData();
-								showEmptyListView(false);
-								 investLists.addAll(invests);
-							} else {
-								showEmptyListView(true);
-							}
+							 showEmptyListView(invests);
 							mListView.onLoadFinish(page, invests.size(),"加载完毕");
-							homeAdapter.notifyDataSetChanged();
-
+							
 						} else {
 							ToastUtils.showToast(mActivity,
 									parseModel.getMsg());
@@ -159,13 +149,28 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 				});
 	}
 	
-	private void showEmptyListView(boolean isEmpty){
-		if(isEmpty){
-			mViewEmpty.setVisibility(View.VISIBLE);
-			mViewEmptyTip.setText("暂时没有投资列表");
-		}else{
-			mViewEmpty.setVisibility(View.GONE);
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
 		}
+		if(page == 1){
+			investLists.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无投资列表");
+			}else{
+				investLists.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+				homeAdapter.notifyDataSetChanged();
+			}
+		}else{
+			if(!isEmpty){
+				investLists.addAll(list);
+				homeAdapter.notifyDataSetChanged();
+			}
+		}
+		
 	}
 
 	@Override

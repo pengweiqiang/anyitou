@@ -16,6 +16,7 @@ public class InvestRecords implements Serializable{
 	private String id;
 	private String trade_no;
 	private String user_id;//+
+	private String username;//用户名
 	private String item_id;
 	private String category;//  类型:  invest:企贷  chedai:车贷  fangdai：房贷  reward:新手体验
 	private String item_amount; // 投资金额
@@ -288,5 +289,12 @@ public class InvestRecords implements Serializable{
 	public void setInvest_days(String invest_days) {
 		this.invest_days = invest_days;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 
 }

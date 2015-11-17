@@ -227,7 +227,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             shortPaddingBefore = getPaddingLeft();
         }
 
-        final float threeRadius = mRadius * 3;
+        final float threeRadius = mRadius * 3.5f;
         final float shortOffset = shortPaddingBefore + mRadius;
         float longOffset = longPaddingBefore + mRadius;
         if (mCentered) {
@@ -400,7 +400,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        mScrollState = state;
+//        mScrollState = state;
 
         if (mListener != null) {
             mListener.onPageScrollStateChanged(state);
@@ -409,9 +409,9 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mCurrentPage = position;
-        mPageOffset = positionOffset;
-        invalidate();
+//        mCurrentPage = position;
+//        mPageOffset = positionOffset;
+//        invalidate();
 
         if (mListener != null) {
             mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -420,12 +420,14 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     @Override
     public void onPageSelected(int position) {
-        if (mSnap || mScrollState == ViewPager.SCROLL_STATE_IDLE) {
-            mCurrentPage = position;
-            mSnapPage = position;
-            invalidate();
-        }
+//        if (mSnap || mScrollState == ViewPager.SCROLL_STATE_IDLE) {
+//            mCurrentPage = position;
+//            mSnapPage = position;
+//            invalidate();
+//        }
 
+    	mCurrentPage = position;
+        invalidate();
         if (mListener != null) {
             mListener.onPageSelected(position);
         }

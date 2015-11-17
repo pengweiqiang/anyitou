@@ -285,6 +285,30 @@ public class DateUtils {
 		}
 		return sb.toString();
 	}
+	public static int[] getTimeLong(String timeStr){
+		int []times = new int[3];
+		try {
+			Date timeDate = DateUtil.getDate(timeStr, DateUtil.DEFAULT_PATTERN);
+			long mss = timeDate.getTime();
+			long currentTime = System.currentTimeMillis();
+			long cha = mss-currentTime;
+			if(cha<=0){
+				return times;
+			}
+			int hours = (int) (cha/(1000*60*60));
+			int min = (int) ((cha - hours*1000*60*60)/(1000*60));
+			int seconds = (int) ((cha - hours*1000*60*60-min*1000*60)/(1000));
+			times[0] = hours;
+			times[1] = min;
+			times[2] = seconds;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+				
+		return times;
+	}
 
 	/**
 	 * 

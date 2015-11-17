@@ -16,7 +16,13 @@ public enum OperationType {
 
 	APP_FIND_PASSWORD("app_find_password"),//（找回密码），
 
-	APP_CHANGE_PASSWORD("app_change_password");//（修改密码）
+	APP_CHANGE_PASSWORD("app_change_password"),//（修改密码）
+	
+	CATEGORY_INVEST("invest"),//企贷
+	
+	CATEGORY_FANGDAI("fangdai"),//房贷
+	
+	CATEGORY_CHEDAI("chedai");//车贷
 	
 	private String name;
 	

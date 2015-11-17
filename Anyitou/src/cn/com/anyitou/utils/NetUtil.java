@@ -47,7 +47,6 @@ import android.net.Proxy;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import cn.com.anyitou.R;
 
@@ -578,7 +577,7 @@ public class NetUtil {
 			url += HOST_IP;
 		}
 		url += ReqUrls.PROJECT_NAME + path;
-		System.out.println("-------------------请求的URL:" + url);
+		Log.i(TAG, "-------------------请求的URL:" + url);
 		return url;
 	}
 	

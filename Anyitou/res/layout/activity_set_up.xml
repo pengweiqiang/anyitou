@@ -237,7 +237,7 @@
                 android:layout_marginLeft="28dp"
                 android:layout_marginRight="28dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="72dp"
                 android:background="@drawable/login_delete_selector" >
 
                 <TextView

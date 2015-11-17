@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.entity.DebtAssignment;
-import cn.com.anyitou.utils.AnyitouStatusUtils;
+import cn.com.anyitou.utils.AnyitouUtils;
 import cn.com.anyitou.utils.DateUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.PercentageRing;
@@ -49,7 +49,7 @@ public class DebtAssignmentAdapter extends BaseListAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
 		DebtAssignment debtAssignment = debtAssignments.get(position);
-		if(convertView == null){
+//		if(convertView == null){
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.debt_item, null);
 			
@@ -62,14 +62,14 @@ public class DebtAssignmentAdapter extends BaseListAdapter{
 			viewHolder.mPercentageRing = (PercentageRing)convertView.findViewById(R.id.progress);
 			
 			convertView.setTag(viewHolder);
-		}else{
-			viewHolder = (ViewHolder)convertView.getTag();
-		}
+//		}else{
+//			viewHolder = (ViewHolder)convertView.getTag();
+//		}
 		
 		viewHolder.mTvInvestName.setText(debtAssignment.getNumber());
 		viewHolder.mTvRate.setText(debtAssignment.getBuyer_apr()+"%");
 		String status = debtAssignment.getStatus();
-		viewHolder.mTvStatus.setText(AnyitouStatusUtils.getDebtStatusName(status));
+		viewHolder.mTvStatus.setText(AnyitouUtils.getDebtStatusName(status));
 		viewHolder.mTvInvestmentCycle.setText(debtAssignment.getSell_days()+"天");
 		String money = StringUtils.getMoneyFormateWan(debtAssignment.getAmount());
 		viewHolder.mTvMoney.setText(money+"万");

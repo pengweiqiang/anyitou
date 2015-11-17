@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:clickable="true"
+            android:visibility="gone"
             android:padding="15.0dip"
             android:src="@drawable/point" />
     </LinearLayout>

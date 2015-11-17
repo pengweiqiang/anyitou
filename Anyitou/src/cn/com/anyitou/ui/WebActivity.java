@@ -18,7 +18,6 @@ import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
-import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.StringUtils;
@@ -90,7 +89,6 @@ public class WebActivity extends BaseActivity {
 
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-				// TODO Auto-generated method stub
 				super.onProgressChanged(view, newProgress);
 				if (newProgress == 100) {
 					/*if("安宜投".equals(title)){
@@ -136,18 +134,17 @@ public class WebActivity extends BaseActivity {
 			}
 		});
 	}
-	private void getWebTitle(String title){
+	private void getWebTitle(final String title){
 		if("充值成功".equals(title) || "提现成功".equals(title) ||"投资成功".equals(title)||"认购成功".equals(title)){
-			ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
 			new Handler().postDelayed(new Runnable(){   
 			    public void run() {   
-			    	getTradeStatus();
+			    	getTradeStatus(title);
 			    }   
-			 }, 3000); 
+			 }, 1000); 
 			
 		}
 	}
-	private void getTradeStatus(){
+	private void getTradeStatus(final String title){
 		
 		String operationTpe = "";
 		switch (type) {
@@ -178,11 +175,18 @@ public class WebActivity extends BaseActivity {
 					if(data!=null){
 						String status = data.get("status").getAsString();//I:初始  S:成功  F:失败
 						if("S".equals(status)){//交易成功
-							startActivity(HomeActivity.class);
-							AppManager.getAppManager().finishActivity();
+							ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
+							new Handler().postDelayed(new Runnable(){   
+							    public void run() {   
+							    	startActivity(HomeActivity.class);
+									AppManager.getAppManager().finishActivity();
+							    }   
+							 }, 3000); 
+							
 						}else if("F".equals(status)){
 							ToastUtils.showToast(mContext, "操作失败");
 						}else if("I".equalsIgnoreCase(status)){
+							ToastUtils.showToast(mContext, "状态初始化I");
 //							startActivity(HomeActivity.class);
 //							AppManager.getAppManager().finishActivity();
 						}
@@ -190,62 +194,6 @@ public class WebActivity extends BaseActivity {
 				}
 			}
 		});
-	}
-	/**
-	 * 点击返回按钮操作
-	 */
-	private void backOperation(){
-		if(type == 1){//注册汇付结果
-			ApiOrderUtils.getRegisterPayResult(mContext, new RequestCallback() {
-				@Override
-				public void execute(ParseModel parseModel) {
-					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册汇付成功
-						User user = application.getCurrentUser();
-						user.setIshfuser("1");
-//						logined("", user);
-						startActivity(HomeActivity.class);
-						AppManager.getAppManager().finishActivity();
-					}else{
-						ToastUtils.showToast(mContext, parseModel.getMsg());
-						AppManager.getAppManager().finishActivity();
-					}
-				}
-			});
-		}else if(type == 2){//充值结果
-			ApiOrderUtils.getReChargeResult(mContext,ordId, new RequestCallback() {
-				@Override
-				public void execute(ParseModel parseModel) {
-					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//充值成功
-						application.refresh = ApiConstants.TYPE_RECHARGE;
-						startActivity(HomeActivity.class);
-						AppManager.getAppManager().finishActivity();
-					}else{
-						ToastUtils.showToast(mContext, parseModel.getMsg());
-						AppManager.getAppManager().finishActivity();
-					}
-				}
-			});
-		}else if(type == 3){//投资结果
-			ApiOrderUtils.getInvestingResult(mContext,ordId, new RequestCallback() {
-				@Override
-				public void execute(ParseModel parseModel) {
-					loadingDialog.cancel();
-					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//投资成功
-						application.refresh = ApiConstants.TYPE_INVEST;
-//						startActivity(MainActivity.class);
-						Intent intent = new Intent(mContext,MyInvestmentActivity.class);//我的资产-我的投资-投标中
-						intent.putExtra("type", 2);
-						startActivity(intent);
-						AppManager.getAppManager().finishActivity();
-					}else{
-						ToastUtils.showToast(mContext, parseModel.getMsg());
-						AppManager.getAppManager().finishActivity();
-					}
-				}
-			});
-		}
 	}
 	
 	 class JSInterface {

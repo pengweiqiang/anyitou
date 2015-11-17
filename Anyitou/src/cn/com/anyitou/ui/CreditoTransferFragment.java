@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.DebtAssignmentAdapter;
@@ -45,6 +46,8 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 	int page = 1;
 	
 	XListView mListView;
+	private View mViewEmpty;
+	private TextView mViewEmptyTip;
 	DebtAssignmentAdapter debtAssignAdpater;
 
 	List<DebtAssignment> debtAssignmentList;
@@ -54,7 +57,10 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 		
 		infoView = inflater.inflate(R.layout.activity_cretido_transfer, container, false);
 		mListView = (XListView) infoView.findViewById(R.id.listView_list);
+		mViewEmpty = infoView.findViewById(R.id.empty_listview);
+		mViewEmptyTip = (TextView) infoView.findViewById(R.id.xlistview_empty_tip);
 		
+		mListView.showLastView();
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
 		initListener();
@@ -137,19 +143,9 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 							 List<DebtAssignment> debtAssignments = (List<DebtAssignment>)JsonUtils.fromJson(parseModel.getData().toString(),new TypeToken<List<DebtAssignment>>() {});
 //							List<Investment> invests = getInvests(parseModel);
 							 
-							if(page == 1){
-								debtAssignmentList.clear();
-							}
-							if (debtAssignments != null && !debtAssignments.isEmpty()) {
-								// initViewPagerData();
-								debtAssignmentList.addAll(debtAssignments);
-							} else {
-								ToastUtils.showToast(mActivity,
-										"暂时没有债权列表");
-							}
+							showEmptyListView(debtAssignments);
 							mListView.onLoadFinish(page, debtAssignments.size(),"加载完毕");
-							debtAssignAdpater.notifyDataSetChanged();
-
+							
 						} else {
 							ToastUtils.showToast(mActivity,
 									parseModel.getMsg());
@@ -158,6 +154,29 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 				});
 	}
 
+	private void showEmptyListView(List list){
+		boolean isEmpty =false;
+		if(list == null || list.isEmpty()){
+			isEmpty = true;
+		}
+		if(page == 1){
+			debtAssignmentList.clear();
+			if(isEmpty){
+				mViewEmpty.setVisibility(View.VISIBLE);
+				mViewEmptyTip.setText("暂无债权列表");
+			}else{
+				debtAssignmentList.addAll(list);
+				mViewEmpty.setVisibility(View.GONE);
+				debtAssignAdpater.notifyDataSetChanged();
+			}
+		}else{
+			if(!isEmpty){
+				debtAssignmentList.addAll(list);
+				debtAssignAdpater.notifyDataSetChanged();
+			}
+		}
+		
+	}
 	@Override
 	public void onRefresh() {
 		page = 0;

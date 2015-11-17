@@ -40,8 +40,10 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	private View mBtnNext;
 
 	private EditText mEtProjectName, mEtDebtCount, mEtPublishProfit,
-			mEtDebtMoney, mEtPublishDate;
+			mEtDebtMoney;
+	private TextView mEtPublishDate;
 
+	private View mViewDate;
 	private TextView mTvProjectName, mTvDebtCount, mTvPublishProfit,
 			mTvDebtMoney, mTvPublishDate;
 	private TextView mTvRealMoney;//出让方实际收益
@@ -78,7 +80,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		mEtDebtCount = (EditText) findViewById(R.id.et_debt_count);
 		mEtPublishProfit = (EditText) findViewById(R.id.et_publish_profit);
 		mEtDebtMoney = (EditText) findViewById(R.id.et_debt_money);
-		mEtPublishDate = (EditText) findViewById(R.id.et_publish_date);
+		mEtPublishDate = (TextView) findViewById(R.id.et_publish_date);
 
 		mTvProjectName = (TextView) findViewById(R.id.title_project_name);
 		mTvDebtCount = (TextView) findViewById(R.id.title_debt_count);
@@ -90,6 +92,8 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		mTvServiceChange = (TextView)findViewById(R.id.service_charge);
 		mTvYearRate = (TextView)findViewById(R.id.year_rate);
 		mTvRealMoney = (TextView)findViewById(R.id.real_money);
+		
+		mViewDate = findViewById(R.id.select_date);
 
 	}
 
@@ -102,7 +106,50 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		mEtDebtCount.setOnFocusChangeListener(onfocusListener);
 		mEtPublishProfit.setOnFocusChangeListener(onfocusListener);
 		mEtDebtMoney.setOnFocusChangeListener(onfocusListener);
-		mEtPublishDate.setOnFocusChangeListener(onfocusListener);
+//		mEtPublishDate.setOnFocusChangeListener(onfocusListener);
+		mViewDate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+//				mEtPublishDate.requestFocus();
+				calendar = Calendar.getInstance();
+				if(year == 0){
+					year= calendar.get(Calendar.YEAR);
+				}
+				if(month == 0){
+					month = calendar.get(Calendar.MONTH);
+				}
+				if(day == 0){
+					day = calendar.get(Calendar.DAY_OF_MONTH);
+				}
+				dialog = new DatePickerDialog(mContext,
+						new DatePickerDialog.OnDateSetListener() {
+							@Override
+							public void onDateSet(DatePicker view, int yearT,
+									int monthOfYear, int dayOfMonth) {
+								System.out.println("年-->" + year + "月-->"
+										+ monthOfYear + "日-->" + dayOfMonth);
+								StringBuffer sbDate = new StringBuffer(yearT+"-");
+								monthOfYear ++;
+								if(monthOfYear<10){
+									sbDate.append("0"+monthOfYear);
+								}else{
+									sbDate.append(monthOfYear);
+								}
+								if(dayOfMonth<10){
+									sbDate.append("-0"+dayOfMonth);
+								}else{
+									sbDate.append("-"+dayOfMonth);
+								}
+								year = yearT;
+								month =monthOfYear-1;
+								day = dayOfMonth;
+								mEtPublishDate.setText(sbDate.toString());		
+							}
+						}, year,month,day);
+				dialog.show();
+			}
+		});
 		
 		mEtDebtMoney.addTextChangedListener(new TextWatcher() {
 			
@@ -147,6 +194,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				mEtPublishDate.requestFocus();
 				calendar = Calendar.getInstance();
 				if(year == 0){
 					year= calendar.get(Calendar.YEAR);

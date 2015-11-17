@@ -80,7 +80,9 @@ public class LoginActivity extends BaseActivity {
 			public void onClick(View v) {
 				AppManager.getAppManager().finishActivity(LoginActivity.this);
 				Activity currentActivity = AppManager.getAppManager().currentActivity();
-				if(currentActivity.getClass().getName().equals(SplashActivity.class.getName())){
+				if(currentActivity == null){
+					startActivity(HomeActivity.class);
+				}else if(currentActivity.getClass().getName().equals(SplashActivity.class.getName())){
 					startActivity(HomeActivity.class);
 				}
 				

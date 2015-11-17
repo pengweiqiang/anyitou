@@ -496,8 +496,8 @@ public class VerticalViewPager extends ViewGroup {
                 mObserver = new PagerObserver();
             } /* end of if以下是添加反射代码 */
             try {
-				Method regMethod=mAdapter.getClass().getMethod("registerDataSetObserver", mObserver.getClass());
-				regMethod.invoke(mAdapter, mObserver);
+//				Method regMethod=mAdapter.getClass().getMethod("registerDataSetObserver", mObserver.getClass());
+//				regMethod.invoke(mAdapter, mObserver);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();

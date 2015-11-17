@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
-import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -19,6 +18,7 @@ import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.Records;
 import cn.com.anyitou.ui.base.BaseActivity;
+import cn.com.anyitou.utils.DateUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.ToastUtils;
@@ -138,6 +138,7 @@ public class TradingRecordActivity extends BaseActivity implements
 									});
 							
 							showEmptyListView(records);
+							recordLists = sortRecords(recordLists);
 							mListView.onLoadFinish(page, records.size(),
 										"加载完毕");
 							recordsAdapter.notifyDataSetChanged();
@@ -149,6 +150,26 @@ public class TradingRecordActivity extends BaseActivity implements
 					}
 				});
 
+	}
+	
+	private List<Records> sortRecords(List<Records> records){
+		
+		if(records==null || records.isEmpty()){
+			return records;
+		}
+		List<String> date = new ArrayList<String>();
+		List<Records> recordSorts = new ArrayList<Records>();
+		for (int i = 0; i < records.size(); i++) {
+			Records record = records.get(i);
+			String dealDate = DateUtil.getDateString(record.getDeal_time(),DateUtil.DEFAULT_PATTERN, DateUtil.CUSTOM_PATTERN5);
+			if(!date.contains(dealDate)){
+				date.add(dealDate);
+				record.setMonthFirstDate(dealDate);
+			}
+			recordSorts.add(record);
+		}
+		
+		return records;
 	}
 	
 	private void showEmptyListView(List list){
