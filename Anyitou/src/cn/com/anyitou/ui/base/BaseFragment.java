@@ -90,7 +90,7 @@ public abstract class BaseFragment extends Fragment {
 //	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),  
 //	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)); 
 //		   totalHeight += listItem.getMeasuredHeightAndState();
-		   totalHeight += listItem.getMeasuredHeight();
+		   totalHeight += listItem.getMeasuredHeight()+4;
 		  }
 
 		  ViewGroup.LayoutParams params = listView.getLayoutParams();
