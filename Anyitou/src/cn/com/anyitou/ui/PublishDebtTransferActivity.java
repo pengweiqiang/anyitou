@@ -60,7 +60,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		debt = (MyDebtTransferable)this.getIntent().getSerializableExtra("debt");
-
+		mEtProjectName.setText(debt.getItem_title());
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		mEtProjectName.setOnFocusChangeListener(onfocusListener);
+//		mEtProjectName.setOnFocusChangeListener(onfocusListener);
 		mEtDebtCount.setOnFocusChangeListener(onfocusListener);
 		mEtPublishProfit.setOnFocusChangeListener(onfocusListener);
 		mEtDebtMoney.setOnFocusChangeListener(onfocusListener);
@@ -150,18 +150,18 @@ public class PublishDebtTransferActivity extends BaseActivity {
 				dialog.show();
 			}
 		});
-		
+		//出让价格
 		mEtDebtMoney.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+				getPublishDebtInfo();
 			}
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				getPublishDebtInfo();
+				
 			}
 			
 			@Override
@@ -169,7 +169,26 @@ public class PublishDebtTransferActivity extends BaseActivity {
 				
 			}
 		});
-		
+		//出让份额
+		mEtDebtCount.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				getPublishDebtInfo();
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				
+			}
+		});
+		//发布收益
 		mEtPublishProfit.addTextChangedListener(new TextWatcher() {
 	
 			@Override
@@ -185,8 +204,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
+//				getPublishDebtInfo();
 			}
 		});
 
@@ -245,8 +263,8 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	private void next() {
 		String projectName = mEtProjectName.getText().toString().trim();
 		if (StringUtils.isEmpty(projectName)) {
-			ToastUtils.showToast(mContext, "请输入项目名称");
-			mEtProjectName.requestFocus();
+//			ToastUtils.showToast(mContext, "请输入项目名称");
+//			mEtProjectName.requestFocus();
 			return;
 		}
 		String debtCount = mEtDebtCount.getText().toString().trim();
@@ -319,7 +337,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 							R.color.et_un_focus));
 				}
 				break;
-			case R.id.et_debt_count:
+			case R.id.et_debt_count://出让份额
 				if (hasFocus) {
 					mTvDebtCount.setTextColor(getResources().getColor(
 							R.color.tab_title_color));
@@ -368,18 +386,25 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	 */
 	String fee = "";
 	private void getPublishDebtInfo(){
+		//出让份额
 		String debtCount = mEtDebtCount.getText().toString().trim();
-		
+		if(StringUtils.isEmpty(debtCount)){
+			return;
+		}
+		String gt = "";//price
+		//发布收益
 		String publishProfit = mEtPublishProfit.getText().toString().trim();
-		if(StringUtils.isEmpty(publishProfit)){
-			return;
-		}
+		//转让价格
 		String debtMoney = mEtDebtMoney.getText().toString().trim();
-		if(StringUtils.isEmpty(debtMoney)){
+		if(StringUtils.isEmpty(debtMoney) && StringUtils.isEmpty(publishProfit)){
 			return;
+		}else if(!StringUtils.isEmpty(publishProfit)){
+			gt = "buyapr";
+		}else if(!StringUtils.isEmpty(debtMoney)){
+			gt = "price";
 		}
-		String gt = "buyapr";//price
-		ApiInvestUtils.getDebtParams(mContext,debt.getId(), debtMoney, publishProfit, debtMoney, gt, new RequestCallback() {
+		
+		ApiInvestUtils.getDebtParams(mContext,debt.getId(), debtCount, publishProfit, debtMoney, gt, new RequestCallback() {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
