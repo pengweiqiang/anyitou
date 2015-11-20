@@ -235,8 +235,8 @@ public class MyFragment extends BaseFragment {
 		if(myCapital!=null){
 			mTvEarningsYesterday.setText(StringUtils.getMoneyFormat(myCapital.getYesterday_income()));
 			mTvBalance.setText(StringUtils.getMoneyFormat(myCapital.getUse_money()));
-			mTvWaitProfit.setText(StringUtils.getMoneyFormat(myCapital.getPrize_num()));
-			mTvWaitPrincipal.setText(StringUtils.getMoneyFormat(myCapital.getCollected_interest()));
+			mTvWaitProfit.setText(StringUtils.getMoneyFormat(myCapital.getCollected_interest()));//待收收益
+			mTvWaitPrincipal.setText(StringUtils.getMoneyFormat(myCapital.getFrozen_money()));//待收本金
 			mTvProfitCount.setText(StringUtils.getMoneyFormat(myCapital.getAll_income()));
 			mTvUserName.setText("^_^  你好,"+myCapital.getUser_name());
 			
