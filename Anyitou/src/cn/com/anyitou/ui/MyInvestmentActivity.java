@@ -65,7 +65,6 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 		
 		myInvestAdapter = new InvestRecordsAdapter(myInvestList, mContext);
 		mListView.setAdapter(myInvestAdapter);
-		loadingDialog = new LoadingDialog(mContext);
 		initData();
 	}
 	
@@ -102,7 +101,12 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 	}
 	
 	private void initData() {
-		loadingDialog.show();
+		if (page == 1) {
+			loadingDialog = new LoadingDialog(mContext);
+			loadingDialog.show();
+		} else if(page == 0){
+			page++;
+		}
 		mViewEmpty.setVisibility(View.GONE);
 		ApiUserUtils.getMyInvestList(mContext, category, status, order, investDateRange, investBeginDate, 
 				investEndDate, repayDateRange, repayBeginDate, repayEndDate,String.valueOf(page),"10",
@@ -171,7 +175,7 @@ public class MyInvestmentActivity extends BaseActivity implements IXListViewList
 
 	@Override
 	public void onRefresh() {
-		page = 1;
+		page = 0;
 		initData();
 	}
 
