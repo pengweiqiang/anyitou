@@ -53,8 +53,6 @@ public class MemberChangeRecordActivity extends BaseActivity implements
 		recordsAdapter = new MemberChangeRecordsAdapter(recordLists, mContext);
 
 		mListView.setAdapter(recordsAdapter);
-		loadingDialog = new LoadingDialog(mContext);
-		loadingDialog.show();
 		initData();
 	}
 
@@ -84,6 +82,12 @@ public class MemberChangeRecordActivity extends BaseActivity implements
 	}
 
 	private void initData() {
+		if (page == 1) {
+			loadingDialog = new LoadingDialog(mContext);
+			loadingDialog.show();
+		} else if(page == 0){
+			page++;
+		}
 		mViewEmpty.setVisibility(View.GONE);
 		ApiUserUtils.getMemberChangeRecord(mContext,String.valueOf(page),
 				new RequestCallback() {
@@ -149,7 +153,7 @@ public class MemberChangeRecordActivity extends BaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		page = 1;
+		page = 0;
 		initData();
 	}
 
