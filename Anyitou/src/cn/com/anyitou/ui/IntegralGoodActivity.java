@@ -9,23 +9,18 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.IntegralGoodsAdapter;
-import cn.com.anyitou.adapters.IntegralRecordsAdapter;
 import cn.com.anyitou.api.ApiInvestUtils;
-import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.IntegralGoods;
-import cn.com.anyitou.entity.IntegralRecords;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
-import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
-import cn.com.gson.JsonElement;
 import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
@@ -58,8 +53,6 @@ public class IntegralGoodActivity extends BaseActivity implements
 		goodsAdapter = new IntegralGoodsAdapter(goodsLists, mContext);
 
 		mListView.setAdapter(goodsAdapter);
-		loadingDialog = new LoadingDialog(mContext);
-		loadingDialog.show();
 		initData();
 	}
 
@@ -89,6 +82,12 @@ public class IntegralGoodActivity extends BaseActivity implements
 	}
 
 	private void initData() {
+		if (page == 1) {
+			loadingDialog = new LoadingDialog(mContext);
+			loadingDialog.show();
+		} else if(page == 0){
+			page++;
+		}
 		mViewEmpty.setVisibility(View.GONE);
 		ApiInvestUtils.getIntegalGoods(mContext,String.valueOf(page),"10",
 				new RequestCallback() {
@@ -164,7 +163,7 @@ public class IntegralGoodActivity extends BaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		page = 1;
+		page = 0;
 		initData();
 	}
 
