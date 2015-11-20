@@ -171,11 +171,12 @@ public class LoginActivity extends BaseActivity {
 							}
 							
 						}else{
-							if(!StringUtils.isEmpty(parseModel.getMsg())){
-								ToastUtils.showToast(mContext, parseModel.getMsg());
-							}else{
-								ToastUtils.showToast(mContext, "登录失败");
-							}
+//							if(!StringUtils.isEmpty(parseModel.getMsg())){
+//								ToastUtils.showToast(mContext, parseModel.getMsg());
+//							}else{
+//								ToastUtils.showToast(mContext, "登录失败");
+//							}
+							ToastUtils.showToast(mContext, "用户名或密码错误");
 						}
 					}
 				});
