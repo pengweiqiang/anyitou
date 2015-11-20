@@ -71,8 +71,6 @@ public class InvestRecordActivity extends BaseActivity implements
 		recordsAdapter = new RecordsAdapter(recordLists, mContext);
 
 		mListView.setAdapter(recordsAdapter);
-		loadingDialog = new LoadingDialog(mContext);
-		loadingDialog.show();
 		initData();
 	}
 
@@ -119,6 +117,12 @@ public class InvestRecordActivity extends BaseActivity implements
 	}
 
 	private void initData() {
+		if (page == 1) {
+			loadingDialog = new LoadingDialog(mContext);
+			loadingDialog.show();
+		} else if(page == 0){
+			page++;
+		}
 		mViewEmpty.setVisibility(View.GONE);
 		ApiUserUtils.getTrade(mContext,"","","","","", String.valueOf(page),"10",
 				new RequestCallback() {
@@ -310,7 +314,7 @@ public class InvestRecordActivity extends BaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		page = 1;
+		page = 0;
 		initData();
 	}
 
