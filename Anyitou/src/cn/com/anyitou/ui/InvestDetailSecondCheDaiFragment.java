@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Gallery;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -55,7 +58,8 @@ public class InvestDetailSecondCheDaiFragment extends BaseFragment  {
 	ListView mListViewCheckBorrower;//借款人信息
 	LoadingDialog loadingDialog ;
 	
-	private GridView mGridView;
+//	private GridView mGridView;
+	private Gallery mGallery;
 	List<Urls> imageLists;
 	DetailImagesAdapter detailImagesApdater;
 	
@@ -63,7 +67,10 @@ public class InvestDetailSecondCheDaiFragment extends BaseFragment  {
 	
 	private DetailChedai investmentDetail;//车贷detail详情
 	
-	private View mBtnMoreImage,mBtnMoreInvestRecords;
+	private View mBtnMoreInvestRecords;
+	
+//	private View mBtnMoreImage;
+	private View mBtnLeft,mBtnRight;
 	
 	//car_info  start
 	private TextView mTvBrandModel,
@@ -106,10 +113,12 @@ public class InvestDetailSecondCheDaiFragment extends BaseFragment  {
 	private void initView(){
 		mListViewCheck = (ListView)infoView.findViewById(R.id.project_check_listview);
 		mListViewCheckBorrower = (ListView)infoView.findViewById(R.id.borrower_listview);
-		mGridView = (GridView)infoView.findViewById(R.id.gridView);
+//		mGridView = (GridView)infoView.findViewById(R.id.gridView);
 		mInvestRecordListView = (ListView)infoView.findViewById(R.id.invest_record_listview);
-		
-		mBtnMoreImage = infoView.findViewById(R.id.more_image);
+		mBtnLeft = infoView.findViewById(R.id.left_image);
+		mBtnRight = infoView.findViewById(R.id.right_image);
+		mGallery = (Gallery)infoView.findViewById(R.id.gallery);
+//		mBtnMoreImage = infoView.findViewById(R.id.more_image);
 		mBtnMoreInvestRecords = infoView.findViewById(R.id.more_invest_record);
 		
 		initHouseInfoView();
@@ -131,28 +140,59 @@ public class InvestDetailSecondCheDaiFragment extends BaseFragment  {
 	}
 
 	private void initListener() {
-		mGridView.setOnItemClickListener(new OnItemClickListener() {
+		mBtnLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				int curPosition = mGallery.getSelectedItemPosition();
+				if(curPosition>1){
+					mGallery.setSelection(curPosition-1);
+				}
+			}
+		});
+		mBtnRight.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				int curPosition = mGallery.getSelectedItemPosition();
+				if(curPosition<imageLists.size()-2){
+					mGallery.setSelection(curPosition+1);
+				}
+			}
+		});
+		mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				if(position <= 1){
+					((ImageView)mBtnLeft).setImageDrawable(getResources().getDrawable(R.drawable.left_btn_over_icon));
+				}else if(position>=imageLists.size()-2){
+					((ImageView)mBtnRight).setImageDrawable(getResources().getDrawable(R.drawable.right_btn_over_icon));
+				}else{
+					((ImageView)mBtnLeft).setImageDrawable(getResources().getDrawable(R.drawable.left_btn_icon));
+					((ImageView)mBtnRight).setImageDrawable(getResources().getDrawable(R.drawable.right_btn_icon));
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		mGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(mActivity,ImageViewActivity.class);
 				intent.putExtra("url", imageLists.get(position).getUrl());
-				intent.putExtra("name", "相关资料");
+				intent.putExtra("name", "图片详情");
 				startActivity(intent);
 			}
 			
-		});
-		//点击查看更多图片
-		mBtnMoreImage.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mActivity,ImagesMoreActivity.class);
-				intent.putExtra("id", id);
-				intent.putExtra("category", "chedai_housepic");
-				startActivity(intent);
-			}
 		});
 		//点击查看更多投资记录
 		mBtnMoreInvestRecords.setOnClickListener(new OnClickListener() {
@@ -279,7 +319,8 @@ public class InvestDetailSecondCheDaiFragment extends BaseFragment  {
 			return;
 		}
 		detailImagesApdater = new DetailImagesAdapter(imageLists, mActivity);
-		mGridView.setAdapter(detailImagesApdater);
+		mGallery.setAdapter(detailImagesApdater);
+		mGallery.setSelection(1);
 		detailImagesApdater.notifyDataSetChanged();
 	}
 	/**
