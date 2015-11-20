@@ -267,6 +267,7 @@ import cn.com.gson.JsonObject;
 			}else{
 				mBtnInvest.setText(AnyitouUtils.getDebtStatusName(debtAssigment.getStatus()));
 			}
+			mBtnInvest.setText("立即认购");
 			mActionBar.setTitle("债权详情");
 		}
 		
