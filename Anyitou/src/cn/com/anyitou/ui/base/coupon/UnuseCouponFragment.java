@@ -111,10 +111,10 @@ public class UnuseCouponFragment extends BaseFragment implements IXListViewListe
 	 * 获取投资列表数据
 	 */
 	private void getMyUnuseCoupon() {
-		if(page != 0){
+		if (page == 1) {
 			loadingDialog = new LoadingDialog(mActivity);
 			loadingDialog.show();
-		}else{
+		} else if(page == 0){
 			page++;
 		}
 		ApiUserUtils.getMyCoupons(mActivity, "", String.valueOf(type),String.valueOf(page), "10",
