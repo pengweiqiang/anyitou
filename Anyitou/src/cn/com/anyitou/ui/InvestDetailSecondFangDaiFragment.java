@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Gallery;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -54,7 +57,8 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 	LoadingDialog loadingDialog ;
 	String category = "";
 	
-	private GridView mGridView;
+//	private GridView mGridView;
+	private Gallery mGallery;
 	List<Urls> imageLists;
 	DetailImagesAdapter detailImagesApdater;
 	
@@ -62,8 +66,9 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 	
 	private DetailFangdai investmentDetail;//企贷detail详情
 	
-	private View mBtnMoreImage,mBtnMoreInvestRecords;//查看更多
-	
+//	private View mBtnMoreImage;
+	private View mBtnMoreInvestRecords;//查看更多
+	private View mBtnLeft,mBtnRight;
 	
 	
 	//house_info  start
@@ -107,10 +112,13 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 	private void initView(){
 		mListViewCheck = (ListView)infoView.findViewById(R.id.project_check_listview);
 //		mListViewCheck2 = (ListView)infoView.findViewById(R.id.project_collateral_listview);
-		mGridView = (GridView)infoView.findViewById(R.id.gridView);
+//		mGridView = (GridView)infoView.findViewById(R.id.gridView);
+		mBtnLeft = infoView.findViewById(R.id.left_image);
+		mBtnRight = infoView.findViewById(R.id.right_image);
+		mGallery = (Gallery)infoView.findViewById(R.id.gallery);
 		mInvestRecordListView = (ListView)infoView.findViewById(R.id.invest_record_listview);
 		
-		mBtnMoreImage = infoView.findViewById(R.id.more_image);
+//		mBtnMoreImage = infoView.findViewById(R.id.more_image);
 		mBtnMoreInvestRecords = infoView.findViewById(R.id.more_invest_record);
 		
 		initHouseInfoView();
@@ -131,7 +139,7 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 	}
 
 	private void initListener() {
-		mGridView.setOnItemClickListener(new OnItemClickListener() {
+		mGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -143,16 +151,48 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 			}
 			
 		});
-		//点击查看更多图片
-		mBtnMoreImage.setOnClickListener(new OnClickListener() {
+		mBtnLeft.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mActivity,ImagesMoreActivity.class);
-				intent.putExtra("id", id);
-				intent.putExtra("category", "fangdai_housepic");
-				startActivity(intent);
+				int curPosition = mGallery.getSelectedItemPosition();
+				if(curPosition>1){
+					mGallery.setSelection(curPosition-1);
+				}
 			}
+		});
+		mBtnRight.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				int curPosition = mGallery.getSelectedItemPosition();
+				if(curPosition<imageLists.size()-2){
+					mGallery.setSelection(curPosition+1);
+				}
+			}
+		});
+		mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+//				ToastUtils.showToast(mActivity, "position:"+position);
+				if(position <= 1){
+					((ImageView)mBtnLeft).setImageDrawable(getResources().getDrawable(R.drawable.left_btn_over_icon));
+				}else if(position>=imageLists.size()-2){
+					((ImageView)mBtnRight).setImageDrawable(getResources().getDrawable(R.drawable.right_btn_over_icon));
+				}else{
+					((ImageView)mBtnLeft).setImageDrawable(getResources().getDrawable(R.drawable.left_btn_icon));
+					((ImageView)mBtnRight).setImageDrawable(getResources().getDrawable(R.drawable.right_btn_icon));
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		});
 		//点击查看更多投资记录
 		mBtnMoreInvestRecords.setOnClickListener(new OnClickListener() {
@@ -278,7 +318,8 @@ public class InvestDetailSecondFangDaiFragment extends BaseFragment  {
 			return;
 		}
 		detailImagesApdater = new DetailImagesAdapter(imageLists, mActivity);
-		mGridView.setAdapter(detailImagesApdater);
+		mGallery.setAdapter(detailImagesApdater);
+		mGallery.setSelection(1);
 		detailImagesApdater.notifyDataSetChanged();
 	}
 	/**
