@@ -34,7 +34,7 @@ public class InvestmentRecordDetailActivity extends BaseActivity {
 	private TextView mTvInvestMoney,mTvInvestRealMoney;
 	//收益信息
 	private TextView mTvInvestRate,mTvInvestIncome,mTvTotalIncome,mTvLastIncome,mTvIncomeDay,mTvComedProfit;
-	
+	String id = "";
 	LoadingDialog loading;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,14 @@ public class InvestmentRecordDetailActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		investment = (InvestRecords) this.getIntent().getSerializableExtra("investment");
-		
+		id = this.getIntent().getStringExtra("id");
 		initData();
 		getInvestDetail();
 	}
 	
 	private void initData(){
 		if(investment!=null){
+			id = investment.getId();
 			//项目信息
 			mTvInvestName.setText(investment.getItem_title());
 			mTvInvestStatus.setText(investment.getStatus());
@@ -92,7 +93,7 @@ public class InvestmentRecordDetailActivity extends BaseActivity {
 	private void getInvestDetail(){
 		loading = new LoadingDialog(mContext);
 		loading.show();
-		ApiInvestUtils.getMyInvestmentDetail(mContext, investment.getId(), new RequestCallback() {
+		ApiInvestUtils.getMyInvestmentDetail(mContext, id, new RequestCallback() {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
