@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:background="@drawable/bg_no_corner_style"
+    android:gravity="top" >
+	
+	<TextView 
+            android:id="@+id/category_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textSize="17sp"
+            android:padding="8dp"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
+            />
+	<TextView 
+            android:id="@+id/category_qidai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="安企贷"
+            android:padding="8dp"
+            android:textSize="17sp"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
+            />
+	<TextView 
+            android:id="@+id/category_fangdai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="安房贷"
+            android:textSize="17sp"
+            android:padding="8dp"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
+            />
+	<TextView 
+            android:id="@+id/category_chedai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="安车贷"
+            android:textSize="17sp"
+            android:padding="8dp"
+            android:background="@drawable/condition_selector"
+            android:textColor="@color/main_tab_button_text"
+            android:gravity="center_horizontal"
+            />    
+	
+</LinearLayout>

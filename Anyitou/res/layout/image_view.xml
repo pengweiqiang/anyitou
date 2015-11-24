@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <cn.com.anyitou.views.ActionBar
         android:id="@+id/actionBar"
@@ -11,14 +10,54 @@
         android:background="@color/black" >
     </cn.com.anyitou.views.ActionBar>
 
-
-            <cn.com.anyitou.views.ZoomImageView
+    <android.support.v4.view.ViewPager  
+        android:id="@+id/viewpager"  
+         android:layout_below="@+id/actionBar"
+        android:layout_width="fill_parent"   
+        android:layout_height="fill_parent"   
+        />
+    
+    <TextView 
+           android:id="@+id/tip_point"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:paddingLeft="10dp"
+           android:layout_below="@+id/actionBar"
+           android:paddingRight="10dp"
+           android:background="@drawable/tips_bg"
+           android:textColor="@color/white"
+           android:text="1/30"
+           android:layout_alignParentRight="true"
+           android:layout_margin="10dp"
+           />
+    
+              <!--    <cn.com.anyitou.views.ZoomImageView
                 android:id="@+id/image"
                 android:layout_below="@+id/actionBar"
                 android:layout_margin="4dp"
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="matrix" />
+                android:scaleType="matrix" /> -->
+   
+<!--
+    <ImageSwitcher
+        android:id="@+id/switcher"
+        android:layout_below="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <Gallery
+        android:id="@+id/gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#55000000"
+        android:gravity="center_vertical"
+        android:spacing="16dp" /> -->
+
 
 </RelativeLayout>

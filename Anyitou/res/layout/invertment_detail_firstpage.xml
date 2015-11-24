@@ -6,7 +6,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_tip"
         android:orientation="vertical" >
 
         <FrameLayout
@@ -41,6 +42,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/invest_rate_bg" >
 
                     <LinearLayout 
@@ -64,6 +66,7 @@
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
 	                        android:text="年化收益率"
+	                        android:textSize="15sp"
 	                        android:textColor="@color/tab_title_color" />
                     </LinearLayout>
                     
@@ -84,6 +87,8 @@
                     android:id="@+id/fundraising"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_weight="1"
                     >
 	                <ProgressBar  
 					    android:id="@+id/progressBar"  
@@ -192,23 +197,27 @@
         <!-- 基本信息 -->
         <LinearLayout 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
+            android:layout_weight="1"
             >
             <RelativeLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="还款方式："
 	                android:textColor="#666666"
+	                android:textSize="16sp"
 	                />
 	            <TextView
 	                android:id="@+id/repay_type"
@@ -217,6 +226,7 @@
 	                android:layout_alignParentRight="true"
 	                android:text="每日付息,到期还本"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="16sp"
 	                />
             </RelativeLayout>
             
@@ -225,6 +235,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:id="@+id/deadline_title"
@@ -232,6 +244,7 @@
 	                android:layout_height="wrap_content"
 	                android:text="融资期限："
 	                android:textColor="#666666"
+	                android:textSize="16sp"
 	                />
 	            <TextView
 	                android:id="@+id/financing_date"
@@ -240,6 +253,7 @@
 	                android:layout_alignParentRight="true"
 	                android:text="3个月"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="16sp"
 	                />
             </RelativeLayout>
             
@@ -247,11 +261,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="还款日期："
+	                android:textSize="16sp"
 	                android:textColor="#666666"
 	                />
 	            <TextView
@@ -261,6 +278,7 @@
 	                android:layout_alignParentRight="true"
 	                android:text="2015-07-06"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="16sp"
 	                />
             </RelativeLayout>
             
@@ -269,12 +287,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="截止时间："
 	                android:textColor="#666666"
+	                android:textSize="16sp"
 	                />
 	            <TextView
 	                android:id="@+id/end_date"
@@ -282,6 +303,7 @@
 	                android:layout_height="wrap_content"
 	                android:layout_alignParentRight="true"
 	                android:text="本日24点前"
+	                android:textSize="16sp"
 	                android:textColor="@color/tab_title_color"
 	                />
             </RelativeLayout>
@@ -290,11 +312,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="项目状态："
+	                android:textSize="16sp"
 	                android:textColor="#666666"
 	                />
 	            <TextView
@@ -304,6 +329,7 @@
 	                android:layout_alignParentRight="true"
 	                android:text="即将上线"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="16sp"
 	                />
             </RelativeLayout>
             
@@ -311,12 +337,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:id="@+id/money_title"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="可投金额："
+	                android:textSize="16sp"
 	                android:textColor="#666666"
 	                />
 	            <TextView
@@ -325,6 +354,7 @@
 	                android:layout_height="wrap_content"
 	                android:layout_alignParentRight="true"
 	                android:text="1000万"
+	                android:textSize="16sp"
 	                android:textColor="@color/app_bg_color"
 	                />
             </RelativeLayout>
@@ -333,12 +363,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
 	            <TextView 
 	                android:id="@+id/last_title"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="融资金额："
+	                android:textSize="16sp"
 	                android:textColor="#666666"
 	                />
 	            <TextView
@@ -347,6 +380,7 @@
 	                android:layout_height="wrap_content"
 	                android:layout_alignParentRight="true"
 	                android:text="1500万"
+	                android:textSize="16sp"
 	                android:textColor="@color/tab_title_color"
 	                />
             </RelativeLayout>
@@ -367,7 +401,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -377,7 +412,7 @@
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="继续拖动,查看详情"
+            android:text="继续拖动 查看详情"
             android:textColor="#9c9c9c"
             android:textSize="13sp" />
 

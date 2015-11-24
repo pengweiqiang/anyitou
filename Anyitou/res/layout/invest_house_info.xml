@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="5dp"
+    android:layout_marginBottom="2dp"
     >
     
      <RelativeLayout 
@@ -15,7 +16,7 @@
 	        >
 	    <View 
 	        android:id="@+id/collateral_bg"
-	        android:layout_width="5dp"
+	        android:layout_width="4dp"
 	        android:layout_height="13dp"
 	        android:layout_centerVertical="true"
 	        android:background="@color/app_bg_color"

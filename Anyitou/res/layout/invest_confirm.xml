@@ -237,9 +237,10 @@
 		<!-- 优惠券 -->
 		
 		<RelativeLayout 
+		    android:id="@+id/coupon_rl"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:background="@drawable/concer_coupon_bg_style"
+		    android:background="@drawable/coupon_invest_selector"
 		    android:layout_marginLeft="13dp"
         	android:layout_marginRight="8dp"
         	android:layout_marginTop="10dp"
