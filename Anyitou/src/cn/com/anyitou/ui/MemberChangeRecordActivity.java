@@ -139,7 +139,7 @@ public class MemberChangeRecordActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
