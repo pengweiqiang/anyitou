@@ -37,10 +37,11 @@ import cn.com.anyitou.views.LoadingDialog;
 public class BackLoginPassWordActivity extends BaseActivity {
 
 	ActionBar mActionBar;
-	private View mBtnNext, mBtnSendMsg;
+	private View mBtnNext; 
+	private TextView mBtnSendMsg;
 	private LoadingDialog loadingDialog;
 	private EditText mEtPhone, mEtPassword, mEtCode;
-	private TextView mTvTime;
+//	private TextView mTvTime;
 
 	private String captcha_key = "";
 
@@ -84,8 +85,8 @@ public class BackLoginPassWordActivity extends BaseActivity {
 			}
 		});
 		mBtnNext = findViewById(R.id.btn_next);
-		mBtnSendMsg = findViewById(R.id.get_code);
-		mTvTime = (TextView) findViewById(R.id.time);
+		mBtnSendMsg = (TextView) findViewById(R.id.get_code);
+//		mTvTime = (TextView) findViewById(R.id.time);
 		// mBtnRegister = findViewById(R.id.to_register);
 		mEtPhone = (EditText) findViewById(R.id.phone);
 		mEtCode = (EditText) findViewById(R.id.input_code);
@@ -95,7 +96,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 	@Override
 	public void initListener() {
 
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -108,9 +109,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				String tel = mEtPhone.getText().toString().trim();
-				if (StringUtils.isEmpty(tel)) {
-					ToastUtils.showToast(mContext, mContext.getResources()
-							.getString(R.string.input_phone));
+				if (!CheckInputUtil.checkPhone(tel,mContext)) {
 					mEtPhone.requestFocus();
 					return;
 				}
@@ -154,9 +153,7 @@ public class BackLoginPassWordActivity extends BaseActivity {
 
 				final String phone = mEtPhone.getText().toString().trim();
 
-				if (StringUtils.isEmpty(phone)) {
-					ToastUtils.showToast(mContext, mContext.getResources()
-							.getString(R.string.input_phone));
+				if (CheckInputUtil.checkPhone(phone,mContext)) {
 					mEtPhone.requestFocus();
 					return;
 				}
@@ -250,11 +247,12 @@ public class BackLoginPassWordActivity extends BaseActivity {
 			if (msg.what == 0) {
 				mBtnSendMsg.setEnabled(true);
 				// mTvGetCode.setText("获取验证码");
+				mBtnSendMsg.setText("获取验证码");
 				timer.cancel();
 			} else {
 				String str = "剩余 "+msg.what + " 秒";
 				SpannableString span = TextViewUtils.getSpannableStringColor(str, 2, str.indexOf("秒"), getResources().getColor(R.color.app_bg_color));
-				mTvTime.setText(span);
+				mBtnSendMsg.setText(span);
 			}
 		};
 	};
