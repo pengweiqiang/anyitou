@@ -76,7 +76,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		actionBar.setOnClickListener(new OnClickListener() {
+		actionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -98,6 +98,8 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 				}
 				if (mGetCode.isEnabled()) {
 					mGetCode.setEnabled(false);
+					loadingDialog = new LoadingDialog(mContext);
+					loadingDialog.show();
 					ApiUserUtils.sendMobileCode(mContext, mobile, "app_change_mobile", new RequestCallback() {
 						
 						@Override
@@ -105,6 +107,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 							if (ApiConstants.RESULT_SUCCESS
 									.equals(parseModel.getCode())) {// 发送验证码成功
 								regainCode();
+								mEtCode.requestFocus();
 								captchaKey = parseModel.getData()
 										.getAsJsonObject()
 										.get("captcha_key")
@@ -118,6 +121,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 										parseModel.getMsg());
 								}
 							}
+							loadingDialog.cancel();
 						}
 					});
 				}
@@ -154,6 +158,7 @@ public class MobilePhoneVerificationActivity2 extends BaseActivity {
 						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 							ToastUtils.showToast(mContext, "修改手机号成功");
+							AppManager.getAppManager().finishActivity();
 						}else{
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
