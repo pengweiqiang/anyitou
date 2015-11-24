@@ -31,7 +31,15 @@ public class InVestDetail implements Serializable{
 	private String invested_nums;
 	private String isrecommend;
 	private String guarantee_id;
+	private String isstarted;
 	
+	
+	public String getIsstarted() {
+		return isstarted;
+	}
+	public void setIsstarted(String isstarted) {
+		this.isstarted = isstarted;
+	}
 	public String getId() {
 		return id;
 	}
