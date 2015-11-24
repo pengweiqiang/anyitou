@@ -39,7 +39,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 	private EditText mEtUserName,mEtCode,mEtRecommended;
 	private View mRegister/*,mHasLogin*/,mReaded;
 	private LoadingDialog loadingDialog;
-	private TextView mTvGetCode,mTvTime;
+	private TextView mTvGetCode/*,mTvTime*/;
 	
 	private String captcha_key = "";//验证码key
 	@Override
@@ -57,7 +57,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 		mEtCode = (EditText) findViewById(R.id.registered_code);
 		mEtRecommended = (EditText) findViewById(R.id.registered_recommend);
 		mTvGetCode =  (TextView)findViewById(R.id.get_code);
-		mTvTime = (TextView)findViewById(R.id.time);
+//		mTvTime = (TextView)findViewById(R.id.time);
 		mRegister = findViewById(R.id.register); 
 //		mHasLogin = findViewById(R.id.has_login);
 		mReaded = findViewById(R.id.readed);
@@ -77,7 +77,7 @@ public class RegisteredAccountActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -103,21 +103,24 @@ public class RegisteredAccountActivity extends BaseActivity {
 					mEtUserName.requestFocus();
 					return;
 				}
-				
 				if(CheckInputUtil.checkPhone(tel, mContext)){
 					if(mTvGetCode.isEnabled()){
 						mTvGetCode.setEnabled(false);
+						loadingDialog = new LoadingDialog(mContext);
+						loadingDialog.show();
 						ApiUserUtils.sendMobileCode(mContext, tel,OperationType.APP_REGISTER.getName(), new RequestCallback() {
 							
 							@Override
 							public void execute(ParseModel parseModel) {
 								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//发送验证码成功
 									regainCode();
+									mEtCode.requestFocus();
 									captcha_key = parseModel.getData().getAsJsonObject().get("captcha_key").getAsString();
 								}else{
 									mTvGetCode.setEnabled(true);
 									ToastUtils.showToast(mContext, parseModel.getMsg());
 								}
+								loadingDialog.cancel();
 							}
 						});
 					}
@@ -228,12 +231,12 @@ public class RegisteredAccountActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 0) {
 				mTvGetCode.setEnabled(true);
-				//mTvGetCode.setText("获取验证码");
+				mTvGetCode.setText("获取验证码");
 				timer.cancel();
 			} else {
 				String str = "剩余 "+msg.what + " 秒";
 				SpannableString span = TextViewUtils.getSpannableStringColor(str, 2, str.indexOf("秒"), getResources().getColor(R.color.app_bg_color));
-				mTvTime.setText(span);
+				mTvGetCode.setText(span);
 			}
 		};
 	};
