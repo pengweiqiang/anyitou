@@ -62,7 +62,7 @@ public class CustomViewPager extends ViewPager {
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		if(!isCan){
-			System.out.println("ViewPager  onTOuchEvent"+false);
+//			System.out.println("ViewPager  onTOuchEvent"+false);
 			return false;
 		}
 
@@ -109,9 +109,9 @@ public class CustomViewPager extends ViewPager {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		System.out.println(this.getClass().getName()+"   onTouchEvent"+(super.onTouchEvent(ev))+"  isCan："+isCan);
+//		System.out.println(this.getClass().getName()+"   onTouchEvent"+(super.onTouchEvent(ev))+"  isCan："+isCan);
 		if(!isCan){
-			System.out.println("ViewPager  onTOuchEvent"+false);
+//			System.out.println("ViewPager  onTOuchEvent"+false);
 			return false;
 		}
 //		boolean dipatch = true;
