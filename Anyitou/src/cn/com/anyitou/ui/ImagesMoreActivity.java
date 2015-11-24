@@ -107,7 +107,7 @@ public class ImagesMoreActivity extends BaseActivity{
 					JsonObject data = parseModel.getData().getAsJsonObject();
 					if(data != null){
 						JsonElement list = data.get("list");
-						if(list != JsonNull.INSTANCE){
+						if(list!=null && list != JsonNull.INSTANCE){
 							if(list.isJsonObject() && list.getAsJsonObject().has(category)){
 								JsonArray defaultArray = list.getAsJsonObject().get(category).getAsJsonArray();
 								if(defaultArray.size() !=0){
@@ -145,7 +145,7 @@ public class ImagesMoreActivity extends BaseActivity{
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
