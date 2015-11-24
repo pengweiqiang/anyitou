@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
@@ -45,7 +46,7 @@ public class LoginActivity extends BaseActivity {
 		isFromMy = this.getIntent().getBooleanExtra("isFromMy", false);
 		type = this.getIntent().getIntExtra("type",0);
 		if(type == 2){
-			ToastUtils.showToast(mContext, "您的账号身份过期，请重新授权登录");
+			ToastUtils.showToast(mContext, "您的账号身份过期，请重新授权登录",Toast.LENGTH_LONG);
 		}
 		mEtUsername.setText(username);
 	}
@@ -74,7 +75,7 @@ public class LoginActivity extends BaseActivity {
 	
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -163,8 +164,9 @@ public class LoginActivity extends BaseActivity {
 							if(isFromMy){
 								Intent intent = new Intent();
 								intent.putExtra("islogin", true);
-								setResult(RESULT_OK,intent);
-								LoginActivity.this.finish();
+								setResult(2,intent);
+//								LoginActivity.this.finish();
+								AppManager.getAppManager().finishActivity();
 							}else{
 //								startActivity(HomeActivity.class);
 								AppManager.getAppManager().finishActivity();
