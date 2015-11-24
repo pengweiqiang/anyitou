@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -165,6 +166,8 @@ public class InvestDetailSecondFragment extends BaseFragment  {
 					int position, long id) {
 				Intent intent = new Intent(mActivity,ImageViewActivity.class);
 				intent.putExtra("url", imageLists.get(position).getUrl());
+				intent.putParcelableArrayListExtra("urls", (ArrayList<? extends Parcelable>) imageLists);
+				intent.putExtra("position", position);
 				intent.putExtra("name", "图片详情");
 				startActivity(intent);
 			}
@@ -220,7 +223,7 @@ public class InvestDetailSecondFragment extends BaseFragment  {
 					JsonObject data = parseModel.getData().getAsJsonObject();
 					if(data != null){
 						JsonElement list = data.get("list");
-						if(list != JsonNull.INSTANCE){
+						if(list!=null && list != JsonNull.INSTANCE){
 							if(list.isJsonObject() && list.getAsJsonObject().has("default")){
 								JsonArray defaultArray = list.getAsJsonObject().get("default").getAsJsonArray();
 								if(defaultArray.size() !=0){
