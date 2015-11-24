@@ -1,6 +1,5 @@
 package cn.com.anyitou.ui;
 
-import java.text.DecimalFormat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
-import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -53,6 +51,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 	
 	private DebtTransferDetail debt;//债权项目
 	private int investmentMoney = 1000;//最小认购份额
+	private Double remainMoney ;//剩余份额
 //	String id = "";
 	String useMoney = "";//可用金额
 	String myUserId = "";
@@ -64,6 +63,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		debt = (DebtTransferDetail)this.getIntent().getSerializableExtra("debt");
 //		id = debt.getDebtData().getInvest_id();
 		investmentMoney = StringUtils.getMoney2Int(Double.valueOf(debt.getDebtData().getMinBuyAmount()));
+		remainMoney = Double.valueOf(debt.getDebtData().getRemainAmount());
 		if(MyApplication.getInstance().getMyCapital()!=null){
 			useMoney = MyApplication.getInstance().getMyCapital().getUse_money();
 			myUserId = MyApplication.getInstance().getMyCapital().getUser_id();
@@ -129,7 +129,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			mTvInvestName.setText(debt.getProjectData().getItem_title());
 			mTvYearRate.setText(debt.getDebtData().getBuyer_apr()+"%");
 			mTvInvestDay.setText(debt.getDebtData().getSell_days()+"天");
-			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getDebtData().getAmount()));
+			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getDebtData().getRemainAmount()));
 			mTvMyMoney.setText(StringUtils.getMoneyFormat(useMoney));
 			
 		}
@@ -214,8 +214,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				String profit = caluProfitMoney(moneyStr);
-				mTvPreProfit.setText(profit);
+				checkInvestMoney(moneyStr);
 			}
 		});
 		mViewConfirm.setOnClickListener(new OnClickListener() {
@@ -223,29 +222,8 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				if(myUserId.equals(debt.getDebtData().getUser_id())){
-					ToastUtils.showToast(mContext, "不能认购自己债权");
-					return;
-				}
-				if(StringUtils.isEmpty(moneyStr)){
-					ToastUtils.showToast(mContext, "请输入认购份额");
-					mEtBuyMoney.requestFocus();
-					return;
-				}
-				if(Double.valueOf(moneyStr)<100){
-					ToastUtils.showToast(mContext, "购买金额须大于1000元");
-					mEtBuyMoney.requestFocus();
-					return;
-				}
-				try{
-					if(Double.valueOf(moneyStr)>Double.valueOf(useMoney)){
-//						ToastUtils.showToast(mContext, "您的余额不足");
-						showNotenoughMoney(Double.valueOf(moneyStr)-Double.valueOf(useMoney)+"");
-//						mEtBuyMoney.requestFocus();
-						return;
-					}
-				}catch(Exception e){
-					
+				if(!checkInvestMoney(moneyStr)){
+					return ;
 				}
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
@@ -304,6 +282,41 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		InfoDialog infoDialog = builder.create();
 		mTvMessgae.setText(TextViewUtils.getSpannableStringColor(message, 4, message.lastIndexOf("元"), getResources().getColor(R.color.app_bg_color)));
 		infoDialog.show();
+	}
+	
+	private boolean checkInvestMoney(String moneyStr){
+		if(myUserId.equals(debt.getDebtData().getUser_id())){
+			ToastUtils.showToastSingle(mContext, "不能认购自己债权");
+			return false;
+		}
+		if(StringUtils.isEmpty(moneyStr)){
+			ToastUtils.showToastSingle(mContext, "请输入认购份额");
+			mEtBuyMoney.requestFocus();
+			return false;
+		}
+		if(Double.valueOf(moneyStr)<investmentMoney){
+			ToastUtils.showToastSingle(mContext, "最小认购"+investmentMoney);
+			mEtBuyMoney.requestFocus();
+			return false;
+		}
+		if(Double.valueOf(moneyStr) > remainMoney){
+			ToastUtils.showToastSingle(mContext, "超过剩余份额"+remainMoney);
+			mEtBuyMoney.requestFocus();
+			return false ;
+		}
+		try{
+			if(Double.valueOf(moneyStr)>Double.valueOf(useMoney)){
+//				ToastUtils.showToast(mContext, "您的余额不足");
+				showNotenoughMoney(Double.valueOf(moneyStr)-Double.valueOf(useMoney)+"");
+//				mEtBuyMoney.requestFocus();
+				return false ;
+			}
+		}catch(Exception e){
+			
+		}
+		String profit = caluProfitMoney(moneyStr);
+		mTvPreProfit.setText(profit);
+		return true;
 	}
 	
 }

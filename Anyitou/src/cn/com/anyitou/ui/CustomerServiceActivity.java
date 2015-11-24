@@ -71,7 +71,7 @@ public class CustomerServiceActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
