@@ -21,6 +21,8 @@ import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.gson.JsonElement;
+import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
@@ -99,10 +101,12 @@ public class IntegralGoodActivity extends BaseActivity implements
 								.getCode())) {
 							JsonObject data = parseModel.getData().getAsJsonObject();
 							if(data !=null){
-								List<IntegralGoods> goods = JsonUtils.fromJson(
-										data.get("list").toString(),
-										new TypeToken<List<IntegralGoods>>() {
-										});
+								List<IntegralGoods> goods = new ArrayList<IntegralGoods>();
+								JsonElement list = data.get("list");
+								if(list!=null && list!=JsonNull.INSTANCE){
+									goods = (List<IntegralGoods>)JsonUtils.fromJson(list.toString(),new TypeToken<List<IntegralGoods>>() {});
+								 }
+								
 								if (page == 1) {
 									goodsLists.clear();
 	
@@ -149,7 +153,7 @@ public class IntegralGoodActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
