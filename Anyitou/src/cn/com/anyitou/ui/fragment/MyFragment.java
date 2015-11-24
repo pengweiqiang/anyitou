@@ -1,5 +1,7 @@
 package cn.com.anyitou.ui.fragment;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
+import cn.com.anyitou.api.ApiMessageUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.entity.Grades;
+import cn.com.anyitou.entity.Message;
 import cn.com.anyitou.entity.MyCapital;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.LoginActivity;
+import cn.com.anyitou.ui.MessagesActivity;
 import cn.com.anyitou.ui.MyAnbiActivity;
 import cn.com.anyitou.ui.MyInvestmentActivity;
 import cn.com.anyitou.ui.MyLevelActivity;
@@ -30,6 +35,10 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.gson.JsonElement;
+import cn.com.gson.JsonNull;
+import cn.com.gson.JsonObject;
+import cn.com.gson.reflect.TypeToken;
 
 /**
  * 我的
@@ -70,9 +79,10 @@ public class MyFragment extends BaseFragment {
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		// 判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示
 		// 通过这两个判断，就可以知道什么时候去加载数据了
-//		if (isVisibleToUser && isVisible()) {
+		if (isVisibleToUser && isVisible()) {
 //			getMyInfo();
-//		}
+			getMessage();
+		}
 		super.setUserVisibleHint(isVisibleToUser);
 	}
 	@Override
@@ -99,6 +109,7 @@ public class MyFragment extends BaseFragment {
 	private void initListener() {
 		mActionBar.hideLeftActionButtonText();
 		mActionBar.setHasMsg(false);
+		mActionBar.setMessageListener(onClickListener);
 		mBtnCash.setOnClickListener(onClickListener);
 		mBtnRechange.setOnClickListener(onClickListener);
 		mBtnInvestDetail.setOnClickListener(onClickListener);
@@ -144,6 +155,9 @@ public class MyFragment extends BaseFragment {
 			}
 			
 			switch (v.getId()) {
+			case R.id.msg://消息
+				intent.setClass(mActivity, MessagesActivity.class);
+				break;
 			case R.id.to_cash://提现
 				intent.setClass(mActivity, WithdrawalsActivity.class);
 				intent.putExtra("money", myCapital.getUse_money());
@@ -259,6 +273,35 @@ public class MyFragment extends BaseFragment {
 			}
 			mIvLevelLogo.setImageDrawable(getResources().getDrawable(levelLogo));
 		}
+	}
+	
+	/**
+	 * 取得未读的消息
+	 */
+	private void getMessage(){
+		ApiMessageUtils.getMessageList(mActivity, "0", "1", new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					JsonObject data = parseModel.getData().getAsJsonObject();
+					boolean isHas = false;
+					if(data != null){
+						JsonElement list = data.get("list");
+						if(list!=null && list != JsonNull.INSTANCE){
+							List<Message> messages = (List<Message>) JsonUtils
+									.fromJson(list.toString(),
+											new TypeToken<List<Message>>() {
+											});
+							if(messages!=null && !messages.isEmpty()){
+								isHas = true;
+							}
+						}
+					}
+					mActionBar.setHasMsg(isHas);
+				}
+			}
+		});
 	}
 	
 
