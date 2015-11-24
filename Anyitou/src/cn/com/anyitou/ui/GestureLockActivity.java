@@ -80,7 +80,6 @@ public class GestureLockActivity extends BaseActivity {
 				
 				@Override
 				public void onClick(View v) {
-					ToastUtils.showToast(mContext, "取消");
 					AppManager.getAppManager().finishActivity();
 				}
 			});
@@ -157,6 +156,7 @@ public class GestureLockActivity extends BaseActivity {
 												startActivity(HomeActivity.class);
 											}
 										}
+										SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
 										
 										AppManager.getAppManager().finishActivity();
 									} else {
@@ -207,7 +207,7 @@ public class GestureLockActivity extends BaseActivity {
 													application.gesturePwd = gestureLock;
 													application.isLock = true;
 													ToastUtils.showToast(mContext, "手势密码绘制成功");
-													SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, key);
+													SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
 													startActivity(HomeActivity.class);
 													AppManager.getAppManager().finishActivity();
 												}
