@@ -239,7 +239,7 @@
              android:background="@drawable/button_code_color"
             android:gravity="center"
             android:padding="10dp"
-            android:text="立即投标"
+            android:text="立即认购"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
