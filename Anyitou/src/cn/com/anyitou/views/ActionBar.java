@@ -78,6 +78,9 @@ public class ActionBar extends FrameLayout {
 			mIvMsgLogo.setImageDrawable(getResources().getDrawable(R.drawable.user_msg_no));
 		}
 	}
+	public void setMessageListener(OnClickListener listener){
+		mViewMsg.setOnClickListener(listener);
+	}
 	
 	
 	public void setLeftActionButton(OnClickListener listener) {
@@ -122,6 +125,9 @@ public class ActionBar extends FrameLayout {
 	 */
 	public void hideRightActionButtonText() {
 		mRightActionButton.setVisibility(View.GONE);
+	}
+	public void showRightActionButtonText(){
+		mRightActionButton.setVisibility(View.VISIBLE);
 	}
 
 	
