@@ -127,7 +127,7 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 		}else if(page ==0){
 			page++;
 		}
-		ApiInvestUtils.getInvestList(mActivity,String.valueOf(page),"10",
+		ApiInvestUtils.getInvestList(mActivity,category,"","",String.valueOf(page),"10",
 				new HttpConnectionUtil.RequestCallback() {
 
 					@Override
@@ -147,6 +147,14 @@ public class ProjectListFragment extends BaseFragment implements IXListViewListe
 						}
 					}
 				});
+	}
+	String category = "";
+	public void getInvestListByCategory(String category){
+		this.category = category;
+		page = 1;
+		getInvestList();
+//		onRefresh();
+		
 	}
 	
 	private void showEmptyListView(List list){
