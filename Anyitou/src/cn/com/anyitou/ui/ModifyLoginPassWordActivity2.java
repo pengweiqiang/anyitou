@@ -53,7 +53,7 @@ public class ModifyLoginPassWordActivity2 extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		actionBar.setOnClickListener(new OnClickListener() {
+		actionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
