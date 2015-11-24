@@ -126,7 +126,7 @@ public class WebActivity extends BaseActivity {
 	// 设置activity的导航条
 	protected void onConfigureActionBar(ActionBar actionBar) {
 		actionBar.setTitle(name);
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -145,7 +145,6 @@ public class WebActivity extends BaseActivity {
 		}
 	}
 	private void getTradeStatus(final String title){
-		
 		String operationTpe = "";
 		switch (type) {
 		case 1://注册汇付结果
@@ -178,7 +177,8 @@ public class WebActivity extends BaseActivity {
 							ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
 							new Handler().postDelayed(new Runnable(){   
 							    public void run() {   
-							    	startActivity(HomeActivity.class);
+//							    	startActivity(HomeActivity.class);
+							    	startSuccessActivity();
 									AppManager.getAppManager().finishActivity();
 							    }   
 							 }, 3000); 
@@ -199,5 +199,32 @@ public class WebActivity extends BaseActivity {
 	 class JSInterface {
 	        
 	    }
+	 private void startSuccessActivity(){
+		 //2 充值操作 3投资操作  4 提现   5 债权
+		 Intent intent = new Intent();
+		 switch (type) {
+		case 1:
+			
+			break;
+		case 2:
+			intent.setClass(mContext, TradingRecordActivity.class);
+			break;
+		case 3:
+			intent.setClass(mContext, InvestmentRecordDetailActivity.class);
+			intent.putExtra("id", ordId);
+			break;
+		case 4:
+			intent.setClass(mContext, TradingRecordActivity.class);
+			break;
+		case 5:
+			intent.setClass(mContext, InvestmentRecordDetailActivity.class);
+			intent.putExtra("id", ordId);
+			break;
+
+		default:
+			break;
+		}
+		 startActivity(intent);
+	 }
 	
 }
