@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_enabled="false" android:drawable="@drawable/concer_coupon_enable_bg_style"/>
+    <item android:state_enabled="true" android:drawable="@drawable/concer_coupon_bg_style"/>
+    <item android:drawable="@drawable/concer_coupon_bg_style"></item>
+</selector>
