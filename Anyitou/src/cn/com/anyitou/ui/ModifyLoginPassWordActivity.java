@@ -26,6 +26,7 @@ import cn.com.anyitou.utils.TextViewUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.gson.JsonObject;
 /**
  * 
  * @author will
@@ -44,6 +45,7 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_modify_loginpassword);
 		super.onCreate(savedInstanceState);
+		getUserInfo();
 		User user = MyApplication.getInstance().getCurrentUser();
 		if(user !=null){
 			mTvSendTip.setText("请输入"+StringUtils.getsubMobileString(user.getMobile())+"收到的短信验证码");
@@ -86,7 +88,7 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 
 	@Override
 	public void initListener() {
-		actionBar.setOnClickListener(new OnClickListener() {
+		actionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -123,6 +125,31 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 				startActivity(intent);
 				AppManager.getAppManager().finishActivity();
 				
+			}
+		});
+	}
+	
+	private void getUserInfo(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.getUserInfo(mContext,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					try{
+						JsonObject data = parseModel.getData().getAsJsonObject();
+						if(data!=null){
+							String mobile = data.get("mobile").getAsString();
+							if(!StringUtils.isEmpty(mobile)){
+								mTvSendTip.setText("请输入"+StringUtils.getsubMobileString(mobile)+"收到的短信验证码");
+							}
+						}
+					}catch(Exception e){
+						
+					}
+					loadingDialog.cancel();
+				}
 			}
 		});
 	}
