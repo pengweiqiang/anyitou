@@ -147,6 +147,7 @@ public class AboutUSFragment extends BaseFragment {
 		confirmTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				popupWindow.dismiss();
 				// 拨打电话
 				// 用intent启动拨打电话
 				Intent intent = new Intent(Intent.ACTION_CALL, Uri
