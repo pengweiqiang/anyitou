@@ -86,8 +86,12 @@ public class InvestRecordMoreActivity extends BaseActivity implements
 	}
 	
 	private void initData() {
-		loadingDialog = new LoadingDialog(mContext);
-		loadingDialog.show();
+		if(page == 1){
+			loadingDialog = new LoadingDialog(mContext);
+			loadingDialog.show();
+		}else{
+			page ++;
+		}
 		mViewEmpty.setVisibility(View.GONE);
 		
 		//TODO获取投资记录
@@ -140,7 +144,7 @@ public class InvestRecordMoreActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -152,7 +156,7 @@ public class InvestRecordMoreActivity extends BaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		page = 1;
+		page = 0;
 		initData();
 	}
 
