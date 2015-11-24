@@ -65,6 +65,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="bottom"
+            android:src="@drawable/ic_launcher"
             android:id="@+id/yt_dialog_shareedit_image" />
     </LinearLayout>
 
