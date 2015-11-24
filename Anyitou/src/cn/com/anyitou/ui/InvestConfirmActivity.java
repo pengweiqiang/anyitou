@@ -245,7 +245,7 @@ public class InvestConfirmActivity extends BaseActivity {
 					}
 				});
 	}
-
+	
 	private TextView mTvRate;
 
 	@Override
@@ -340,8 +340,8 @@ public class InvestConfirmActivity extends BaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				// caluFutureMoney(moneyStr);
-				caluProfitMoneyForService(moneyStr, 2);
+				checkInvestMoney(moneyStr);
+				showEmptyCouponView(true);
 			}
 		});
 		mViewConfirm.setOnClickListener(new OnClickListener() {
@@ -349,32 +349,8 @@ public class InvestConfirmActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				if (StringUtils.isEmpty(moneyStr)) {
-					ToastUtils.showToast(mContext, "请输入投资金额");
-					mEtBuyMoney.requestFocus();
+				if(!checkInvestMoney(moneyStr)){
 					return;
-				}
-				
-				if (Double.valueOf(moneyStr) < investmentMoney) {
-					ToastUtils.showToast(mContext, "购买金额须大于"+investmentMoney+"元");
-					mEtBuyMoney.requestFocus();
-					return;
-				}
-				if (Double.valueOf(moneyStr) % investmentMoney != 0) {
-					ToastUtils.showToast(mContext, "请输入"+investmentMoney+"的整数倍");
-					mEtBuyMoney.requestFocus();
-					return;
-				}
-				try {
-					if (Double.valueOf(moneyStr) > Double.valueOf(useMoney)) {
-						// ToastUtils.showToast(mContext, "您的余额不足");
-						showNotenoughMoney(Double.valueOf(moneyStr)
-								- Double.valueOf(useMoney) + "");
-						// mEtBuyMoney.requestFocus();
-						return;
-					}
-				} catch (Exception e) {
-
 				}
 				loadingDialog = new LoadingDialog(mContext);
 				loadingDialog.show();
@@ -474,6 +450,7 @@ public class InvestConfirmActivity extends BaseActivity {
 								.getCode())) {
 							json2Coupon(parseModel.getData());
 						} else {
+							showEmptyCouponView(false);
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 						loadingDialog.cancel();
@@ -493,20 +470,24 @@ public class InvestConfirmActivity extends BaseActivity {
 			//1.检查有用的优惠券
 			JsonObject couponVerifyRes = data.getAsJsonObject().getAsJsonObject("couponVerifyRes");
 			if(couponVerifyRes ==null){
+				showEmptyCouponView(false);
 				ToastUtils.showToast(mContext, "没有可用的优惠券");
 				return;
 			}
 			List<String> couponIds = getCouponVerifyRes(couponVerifyRes);
 			if(couponIds==null || couponIds.isEmpty()){
+				showEmptyCouponView(false);
 				ToastUtils.showToast(mContext, "没有可用的优惠券");
 				return;
 			}
 			//2.取出有用优惠券的详细信息
 			JsonObject classCouponList = data.getAsJsonObject().getAsJsonObject("classCouponList");
 			if(classCouponList ==null){
+				showEmptyCouponView(false);
 				ToastUtils.showToast(mContext, "没有可用的优惠券");
 				return;
 			}
+			findViewById(R.id.coupon_rl).setEnabled(true);
 			Set<Entry<String, JsonElement>> sets = classCouponList.entrySet();
 			Iterator<Entry<String, JsonElement>> keys = sets.iterator();
 			while (keys.hasNext()) {
@@ -521,7 +502,20 @@ public class InvestConfirmActivity extends BaseActivity {
 					cashCoupon(entry.getValue(),couponIds);
 				}
 			}
+		}else{
+			showEmptyCouponView(false);
 		}
+	}
+	private void showEmptyCouponView(boolean isEnabled){
+		findViewById(R.id.coupon_rl).setEnabled(isEnabled);
+		if(investCoupons!=null && !investCoupons.isEmpty()){
+			investCoupons.clear();
+			
+			investCouponAdapter = new InvestCouponsAdapter(investCoupons, mContext);
+			mCouponListView.setAdapter(investCouponAdapter);
+			investCouponAdapter.notifyDataSetChanged();
+		}
+		
 	}
 	/**
 	 * 获取此次投资可用的优惠券
@@ -593,6 +587,41 @@ public class InvestConfirmActivity extends BaseActivity {
 				
 			});
 		}
+	}
+	
+	private boolean checkInvestMoney(String moneyStr){
+		if(StringUtils.isEmpty(moneyStr)){
+			return false;
+		}
+		if (Double.valueOf(moneyStr) < investmentMoney) {
+			ToastUtils.showToastSingle(mContext, "购买金额必须大于"+investmentMoney+"元");
+			mEtBuyMoney.requestFocus();
+			return false;
+		}
+		if(Double.valueOf(moneyStr) > Double.valueOf(investment
+			.getRemain_amount())){
+			ToastUtils.showToastSingle(mContext, "超过了可投金额"+investment.getRemain_amount());
+			mEtBuyMoney.requestFocus();
+			return false;
+		}
+		if (Double.valueOf(moneyStr) % investmentMoney != 0) {
+			ToastUtils.showToastSingle(mContext, "请输入"+investmentMoney+"的整数倍");
+			mEtBuyMoney.requestFocus();
+			return false ;
+		}
+		try {
+			if (Double.valueOf(moneyStr) > Double.valueOf(useMoney)) {
+//				 ToastUtils.showToastSingle(mContext, "您的余额不足");
+				showNotenoughMoney(Double.valueOf(moneyStr)
+						- Double.valueOf(useMoney) + "");
+				// mEtBuyMoney.requestFocus();
+				return false;
+			}
+		} catch (Exception e) {
+
+		}
+		caluProfitMoneyForService(moneyStr, 2);
+		return true;
 	}
 
 }
