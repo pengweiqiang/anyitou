@@ -104,8 +104,17 @@ public class MyApplication extends Application {
 						}
 					}
 				}
-				gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
-				
+				String gesturePwds = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
+				if(!StringUtils.isEmpty(gesturePwds)){
+					String gpwds [] = gesturePwds.split(",");
+					long distance = System.currentTimeMillis()-Long.valueOf(gpwds[0]);
+					gesturePwd = gpwds[1];
+					if(distance<1*60*60*1000){
+						isLock = true;
+					}else{
+						isLock = false;
+					}
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
