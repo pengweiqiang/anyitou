@@ -23,6 +23,7 @@ import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
 import cn.com.gson.JsonElement;
+import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
@@ -100,10 +101,13 @@ public class IntegralRecordActivity extends BaseActivity implements
 							JsonObject data = parseModel.getData().getAsJsonObject();
 							if(data != null){
 								JsonElement list = data.get("list");
-								List<IntegralRecords> records = JsonUtils.fromJson(
+								List<IntegralRecords> records = new ArrayList<IntegralRecords>();
+								if(list!=null && list != JsonNull.INSTANCE){
+									records = JsonUtils.fromJson(
 										list.toString(),
 										new TypeToken<List<IntegralRecords>>() {
 										});
+								}
 								showEmptyListView(records);
 								mListView.onLoadFinish(page, records.size(),
 										"加载完毕");
@@ -146,7 +150,7 @@ public class IntegralRecordActivity extends BaseActivity implements
 
 	@Override
 	public void initListener() {
-		mActionBar.setOnClickListener(new OnClickListener() {
+		mActionBar.setLeftActionButton(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
