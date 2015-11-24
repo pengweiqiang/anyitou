@@ -463,6 +463,18 @@ public class ApiUserUtils {
 	}
 	
 	/**
+	 * 获取用户信息
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getUserInfo(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INFO, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
+	
+	
+	/**
 	 * 红包列表
 	 * @param context
 	 * @param requestCallBack

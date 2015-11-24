@@ -25,10 +25,13 @@ public class ApiInvestUtils {
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void getInvestList(Context context,String page,String num,RequestCallback requestCallBack){
+	public static void getInvestList(Context context,String category,String order,String fields,String page,String num,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, num);
+		params.put(ReqUrls.CATEGORY, category);
+//		params.put(ReqUrls.ORDER, order);
+//		params.put("fields", fields);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INDEX, false,
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 		
