@@ -5,9 +5,9 @@
         android:duration="450"
         android:fromYDelta="100%"
         android:toYDelta="0" />
-    <!-- <alpha
+    <!--  <alpha
         android:fromAlpha="1"
         android:toAlpha="0.4"
-        /> -->
+        />  -->
 
 </set>
