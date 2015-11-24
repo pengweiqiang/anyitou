@@ -68,7 +68,7 @@ public class CheckInputUtil {
 		boolean flag = true;
 		if(StringUtils.isEmpty(phone)){
 			returnStr = context.getResources().getString(R.string.input_phone);
-		}else if(phone.length()<6 || phone.length()>20){
+		}else if(phone.length()!=11){
 			returnStr = context.getResources().getString(R.string.error_phone);
 		}
 		if(!"".equals(returnStr)){
