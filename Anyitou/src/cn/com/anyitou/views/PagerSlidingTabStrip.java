@@ -57,6 +57,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public interface IconTabProvider {
 		public int getPageIconResId(int position);
+		
+	}
+	public static abstract interface OnPageChange{
+		public void changePage(int position);
 	}
 
 	// @formatter:off
@@ -71,6 +75,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	private final PageListener pageListener = new PageListener();
 	public OnPageChangeListener delegatePageListener;
+	public OnPageChange onPageChange;
 
 	private LinearLayout tabsContainer;
 	private ViewPager pager;
@@ -109,7 +114,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	private int tabBackgroundResId = R.drawable.background_tab;
 
 	private Locale locale;
-
 	public PagerSlidingTabStrip(Context context) {
 		this(context, null);
 	}
@@ -200,6 +204,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public void setOnPageChangeListener(OnPageChangeListener listener) {
 		this.delegatePageListener = listener;
+	}
+	
+	public void setOnPageListener(OnPageChange listener){
+		this.onPageChange = listener;
 	}
 
 	public void notifyDataSetChanged() {
@@ -361,8 +369,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 		}
 	}
 
-	private class PageListener implements OnPageChangeListener {
-
+	public class PageListener implements OnPageChangeListener {
+		
 		@Override
 		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			currentPosition = position;
@@ -394,6 +402,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 			updateTabStyles();
 			if (delegatePageListener != null) {
 				delegatePageListener.onPageSelected(position);
+			}
+			if(onPageChange!=null){
+				onPageChange.changePage(position);
 			}
 		}
 
