@@ -17,7 +17,7 @@ public abstract class InfinitePagerAdapter extends RecyclingPagerAdapter {
     @Override
     /**
      * Note: use getItemCount instead*/
-    public final int getCount() {
+    public int getCount() {
         return getItemCount() * InfiniteViewPager.FakePositionHelper.MULTIPLIER;
     }
 
