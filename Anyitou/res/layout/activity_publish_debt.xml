@@ -53,6 +53,7 @@
             android:textSize="16sp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:enabled="false"
             android:paddingBottom="10dp"
             android:paddingLeft="78dp"
             android:textColorHint="@color/grey_line"
