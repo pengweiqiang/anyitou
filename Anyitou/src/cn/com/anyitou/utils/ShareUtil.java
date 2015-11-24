@@ -55,6 +55,15 @@ public class ShareUtil {
 				shareData.setDescription(text);
 				if(position == 1){
 					shareData.setTitle(text);
+				}else if(position == 5){
+					shareData = new ShareData();
+					shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
+					shareData.setDescription("安宜投");// 待分享内容的描述
+					shareData.setTitle("安宜投"); // 待分享的标题
+					shareData.setText("安宜投是国内首家面向金融消费者实现第三方资金托管的在线理财服务平台，并且在国内金融平台中首次提出了日付息的概念，满足了广大投资人每天都能看到收益的快感！");// 待分享的文字
+					shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
+					shareData.setTargetId(String.valueOf(100));
+					shareData.setTargetUrl("http://www.anyitou.com");// 待分享内容的跳转链接
 				}
 			}
 			
@@ -81,7 +90,7 @@ public class ShareUtil {
 		shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
 		shareData.setDescription("安宜投");// 待分享内容的描述
 		shareData.setTitle("安宜投"); // 待分享的标题
-		shareData.setText("不开玩笑，投资5万元，30天净收550元利息，在安宜投理财平台，这是个真事儿！");// 待分享的文字
+		shareData.setText("安宜投是国内首家面向金融消费者实现第三方资金托管的在线理财服务平台，并且在国内金融平台中首次提出了日付息的概念，满足了广大投资人每天都能看到收益的快感！");// 待分享的文字
 		shareData.setImage(ShareData.IMAGETYPE_APPRESOURE, String.valueOf(R.drawable.ic_launcher));// 设置网络分享地址
 		shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
 		shareData.setTargetId(String.valueOf(100));
