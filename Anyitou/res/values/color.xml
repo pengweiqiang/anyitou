@@ -59,5 +59,6 @@
     <color name="transparent">#e0FFFFFF</color>
     <color name="all_transparent">#00000000</color>
     <color name="transparent_background">#60000000</color>
+    <color name="popup_bg">#333333</color>
     
 </resources>
