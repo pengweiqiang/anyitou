@@ -32,32 +32,32 @@
 	
     <!-- 微信 -->
     <Wechat
-        AppId="wx63046cc335471339"
-        AppSecret="a6e48077024ddd570b8b45675bc643b7"
+        AppId="wx4257b330557388e2"
+        AppSecret="d4624c36b6795d1d99dcf0547af5443d"
         Enable="true" />
 
     <!-- 微信朋友圈 -->
     <WechatMoments
-        AppId="wx63046cc335471339"
-        AppSecret="a6e48077024ddd570b8b45675bc643b7"
+        AppId="wx4257b330557388e2"
+        AppSecret="d4624c36b6795d1d99dcf0547af5443d"
         Enable="true" />
 
    
  	<!-- QQ -->
     <QQ
-        AppId="1104534462"
-        AppKey="tgRCevSlHfNdiF4M"
+        AppId="1104980150"
+        AppKey="XzlUF3l0a7VMrJuM"
         Enable="true" />
      <!-- QQ空间 -->
     <QZone
-        AppId="1104534462"
-        AppKey="tgRCevSlHfNdiF4M"
+        AppId="1104980150"
+        AppKey="XzlUF3l0a7VMrJuM"
         Enable="true" />
     
     <!-- 新浪微博 -->
     <SinaWeibo
-        AppId="1676097348"
-        AppSecret="a6e48077024ddd570b8b45675bc643b7"
+        AppId="4126689768"
+        AppSecret="abbde0b27fbcf369386a1221c9e59518"
         RedirectUrl="http://www.anyitou.com" 
         IsWebShare="true"
         Enable="true"
