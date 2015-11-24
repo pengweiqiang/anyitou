@@ -174,6 +174,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				checkInputAmount(s.toString());
 				getPublishDebtInfo();
 			}
 			
@@ -268,8 +269,8 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			return;
 		}
 		String debtCount = mEtDebtCount.getText().toString().trim();
-		if (StringUtils.isEmpty(debtCount)) {
-			ToastUtils.showToast(mContext, "请输入出让债权份额");
+		if (!checkInputAmount(debtCount)) {
+//			ToastUtils.showToast(mContext, "请输入出让债权份额");
 			mEtDebtCount.requestFocus();
 			return;
 		}
@@ -381,6 +382,24 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		}
 	};
 	
+	private boolean checkInputAmount(String amountStr){
+		if(StringUtils.isEmpty(amountStr)){
+			return false;
+		}
+		Double amount = Double.valueOf(amountStr);
+		double minAmount = Double.valueOf(debt.getTransferable_amount_min());//最小转让金额
+		double maxAmount = Double.valueOf(debt.getTransferable_amount_max());//最大转让金额
+		if(amount%minAmount!=0){
+			ToastUtils.showToastSingle(mContext, "请输入最小转让金额"+debt.getTransferable_amount_min()+"的倍数");
+			return false;
+		}
+		if(amount>maxAmount){
+			ToastUtils.showToastSingle(mContext, "超过最大转让金额"+debt.getTransferable_amount_max());
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * 获取转让参数
 	 */
@@ -389,6 +408,9 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		//出让份额
 		String debtCount = mEtDebtCount.getText().toString().trim();
 		if(StringUtils.isEmpty(debtCount)){
+			return;
+		}
+		if(!checkInputAmount(debtCount)){
 			return;
 		}
 		String gt = "";//price
