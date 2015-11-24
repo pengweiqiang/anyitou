@@ -1,6 +1,7 @@
 package cn.com.anyitou.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import cn.com.anyitou.R;
@@ -23,6 +24,14 @@ public class SuccessActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		message = this.getIntent().getStringExtra("message");
 		mTvMessage.setText(message);
+		
+		
+		//三秒自动关闭
+		new Handler().postDelayed(new Runnable() {
+			public void run() {
+				AppManager.getAppManager().finishActivity();
+			} 
+		}, 3000);
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
