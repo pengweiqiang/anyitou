@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.com.anyitou"
-    android:versionCode="2"
-    android:versionName="V1.0.1" >
+    android:versionCode="7"
+    android:versionName="V1.0.6" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -86,7 +86,6 @@
         <activity
             android:name="cn.com.anyitou.ui.LoginActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册 -->
@@ -173,6 +172,20 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
+        <!-- 消息 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MessagesActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            ></activity>
+        <!-- 消息明细 -->
+        <activity
+            android:name="cn.com.anyitou.ui.MessageDetailActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!-- 找回密码 -->
         <activity
@@ -469,6 +482,10 @@
             android:name="UMENG_APPKEY"
             android:value="55d14184e0f55a62a50079f1" >
         </meta-data>
+        <!-- <meta-data 
+            android:name="UMENG_APPKEY"
+            android:value="564d2b0967e58e1dae006e12"
+            /> -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="umeng" />
