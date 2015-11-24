@@ -75,8 +75,8 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 		// 初始化事件
 		initListener();
 		
-		registerHomeListener();
-		intScreenListener();
+//		registerHomeListener();
+//		intScreenListener();
 		UmengUpdateAgent.update(this);
 	}
 
@@ -116,7 +116,7 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 					return mInvestmentFragment;
 				} else if (position == 2) {
 					if(mMyFragment == null){
-						return mMyFragment = new MyFragment();
+						mMyFragment = new MyFragment();
 					}
 					return mMyFragment;
 				} else if (position == 3) {
@@ -145,12 +145,13 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 						if(checkedId == checkId){
 							return;
 						}
+						Log.e("HomeActivity", "onCheckedChanged");
 						if(checkedId == tabIds[2] && MyApplication.getInstance().getCurrentUser() == null){
+							((RadioButton)findViewById(checkId)).setChecked(true);
 							ToastUtils.showToast(HomeActivity.this, "请先登录");
 							Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
 							intent.putExtra("isFromMy", true);
-							startActivityForResult(intent, 123);
-							((RadioButton)findViewById(checkId)).setChecked(true);
+							startActivityForResult(intent, 1);
 //							startActivity(intent);
 						}else{
 							for (int i = 0; i < tabIds.length; i++) {
@@ -166,15 +167,24 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 
 	}
 
-	
+//	@Override
+//	protected void onStop() {
+//		if(mTabIndicators.getCheckedRadioButtonId()!=checkId){
+//			setCurrentTabId(checkId);
+//		}
+//		super.onStop();
+//	}
 
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == 123){
-			checkId = tabIds[2];
-			((RadioButton)findViewById(checkId)).setChecked(true);
-			mViewPager.setCurrentItem(2, false);
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == 2){
+			if(data !=null && data.getBooleanExtra("islogin", false)){
+				checkId = tabIds[2];
+				((RadioButton)findViewById(checkId)).setChecked(true);
+				mViewPager.setCurrentItem(2, false);
+			}
 		}
 	}
 
@@ -197,7 +207,7 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 			if (isExit == false) {
 				isExit = true;
 				handler.sendEmptyMessageDelayed(0, 3000);
-				ToastUtils.showToast(this, "再按一次进行退出");
+				ToastUtils.showToast(this, "再按一次进行退出",0,1);
 				return true;
 			} else {
 				AppManager.getAppManager().finishAllActivity();
@@ -233,8 +243,8 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 	
 	@Override
 	protected void onDestroy() {
-		unregisterHomeListener();
-		screenListener.unregisterListener();
+//		unregisterHomeListener();
+//		screenListener.unregisterListener();
 		super.onDestroy();
 	}
 	ScreenListener screenListener = new ScreenListener(this);
