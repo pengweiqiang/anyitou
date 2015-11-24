@@ -17,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,7 +50,7 @@ public class HttpConnectionUtil {
 	private static String TAG = "HttpConnectionUtil";
 	
 	public static enum HttpMethod {
-		GET, POST
+		GET, POST,PUT,
 	}
 	
 	/**
@@ -224,7 +225,24 @@ public class HttpConnectionUtil {
 				// Should not come here, ignore me.
 				throw new java.lang.RuntimeException(e.getMessage(), e);
 			}
-		} else {
+		}else if(method.equals(HttpMethod.PUT)){
+			List<NameValuePair> listParams = new ArrayList<NameValuePair>();
+			if (params != null) {
+				for (String name : params.keySet()) {
+					Log.d(TAG, "========" + name + "=" + params.get(name));
+					listParams.add(new BasicNameValuePair(name, params.get(name).toString()));
+				}
+			}
+			try {
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(listParams, HTTP.UTF_8);
+				HttpPut request = new HttpPut(url);
+				request.setEntity(entity);
+				return request;
+			} catch (UnsupportedEncodingException e) {
+				// Should not come here, ignore me.
+				throw new java.lang.RuntimeException(e.getMessage(), e);
+			}
+		}else {
 			if (url.indexOf("?") < 0) {
 				url += "?";
 			}
