@@ -23,7 +23,7 @@ import cn.com.anyitou.utils.StringUtils;
  */
 public class SplashActivity extends BaseActivity {
 
-	private long delayTime = 2000;
+	private long delayTime = 1500;
 	private ImageView mImageView;
 	
 
@@ -59,16 +59,21 @@ public class SplashActivity extends BaseActivity {
 			
 		}else{
 			if(application.getCurrentUser()!=null){
-				String gesturePwd = (String)SharePreferenceManager.getSharePreferenceValue(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, "");
-				if(!StringUtils.isEmpty(gesturePwd)){
-					// 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
-					new Handler().postDelayed(new Runnable() {
-						public void run() {
-							startNextActivity(GestureLockActivity.class);
-						} 
-					}, 1000);
+				String gesturePwds = (String)SharePreferenceManager.getSharePreferenceValue(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, "");
+				if(!StringUtils.isEmpty(gesturePwds)){
 					
-					return;
+					String gpwds [] = gesturePwds.split(",");
+					long distance = System.currentTimeMillis()-Long.valueOf(gpwds[0]);
+					if(distance>1*60*60*1000){
+						// 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
+						new Handler().postDelayed(new Runnable() {
+							public void run() {
+								startNextActivity(GestureLockActivity.class);
+							} 
+						}, 1000);
+						return;
+					}
+					
 				}
 			}
 			// 使用Handler的postDelayed方法，2秒后执行跳转到HomeActivity
