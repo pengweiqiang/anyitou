@@ -166,6 +166,11 @@ public interface ReqUrls {
 	 * 获取项目信息
 	 */
 	public static final String MOBIAPI_PROJECT_DETAIL = "projects/";
+	
+	/**
+	 * 获取用户信息
+	 */
+	public static final String MOBIAPI_USER_INFO = "user/info";
 	/**
 	 * 获取用户资金信息
 	 */
@@ -388,7 +393,18 @@ public interface ReqUrls {
 	 */
 	public static final String MOBIAPI_INVESTMENT_CALCULATOR = "investment/calculator";
 	
-	
+	/**
+	 * 56.消息列表
+	 */
+	public static final String MOBIAPI_MESSAGE_LIST = "message/list";
+	/**
+	 * 56.消息详情
+	 */
+	public static final String MOBIAPI_MESSAGE_VIEW = "message/view";
+	/**
+	 * 58.阅读消息
+	 */
+	public static final String MOBIAPI_MESSAGE_UPDATE = "message/update";
 	
 	
 	
