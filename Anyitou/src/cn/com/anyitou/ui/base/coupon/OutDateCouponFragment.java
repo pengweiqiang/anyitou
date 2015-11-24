@@ -24,6 +24,7 @@ import cn.com.anyitou.views.LoadingDialog;
 import cn.com.anyitou.views.XListView;
 import cn.com.anyitou.views.XListView.IXListViewListener;
 import cn.com.gson.JsonElement;
+import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
 import cn.com.gson.reflect.TypeToken;
 
@@ -128,8 +129,10 @@ public class OutDateCouponFragment extends BaseFragment implements IXListViewLis
 							if(data!=null){
 								isFirst = false;
 								JsonElement list = data.get("list");
-								 List<Coupon> coupons = (List<Coupon>)JsonUtils.fromJson(list.toString(),new TypeToken<List<Coupon>>() {});
-							 
+								List<Coupon> coupons = new ArrayList<Coupon>();
+								if(list!=null && list != JsonNull.INSTANCE){
+									coupons = (List<Coupon>)JsonUtils.fromJson(list.toString(),new TypeToken<List<Coupon>>() {});
+								}
 								showEmptyListView(coupons);
 								mListView.onLoadFinish(page, coupons.size(),"加载完毕");
 								couponAdapter.notifyDataSetChanged();
