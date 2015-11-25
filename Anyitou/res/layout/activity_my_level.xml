@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_bg"
@@ -40,7 +42,7 @@
                     android:text="星级会员"
                     android:textColor="@color/black" />
 
-                <TextView
+                <!-- <TextView
                     android:id="@+id/level_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,7 +51,44 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:text="当前成长值：3000"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white" /> -->
+                    <LinearLayout 
+                        android:id="@+id/progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/level_name"
+                        android:weightSum="3.1"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        >
+                        <cn.com.anyitou.views.roundprogress.TextRoundCornerProgressBar
+                            android:id="@+id/level_progressbar2"
+                            android:layout_weight="2"
+			                android:layout_width="0dp"
+			                android:layout_height="14dp"
+			                app:rcBackgroundColor="#c41e16"
+			                app:rcBackgroundPadding="0dp"
+			                app:rcMax="100"
+			                app:rcTextProgressColor="@color/black"
+			                app:rcProgress="50"
+			                app:rcProgressColor="#e6d911"
+			                app:rcTextProgress="1000"
+			                app:rcTextProgressSize="9sp"
+			                app:rcRadius="7dp" />
+                        <TextView 
+                        android:id="@+id/max"
+                        android:layout_toRightOf="@+id/progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="1000"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:textColor="@color/black"
+                        android:textSize="9sp"
+                        />
+                    </LinearLayout>
+                    
             </RelativeLayout>
 
             <View
