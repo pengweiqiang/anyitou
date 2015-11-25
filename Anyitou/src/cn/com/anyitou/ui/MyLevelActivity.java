@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiUserUtils;
@@ -19,6 +20,7 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.com.anyitou.views.roundprogress.TextRoundCornerProgressBar;
 
 /**
  * 我的等级
@@ -35,6 +37,8 @@ public class MyLevelActivity extends BaseActivity {
 	
 	Grades mGrades;
 	private TextView mTvLevelName,mTvGrow;
+	private TextRoundCornerProgressBar mPbLevel;
+	private TextView mTvMax;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_my_level);
@@ -58,7 +62,9 @@ public class MyLevelActivity extends BaseActivity {
 		mBtnMemberGrowth = findViewById(R.id.member_growth);
 		
 		mTvLevelName = (TextView)findViewById(R.id.level_name);
-		mTvGrow = (TextView)findViewById(R.id.level_total);
+//		mTvGrow = (TextView)findViewById(R.id.level_total);
+		mTvMax = (TextView)findViewById(R.id.max);
+		mPbLevel = (TextRoundCornerProgressBar) findViewById(R.id.level_progressbar2);
 	}
 
 	@Override
@@ -106,7 +112,13 @@ public class MyLevelActivity extends BaseActivity {
 			}else if("4".equals(mGrades.getUser_level())){
 				levelLogo = R.drawable.user_level_diamond_big_icon;
 			}
-			mTvGrow.setText("当前成长值："+mGrades.getGrow_val());
+			int currentGrow = (int) Math.round(Double.valueOf(mGrades.getGrow_val()));
+			int max = (int) Math.round( Double.valueOf(mGrades.getNeedGrowVal()) + currentGrow );
+			mPbLevel.setProgressText(currentGrow+"");
+			mPbLevel.setMax(max);
+			mPbLevel.setProgress(currentGrow);
+//			mTvGrow.setText("当前成长值："+mGrades.getGrow_val());
+			mTvMax.setText(String.valueOf(max));
 			Drawable drawable= getResources().getDrawable(levelLogo);
 			/// 这一步必须要做,否则不会显示.
 			drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
