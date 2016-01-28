@@ -13,7 +13,7 @@
     <color name="backColor">#2000</color>
     
 	<color name="white">#ffffffff</color>  
-	<color name="banner_unselected">#b7b3b3</color>
+	<color name="banner_unselected">#a0a0a0</color>
 	<color name="line">#c9c9c9</color>
 	<color name="grey_line">#cccccc</color>
 	<color name="grey_cicrle_unselected">#dae0e8</color>
@@ -60,10 +60,13 @@
     <color name="all_transparent">#00000000</color>
     <color name="transparent_background">#60000000</color>
     <color name="popup_bg">#333333</color>
+    <color name="aleady_sign">#969696</color>
+    <color name="un_sign">#4272d7</color>
     
     <!-- round progress -->
     <color name="round_corner_progress_bar_background_default">#5f5f5f</color>
     <color name="round_corner_progress_bar_progress_default">#7f7f7f</color>
     <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent</color>
+    <color name="home_item_money_unit">#a2a2a2</color>
     
 </resources>

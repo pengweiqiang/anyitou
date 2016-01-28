@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" > -->
     
-      <RelativeLayout
-          android:id="@+id/banner"
+      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:app="http://schemas.android.com/apk/res-auto"
+         android:id="@+id/banner"
         android:layout_width="fill_parent"
-        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content">
 
         <cn.com.anyitou.views.banner.InfiniteViewPager
@@ -18,27 +18,32 @@
             android:layout_height="wrap_content"
             android:visibility="visible" />
 
-        <cn.com.anyitou.views.banner.LinePageIndicator
+        <!-- <cn.com.anyitou.views.banner.LinePageIndicator
             android:id="@+id/indicator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:fillColor="@color/banner_unselected"
             android:layout_marginBottom="8dp"
-            app:pageColor="@color/white" />
-            <!-- <cn.com.anyitou.views.banner.CirclePageIndicator
+            app:pageColor="@color/white" /> -->
+            
+            <cn.com.anyitou.views.banner.CirclePageIndicator2
             android:id="@+id/indicator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            /> -->
+            app:fillColor="@color/white"
+            app:strokeColor="@color/banner_unselected"
+           	app:pageColor="@color/banner_unselected"
+            android:paddingBottom="8dp"
+            />
+            
     </RelativeLayout>
     
       
       
     
-      <TextView 
+      <!-- <TextView 
           android:text="推荐项目"
           android:textColor="@color/app_bg_color"
           android:layout_width="match_parent"
@@ -47,6 +52,6 @@
           android:gravity="center"
           android:paddingBottom="1dp"
           android:background="#e7e7e7"
-          />
-
-</LinearLayout>
+          /> -->
+<!-- 
+</LinearLayout> -->

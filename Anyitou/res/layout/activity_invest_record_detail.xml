@@ -26,7 +26,7 @@
 	        <LinearLayout
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
-	            android:paddingLeft="10dp"
+	            android:paddingLeft="5dp"
 	            android:paddingRight="3dp"
 	            android:background="@color/white"
 	            android:orientation="vertical" >
@@ -51,6 +51,7 @@
 		                android:text="安企贷 AQD-201504-03"
 		                android:layout_centerVertical="true"
 		                android:textColor="@color/tab_title_color"
+		                android:textSize="13sp"
 		                />
 		            <TextView 
 		                android:id="@+id/invest_status"
@@ -82,15 +83,16 @@
 		                android:text="融资金额：150万"
 		                android:layout_weight="1"
 		                android:textColor="@color/tab_title_color"
+		                android:textSize="13sp"
 		                />
 		            <TextView 
 		                android:id="@+id/invest_progress_project"
-		                android:layout_marginLeft="5dp"
 		                android:layout_weight="1"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:text="融资进度：100%"
 		                android:textColor="@color/tab_title_color"
+		                android:textSize="13sp"
 		                />
 	            </LinearLayout>
 	            
@@ -102,6 +104,7 @@
 		                android:text="还款方式：每日付息,到期还本"
 		                android:layout_marginTop="8dp"
 		                android:textColor="@color/tab_title_color"
+		                android:textSize="13sp"
 		                />
 	            <TextView 
 		                android:id="@+id/repay_date"
@@ -112,6 +115,7 @@
 		                android:text="还款日期：2015-07-06"
 		                android:layout_marginTop="8dp"
 		                android:textColor="@color/tab_title_color"
+		                android:textSize="13sp"
 		                />
 	           
 	        </LinearLayout>
@@ -132,7 +136,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingRight="3dp"
             android:background="@color/white"
             
@@ -161,15 +165,16 @@
 	                android:text="融资金额：150万"
 	                android:layout_weight="1"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="13dp"
 	                />
 	            <TextView 
 	                android:id="@+id/invest_real_money"
-	                android:layout_marginLeft="5dp"
 	                android:layout_weight="1"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="实际支付金额：11005元"
 	                android:textColor="@color/app_bg_color"
+	                android:textSize="13sp"
 	                />
             </LinearLayout>
             
@@ -191,7 +196,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingRight="3dp"
             android:background="@color/white"
             android:orientation="vertical" >
@@ -215,19 +220,20 @@
 	                android:id="@+id/invest_rate"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="年化收益：12%"
+	                android:text="年化收益：0%"
 	                android:layout_weight="1"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="13sp"
 	                />
 	            <TextView 
 	                android:id="@+id/invest_income"
-	                android:layout_marginLeft="5dp"
 	                android:layout_marginBottom="10dp"
 	                android:layout_weight="1"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="每日收益：0.32元"
+	                android:text="每日收益：0元"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="13sp"
 	                />
             </LinearLayout>
             
@@ -241,18 +247,19 @@
 	                android:id="@+id/total_income"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="到期总收益：2.30元"
+	                android:text="到期总收益：元"
 	                android:layout_weight="1"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="13sp"
 	                />
 	            <TextView 
 	                android:id="@+id/last_income"
-	                android:layout_marginLeft="5dp"
 	                android:layout_marginBottom="10dp"
 	                android:layout_weight="1"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="最后一天收益：2.44元"
+	                android:text="最后一天收益：0元"
+	                android:textSize="13sp"
 	                android:textColor="@color/tab_title_color"
 	                />
             </LinearLayout>
@@ -267,19 +274,20 @@
 	                android:id="@+id/income_day"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="计息天数：7天"
+	                android:text="计息天数：0天"
 	                android:layout_weight="1"
 	                android:textColor="@color/tab_title_color"
+	                android:textSize="13sp"
 	                />
 	            <TextView 
 	                android:id="@+id/comed_profit"
-	                android:layout_marginLeft="5dp"
 	                android:layout_marginBottom="10dp"
 	                android:layout_weight="1"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:text="已到账收益：2.30元"
+	                android:text="已到账收益：0元"
 	                android:textColor="@color/app_bg_color"
+	                android:textSize="13sp"
 	                />
             </LinearLayout>
             

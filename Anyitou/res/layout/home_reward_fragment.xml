@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:scrollbars="none"
+    > -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+		
+    	<RelativeLayout 
+		    android:id="@+id/invest"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+		    	<TextView 
+		    	    android:id="@+id/year_rate_title"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:text="年化收益率"
+		    	    android:textColor="#595959"
+		    	    android:layout_centerHorizontal="true"
+		    	    android:textSize="13sp"
+		    	    android:layout_marginTop="58dp"
+		    	    />
+		    	<cn.com.anyitou.views.PercentageRing
+			        android:id="@+id/year_rate"
+			        android:layout_weight="1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        app:radiusPercent="100"
+			        android:layout_centerHorizontal="true"
+			        android:layout_marginTop="10dp"
+			        app:isShowPercent="false"
+			        app:textTitleColor="@color/app_bg_color"
+			        app:ringWidth="5"
+		         	/>
+		    	<TextView 
+		    	    android:id="@+id/year_rate_number"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:text="0%"
+		    	    android:textColor="@color/app_bg_color"
+		    	    android:layout_centerHorizontal="true"
+		    	    android:layout_marginTop="87dp"
+		    	    android:textSize="43sp"
+		    	    />
+		    	<RelativeLayout 
+		    	    android:layout_below="@+id/year_rate_number"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_centerHorizontal="true"
+		    	    android:layout_marginTop="20dp"
+		    	    >
+			    	<TextView 
+			    	    android:id="@+id/project_date_title"
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="wrap_content"
+			    	    android:text="项目期限："
+			    	    android:textColor="#afafaf"
+			    	    android:textSize="13sp"
+			    	    />
+			    	<TextView 
+			    	    android:id="@+id/project_date"
+			    	    android:layout_toRightOf="@+id/project_date_title"
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="wrap_content"
+			    	    android:text="0天"
+			    	    android:textColor="#363636"
+			    	    android:textSize="13sp"
+			    	    />
+		    	</RelativeLayout>
+		</RelativeLayout>    	
+    	
+    	
+    	<LinearLayout 
+		    android:orientation="horizontal"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:paddingTop="15dp"
+		    android:paddingBottom="65dp"
+		    >
+		    <RelativeLayout 
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        android:layout_gravity="center"
+		        >
+		        <RelativeLayout 
+		            android:id="@+id/rl_invest_money"
+		            android:layout_centerHorizontal="true"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            >
+			        <TextView 
+			            android:id="@+id/invest_money_min"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="0"
+			            android:textColor="@color/app_bg_color"
+			            android:textSize="23sp"
+			            />
+			        <TextView 
+			            android:id="@+id/invest_money_unit"
+			            android:layout_toRightOf="@+id/invest_money_min"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="位"
+			            android:layout_marginLeft="3dp"
+			            android:layout_marginTop="6dp"
+			            android:textSize="16sp"
+			            android:textColor="@color/home_item_money_unit"
+			            />
+		        </RelativeLayout>
+		        <TextView 
+		            android:layout_below="@+id/rl_invest_money"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerHorizontal="true"
+		            android:text="剩余名额"
+		            android:layout_marginTop="5dp"
+		            android:textColor="#afafaf"
+		            android:textSize="15sp"
+		            />
+		        
+		        
+		    </RelativeLayout>
+		    
+		        <View 
+		        android:layout_width="5px"
+		        android:layout_height="47dp"
+		        android:background="@drawable/dash_line_home_drawable"
+		        android:layout_marginTop="3dp"
+		        android:layout_marginBottom="3dp"
+		        android:layout_gravity="center"
+		        />
+		    
+		    <RelativeLayout 
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:gravity="center"
+		        android:layout_gravity="center"
+		        >
+		        <RelativeLayout 
+		            android:id="@+id/rl_invest_money_amount"
+		            android:layout_centerHorizontal="true"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            >
+			        <TextView 
+			            android:id="@+id/invest_money_amount"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="0"
+			            android:textColor="@color/app_bg_color"
+			            android:textSize="23sp"
+			            />
+			         <TextView 
+			            android:id="@+id/invest_money_amount_unit"
+			            android:layout_toRightOf="@+id/invest_money_amount"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="点"
+			            android:layout_marginTop="6dp"
+			            android:textSize="16sp"
+			            android:layout_marginLeft="3dp"
+			            android:textColor="@color/home_item_money_unit"
+			            />
+			    </RelativeLayout>   
+		        <TextView 
+		            android:layout_below="@+id/rl_invest_money_amount"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="截至时间"
+		            android:layout_marginTop="5dp"
+		            android:layout_centerHorizontal="true"
+		            android:textColor="#afafaf"
+		            android:textSize="15sp"
+		            />
+		        
+		        
+		    </RelativeLayout>
+		    
+		    
+		</LinearLayout>
+	    	
+
+</RelativeLayout>
+<!-- </ScrollView> -->

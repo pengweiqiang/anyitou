@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res/cn.com.anyitou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+    
+      <cn.com.anyitou.views.ActionBar
+        android:id="@+id/actionBar"
+        android:layout_width="fill_parent"
+        android:background="@color/black"
+        android:layout_height="48dp" >
+    </cn.com.anyitou.views.ActionBar>
+    
+    <include 
+        layout="@layout/home_header_view"
+        />  
+    
+    
+   <cn.com.anyitou.views.PagerSlidingTabStrip
+        android:id="@+id/tabs_index"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:paddingTop="5dp"
+        app:pstsShouldExpand="true"
+        app:pstsUnderlineHeight="1dp"
+        app:pstsIndicatorHeight="2dp"
+        app:pstsIndicatorColor="@color/app_bg_color"
+       	app:selectedTabTextColor="@color/app_bg_color"
+        app:pstsDividerColor="@android:color/transparent"
+	    app:pstsTabBackground="@drawable/background_tab"
+	   	app:pstsTabPaddingLeftRight="0dp"
+	   	app:marginOffset="7dp"
+	    app:tabTextSize="14sp"
+	    app:tabTextColor="#8b8b8b"
+	   	android:background="#fbfbfb"
+         />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_index"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         >
+    </android.support.v4.view.ViewPager>
+    
+    
+</LinearLayout>

@@ -1,51 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
-    
-    <LinearLayout 
-        android:layout_height="wrap_content"
+    <!-- 投资记录 -->
+
+    <RelativeLayout
+        android:id="@+id/invest_rl" 
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_marginLeft="5dip"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="4dp"
-        android:layout_marginRight="5dip"
-        android:orientation="horizontal"
-        >
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:textColor="@color/tab_title_color"
-            android:text="用户"/>
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:textColor="@color/tab_title_color"
-            android:gravity="right"
-            android:text="投标金额(元)"/>
-        <TextView 
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:paddingRight="20dp"
-            android:textColor="@color/tab_title_color"
-            android:gravity="right"
-            android:text="时间"/>
-    </LinearLayout>
-	
-    <cn.com.anyitou.views.MyListView 
-        android:id="@+id/listView_list"
-        android:listSelector="@android:color/transparent"
-        android:divider="#00000000"
-        android:layout_marginBottom="3dp"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        >
-    </cn.com.anyitou.views.MyListView>
-    
-</LinearLayout>
+        android:background="@color/home_bg"
+        android:paddingLeft="10dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/invest_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+             >
+
+            <View
+                android:id="@+id/invest_record_bg"
+                android:layout_width="4dp"
+                android:layout_height="13dp"
+                android:layout_centerVertical="true"
+                android:background="@color/app_bg_color" />
+
+            <TextView
+                android:id="@+id/invest_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/invest_record_bg"
+                android:gravity="center"
+                android:text="投资记录："
+                android:textColor="@color/tab_title_color" />
+            <!--
+                <TextView 
+		        android:id="@+id/more_invest_record"
+		        android:layout_alignParentRight="true"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:text="点击查看更多"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:gravity="center"
+		        android:layout_centerVertical="true"
+		        android:textColor="#5265d8"
+		        />
+            -->
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:id="@+id/listview_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/invest_ll"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/invest_check_title_style"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="投资人"
+                android:textColor="@color/tab_title_color" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#bbbbbb" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="投资金额"
+                android:textColor="@color/tab_title_color" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#bbbbbb" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="投资时间"
+                android:textColor="@color/tab_title_color" />
+        </LinearLayout>
+
+        <cn.com.anyitou.views.MyListView
+            android:id="@+id/invest_record_listview"
+            android:layout_below="@+id/listview_title"
+            android:layout_width="fill_parent"
+            android:scrollbars="none"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+        </cn.com.anyitou.views.MyListView>
+
+        
+        
+</RelativeLayout>
+

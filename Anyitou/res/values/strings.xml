@@ -5,8 +5,10 @@
     <string name="home">首页</string>
     <string name="tab_my">我的</string>
     <string name="tab_invest">投资</string>
-    <string name="tab_account_setting">设置</string>
-    <string name="tab_about_us">关于</string>
+    <string name="tab_account_setting">账户设置</string>
+    <string name="tab_about_us">关于我们</string>
+    <string name="tab_more">更多</string>
+    <string name="tab_share">分享</string>
     <string name="setting">设置</string>
     <string name="my_info">我的资产</string>
     <string name="back">返回</string>

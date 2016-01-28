@@ -11,28 +11,34 @@
         android:background="@color/black"
         android:layout_height="48dp" >
     </cn.com.anyitou.views.ActionBar>
+		
+    <TextView 
+        android:id="@+id/use_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#fe9900"
+        android:textColor="#1b1b1b"
+        android:text="可用余额：0元"
+        />
 
-
-    	<View 
-    		android:layout_width="match_parent"
-    		android:layout_height="1px"
-    		android:background="#d6d6d6" 
-    		android:layout_marginTop="25dp"   
-    	    />
         <RelativeLayout
+            android:id="@+id/bank_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:paddingLeft="20dp"
+            android:paddingTop="15dp"
             >
 			
             <TextView
                 android:id="@+id/lable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="充值银行"
@@ -85,14 +91,15 @@
             
             <cn.com.anyitou.views.ClearEditText
                 android:id="@+id/rechange_money"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_marginRight="3dp"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
                 android:background="@null"
                 android:layout_toRightOf="@+id/recharge"
-                android:hint="可用余额为0元"
+                android:hint="输入充值金额"
                 android:textSize="17sp"
                 android:textColorHint="#888888"
                 />
@@ -112,6 +119,7 @@
                 android:layout_marginLeft="25dp"
                 android:gravity="center"
                 android:singleLine="true"
+                android:visibility="gone"
                 android:text="每笔最高充值为5万元"
                 android:textColor="#9c9c9c"
                  />

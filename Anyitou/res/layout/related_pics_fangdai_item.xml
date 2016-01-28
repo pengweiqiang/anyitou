@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:scrollbars="none"
+    >
+
+    
+    
+    
+    <!-- 相关资料 -->
+        <RelativeLayout 
+            android:id="@+id/image_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+    android:paddingRight="8dp"
+    android:paddingTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/relate_info_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/relevant_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/relevant"
+		        android:layout_toRightOf="@+id/relevant_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:text="相关资料："
+		        android:gravity="center"
+		        android:layout_centerVertical="true"
+		        android:textColor="@color/tab_title_color"
+		        />
+		    <!-- <TextView 
+		        android:id="@+id/more_image"
+		        android:layout_alignParentRight="true"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:text="点击查看更多"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:visibility="gone"
+		        android:gravity="center"
+		        android:layout_centerVertical="true"
+		        android:textColor="#5265d8"
+		        /> -->
+	    </RelativeLayout>
+	    	<!-- <GridView 
+            android:id="@+id/gridView"
+            android:layout_below="@+id/relate_info_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:horizontalSpacing="3dp"
+            android:layout_marginTop="5dp"
+            android:verticalSpacing="4dp"
+            ></GridView> -->
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/relate_info_ll"
+                >
+		    <Gallery 
+		        android:id="@+id/gallery"
+                android:spacing="4dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                
+                />
+            <ImageView 
+                android:id="@+id/left_image"
+                android:layout_alignParentLeft="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_btn_over_icon"
+                />
+            <ImageView 
+                android:id="@+id/right_image"
+                android:layout_alignParentRight="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_btn_icon"
+                />
+            
+            </RelativeLayout>
+    </RelativeLayout>
+    
+        
+</cn.com.anyitou.views.VerticalScrollView>

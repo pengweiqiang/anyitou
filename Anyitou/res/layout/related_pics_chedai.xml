@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:scrollbars="none"
+    > -->
+
+    <cn.com.anyitou.views.MyListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pic_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        />
+    
+    
+    
+    
+        
+<!-- </cn.com.anyitou.views.VerticalScrollView> -->

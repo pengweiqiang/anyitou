@@ -44,6 +44,8 @@
         <attr name="circleBackground" format="color"/>
         <attr name="ringColor" format="color"/>
         <attr name="textTitleColor" format = "color"/>
+        <attr name="ringWidth" format="integer"></attr>
+        <attr name="isShowPercent" format="boolean"></attr>
     </declare-styleable>
 
     <!-- 自定义textview -->
@@ -90,6 +92,9 @@
         <attr name="pstsShouldExpand" format="boolean" />
         <attr name="pstsTextAllCaps" format="boolean" />
         <attr name="selectedTabTextColor" format="color" />
+        <attr name="tabTextSize" format="dimension"></attr>
+        <attr name="tabTextColor" format="color"></attr>
+        <attr name="marginOffset" format="dimension" />
     </declare-styleable>
     
 	<!-- round progress -->
@@ -117,6 +122,7 @@
         <attr name="rcIconPaddingTop" format="dimension" />
         <attr name="rcIconPaddingBottom" format="dimension" />
         <attr name="rcIconBackgroundColor" format="color" />
+        
     </declare-styleable>
 
     <declare-styleable name="TextRoundCornerProgress">

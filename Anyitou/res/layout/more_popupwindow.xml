@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:background="#fbfbfb"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/tab_account_setting"
+            android:layout_width="wrap_content"
+            android:background="#fbfbfb"
+            android:layout_gravity="center_horizontal"
+            layout="@layout/main_tab_indicator_account" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/tab_about_us"
+            android:layout_width="wrap_content"
+            android:background="#fbfbfb"
+            android:layout_gravity="center_horizontal"
+            layout="@layout/main_tab_indicator_about" />
+    </LinearLayout>
+
+</LinearLayout>

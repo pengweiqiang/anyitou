@@ -29,7 +29,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="20dp"
-                android:text="账户"
+                android:text="账户设置"
                 android:textColor="#535353"
                 android:textSize="17sp" />
 
@@ -134,15 +134,16 @@
                     android:background="#c7c7cc" />
             </LinearLayout>
 
-            <TextView
+           <!--  <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="20dp"
                 android:text="系统"
+                
                 android:textColor="#535353"
-                android:textSize="17sp" />
+                android:textSize="17sp" /> -->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -150,10 +151,10 @@
                 android:background="@color/white"
                 android:orientation="vertical" >
 
-                <View
+               <!--  <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#c7c7cc" />
+                    android:background="#c7c7cc" /> -->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -198,11 +199,45 @@
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="#c7c7cc" />
-
+                <View 
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/home_bg"
+                    />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="#c7c7cc" />
                 <RelativeLayout
+                    android:id="@+id/about_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/set_up_style" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        android:singleLine="true"
+                        android:text="关于我们"
+                        android:textColor="#1b1b1b"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/icon_you" />
+                </RelativeLayout>
+
+                <!-- <RelativeLayout
                     android:id="@+id/share_friend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:background="@drawable/set_up_style" >
 
                     <TextView
@@ -222,7 +257,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="2dp"
                         android:background="@drawable/icon_you" />
-                </RelativeLayout>
+                </RelativeLayout> -->
 
                 <View
                     android:layout_width="fill_parent"

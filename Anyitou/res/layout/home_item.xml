@@ -130,7 +130,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="7dp"
                     android:background="@drawable/home_bg_corner_style"
-                    android:text="投资周期"
+                    android:text="项目期限"
                     android:singleLine="true"
                     android:textColor="#a6a6a6"
                     android:textSize="12sp" />
@@ -159,7 +159,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="7dp"
                     android:background="@drawable/home_bg_corner_style"
-                    android:text="融资总额"
+                    android:text="募集金额"
                     android:singleLine="true"
                     android:textColor="#a6a6a6"
                     android:textSize="12sp" />

@@ -1,40 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:scrollbars="none"
+    >
+<LinearLayout 
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="5dp"
+    android:visibility="gone"
     android:orientation="vertical" >
-    
-    <TextView 
-        android:id="@+id/first_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="8dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:textSize="15sp"
-        android:textColor="#959595"
-        />
-    
-    <View 
-        android:layout_width="match_parent"
-        android:layout_height="3px"
-        android:background="@drawable/dash_line_drawable"
-        />
-    <cn.com.anyitou.views.VerticalScrollView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <TextView 
-        android:id="@+id/project_detail"
-        android:layout_marginTop="14dp"
-        android:lineSpacingExtra="2dp"
-        android:layout_marginLeft="5dp"
-        android:layout_width="match_parent"
-        android:textSize="15sp"
-        android:layout_height="wrap_content"
-        android:textColor="#959595"
-        />
-    </cn.com.anyitou.views.VerticalScrollView>
 
+   
+    <RelativeLayout 
+        android:id="@+id/rl_project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        >
+        <RelativeLayout 
+	        android:id="@+id/project_detail_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/project_detail_bg"
+	        android:layout_width="4dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/project_detail"
+	        android:layout_toRightOf="@+id/project_detail_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="项目详情："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    <TextView 
+	        android:id="@+id/content_detail_content"
+	        android:layout_marginTop="5dp"
+	        android:layout_below="@+id/project_detail_ll"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t项目详情"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+	        />
+    </RelativeLayout>
+   <!--  <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        >
+	     <TextView 
+	        android:id="@+id/create_date_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="成立时间："
+	        android:textColor="#9c9c9c"
+	        />
+	    <TextView 
+	        android:id="@+id/create_date_"
+	        android:layout_toRightOf="@+id/create_date_title"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="2015-11-12"
+	        android:textColor="#9c9c9c"
+	        />
+    </RelativeLayout> -->
+    
+<!--      <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        >
+	     <TextView 
+	        android:id="@+id/company_address_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="公司地址："
+	        android:textColor="#9c9c9c"
+	       android:visibility="gone"
+	        />
+	    <TextView 
+	        android:id="@+id/company_address"
+	        android:layout_toRightOf="@+id/company_address_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#9c9c9c"
+	        />
+    </RelativeLayout>
+ -->     <!-- <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        >
+	     <TextView 
+	        android:id="@+id/industry_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="所属行业："
+	        android:textColor="#9c9c9c"
+	        />
+	    <TextView 
+	        android:id="@+id/industry"
+	        android:layout_toRightOf="@+id/industry_title"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="金属制品"
+	        android:textColor="#9c9c9c"
+	        />
+    </RelativeLayout> -->
+    
+     
+    
+    
+    <!-- 企业信息 -->
+     
+      <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/rl_company"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <RelativeLayout 
+	        android:id="@+id/company_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/company_info_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/company_info"
+		        android:layout_toRightOf="@+id/company_info_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:layout_centerVertical="true"
+		        android:text="企业信息："
+		        android:textColor="@color/tab_title_color"
+		        />
+		    </RelativeLayout>
+		    <TextView 
+        	android:id="@+id/company_content"
+	        android:layout_below="@+id/company_ll"
+	        android:layout_marginTop="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t企业信息"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+        	/>
+	    </RelativeLayout>
+	    
+    </RelativeLayout>
+    <!-- 资金用途 -->
+    
+     <RelativeLayout 
+         android:id="@+id/rl_purpose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/purpose_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/purpose_title_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/purpose_title"
+		        android:layout_toRightOf="@+id/purpose_title_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:layout_centerVertical="true"
+		        android:text="资金用途："
+		        android:textColor="@color/tab_title_color"
+		        />
+	    </RelativeLayout>
+	    <TextView 
+        	android:id="@+id/purpose_content"
+	        android:layout_below="@+id/purpose_ll"
+	        android:layout_marginTop="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t资金用途"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+        	/>
+    </RelativeLayout>
+    
+     <!-- 还款来源 -->
+    
+     <RelativeLayout 
+         android:id="@+id/rl_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/payment_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/payment_title_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/payment_title"
+		        android:layout_toRightOf="@+id/payment_title_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:layout_centerVertical="true"
+		        android:text="还款来源："
+		        android:textColor="@color/tab_title_color"
+		        />
+	    </RelativeLayout>
+	    <TextView 
+        	android:id="@+id/payment_content"
+	        android:layout_below="@+id/payment_ll"
+	        android:layout_marginTop="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t还款来源"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+        	/>
+    </RelativeLayout>
+    
+     <!-- 经营状况分析 -->
+    
+     <RelativeLayout 
+         android:id="@+id/rl_operation_analysis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/operation_analysis_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/operation_analysis_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/operation_analysis_title"
+		        android:layout_toRightOf="@+id/operation_analysis_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:layout_centerVertical="true"
+		        android:text="经营状况分析："
+		        android:textColor="@color/tab_title_color"
+		        />
+	    </RelativeLayout>
+	    <TextView 
+        	android:id="@+id/operation_analysis_content"
+	        android:layout_below="@+id/operation_analysis_ll"
+	        android:layout_marginTop="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t经营状况分析"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+        	/>
+    </RelativeLayout>
+    <!-- 信用分析 idea_credit -->
+    <RelativeLayout 
+        android:id="@+id/rl_idea_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/idea_credit_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+		    <View 
+		        android:id="@+id/idea_credit_bg"
+		        android:layout_width="4dp"
+		        android:layout_height="13dp"
+		        android:layout_centerVertical="true"
+		        android:background="@color/app_bg_color"
+		        />
+		    <TextView 
+		        android:id="@+id/idea_credit_title"
+		        android:layout_toRightOf="@+id/idea_credit_bg"
+		        android:layout_marginLeft="5dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:layout_centerVertical="true"
+		        android:text="信用分析："
+		        android:textColor="@color/tab_title_color"
+		        />
+	    </RelativeLayout>
+	    <TextView 
+        	android:id="@+id/idea_credit_content"
+	        android:layout_below="@+id/idea_credit_ll"
+	        android:layout_marginTop="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="\t\t信用分析"
+	        android:textColor="#9c9c9c"
+	        android:lineSpacingExtra="1dp"
+        	/>
+    </RelativeLayout>
+    
+    
+    
+        
+    
+    
+    
+    
 </LinearLayout>
+</cn.com.anyitou.views.VerticalScrollView>

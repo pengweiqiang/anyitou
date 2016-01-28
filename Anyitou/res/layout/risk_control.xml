@@ -1,17 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
     android:scrollbars="none"
-    android:layout_height="wrap_content" >
-
-    <TextView
-        android:id="@+id/project_risk"
+    >
+    
+    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:lineSpacingExtra="2dp"
-        android:textColor="#959595"
-        android:textSize="15sp" />
-
+        android:orientation="vertical"
+        >
+    <!-- 担保机构 -->
+    
+    <RelativeLayout 
+          android:id="@+id/rl_guarantee_opinion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+	    android:paddingRight="8dp"
+	    android:paddingTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/guarantee_opinion_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/guarantee_opinion_bg"
+	        android:layout_width="4dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/guarantee_opinion"
+	        android:layout_toRightOf="@+id/guarantee_opinion_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="担保机构："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    
+			    <TextView 
+		        android:id="@+id/guarantee_opinion_content"
+		        android:layout_below="@+id/guarantee_opinion_ll"
+		        android:layout_marginTop="5dp"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text=""
+		        android:textColor="#9c9c9c"
+		        android:lineSpacingExtra="1dp"
+		        />
+		    
+    </RelativeLayout>
+    
+     
+     <!-- 风险控制 -->
+     
+      <RelativeLayout 
+          android:id="@+id/rl_risk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+	    android:paddingRight="8dp"
+	    android:paddingTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/risk_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/risk_bg"
+	        android:layout_width="4dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/risk"
+	        android:layout_toRightOf="@+id/risk_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="风险控制："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    
+			    <TextView 
+		        android:id="@+id/risk_content"
+		        android:layout_below="@+id/risk_ll"
+		        android:layout_marginTop="5dp"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text=""
+		        android:textColor="#9c9c9c"
+		        android:lineSpacingExtra="1dp"
+		        />
+		    
+    </RelativeLayout>
+    
+      <!-- 风险保障 -->
+     
+      <RelativeLayout 
+          android:id="@+id/rl_idea_risk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+	    android:paddingRight="8dp"
+	    android:paddingTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/idea_risk_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/idea_risk_bg"
+	        android:layout_width="4dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/idea_risk"
+	        android:layout_toRightOf="@+id/idea_risk_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="风险保障："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    
+			    <TextView 
+		        android:id="@+id/idea_risk_content"
+		        android:layout_below="@+id/idea_risk_ll"
+		        android:layout_marginTop="5dp"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text=""
+		        android:textColor="#9c9c9c"
+		        android:lineSpacingExtra="1dp"
+		        />
+		    
+    </RelativeLayout>
+      
+    </LinearLayout>
+    
+    
 </cn.com.anyitou.views.VerticalScrollView>

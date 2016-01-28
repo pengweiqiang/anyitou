@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:lineSpacingExtra="3dp"
-            android:text="asdf"
+            android:text="loading..."
             android:textColor="#ffffffff"
             android:textSize="17sp" />
     </LinearLayout>

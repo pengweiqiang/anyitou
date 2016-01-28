@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.anyitou.views.VerticalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:scrollbars="none"
+    >
+<LinearLayout 
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="5dp"
+    android:visibility="gone"
+    android:orientation="vertical" >
+
+   
+    <RelativeLayout 
+        android:id="@+id/rl_check_project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        >
+        <RelativeLayout 
+	        android:id="@+id/check_project_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/project_check_bg"
+	        android:layout_width="4dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/project_detail"
+	        android:layout_toRightOf="@+id/project_check_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="项目资料审核："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    <LinearLayout 
+			    android:id="@+id/listview_check1_title"
+			    android:layout_below="@+id/check_project_ll"
+			    android:layout_width="match_parent"
+			    android:layout_marginTop="5dp"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:background="@drawable/invest_check_title_style"
+			    >
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="资料类型"
+			        android:layout_weight="1.5"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    <View 
+	        android:layout_width="1px"
+	        android:layout_height="match_parent"
+	        android:background="#bbbbbb"
+	        />
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="审核时间"
+			        android:layout_weight="1"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    <View 
+	        android:layout_width="1px"
+	        android:layout_height="match_parent"
+	        android:background="#bbbbbb"
+	        />
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="审核状态"
+			        android:layout_weight="1"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    
+			    
+			</LinearLayout>
+	    <cn.com.anyitou.views.UnTouchListView 
+			    android:layout_below="@+id/listview_check1_title"
+			    android:id="@+id/project_check_listview"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    ></cn.com.anyitou.views.UnTouchListView>  
+    </RelativeLayout>
+    
+    
+     
+	
+	<!-- 借款人信息 -->     
+     <!--  <RelativeLayout 
+          android:id="@+id/rl_collateral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+	    <RelativeLayout 
+	        android:id="@+id/collateral_ll"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        >
+	    <View 
+	        android:id="@+id/collateral_bg"
+	        android:layout_width="5dp"
+	        android:layout_height="13dp"
+	        android:layout_centerVertical="true"
+	        android:background="@color/app_bg_color"
+	        />
+	    <TextView 
+	        android:id="@+id/collateral"
+	        android:layout_toRightOf="@+id/collateral_bg"
+	        android:layout_marginLeft="5dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:text="抵押物信息："
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/tab_title_color"
+	        />
+	    </RelativeLayout>
+	    
+	    <LinearLayout 
+			    android:id="@+id/listview_check2_title"
+			    android:layout_below="@+id/collateral_ll"
+			    android:layout_width="match_parent"
+			    android:layout_marginTop="5dp"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:background="@drawable/invest_check_title_style"
+			    >
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="资料类型"
+			        android:layout_weight="1.5"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    <View 
+	        android:layout_width="1px"
+	        android:layout_height="match_parent"
+	        android:background="#bbbbbb"
+	        />
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="审核时间"
+			        android:layout_weight="1"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    <View 
+	        android:layout_width="1px"
+	        android:layout_height="match_parent"
+	        android:background="#bbbbbb"
+	        />
+			    <TextView 
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        android:text="审核状态"
+			        android:layout_weight="1"
+			        android:gravity="center"
+			        android:padding="5dp"
+			        android:textColor="@color/tab_title_color"
+			        />
+			    
+			    
+			</LinearLayout>
+	    
+			   <cn.com.anyitou.views.UnTouchListView 
+			    android:layout_below="@+id/listview_check2_title"
+			    android:id="@+id/project_collateral_listview"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    ></cn.com.anyitou.views.UnTouchListView>  
+		    
+    </RelativeLayout> -->
+    
+    
+     <!-- 房贷抵押物信息 -->
+     <include 
+         android:id="@+id/house_info"
+         layout="@layout/invest_house_info"
+         />
+    
+    
+    
+    
+</LinearLayout>
+</cn.com.anyitou.views.VerticalScrollView>

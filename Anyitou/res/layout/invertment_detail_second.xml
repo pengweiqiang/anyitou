@@ -479,6 +479,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:src="@drawable/left_btn_over_icon"
                 />
@@ -487,6 +488,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:src="@drawable/right_btn_icon"
                 />

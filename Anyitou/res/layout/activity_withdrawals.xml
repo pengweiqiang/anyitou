@@ -13,13 +13,24 @@
         android:background="@color/black" >
     </cn.com.anyitou.views.ActionBar>
 
+    <TextView 
+        android:id="@+id/use_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#fe9900"
+        android:textColor="#1b1b1b"
+        android:text="可提现金额：0元"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="18dp"
         android:background="#d6d6d6" />
 
     <RelativeLayout
+        android:id="@+id/cash_bank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -83,7 +94,7 @@
             android:layout_marginLeft="3dp"
             android:background="@null"
             android:singleLine="true"
-            android:text="余额（元）"
+            android:text="金额（元）"
             android:textColor="#1b1b1b"
             android:textSize="17sp" />
 
@@ -94,7 +105,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/label_title"
             android:background="@null"
-            android:hint="当前可用余额0元"
+            android:hint="请输入提现金额"
             android:inputType="numberDecimal"
             android:paddingLeft="4dp"
             android:textColorHint="#d7d7d7"
