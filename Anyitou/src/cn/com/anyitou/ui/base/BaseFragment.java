@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import cn.com.anyitou.utils.DeviceInfo;
+
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * 所有 Fragment 的基类
  * 
- * @author Will
+ * @author pengweiqiang
  *
  */
 public abstract class BaseFragment extends Fragment {
@@ -90,7 +92,7 @@ public abstract class BaseFragment extends Fragment {
 //	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),  
 //	                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)); 
 //		   totalHeight += listItem.getMeasuredHeightAndState();
-		   totalHeight += listItem.getMeasuredHeight()+4;
+		   totalHeight += listItem.getMeasuredHeight()+DeviceInfo.dp2px(mActivity, 4);
 		  }
 
 		  ViewGroup.LayoutParams params = listView.getLayoutParams();
