@@ -1,14 +1,13 @@
 package cn.com.anyitou.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
@@ -21,6 +20,7 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
 import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
@@ -37,16 +37,27 @@ public class RechargeActivity extends BaseActivity {
 	private LoadingDialog loadingDialog;
 	String money = "";
 	private TextView mTvBankName;
+	private View mViewBankInfo;
+	private TextView mTvUseMoney;
 	
 	CashPageInfo cashPageInfo;
+	String mobileStatus;
+	String baseStatus;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_recharge);
 		super.onCreate(savedInstanceState);
 		money = this.getIntent().getStringExtra("money");//账户余额
 		
-		mEtMoney.setHint("可用余额为"+money+"元");
+//		mEtMoney.setHint("可用余额为"+money+"元");
+		mTvUseMoney.setText("可用余额："+money+"元");
 		
+		initData();
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		//重新回到界面 得到最新数据
 		initData();
 	}
 	
@@ -58,6 +69,9 @@ public class RechargeActivity extends BaseActivity {
 		mBtnRechange = findViewById(R.id.btn_rechange);
 		mEtMoney = (EditText) findViewById(R.id.rechange_money);
 		mTvBankName = (TextView)findViewById(R.id.bank_name);
+		
+		mViewBankInfo = findViewById(R.id.bank_info);
+		mTvUseMoney = (TextView)findViewById(R.id.use_money);
 	}
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
@@ -79,16 +93,82 @@ public class RechargeActivity extends BaseActivity {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
-				loadingDialog.cancel();
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
 					showData();
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
 				}
+				loadingDialog.cancel();
+			}
+		});
+		getUserInfo();
+	}
+	/**
+	 * 获取用户信息
+	 */
+	private void getUserInfo(){
+		ApiUserUtils.getUserInfo(mContext,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					try{
+						JsonObject data = parseModel.getData().getAsJsonObject();
+						if(data!=null){
+							String mobile = data.get("mobile").getAsString();
+							baseStatus = data.get("base_status").getAsString();//  用户状态： 1：正常  2：开通资金账户  
+							mobileStatus = data.get("mobile_status").getAsString();//"mobile_status": "1",  //  手机认证状态： 0：未认证  1:已认证
+							checkUser();
+						}
+					}catch(Exception e){
+						
+					}
+				}
 			}
 		});
 	}
+	private boolean checkUser(){
+		if(!StringUtils.isEmpty(mobileStatus) && "0".equals(mobileStatus)){//未认证手机号
+			bindingMobile();
+			return false;
+		}
+		if(!StringUtils.isEmpty(baseStatus) && Long.valueOf(baseStatus)<2){//未开通资金账户  
+			escrowRegister();
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 绑定手机号
+	 */
+	private void bindingMobile(){
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的账户安全，请先通过手机验证");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("认证手机",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
+						startActivity(intent);
+						AppManager.getAppManager().finishActivity();
+					}
+				});
+		builder.create().show();
+	}
+	
 	private void showData(){
 		if(cashPageInfo !=null){
 			String bankNumber = cashPageInfo.getCard().getBank_card_number();
@@ -96,17 +176,134 @@ public class RechargeActivity extends BaseActivity {
 				String bankNumberLength4 = bankNumber.substring(bankNumber.length()-4);
 				mTvBankName.setText(cashPageInfo.getCard().getBank_name()+"（"+bankNumberLength4+"）");
 			}
+			mTvUseMoney.setText("可用余额："+cashPageInfo.getMoney().getUsable_money()+"元");
+//			mEtMoney.setHint("可用余额为"+cashPageInfo.getMoney().getUsable_money()+"元");
 			
-			mEtMoney.setHint("可用余额为"+cashPageInfo.getMoney().getUsable_money()+"元");
-			
+			if(cashPageInfo.getCard()==null){
+				showUnbindBankCard();
+			}
+		}else{
+			showUnbindBankCard();
 		}
+	}
+	/*
+	 * 未绑定银行卡
+	 */
+	private void showUnbindBankCard(){
+		mViewBankInfo.setVisibility(View.GONE);
+//		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.unbind_bankcard_dialog);
+//		View view = builder.getViewLayout();
+//		builder.setMessage("你未绑定银行卡 不能充值");
+//		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.cancel();
+//			}
+//		});
+//		builder.setButton2("立即绑定",
+//				new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog,
+//							int which) {
+//						dialog.cancel();
+//						bindingBankCard();
+//					}
+//				});
+//		InfoDialog infoDialog = builder.create();
+//		infoDialog.show();
+	}
+	
+	private void bindingBankCard(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiOrderUtils.bindBank(mContext, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					String url = parseModel.getData().getAsJsonObject().get("request_url").getAsString();
+					Intent intent = new Intent(mContext,WebActivity.class);
+					intent.putExtra("url", url);
+					intent.putExtra("name", "绑定银行卡");
+					startActivity(intent);
+				}else if(ApiConstants.RESULT_UNHF_USER.equals(parseModel.getCode())){
+					ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+//					escrowRegister();
+					String url = parseModel.getData().getAsString();
+					Intent intent = new Intent(mContext,WebActivity.class);
+					intent.putExtra("url", url);
+					intent.putExtra("name", "开通汇付");
+					startActivity(intent);
+				}else{
+					ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+				}
+			}
+		});
+	}
+	/**
+	 * 开通汇付
+	 */
+	private void escrowRegister(){
+		
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的资金安全，请先开通资金托管账户");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("开通资金账户",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						loadingDialog = new LoadingDialog(mContext);
+						loadingDialog.show();
+						ApiUserUtils.escrowRegister(mContext, new RequestCallback() {
+							
+							@Override
+							public void execute(ParseModel parseModel) {
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+									String url = parseModel.getData().getAsJsonObject().get("url").getAsString();
+									Intent intent = new Intent(mContext,WebActivity.class);
+									intent.putExtra("url", url);
+									intent.putExtra("type", 1);//开通汇付
+									intent.putExtra("name", "开通汇付");
+									startActivity(intent);
+								}else{
+									ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+								}
+								loadingDialog.cancel();
+							}
+						});
+					}
+				});
+		builder.create().show();
+		
 	}
 	@Override
 	public void initListener() {
+		//充值按钮
 		mBtnRechange.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
+//				if(cashPageInfo==null){
+//					showUnbindBankCard();
+//					return;
+//				}
+				if(!checkUser()){
+					return;
+				}
+				
 				String moneyStr = mEtMoney.getText().toString();
 				if(StringUtils.isEmpty(moneyStr)){
 					ToastUtils.showToast(mContext, "请输入充值金额");

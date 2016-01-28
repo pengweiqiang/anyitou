@@ -6,16 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.ViewPagerAdapter;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.DeviceInfo;
+import cn.com.anyitou.views.LoadingDialog;
 
 public class WelcomeViewPageActivity extends BaseActivity implements
 		OnPageChangeListener, OnClickListener {
@@ -59,7 +62,7 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 	public void initListener() {
 
 	}
-
+	LoadingDialog loadingDialog;
 	/**
 	 * 初始化数据
 	 */
@@ -67,29 +70,44 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 		// 定义一个布局并设置参数
 		int width = DeviceInfo.getScreenWidth(mContext);
 
-		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
+		RelativeLayout.LayoutParams mParams = new RelativeLayout.LayoutParams(
 				width, (int) (width * 1.0 / 720 * 1280));
 		
 		// 初始化引导图片列表
 		for (int i = 0; i < pics.length; i++) {
-			ImageView iv = new ImageView(this);
-			iv.setLayoutParams(mParams);
 			
-			// 防止图片不能填满屏幕
-			iv.setScaleType(ScaleType.CENTER_CROP);
-			// 加载图片资源
-			iv.setImageResource(pics[i]);
 			// ImageLoader.getInstance().displayImage(mImageViews.get(i), iv);
 			if (i == pics.length - 1) {
-				iv.setOnClickListener(new OnClickListener() {
+				View guide3 = LayoutInflater.from(mContext).inflate(R.layout.guide, null);
+				ImageView imageView = (ImageView)guide3.findViewById(R.id.guide3);
+				View startView = guide3.findViewById(R.id.start_view);
+				imageView.setLayoutParams(mParams);
+				// 防止图片不能填满屏幕
+				imageView.setScaleType(ScaleType.CENTER_CROP);
+				// 加载图片资源
+				imageView.setImageResource(pics[i]);
+				// ImageLoader.getInstance().displayImage(mImageViews.get(i), iv);
+				startView.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
+						loadingDialog = new LoadingDialog(mContext,"加载中...");
+						loadingDialog.show();
 						startMainActivity();
 					}
 				});
+				views.add(guide3);
+			}else{
+				ImageView iv = new ImageView(this);
+				iv.setLayoutParams(mParams);
+				
+				// 防止图片不能填满屏幕
+				iv.setScaleType(ScaleType.CENTER_CROP);
+				// 加载图片资源
+				iv.setImageResource(pics[i]);
+				views.add(iv);
 			}
-			views.add(iv);
+			
 		}
 
 		// 设置数据
@@ -182,5 +200,13 @@ public class WelcomeViewPageActivity extends BaseActivity implements
 
 		currentIndex = positon;
 	}
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if(loadingDialog!=null){
+			loadingDialog.cancel();
+		}
+	}
+	
 
 }

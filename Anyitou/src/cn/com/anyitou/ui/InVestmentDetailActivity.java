@@ -18,7 +18,6 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.MyVerticalPagerAdapter;
 import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
-import cn.com.anyitou.api.constant.OperationType;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.DebtAssignment;
 import cn.com.anyitou.entity.DebtTransferDetail;
@@ -43,7 +42,8 @@ import cn.com.gson.JsonObject;
  * @author will
  *
  */
-@SuppressLint("NewApi") public class InVestmentDetailActivity extends BaseFragmentActivity {
+@SuppressLint("NewApi") 
+public class InVestmentDetailActivity extends BaseFragmentActivity {
 	
 	ActionBar mActionBar;
 	
@@ -52,11 +52,13 @@ import cn.com.gson.JsonObject;
 	private List<Fragment> fragmentLists;
 	private InVestDetail investDetail;
 	DebtTransferDetail debtTransfer;
-	private TextView mBtnInvest;
-	private View mBtnInvestCal;
+	private TextView mBtnInvest;//投资
+	private View mBtnInvestCal;//计算器
 	
-	InvestDetailFirstFragment investDetailFirstFragment;
-	Fragment investDetailSecondFragment;
+	InvestDetailFirstFragment investDetailFirstFragment;//项目详情第一页
+//	Fragment investDetailSecondFragment;
+	InvestDetailSecond2Fragment investDetailSecondFragment;//项目详情第二页;
+	
 	
 	
 	private int type ;//1投资 2债权
@@ -76,17 +78,25 @@ import cn.com.gson.JsonObject;
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.invertment_detail);
 		super.onCreate(savedInstanceState);
-		
+		loadingDialog = new LoadingDialog(this);
+		loadingDialog.show();
 		investment = (Investment) this.getIntent().getSerializableExtra("invest");
 		debtAssigment = (DebtAssignment) this.getIntent().getSerializableExtra("debt");
 		type = this.getIntent().getIntExtra("type", 1);
 		
 		
 		initView();
-		initData();
 		initListener();
 		
+		initFragment();
+		
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
 	private TextView mTvRate ;//预期收益
 	private void initListener(){
 		//投资计算器
@@ -94,16 +104,16 @@ import cn.com.gson.JsonObject;
 			
 			@Override
 			public void onClick(View v) {
-				if(!isStarted){//没有开始或已经结束
-					ToastUtils.showToast(InVestmentDetailActivity.this, "项目不能投资");
+				if(!isStarted && !"1".equals(investment.getInvest_status())){//没有开始或已经结束
+					ToastUtils.showToast(InVestmentDetailActivity.this, "项目已结束");
 					return;
 				}
-				if(!isLogined()){
-					ToastUtils.showToast(InVestmentDetailActivity.this, "请先登录");
-					Intent intent = new Intent(InVestmentDetailActivity.this,LoginActivity.class);
-					startActivity(intent);
-					return;
-				}
+//				if(!isLogined()){
+//					ToastUtils.showToast(InVestmentDetailActivity.this, "请先登录");
+//					Intent intent = new Intent(InVestmentDetailActivity.this,LoginActivity.class);
+//					startActivity(intent);
+//					return;
+//				}
 				InfoDialog.Builder builder = new InfoDialog.Builder(InVestmentDetailActivity.this,R.layout.profit_calu_info_dialog);
 				builder.setTitle("收益计算器");
 				final InfoDialog infoDialog = builder.create();
@@ -139,6 +149,10 @@ import cn.com.gson.JsonObject;
 					
 					@Override
 					public void afterTextChanged(Editable s) {
+						if(s.toString().startsWith("0")){
+							mEtInvestMoney.setText(s.toString().substring(1));
+							return;
+						}
 						String moneyStr = mEtInvestMoney.getText().toString().trim();
 //						String proFit = caluProfitMoney(moneyStr)+"元";
 						caluProfitMoneyForService(moneyStr);
@@ -183,8 +197,6 @@ import cn.com.gson.JsonObject;
 		});
 	}
 	private void initData() {
-		loadingDialog = new LoadingDialog(this);
-		loadingDialog.show();
 		if(type == 1){//投资
 			ApiInvestUtils.contentShow(this, investment.getId(),"base", new RequestCallback() {
 				
@@ -192,7 +204,8 @@ import cn.com.gson.JsonObject;
 				public void execute(ParseModel parseModel) {
 					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 						investDetail = JsonUtils.fromJson(parseModel.getData().toString(), InVestDetail.class);
-						setData();
+						String time = parseModel.getTime();//服务器当前时间
+						setData(time);
 					}else{
 						ToastUtils.showToast(InVestmentDetailActivity.this, StringUtils.isEmpty(parseModel.getMsg())?"获取项目详情失败，请稍后重试":parseModel.getMsg());
 					}
@@ -205,7 +218,7 @@ import cn.com.gson.JsonObject;
 				public void execute(ParseModel parseModel) {
 					if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 						debtTransfer = JsonUtils.fromJson(parseModel.getData().toString(), DebtTransferDetail.class);
-						setData();
+						setData("");
 					}else{
 						ToastUtils.showToast(InVestmentDetailActivity.this, StringUtils.isEmpty(parseModel.getMsg())?"获取项目详情失败，请稍后重试":parseModel.getMsg());
 					}
@@ -215,27 +228,83 @@ import cn.com.gson.JsonObject;
 			
 		}
 	}
-	private void setData(){
+	private void setData(String time){
 		if(investDetail!=null){
-			investDetailFirstFragment.setFirstPageInvestList(null,investDetail);
+			isStarted = Boolean.valueOf(investDetail.getIsstarted());
+			investDetail.setIsstarted(""+isStarted);
+			investDetailFirstFragment.setFirstPageInvestList(null,investDetail,time);
 //			investDetailSecondFragment.setSecondeList(investDetail.getSecondpage());
 			day = investDetail.getBorrow_days();
 			yearRate = investDetail.getApr();
-			isStarted = Boolean.valueOf(investDetail.getIsstarted());
+			
 			String status = investDetail.getInvest_status();
-			if("1".equals(status) && isStarted){//开放投资
-				mBtnInvest.setEnabled(true);
-				mBtnInvest.setClickable(true);
+			if("1".equals(status)){//开放投资
+				if(isStarted){
+					mBtnInvest.setEnabled(true);
+					mBtnInvest.setClickable(true);
+				}else{//预上线
+					mBtnInvest.setEnabled(false);
+					mBtnInvest.setClickable(false);
+					mBtnInvest.setText("立即投资");
+				}
 			}else{
-				mBtnInvest.setText(investment.getInvest_status_label());
+//				mBtnInvest.setText(investment.getInvest_status_label());
+				mBtnInvest.setText("募集完成");
 			}
 		}
 		if(debtTransfer != null){
 			investDetailFirstFragment.setFirstPageDebtList(null, debtTransfer);
-			//TODO 获取债权的天数
 			day = debtTransfer.getDebtData().getSell_days();
 			yearRate = debtTransfer.getDebtData().getBuyer_apr();
 		}
+	}
+	
+	private void initFragment(){
+		fragmentLists = new ArrayList<Fragment>();
+		investDetailFirstFragment = new InvestDetailFirstFragment();
+		
+//		界面设计改动  11.26
+//		if(OperationType.CATEGORY_FANGDAI.getName().equals(category)){//房贷
+//			investDetailSecondFragment = new InvestDetailSecondFangDaiFragment();
+//		}else if(OperationType.CATEGORY_CHEDAI.getName().equals(category)){//车贷
+//			investDetailSecondFragment = new InvestDetailSecondCheDaiFragment();
+//		}else {//企贷、新手项目
+//			investDetailSecondFragment = new InvestDetailSecondFragment();
+//		}
+		
+		
+		
+//		Bundle bundle = new Bundle();
+//		bundle.putSerializable("investment", investment);//投资
+//		bundle.putSerializable("debt", debtAssigment);//债权
+//		investDetailFirstFragment.setArguments(bundle);
+//		
+//		Bundle bundleSecond = new Bundle();
+//		bundleSecond.putString("id", id);//项目id
+//		bundleSecond.putString("category", category);
+//		investDetailSecondFragment.setArguments(bundleSecond);
+//		
+//		fragmentLists.add(investDetailFirstFragment);
+//		fragmentLists.add(investDetailSecondFragment);
+		
+		
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("investment", investment);//投资
+		bundle.putSerializable("debt", debtAssigment);//债权
+		bundle.putBoolean("isstarted", isStarted);//项目是否开始
+		investDetailFirstFragment.setArguments(bundle);
+		
+		investDetailSecondFragment = new InvestDetailSecond2Fragment();
+		Bundle bundleSecond = new Bundle();
+		bundleSecond.putString("id", id);//项目id
+		bundleSecond.putString("category", category);
+		investDetailSecondFragment.setArguments(bundleSecond);
+		
+		fragmentLists.add(investDetailFirstFragment);
+		fragmentLists.add(investDetailSecondFragment);
+		MyVerticalPagerAdapter fragmentAdapter = new MyVerticalPagerAdapter(getSupportFragmentManager(), fragmentLists);
+		mVerticalViewPager.setAdapter(fragmentAdapter);
+		initData();
 	}
 	private void initView() {
 		
@@ -252,33 +321,6 @@ import cn.com.gson.JsonObject;
 		mBtnInvestCal = findViewById(R.id.invest_calu);
 		
 		initViewStatus();
-		fragmentLists = new ArrayList<Fragment>();
-		investDetailFirstFragment = new InvestDetailFirstFragment();
-		
-		if(OperationType.CATEGORY_FANGDAI.getName().equals(category)){//房贷
-			investDetailSecondFragment = new InvestDetailSecondFangDaiFragment();
-		}else if(OperationType.CATEGORY_CHEDAI.getName().equals(category)){//车贷
-			investDetailSecondFragment = new InvestDetailSecondCheDaiFragment();
-		}else {//企贷、新手项目
-			investDetailSecondFragment = new InvestDetailSecondFragment();
-		}
-		
-		
-		
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("investment", investment);//投资
-		bundle.putSerializable("debt", debtAssigment);//债权
-		investDetailFirstFragment.setArguments(bundle);
-		
-		Bundle bundleSecond = new Bundle();
-		bundleSecond.putString("id", id);//项目id
-		bundleSecond.putString("category", category);
-		investDetailSecondFragment.setArguments(bundleSecond);
-		
-		fragmentLists.add(investDetailFirstFragment);
-		fragmentLists.add(investDetailSecondFragment);
-		MyVerticalPagerAdapter fragmentAdapter = new MyVerticalPagerAdapter(getSupportFragmentManager(), fragmentLists);
-		mVerticalViewPager.setAdapter(fragmentAdapter);
 		
 	}
 	/**
@@ -288,15 +330,24 @@ import cn.com.gson.JsonObject;
 		if(1==type){
 			id = investment.getId();
 			category = investment.getCategory();
-			invest = StringUtils.getMoney2Int(Double.valueOf(investment.getInvestment()));
-			isStarted = Boolean.valueOf(investment.getIsstarted());
-			mActionBar.setTitle("项目详情");
-			String status = investment.getInvest_status();
-			if("1".equals(status) && isStarted){//开放投资
-				mBtnInvest.setEnabled(true);
-				mBtnInvest.setClickable(true);
-			}else{
-				mBtnInvest.setText(investment.getInvest_status_label());
+			if(!StringUtils.isEmpty(category)){
+				invest = StringUtils.getMoney2Int(Double.valueOf(investment.getInvestment()));
+				isStarted = Boolean.valueOf(investment.getIsstarted());
+				mActionBar.setTitle("项目详情");
+				String status = investment.getInvest_status();
+				if("1".equals(status) && isStarted){//开放投资
+					if(isStarted){
+						mBtnInvest.setEnabled(true);
+						mBtnInvest.setClickable(true);
+					}else{//预上线
+						mBtnInvest.setEnabled(false);
+						mBtnInvest.setClickable(false);
+						mBtnInvest.setText("立即投资");
+					}
+				}else{
+	//				mBtnInvest.setText(investment.getInvest_status_label());
+					mBtnInvest.setText("募集完成");
+				}
 			}
 		}else if(2==type){
 			id = debtAssigment.getItem_id();
@@ -305,10 +356,12 @@ import cn.com.gson.JsonObject;
 			if("1".equals(debtAssigment.getStatus()) && isStarted){//开放中
 				mBtnInvest.setEnabled(true);
 				mBtnInvest.setClickable(true);
+				mBtnInvest.setText("立即认购");
 			}else{
-				mBtnInvest.setText(AnyitouUtils.getDebtStatusName(debtAssigment.getStatus()));
+//				mBtnInvest.setText(AnyitouUtils.getDebtStatusName(debtAssigment.getStatus()));
+				mBtnInvest.setText("认购完成");
 			}
-			mBtnInvest.setText("立即认购");
+			
 			mActionBar.setTitle("债权详情");
 		}
 	}
@@ -384,7 +437,13 @@ import cn.com.gson.JsonObject;
 	public void online(){
 		mBtnInvest.setEnabled(true);
 		mBtnInvest.setClickable(true);
-		mBtnInvest.setText("立即投标");
+		mBtnInvest.setText("立即投资");
+	}
+	/**
+	 * 拖动详情
+	 */
+	public void nextPage(){
+		mVerticalViewPager.setCurrentItem(1, false);
 	}
 
 

@@ -11,18 +11,22 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.AppManager;
+import cn.com.anyitou.commons.Constant;
 import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.MD5Util;
+import cn.com.anyitou.utils.SharePreferenceManager;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.ClearEditText;
 import cn.com.anyitou.views.LoadingDialog;
+import cn.jpush.android.api.JPushInterface;
 /**
  * 登陆
  * @author will
@@ -67,7 +71,7 @@ public class LoginActivity extends BaseActivity {
 		mTvCodeMsg = (TextView) findViewById(R.id.code_msg);
 		
 		mTvCodeMsg.setText(StringUtils.getCode());
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			mEtCode.setText(mTvCodeMsg.getText().toString());
 		}
 		
@@ -119,9 +123,9 @@ public class LoginActivity extends BaseActivity {
 					mEtUsername.requestFocus();
 					return;
 				}
-				if(!CheckInputUtil.checkUser(userName, mContext)){
-					return;
-				}
+//				if(!CheckInputUtil.checkUser(userName, mContext)){
+//					return;
+//				}
 				if(StringUtils.isEmpty(passWord)){
 					ToastUtils.showToast(mContext, mContext.getResources().getString(R.string.input_pwd));
 					mEtPassword.requestFocus();
@@ -143,12 +147,12 @@ public class LoginActivity extends BaseActivity {
 				}
 				loadingDialog = new LoadingDialog(mContext, "登录中...");
 				loadingDialog.show();
-				ApiUserUtils.login(mContext, userName, passWord, new RequestCallback() {
+				ApiUserUtils.login(mContext, userName, passWord,true, new RequestCallback() {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
 						mTvCodeMsg.setText(StringUtils.getCode());
-						if(ApiConstants.ISDEBUG){
+						if(ReqUrls.ISDEBUG){
 							mEtCode.setText(mTvCodeMsg.getText().toString());
 						}
 						loadingDialog.cancel();
@@ -161,17 +165,7 @@ public class LoginActivity extends BaseActivity {
 							user.setPassword(MD5Util.MD5(passWord));
 							user.setUsername(userName);
 							logined(accessToken, refreshToken, user);
-							if(isFromMy){
-								Intent intent = new Intent();
-								intent.putExtra("islogin", true);
-								setResult(2,intent);
-//								LoginActivity.this.finish();
-								AppManager.getAppManager().finishActivity();
-							}else{
-//								startActivity(HomeActivity.class);
-								AppManager.getAppManager().finishActivity();
-							}
-							
+							loginSuccess();
 						}else{
 //							if(!StringUtils.isEmpty(parseModel.getMsg())){
 //								ToastUtils.showToast(mContext, parseModel.getMsg());
@@ -193,6 +187,38 @@ public class LoginActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+	}
+	
+	private void loginSuccess(){
+		jpushInit();
+		//获取手势密码
+		String gesture = (String)SharePreferenceManager.getSharePreferenceValue(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, "");
+		if(StringUtils.isEmpty(gesture)){//登陆成功没有手势密码--》跳入绘制手势密码
+			Intent intent = new Intent(mContext, GestureLockActivity.class);
+			intent.putExtra("type", 4);
+			startActivity(intent);
+			AppManager.getAppManager().finishActivity();
+			return;
+		}
+		if(isFromMy){
+			Intent intent = new Intent();
+			intent.putExtra("islogin", true);
+			setResult(2,intent);
+//			LoginActivity.this.finish();
+			AppManager.getAppManager().finishActivity();
+		}else{
+			Intent intent = new Intent(mContext,HomeActivity.class);
+			intent.putExtra("type", "login");
+			startActivity(intent);
+			AppManager.getAppManager().finishActivity();
+		}
+	}
+	//登陆成功，注册jpush
+	private void jpushInit(){
+		Intent intent = new Intent();
+		intent.setAction(JPushInterface.ACTION_REGISTRATION_ID);
+		sendBroadcast(intent);
+//		JPushInterface.init(mContext);
 	}
 	
 	private void getIsHfUser(){

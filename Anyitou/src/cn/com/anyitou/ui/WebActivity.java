@@ -37,6 +37,10 @@ public class WebActivity extends BaseActivity {
 	LoadingDialog loadingDialog;
 	int type; // 1代表注册汇付操作  2 充值操作 3投资操作  4 提现   5 债权
 	private String ordId = "";//充值订单号
+	
+	String successTip = "3s后跳转到主页";
+	
+	private boolean isReturnStatus = false;//是否返回正确状态
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.link_web);
@@ -142,29 +146,47 @@ public class WebActivity extends BaseActivity {
 			    }   
 			 }, 1000); 
 			
+		}else if("开通资金托管账户成功".equals(title)){//注册汇付成功
+//			ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
+			new Handler().postDelayed(new Runnable(){   
+			    public void run() {   
+			    	AppManager.getAppManager().finishActivity();
+			    }   
+			 }, 2000); 
+			
 		}
 	}
-	private void getTradeStatus(final String title){
+	int count = 3;
+	private void getTradeStatus(String title){
 		String operationTpe = "";
 		switch (type) {
 		case 1://注册汇付结果
-			
+			operationTpe = "registerHf";
 			break;
 		case 2://充值结果	
 			operationTpe = "recharge";
+			successTip = "3s后跳转到交易记录";
 			break;
 		case 3://投资结果
 			operationTpe = "invest";
+			successTip = "3s后跳转到投资详情";
 			break;
 		case 4://提现结果
 			operationTpe = "withdraw";
+			successTip = "3s后跳转到交易记录";
 			break;
 		case 5://购买债权结果
 			operationTpe = "debt";
+			successTip = "3s后跳转到投资详情";
 			break;
 		default:
 			break;
 		}
+		getTradeStatusForService(title,operationTpe);
+			
+	}
+	
+	private void getTradeStatusForService(final String title,final String operationTpe){
 		ApiOrderUtils.getTradeStatus(mContext, String.valueOf(ordId), operationTpe, new RequestCallback() {
 			
 			@Override
@@ -174,19 +196,31 @@ public class WebActivity extends BaseActivity {
 					if(data!=null){
 						String status = data.get("status").getAsString();//I:初始  S:成功  F:失败
 						if("S".equals(status)){//交易成功
-							ToastUtils.showToast(mContext, title+",3秒后跳入主页",Toast.LENGTH_LONG);
+							count = 0;
+							isReturnStatus = true;
+							ToastUtils.showToast(mContext, title+successTip,Toast.LENGTH_LONG);
 							new Handler().postDelayed(new Runnable(){   
 							    public void run() {   
 //							    	startActivity(HomeActivity.class);
 							    	startSuccessActivity();
-									AppManager.getAppManager().finishActivity();
+									AppManager.getAppManager().finishActivity(WebActivity.this);
 							    }   
 							 }, 3000); 
 							
 						}else if("F".equals(status)){
 							ToastUtils.showToast(mContext, "操作失败");
 						}else if("I".equalsIgnoreCase(status)){
-							ToastUtils.showToast(mContext, "状态初始化I");
+							count -- ;
+							try {// 间隔 4秒、2秒轮询
+								Thread.sleep(3000*(3-count));
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							if(count>0){
+								getTradeStatusForService(title, operationTpe);
+							}else if(count == 0){
+								ToastUtils.showToast(mContext, "状态初始化I");
+							}
 //							startActivity(HomeActivity.class);
 //							AppManager.getAppManager().finishActivity();
 						}

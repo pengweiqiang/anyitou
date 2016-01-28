@@ -41,6 +41,8 @@ public class PublishDebtTransferActivity extends BaseActivity {
 
 	private EditText mEtProjectName, mEtDebtCount, mEtPublishProfit,
 			mEtDebtMoney;
+	
+	private View mViewProjectName,mViewDebtCount,mViewPublishProfit,mViewDebtMoney;
 	private TextView mEtPublishDate;
 
 	private View mViewDate;
@@ -81,6 +83,10 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		mEtPublishProfit = (EditText) findViewById(R.id.et_publish_profit);
 		mEtDebtMoney = (EditText) findViewById(R.id.et_debt_money);
 		mEtPublishDate = (TextView) findViewById(R.id.et_publish_date);
+		
+		mViewDebtCount = findViewById(R.id.view_debt_count);
+		mViewPublishProfit = findViewById(R.id.view_publish_profit);
+		mViewDebtMoney = findViewById(R.id.view_debt_money);
 
 		mTvProjectName = (TextView) findViewById(R.id.title_project_name);
 		mTvDebtCount = (TextView) findViewById(R.id.title_debt_count);
@@ -100,6 +106,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	private Calendar calendar;// 用来装日期的
 	private DatePickerDialog dialog;
 
+	private long lastTime;
 	@Override
 	public void initListener() {
 //		mEtProjectName.setOnFocusChangeListener(onfocusListener);
@@ -155,7 +162,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				getPublishDebtInfo();
+				
 			}
 			
 			@Override
@@ -166,7 +173,13 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				
+				if(s.toString().startsWith("0")){
+					mEtDebtMoney.setText(s.toString().substring(1));
+					return;
+				}
+				if(!StringUtils.isEmpty(s.toString()) && mEtDebtMoney.isFocused()){
+					getPublishDebtInfo("price",s.toString());
+				}
 			}
 		});
 		//出让份额
@@ -174,8 +187,6 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				checkInputAmount(s.toString());
-				getPublishDebtInfo();
 			}
 			
 			@Override
@@ -186,7 +197,16 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				
+				if(s.toString().startsWith("0")){
+					mEtDebtCount.setText(s.toString().substring(1));
+					return;
+				}
+				long now = System.currentTimeMillis();
+				if(now-lastTime>1000*2){
+					checkInputAmount(s.toString());
+					lastTime = now;
+				}
+//				getPublishDebtInfo();
 			}
 		});
 		//发布收益
@@ -194,7 +214,6 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				getPublishDebtInfo();
 			}
 			
 			@Override
@@ -206,6 +225,13 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 //				getPublishDebtInfo();
+				if(s.toString().startsWith("0")){
+					mEtPublishProfit.setText(s.toString().substring(1));
+					return;
+				}
+				if(!StringUtils.isEmpty(s.toString()) && mEtPublishProfit.isFocused()){
+					getPublishDebtInfo("buyapr",s.toString());
+				}
 			}
 		});
 
@@ -340,6 +366,9 @@ public class PublishDebtTransferActivity extends BaseActivity {
 				break;
 			case R.id.et_debt_count://出让份额
 				if (hasFocus) {
+					mViewDebtCount.setPressed(true);
+					mViewPublishProfit.setPressed(false);
+					mViewDebtMoney.setPressed(false);
 					mTvDebtCount.setTextColor(getResources().getColor(
 							R.color.tab_title_color));
 				} else {
@@ -349,6 +378,9 @@ public class PublishDebtTransferActivity extends BaseActivity {
 				break;
 			case R.id.et_publish_profit:
 				if (hasFocus) {
+					mViewDebtCount.setPressed(false);
+					mViewPublishProfit.setPressed(true);
+					mViewDebtMoney.setPressed(false);
 					mTvPublishProfit.setTextColor(getResources().getColor(
 							R.color.tab_title_color));
 				} else {
@@ -358,6 +390,9 @@ public class PublishDebtTransferActivity extends BaseActivity {
 				break;
 			case R.id.et_debt_money:
 				if (hasFocus) {
+					mViewDebtCount.setPressed(false);
+					mViewPublishProfit.setPressed(false);
+					mViewDebtMoney.setPressed(true);
 					mTvDebtMoney.setTextColor(getResources().getColor(
 							R.color.tab_title_color));
 				} else {
@@ -394,6 +429,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 			return false;
 		}
 		if(amount>maxAmount){
+			mEtDebtCount.setText(String.valueOf(Integer.valueOf(debt.getTransferable_amount_max())/1000 *1000));
 			ToastUtils.showToastSingle(mContext, "超过最大转让金额"+debt.getTransferable_amount_max());
 			return false;
 		}
@@ -404,7 +440,7 @@ public class PublishDebtTransferActivity extends BaseActivity {
 	 * 获取转让参数
 	 */
 	String fee = "";
-	private void getPublishDebtInfo(){
+	private void getPublishDebtInfo(String gt,String content){
 		//出让份额
 		String debtCount = mEtDebtCount.getText().toString().trim();
 		if(StringUtils.isEmpty(debtCount)){
@@ -413,31 +449,50 @@ public class PublishDebtTransferActivity extends BaseActivity {
 		if(!checkInputAmount(debtCount)){
 			return;
 		}
-		String gt = "";//price
 		//发布收益
-		String publishProfit = mEtPublishProfit.getText().toString().trim();
+//		String publishProfit = mEtPublishProfit.getText().toString().trim();
 		//转让价格
-		String debtMoney = mEtDebtMoney.getText().toString().trim();
-		if(StringUtils.isEmpty(debtMoney) && StringUtils.isEmpty(publishProfit)){
-			return;
-		}else if(!StringUtils.isEmpty(publishProfit)){
-			gt = "buyapr";
-		}else if(!StringUtils.isEmpty(debtMoney)){
-			gt = "price";
+//		String debtMoney = mEtDebtMoney.getText().toString().trim();
+//		if(StringUtils.isEmpty(debtMoney) && StringUtils.isEmpty(publishProfit)){
+//			return;
+//		}else if(!StringUtils.isEmpty(publishProfit)){
+//			gt = "buyapr";
+//		}else if(!StringUtils.isEmpty(debtMoney)){
+//			gt = "price";
+//		}
+		String publishProfit= "";
+		String debtMoney = "";
+		if(gt.equals("buyapr")){
+			publishProfit = content;
+		}else if(gt.equals("price")){
+			debtMoney = content;
 		}
-		
+		final String gtDesc = gt;
 		ApiInvestUtils.getDebtParams(mContext,debt.getId(), debtCount, publishProfit, debtMoney, gt, new RequestCallback() {
 			
 			@Override
 			public void execute(ParseModel parseModel) {
 				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
 					JsonObject data = parseModel.getData().getAsJsonObject();
-					mTvYearRate.setText(data.get("soldRealApr").getAsString()+"元");
-					mTvRealMoney.setText(data.get("soldRealIncome").getAsString()+"元");
+					mTvYearRate.setText(data.get("soldRealApr").getAsString()+"元");//转让后实际年化收益率
+					mTvRealMoney.setText(data.get("soldRealIncome").getAsString()+"元");//转让后实际收益
+					String buyapr = data.get("soldRealIncome").getAsString();//认购方年华收益率
+					String price = data.get("price").getAsString();//转让价格
+					if(gtDesc.equals("buyapr")){
+						mEtDebtMoney.setText(price);
+					}else{
+						mEtPublishProfit.setText(buyapr);
+					}
+					
 					fee = data.get("fee").getAsString();
 					mTvServiceChange.setText(fee+"元");
 				}else{
 					ToastUtils.showToast(mContext, parseModel.getMsg());
+					if(gtDesc.equals("buyapr")){
+						mEtDebtMoney.setText("");
+					}else{
+						mEtPublishProfit.setText("");
+					}
 				}
 			}
 		});

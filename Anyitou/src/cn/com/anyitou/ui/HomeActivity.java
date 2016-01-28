@@ -10,13 +10,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
+import cn.com.anyitou.api.ApiHomeUtils;
+import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
+import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.listener.ScreenListener;
 import cn.com.anyitou.listener.ScreenListener.ScreenStateListener;
 import cn.com.anyitou.service.AnyitouService;
@@ -26,9 +35,17 @@ import cn.com.anyitou.ui.fragment.AccountSettingFragment;
 import cn.com.anyitou.ui.fragment.HomeFragment;
 import cn.com.anyitou.ui.fragment.InvestmentFragment;
 import cn.com.anyitou.ui.fragment.MyFragment;
+import cn.com.anyitou.utils.DeviceInfo;
+import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.Log;
+import cn.com.anyitou.utils.ShareUtil;
+import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.CustomViewPager2;
+import cn.com.anyitou.views.LoadingDialog;
+import cn.com.anyitou.views.MyPopupWindow;
+import cn.com.gson.JsonObject;
+import cn.jpush.android.api.JPushInterface;
 
 import com.umeng.update.UmengUpdateAgent;
 
@@ -54,11 +71,12 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 	private FragmentPagerAdapter mAdapter;
 
 	private RadioGroup mTabIndicators;
+	private RadioButton mRbShare,mRbMore;
 	private CustomViewPager2 mViewPager;
 
 	private FragmentManager mFragmentManager;
 	int[] tabIds = { R.id.tab_home, R.id.tab_invest, R.id.tab_my,
-			R.id.tab_account_setting, R.id.tab_about_us };
+			R.id.tab_share, R.id.tab_more };
 
 	private int checkId = tabIds[0];// 默认打开首页
 
@@ -68,7 +86,7 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_home);
 		super.onCreate(savedInstanceState);
-
+		
 		// 初始化控件
 		initView();
 
@@ -78,8 +96,26 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 //		registerHomeListener();
 //		intScreenListener();
 		UmengUpdateAgent.update(this);
+		
+		//jpush
+//		JPushInterface.setDebugMode(ApiConstants.ISDEBUG);
+	    JPushInterface.init(this);
 	}
-
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		
+		int checkIndex = intent.getIntExtra("checkIndex", 0);
+		mViewPager.setCurrentItem(checkIndex);
+		
+		String type = intent.getStringExtra("type");
+		if(!StringUtils.isEmpty(type) && "login".equals(type)){
+			mViewPager.setCurrentItem(2);
+		}
+		
+		
+	}
 	/**
 	 * init view
 	 */
@@ -87,7 +123,14 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 		mFragmentManager = getSupportFragmentManager();
 		mViewPager = (CustomViewPager2) findViewById(R.id.viewpager);
 		mTabIndicators = (RadioGroup) findViewById(R.id.tabIndicators);
+		mRbShare = (RadioButton) findViewById(tabIds[3]);
+		mRbMore = (RadioButton) findViewById(tabIds[4]);
 
+		Intent intent = getIntent();
+		if(intent!=null){
+			onNewIntent(intent);
+		}
+		
 	}
 
 	/**
@@ -119,12 +162,12 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 						mMyFragment = new MyFragment();
 					}
 					return mMyFragment;
-				} else if (position == 3) {
+				} else if (position == 4) {//分享
 					if(mAccountSettingFragment == null){
 						mAccountSettingFragment = new AccountSettingFragment();
 					}
 					return mAccountSettingFragment;
-				} else if (position == 4) {
+				} else if (position == 3) {//更多
 					if(mAboutUsFragment ==null){
 						mAboutUsFragment = new AboutUSFragment();
 					}
@@ -142,7 +185,14 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(RadioGroup group, int checkedId) {
+						mRbMore.setSelected(false);
+//						mRbShare.setSelected(false);
 						if(checkedId == checkId){
+							return;
+						}
+						if(checkedId == tabIds[3] /*|| checkedId == tabIds[4]*/){//分享  //更多
+//							shareFriend(group);
+//							((RadioButton)findViewById(checkId)).setChecked(true);
 							return;
 						}
 						Log.e("HomeActivity", "onCheckedChanged");
@@ -164,6 +214,27 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 						}
 					}
 				});
+		mRbShare.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+//				checkId = tabIds[3];
+//				mRbShare.setSelected(true);
+				((RadioButton)findViewById(checkId)).setChecked(true);
+				shareFriend(mTabIndicators);
+			}
+		});
+//		mRbMore.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				((RadioButton)findViewById(checkId)).setChecked(false);
+////				checkId = tabIds[4];
+//				mRbMore.setSelected(true);
+//				showMoreWindow(mRbMore);
+//			}
+//		});
 
 	}
 
@@ -231,6 +302,9 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 
 	@Override
 	public void onPageSelected(int i) {
+		if(i==3||i==4){
+			return;
+		}
 		setCurrentTabId(tabIds[i]);
 	}
 	
@@ -268,6 +342,171 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
                 application.isLock = false;
             }
         });
+	}
+	
+	
+	//share   start
+	
+	private PopupWindow popupWindow;
+	private TextView cancleTextView;
+	private View mShareWeixin,mShareWeixinLine,mShareWeibo,mShareQQ;
+	
+	cn.com.anyitou.utils.ShareUtil shareUtil;
+	
+	@SuppressWarnings("deprecation")
+	public void shareFriend(View view){
+		if(application.getCurrentUser()!=null){
+			if(StringUtils.isEmpty(inviteUrl)){
+				getInviteLink(view);
+			}else{
+				initShareView(view);
+			}
+		}else{
+			initShareView(view);
+		}
+		
+		
+	}
+	private void initShareView(View view){
+		shareUtil = new ShareUtil(HomeActivity.this);
+		popupWindow = MyPopupWindow.getPopupWindow(R.layout.invite_friends_popupwindow, HomeActivity.this);
+		View popupWindowView = popupWindow.getContentView();
+		cancleTextView = (TextView) popupWindowView.findViewById(R.id.friendsCancleTextView);
+		mShareWeixin = popupWindowView.findViewById(R.id.share_wx_friend);
+		mShareWeixinLine = popupWindowView.findViewById(R.id.share_wx_line);
+		mShareWeibo = popupWindowView.findViewById(R.id.share_weibo_sina_friend);
+		mShareQQ = popupWindowView.findViewById(R.id.share_qq_friend);
+		
+		mShareWeixin.setOnClickListener(shareClickListener);
+		mShareWeixinLine.setOnClickListener(shareClickListener);
+		mShareWeibo.setOnClickListener(shareClickListener);
+		mShareQQ.setOnClickListener(shareClickListener);
+		cancleTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				// 关闭popupWindow.dismiss();
+				popupWindow.dismiss();
+			}
+		});
+		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0,0);
+	}
+	
+	OnClickListener shareClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.share_wx_friend:
+				shareUtil.share(0,"",inviteUrl);
+				break;
+			case R.id.share_wx_line:
+				shareUtil.share(1,"",inviteUrl);
+				break;
+			case R.id.share_weibo_sina_friend:
+				shareUtil.share(5,"",inviteUrl);
+				break;
+			case R.id.share_qq_friend:
+				shareUtil.share(3,"",inviteUrl);
+				break;
+
+			default:
+				break;
+			}
+			popupWindow.dismiss();
+		}
+	};
+	
+	
+	//share end
+	
+	//more start
+	private View mBtnAccountSetting,mBtnAboutUs;
+	@SuppressWarnings("deprecation")
+	public void showMoreWindow(View view){
+		
+		popupWindow = MyPopupWindow.getPopupWindow(R.layout.more_popupwindow, HomeActivity.this,0);
+		View popupWindowView = popupWindow.getContentView();
+//		LayoutParams params = popupWindowView.getLayoutParams();
+//		params.width = DeviceInfo.getDisplayMetricsWidth(HomeActivity.this)/4;
+//		params.height = DeviceInfo.getDisplayMetricsWidth(HomeActivity.this)/4;
+//		popupWindowView.setLayoutParams(params);
+		int width = DeviceInfo.getDisplayMetricsWidth(HomeActivity.this)/5;
+		if(width<100){
+			width = width +10;
+		}
+		popupWindow.setWidth(width);
+		popupWindow.setHeight(DeviceInfo.dp2px(HomeActivity.this, 120));
+		mBtnAccountSetting = popupWindowView.findViewById(R.id.tab_account_setting);
+		mBtnAboutUs = popupWindowView.findViewById(R.id.tab_about_us);
+		
+		mBtnAccountSetting.setOnClickListener(moreClickListener);
+		mBtnAboutUs.setOnClickListener(moreClickListener);
+		
+		
+//		popupWindow.showAsDropDown(view);
+		int[] location = new int[2];
+		view.getLocationOnScreen(location);
+         
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, location[0], location[1]-popupWindow.getHeight()-DeviceInfo.dp2px(HomeActivity.this, 12));
+        mRbShare.setSelected(false);
+        mRbMore.setSelected(true);
+        popupWindow.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				MyPopupWindow.setBackgroundAlpha(HomeActivity.this, 1f);
+				if(checkId == tabIds[4]){
+					mRbMore.setSelected(true);
+				}else{
+					((RadioButton)findViewById(checkId)).setChecked(true);
+				}
+			}
+		});
+//		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0,0);
+//		popupWindow.showAtLocation(findViewById(R.id.bottom), Gravity.TOP, 0, 0);
+		
+	}
+	OnClickListener moreClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+//			mRbShare.setSelected(false);
+			switch (v.getId()) {
+			case R.id.tab_account_setting:
+				checkId = tabIds[4];
+				mViewPager.setCurrentItem(3, false);
+				break;
+			case R.id.tab_about_us:
+				checkId = tabIds[4];
+				mViewPager.setCurrentItem(4, false);
+				break;
+
+			default:
+				
+				break;
+			}
+			popupWindow.dismiss();
+			
+		}
+	};
+	//more end
+	private String inviteUrl = "";//分享url地址
+	private void getInviteLink(final View view){
+		final LoadingDialog loadingDialog = new LoadingDialog(HomeActivity.this);
+		loadingDialog.show();
+		ApiHomeUtils.inviteLinks(HomeActivity.this, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					JsonObject data = parseModel.getData().getAsJsonObject();
+					inviteUrl = data.get("invite_url").getAsString();
+				}
+				initShareView(view);
+			}
+		});
 	}
 
 

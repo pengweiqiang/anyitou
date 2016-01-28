@@ -17,6 +17,7 @@ import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.DeviceInfo;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
+import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
@@ -113,7 +114,7 @@ public class MyLevelActivity extends BaseActivity {
 				levelLogo = R.drawable.user_level_diamond_big_icon;
 			}
 			int currentGrow = (int) Math.round(Double.valueOf(mGrades.getGrow_val()));
-			int max = (int) Math.round( Double.valueOf(mGrades.getNeedGrowVal()) + currentGrow );
+			int max = (int) Math.round( Double.valueOf(StringUtils.isEmpty(mGrades.getNeedGrowVal())?"0":mGrades.getNeedGrowVal()) + currentGrow );
 			mPbLevel.setProgressText(currentGrow+"");
 			mPbLevel.setMax(max);
 			mPbLevel.setProgress(currentGrow);

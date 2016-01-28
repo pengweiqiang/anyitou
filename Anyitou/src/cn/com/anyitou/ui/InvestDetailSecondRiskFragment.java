@@ -1,7 +1,5 @@
 package cn.com.anyitou.ui;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
@@ -9,10 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import cn.com.anyitou.R;
-
-import cn.com.anyitou.entity.LableValue;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.StringUtils;
 /**
@@ -23,8 +18,7 @@ import cn.com.anyitou.utils.StringUtils;
 public class InvestDetailSecondRiskFragment extends BaseFragment {
 
 	View infoView;
-	private TextView mTvRisk;
-	private List<LableValue> secondePage;
+	private TextView mTvGuaranteeOp,mTvRisk,mTvIdeaRisk;
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -34,23 +28,29 @@ public class InvestDetailSecondRiskFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		infoView = inflater.inflate(R.layout.risk_control, container, false);
-		mTvRisk = (TextView)infoView.findViewById(R.id.project_risk);
-		
+		mTvGuaranteeOp = (TextView)infoView.findViewById(R.id.guarantee_opinion_content);
+		mTvRisk = (TextView)infoView.findViewById(R.id.risk_content);
+		mTvIdeaRisk = (TextView)infoView.findViewById(R.id.idea_risk_content);
 		
 		return infoView;
 	}
-	public void setSecondeList(List<LableValue> secondPage){
-		this.secondePage = secondPage;
-		if(secondPage!=null && !secondPage.isEmpty()){
-			StringBuffer titleSb = new StringBuffer();
-			for (LableValue lableValue : secondPage) {
-//				titleSb.append("<font color='#646464'>"+lableValue.getLabel()+"</font>"+"<BR/><BR/>"+lableValue.getValue()+"<BR/><BR/>");
-			}
-			if(!StringUtils.isEmpty(titleSb.toString())){
-				mTvRisk.setText(Html.fromHtml(titleSb.subSequence(0, titleSb.lastIndexOf("<BR/>")).toString()));
-			}else{
-				mTvRisk.setText(titleSb);
-			}
+	public void setRiskContent(String guaranteeOp,String riskContent,String ideaRisk){
+		//担保机构
+		if(StringUtils.isEmpty(guaranteeOp)){
+			infoView.findViewById(R.id.rl_guarantee_opinion).setVisibility(View.GONE);
+		}else{
+			mTvGuaranteeOp.setText("\t"+Html.fromHtml(guaranteeOp));
+		}
+		//风险控制
+		if(StringUtils.isEmpty(riskContent)){
+			infoView.findViewById(R.id.rl_risk).setVisibility(View.GONE);
+		}else{
+			mTvRisk.setText("\t"+Html.fromHtml(riskContent));
+		}
+		if(StringUtils.isEmpty(ideaRisk)){
+			infoView.findViewById(R.id.rl_idea_risk).setVisibility(View.GONE);
+		}else{
+			mTvIdeaRisk.setText("\t"+Html.fromHtml(ideaRisk));
 		}
 	}
 
@@ -62,7 +62,6 @@ public class InvestDetailSecondRiskFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		setSecondeList(secondePage);
 	}
 
 	@Override

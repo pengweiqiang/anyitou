@@ -136,12 +136,32 @@ public class MobilePhoneVerificationActivity extends BaseActivity {
 					mEtCode.requestFocus();
 					return;
 				}
-				Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
-				intent.putExtra("code", code);
-				intent.putExtra("captcha_key", captcha_key);
-				intent.putExtra("mobile", mobile);
-				startActivity(intent);
-				AppManager.getAppManager().finishActivity();
+				checkCode(code);
+			}
+		});
+	}
+	/**
+	 * 验证验证码
+	 * @param captcha
+	 */
+	private void checkCode(final String captcha){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.registerCode(mContext, captcha_key, captcha, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
+					intent.putExtra("code", captcha);
+					intent.putExtra("captcha_key", captcha_key);
+					intent.putExtra("mobile", mobile);
+					startActivity(intent);
+					AppManager.getAppManager().finishActivity();
+				}else{
+					ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+				}
+				loadingDialog.cancel();
 			}
 		});
 	}

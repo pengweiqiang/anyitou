@@ -57,7 +57,7 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 			mTvSendCode.setEnabled(false);
 			loadingDialog = new LoadingDialog(mContext, "发送中...");
 			loadingDialog.show();
-			ApiUserUtils.sendUserCode(mContext, OperationType.APP_CHANGE_PASSWORD.getName(), new RequestCallback() {
+			ApiUserUtils.sendUserCode(mContext, OperationType.APP_CHECK_CURRENT_MOBILE.getName(), new RequestCallback() {
 				
 				@Override
 				public void execute(ParseModel parseModel) {
@@ -108,7 +108,7 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				if(StringUtils.isEmpty(captchaKey)){
-					ToastUtils.showToast(mContext, "清先发送验证码");
+					ToastUtils.showToast(mContext, "请先发送验证码");
 					return;
 				}
 				
@@ -119,12 +119,33 @@ public class ModifyLoginPassWordActivity extends BaseActivity {
 					return;
 				}
 				
-				Intent intent = new Intent(mContext,ModifyLoginPassWordActivity2.class);
-				intent.putExtra("code", code);
-				intent.putExtra("captchaKey", captchaKey);
-				startActivity(intent);
-				AppManager.getAppManager().finishActivity();
+				checkCode(code);
 				
+			}
+		});
+	}
+	
+	/**
+	 * 验证验证码
+	 * @param captcha
+	 */
+	private void checkCode(final String captcha){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.registerCode(mContext, captchaKey, captcha, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					Intent intent = new Intent(mContext,ModifyLoginPassWordActivity2.class);
+					intent.putExtra("code", captcha);
+					intent.putExtra("captchaKey", captchaKey);
+					startActivity(intent);
+					AppManager.getAppManager().finishActivity();
+				}else{
+					ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+				}
+				loadingDialog.cancel();
 			}
 		});
 	}

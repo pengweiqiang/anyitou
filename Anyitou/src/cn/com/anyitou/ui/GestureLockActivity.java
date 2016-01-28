@@ -34,7 +34,7 @@ public class GestureLockActivity extends BaseActivity {
 	TranslateAnimation mAnimation;
 	private TextView tvLoginOther,tvGesturePwd;
 	private TextView tvUserName;
-	private int type; //1代表解锁 ， 2代表绘制密码(如果有手势密码，需要先解锁才能修改)
+	private int type; //1代表解锁 ， 2代表绘制密码(如果有手势密码，需要先解锁才能修改) 3从注册界面进入 4从登陆界面进入
 	private boolean isLockCurrent = false;
 	private String gestureLock = "";
 	private int errorCount = 5;
@@ -66,7 +66,7 @@ public class GestureLockActivity extends BaseActivity {
 			mGestureLockView.setKey(application.gesturePwd);
 			tipStr = "请输入解锁密码";
 			title = "欢迎您,"+StringUtils.getsubMobileString(user.getUsername());
-		}else if(type == 2){//绘制密码
+		}else if(type == 2 || type == 3 || type == 4){//绘制密码
 			title = "设置手势密码";
 			if(!StringUtils.isEmpty(application.gesturePwd)){
 				mGestureLockView.setKey(application.gesturePwd);
@@ -80,7 +80,7 @@ public class GestureLockActivity extends BaseActivity {
 				
 				@Override
 				public void onClick(View v) {
-					AppManager.getAppManager().finishActivity();
+					AppManager.getAppManager().finishActivity(GestureLockActivity.this);
 				}
 			});
 		}
@@ -134,35 +134,56 @@ public class GestureLockActivity extends BaseActivity {
 
 	private void gestureListener(){
 		// 手势完成后回调
-				mGestureLockView
-						.setOnGestureFinishListener(new OnGestureFinishListener() {
-							@Override
-							public void OnGestureFinish(boolean success, String key) {
-								if(type == 1){//解锁
-									
-									if (success) {
-										mTipTextView.setTextColor(Color.parseColor("#FFFFFF"));
+		mGestureLockView
+				.setOnGestureFinishListener(new OnGestureFinishListener() {
+					@Override
+					public void OnGestureFinish(boolean success, String key) {
+						if(type == 1){//解锁
+							
+							if (success) {
+								mTipTextView.setTextColor(Color.parseColor("#FFFFFF"));
+								mTipTextView.setVisibility(View.VISIBLE);
+								mTipTextView.setText("密码正确！");
+								application.isLock = true;
+								//mTipTextView.startAnimation(mAnimation);
+								if(AppManager.getAppManager().currentActivity().getClass() != GestureLockActivity.class){
+									startActivity(AppManager.getAppManager().currentActivity().getClass());
+								}else{
+									if(application.classLast!=null)
+									{
+										startActivity(application.classLast);
+									}else{
+										startActivity(HomeActivity.class);
+									}
+								}
+								SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
+								
+								AppManager.getAppManager().finishActivity();
+							} else {
+								if(errorCount > 1){
+									errorCount --;
+//											mTipTextView.setTextColor(Color.parseColor("#FF2525"));
+									mTipTextView.setVisibility(View.VISIBLE);
+									mTipTextView.setText("密码输入错误,还可以尝试"+errorCount+"次");
+									mTipTextView.startAnimation(mAnimation);
+								}else{
+									errorGesturePwd();
+								}
+							}
+							
+						}else if(type == 2 || type == 3 || type == 4){//绘制密码
+							if(!StringUtils.isEmpty(key) && key.length()>3){
+								if(!StringUtils.isEmpty(application.gesturePwd) && !isLockCurrent){//如果有手势密码
+									if(success){
+										mGestureLockView.setKey("");
+										isLockCurrent = true;
+//												mTipTextView.setTextColor(Color.parseColor("#FFFFFF"));
 										mTipTextView.setVisibility(View.VISIBLE);
-										mTipTextView.setText("密码正确！");
-										application.isLock = true;
-										//mTipTextView.startAnimation(mAnimation);
-										if(AppManager.getAppManager().currentActivity().getClass() != GestureLockActivity.class){
-											startActivity(AppManager.getAppManager().currentActivity().getClass());
-										}else{
-											if(application.classLast!=null)
-											{
-												startActivity(application.classLast);
-											}else{
-												startActivity(HomeActivity.class);
-											}
-										}
-										SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
-										
-										AppManager.getAppManager().finishActivity();
-									} else {
+										mTipTextView.setText("重新绘制");
+									}else{
 										if(errorCount > 1){
 											errorCount --;
-//											mTipTextView.setTextColor(Color.parseColor("#FF2525"));
+//													mTipTextView.setTextColor(Color.parseColor("#FF2525"));
 											mTipTextView.setVisibility(View.VISIBLE);
 											mTipTextView.setText("密码输入错误,还可以尝试"+errorCount+"次");
 											mTipTextView.startAnimation(mAnimation);
@@ -170,58 +191,44 @@ public class GestureLockActivity extends BaseActivity {
 											errorGesturePwd();
 										}
 									}
-									
-								}else if(type == 2){//绘制密码
-									if(!StringUtils.isEmpty(key) && key.length()>3){
-										if(!StringUtils.isEmpty(application.gesturePwd) && !isLockCurrent){//如果有手势密码
-											if(success){
-												mGestureLockView.setKey("");
-												isLockCurrent = true;
-//												mTipTextView.setTextColor(Color.parseColor("#FFFFFF"));
-												mTipTextView.setVisibility(View.VISIBLE);
-												mTipTextView.setText("重新绘制");
+								}else{
+									mTvRestartPwd.setVisibility(View.VISIBLE);
+									if(StringUtils.isEmpty(gestureLock)){//第一次绘制成功
+										gestureLock = key;
+										mTipTextView.setTextColor(getResources().getColor(R.color.gesture_tip2));
+										mTipTextView.setText("请再次绘制手势密码");
+									}else{//第二次绘制
+										if(!key.equals(gestureLock)){//第二次密码不一致
+//													mTipTextView.setTextColor(Color.parseColor("#FF2525"));
+											mTipTextView.setVisibility(View.VISIBLE);
+											mTipTextView.setText("与上一次绘制不一致，请再次绘制");
+											mTipTextView.startAnimation(mAnimation);
+										}else{//两次密码一致，保存密码
+											application.gesturePwd = gestureLock;
+											application.isLock = true;
+											ToastUtils.showToast(mContext, "手势密码绘制成功");
+											SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
+											
+											if(type ==3 || type == 4){
+												Intent intent = new Intent(mContext,HomeActivity.class);
+												intent.putExtra("type", "login");
+												startActivity(intent);
 											}else{
-												if(errorCount > 1){
-													errorCount --;
-//													mTipTextView.setTextColor(Color.parseColor("#FF2525"));
-													mTipTextView.setVisibility(View.VISIBLE);
-													mTipTextView.setText("密码输入错误,还可以尝试"+errorCount+"次");
-													mTipTextView.startAnimation(mAnimation);
-												}else{
-													errorGesturePwd();
-												}
+												startActivity(HomeActivity.class);
 											}
-										}else{
-											mTvRestartPwd.setVisibility(View.VISIBLE);
-											if(StringUtils.isEmpty(gestureLock)){//第一次绘制成功
-												gestureLock = key;
-												mTipTextView.setTextColor(getResources().getColor(R.color.gesture_tip2));
-												mTipTextView.setText("请再次绘制手势密码");
-											}else{//第二次绘制
-												if(!key.equals(gestureLock)){//第二次密码不一致
-//													mTipTextView.setTextColor(Color.parseColor("#FF2525"));
-													mTipTextView.setVisibility(View.VISIBLE);
-													mTipTextView.setText("与上一次绘制不一致，请再次绘制");
-													mTipTextView.startAnimation(mAnimation);
-												}else{//两次密码一致，保存密码
-													application.gesturePwd = gestureLock;
-													application.isLock = true;
-													ToastUtils.showToast(mContext, "手势密码绘制成功");
-													SharePreferenceManager.saveBatchSharedPreference(mContext, Constant.FILE_NAME, application.getCurrentUser().getUsername()+Constant.GESTURE_PWD, System.currentTimeMillis()+","+key);
-													startActivity(HomeActivity.class);
-													AppManager.getAppManager().finishActivity();
-												}
-											}
+											AppManager.getAppManager().finishActivity();
 										}
-									}else{
-//										mTipTextView.setTextColor(Color.parseColor("#FF2525"));
-										mTipTextView.setText("手势密码须大于4位");
-										mTipTextView.startAnimation(mAnimation);
 									}
 								}
-								
+							}else{
+//										mTipTextView.setTextColor(Color.parseColor("#FF2525"));
+								mTipTextView.setText("手势密码须大于4位");
+								mTipTextView.startAnimation(mAnimation);
 							}
-						});
+						}
+						
+					}
+				});
 	}
 	@Override
 	public void initListener() {

@@ -1,5 +1,6 @@
 package cn.com.anyitou.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -13,9 +14,11 @@ import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.ParseModel;
+import cn.com.anyitou.entity.User;
 import cn.com.anyitou.ui.base.BaseActivity;
 import cn.com.anyitou.utils.CheckInputUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
+import cn.com.anyitou.utils.MD5Util;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
@@ -155,10 +158,9 @@ public class RegisteredAccount2Activity extends BaseActivity {
 					
 					@Override
 					public void execute(ParseModel parseModel) {
-						loadingDialog.cancel();
 						if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//注册成功
-//							login(userName,passWord);//注册成功调用登录接口
-							ToastUtils.showToast(mContext, parseModel.getMsg());
+							login(mobile,passWord);//注册成功调用登录接口
+							//ToastUtils.showToast(mContext, parseModel.getMsg());
 						}else{
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
@@ -178,19 +180,31 @@ public class RegisteredAccount2Activity extends BaseActivity {
 			@Override
 			public void execute(ParseModel parseModel) {
 				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){//登录成功
-//					String token = parseModel.getToken();
-//					User user = new User();
-//					user.setUser_name(userName);
-//					user.setPass_word(passWord);
-//					logined(token,user);
-//					ToastUtils.showToast(mContext, "注册成功");
-//					Intent intent = new Intent(mContext,RegisteredActivity.class);
+				String accessToken = parseModel.getAccess_token();
+				if(!StringUtils.isEmpty(accessToken)){//登陆成功
+					ToastUtils.showToast(mContext, "登录成功");
+					String refreshToken = parseModel.getRefresh_token();
+					User user = new User();
+					user.setMobile(userName);
+					user.setPassword(MD5Util.MD5(passWord));
+					user.setUsername(userName);
+					logined(accessToken, refreshToken, user);
+//					Intent intent = new Intent(mContext,HomeActivity.class);
+//					intent.putExtra("from", "login");
 //					startActivity(intent);
-//					AppManager.getAppManager().finishActivity(LoginActivity.class);
 //					AppManager.getAppManager().finishActivity();
+					Intent intent = new Intent(mContext,GestureLockActivity.class);
+					intent.putExtra("type", 3);
+					startActivity(intent);
+					AppManager.getAppManager().finishActivity(LoginActivity.class);
+					
 				}else{
-					ToastUtils.showToast(mContext, parseModel.getMsg());
+//					if(!StringUtils.isEmpty(parseModel.getMsg())){
+//						ToastUtils.showToast(mContext, parseModel.getMsg());
+//					}else{
+//						ToastUtils.showToast(mContext, "登录失败");
+//					}
+					ToastUtils.showToast(mContext, "用户名或密码错误");
 				}
 			}
 		});

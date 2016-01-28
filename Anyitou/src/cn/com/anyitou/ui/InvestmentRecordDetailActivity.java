@@ -52,25 +52,26 @@ public class InvestmentRecordDetailActivity extends BaseActivity {
 			id = investment.getId();
 			//项目信息
 			mTvInvestName.setText(investment.getItem_title());
-			mTvInvestStatus.setText(investment.getStatus());
+			mTvInvestStatus.setVisibility(View.GONE);
 			mTvInvestMoneyProject.setText("融资金额："+investment.getItem_amount());
 			mTvInvestProgress.setText("融资进度："+"无");
 			mTvRepayType.setText("还款方式："+investment.getPay_type_info().getName());
 			mTvRepayDate.setText("还款日期："+investment.getRepayment_time());
 			//投资信息
-			mTvInvestMoney.setText("融资金额："+investment.getItem_amount());
+			mTvInvestMoney.setText("投资金额："+investment.getItem_amount());
 			mTvInvestRealMoney.setText("实际支付金额："+investment.getReal_amount());
 			//受益信息
 			mTvInvestRate.setText("年化收益："+investment.getRate_of_interest());
 			mTvInvestIncome.setText("每日收益："+"无");
 			mTvTotalIncome.setText("到期总收益："+investment.getItem_income());
 			mTvLastIncome.setText("最后一天收益："+"无");
-			mTvIncomeDay.setText("计息天数："+investment.getInvest_days());
+			mTvIncomeDay.setText("计息天数："+(StringUtils.isEmpty(investment.getInvest_days())?0:investment.getInvest_days()));
 			mTvComedProfit.setText("已到帐收益："+investment.getRepay_interest());
 		}
 	}
 	private void initDataNetDetail(){
 		if(myInvestmentDetail!=null){
+			mTvInvestStatus.setVisibility(View.VISIBLE);
 			//项目信息
 			mTvInvestName.setText(myInvestmentDetail.getProjectData().getItem_title());
 			mTvInvestStatus.setText(myInvestmentDetail.getProjectData().getInvest_status_label());
@@ -79,14 +80,20 @@ public class InvestmentRecordDetailActivity extends BaseActivity {
 			mTvRepayType.setText("还款方式："+myInvestmentDetail.getProjectData().getPayTypeInfo().getName());
 			mTvRepayDate.setText("还款日期："+myInvestmentDetail.getProjectData().getRepayment_time());
 			//投资信息
-			mTvInvestMoney.setText("融资金额："+StringUtils.getMoneyFormat(myInvestmentDetail.getProjectData().getFinancing_amount()));
-			mTvInvestRealMoney.setText("实际支付金额："+myInvestmentDetail.getInvestData().getItem_amount()+"元");
+			mTvInvestMoney.setText("投资金额："+StringUtils.getMoneyFormat(myInvestmentDetail.getInvestData().getItem_amount())+"元");
+			mTvInvestRealMoney.setText("实际支付金额："+myInvestmentDetail.getInvestData().getMoney()+"元");
 			//受益信息
 			mTvInvestRate.setText("年化收益："+myInvestmentDetail.getProjectData().getRate_of_interest()+"%");
-			mTvInvestIncome.setText("每日收益："+myInvestmentDetail.getInterestData().getEveryDay().getInterest()+"元");
-			mTvTotalIncome.setText("到期总收益："+myInvestmentDetail.getInterestData().getTotal().getInterest()+"元");
-			mTvLastIncome.setText("最后一天收益："+myInvestmentDetail.getInterestData().getLastDay().getInterest()+"元");
-			mTvIncomeDay.setText("计息天数："+myInvestmentDetail.getProjectData().getToday_invest_days()+"天");
+			if(myInvestmentDetail.getInterestData().getEveryDay()!=null){
+				mTvInvestIncome.setText("每日收益："+myInvestmentDetail.getInterestData().getEveryDay().getInterest()+"元");
+			}
+			if(myInvestmentDetail.getInterestData().getTotal()!=null){
+				mTvTotalIncome.setText("到期总收益："+StringUtils.getMoneyFormat(myInvestmentDetail.getInterestData().getTotal().getInterest())+"元");
+			}
+			if(myInvestmentDetail.getInterestData().getLastDay()!=null){
+				mTvLastIncome.setText("最后一天收益："+myInvestmentDetail.getInterestData().getLastDay().getInterest()+"元");
+			}
+			mTvIncomeDay.setText("计息天数："+(StringUtils.isEmpty(myInvestmentDetail.getProjectData().getToday_invest_days())?0:myInvestmentDetail.getProjectData().getToday_invest_days())+"天");
 			mTvComedProfit.setText("已到帐收益："+myInvestmentDetail.getInvestData().getRepay_interest()+"元");
 		}
 	}

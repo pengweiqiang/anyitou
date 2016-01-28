@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiOrderUtils;
+import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.commons.AppManager;
 import cn.com.anyitou.entity.BankCard;
@@ -46,6 +47,10 @@ public class WithdrawalsActivity extends BaseActivity {
 	String nowMoney = "";//当前账户余额
 	private CashPageInfo cashPageInfo;//提现界面信息
 	private String quanStatus = "0";//提现券状态，默认0
+	private TextView mTvUseMoney;
+	
+	String mobileStatus;
+	String baseStatus;
 	
 	
 	@Override
@@ -54,8 +59,15 @@ public class WithdrawalsActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		nowMoney = this.getIntent().getStringExtra("money");
-		mEtMoney.setHint("当前可用余额"+nowMoney+"元");
+//		mEtMoney.setHint("当前可用余额"+nowMoney+"元");
+		mTvUseMoney.setText("可提现金额："+nowMoney+"元");
 		
+		initData();
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		//重新回到界面 得到最新数据
 		initData();
 	}
 	
@@ -70,6 +82,7 @@ public class WithdrawalsActivity extends BaseActivity {
 		mTvServiceChangeMoney = (TextView)findViewById(R.id.service_change_money);
 		mTvRealMoney = (TextView)findViewById(R.id.real_money);
 		mToggleQuan = (ToggleButton)findViewById(R.id.switch_quan);
+		mTvUseMoney = (TextView)findViewById(R.id.use_money);
 	}
 
 	protected void onConfigureActionBar(ActionBar actionBar) {
@@ -89,36 +102,30 @@ public class WithdrawalsActivity extends BaseActivity {
 	private void initData(){
 		loadingDialog = new LoadingDialog(mContext);
 		loadingDialog.show();
-		ApiOrderUtils.getBankInfo(mContext, new RequestCallback() {
-			
-			@Override
-			public void execute(ParseModel parseModel) {
-				loadingDialog.cancel();
-				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
-//					logined(parseModel.getToken(), null);
-					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
-					showData();
-//					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
-				}else{
-					
-					ToastUtils.showToast(mContext, parseModel.getMsg());
-				}
-			}
-		});
+		
+		getUserInfo();
+		
 	}
 	private void showData(){
 		if(cashPageInfo != null){
 			nowMoney = cashPageInfo.getMoney().getUsable_money();
-			mEtMoney.setHint("当前可用余额"+nowMoney+"元");
+//			mEtMoney.setHint("当前可用余额"+nowMoney+"元");
+			mTvUseMoney.setText("可提现金额："+nowMoney+"元");
 			BankCard bankCard = cashPageInfo.getCard();
 			if(bankCard == null){//未绑定银行卡
 				showUnbindBankCard();
+				mTvBankName.setText("无");
+				findViewById(R.id.cash_bank).setVisibility(View.GONE);
 				return;
 			}
 			String bankNumber = bankCard.getBank_card_number();
 			if(!StringUtils.isEmpty(bankNumber) && bankNumber.length() >4){
 				mTvBankName.setText(bankCard.getBank_name()+"（"+bankNumber.substring(bankNumber.length()-4)+"）");
 			}
+		}else{
+			mTvBankName.setText("无");
+			findViewById(R.id.cash_bank).setVisibility(View.GONE);
+			showUnbindBankCard();
 		}
 	}
 	/*
@@ -163,11 +170,152 @@ public class WithdrawalsActivity extends BaseActivity {
 					intent.putExtra("url", url);
 					intent.putExtra("name", "绑定银行卡");
 					startActivity(intent);
+				}else if(ApiConstants.RESULT_UNHF_USER.equals(parseModel.getCode())){
+//					escrowRegister();
+					String url = parseModel.getData().getAsString();
+					Intent intent = new Intent(mContext,WebActivity.class);
+					intent.putExtra("url", url);
+					intent.putExtra("name", "开通汇付");
+					startActivity(intent);
+				}else{
+					ToastUtils.showToastSingle(mContext, parseModel.getMsg());
 				}
 			}
 		});
 	}
 	
+	/**
+	 * 获取用户信息
+	 */
+	private void getUserInfo(){
+		ApiUserUtils.getUserInfo(mContext,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					try{
+						JsonObject data = parseModel.getData().getAsJsonObject();
+						if(data!=null){
+							String mobile = data.get("mobile").getAsString();
+							baseStatus = data.get("base_status").getAsString();//  用户状态： 1：正常  2：开通资金账户  
+							mobileStatus = data.get("mobile_status").getAsString();//"mobile_status": "1",  //  手机认证状态： 0：未认证  1:已认证
+							if(checkUser()){
+								getBankInfo();
+							}
+						}
+					}catch(Exception e){
+						
+					}
+				}else{
+					loadingDialog.cancel();
+				}
+			}
+		});
+	}
+	private boolean checkUser(){
+		if(!StringUtils.isEmpty(mobileStatus) && "0".equals(mobileStatus)){//未认证手机号
+			bindingMobile();
+			return false;
+		}
+		if(!StringUtils.isEmpty(baseStatus) && Long.valueOf(baseStatus)<2){//未开通资金账户  
+			escrowRegister();
+			return false;
+		}
+		return true;
+	}
+	private void getBankInfo(){
+		ApiOrderUtils.getBankInfo(mContext, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+//					logined(parseModel.getToken(), null);
+					cashPageInfo = JsonUtils.fromJson(parseModel.getData().toString(), CashPageInfo.class);
+					showData();
+//					ImageLoader.getInstance().displayImage(cashPageInfo.getLogo(), mIvBankLogo);
+				}else{
+					
+					ToastUtils.showToast(mContext, parseModel.getMsg());
+				}
+			}
+		});
+	}
+	/**
+	 * 绑定手机号
+	 */
+	private void bindingMobile(){
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的账户安全，请先通过手机验证");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("认证手机",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
+						startActivity(intent);
+						AppManager.getAppManager().finishActivity();
+					}
+				});
+		builder.create().show();
+	}
+	
+	/**
+	 * 开通汇付
+	 */
+	private void escrowRegister(){
+		
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的资金安全，请先开通资金托管账户");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("开通资金账户",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						loadingDialog = new LoadingDialog(mContext);
+						loadingDialog.show();
+						ApiUserUtils.escrowRegister(mContext, new RequestCallback() {
+							
+							@Override
+							public void execute(ParseModel parseModel) {
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+									String url = parseModel.getData().getAsJsonObject().get("url").getAsString();
+									Intent intent = new Intent(mContext,WebActivity.class);
+									intent.putExtra("url", url);
+									intent.putExtra("type", 1);//开通汇付
+									intent.putExtra("name", "开通汇付");
+									startActivity(intent);
+								}else{
+									ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+								}
+								loadingDialog.cancel();
+							}
+						});
+					}
+				});
+		builder.create().show();
+		
+	}
 	
 	@Override
 	public void initListener() {
@@ -179,7 +327,18 @@ public class WithdrawalsActivity extends BaseActivity {
 				if(s.length()<=0){
 					mTvRealMoney.setText("0.00元");
 				}else{
-					mTvRealMoney.setText(s+"元");
+					String realMoneyStr = "0.00";
+					try{
+						double realMoney = Double.valueOf(s.toString())-2;
+						if(realMoney<0){
+							realMoneyStr = "0.00";
+						}else{
+							realMoneyStr = realMoney+"";
+						}
+					}catch(Exception e){
+						realMoneyStr = "0.00";
+					}
+					mTvRealMoney.setText(realMoneyStr+"元");
 				}
 				
 			}
@@ -244,6 +403,17 @@ public class WithdrawalsActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View arg0) {
+//				if(cashPageInfo==null){
+//					showUnbindBankCard();
+//					return;
+//				}
+				if(!checkUser()){
+					return;
+				}
+				if(cashPageInfo==null || cashPageInfo.getCard()==null ){
+					showUnbindBankCard();
+					return ;
+				}
 //				String msgCode = mEtMsgCode.getText().toString();
 				String moneyStr = mEtMoney.getText().toString();
 				if(StringUtils.isEmpty(moneyStr)){
@@ -260,7 +430,7 @@ public class WithdrawalsActivity extends BaseActivity {
 						return;
 					}
 					if(money>Double.valueOf(nowMoney)){
-						ToastUtils.showToast(mContext, "提现金额大于账户余额");
+						ToastUtils.showToast(mContext, "输入金额不能大于可提现金额");
 						mEtMoney.requestFocus();
 						return;
 					}

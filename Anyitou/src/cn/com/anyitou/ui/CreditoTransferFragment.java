@@ -147,6 +147,7 @@ public class CreditoTransferFragment extends BaseFragment implements IXListViewL
 							mListView.onLoadFinish(page, debtAssignments.size(),"加载完毕");
 							
 						} else {
+							mListView.onLoadFinish(page, 0,"加载完毕");
 							ToastUtils.showToast(mActivity,
 									parseModel.getMsg());
 						}

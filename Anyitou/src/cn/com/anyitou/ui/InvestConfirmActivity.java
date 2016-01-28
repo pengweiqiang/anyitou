@@ -1,5 +1,6 @@
 package cn.com.anyitou.ui;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -74,6 +75,10 @@ public class InvestConfirmActivity extends BaseActivity {
 	String useMoney = "";// 可用金额
 	String couponId = "";//优惠券id
 
+	
+	String mobileStatus;//是否验证手机
+	String baseStatus;//是否开通汇付
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.invest_confirm);
@@ -81,6 +86,12 @@ public class InvestConfirmActivity extends BaseActivity {
 
 		investment = (Investment) this.getIntent().getSerializableExtra(
 				"investment");
+		
+		//安车贷隐藏优惠券
+		if("chedai".equals(investment.getCategory())){
+			mViewCoupon.setVisibility(View.GONE);
+		}
+		
 		id = investment.getId();
 		investmentMoney = StringUtils.getMoney2Int(Double.valueOf(investment.getInvestment()));
 		if (MyApplication.getInstance().getMyCapital() != null) {
@@ -108,6 +119,11 @@ public class InvestConfirmActivity extends BaseActivity {
 				}
 			}
 		});
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		getUserInfo();
 	}
 
 	@Override
@@ -142,11 +158,10 @@ public class InvestConfirmActivity extends BaseActivity {
 
 		mViewConfirm = findViewById(R.id.bottom_invest);
 		mEtBuyMoney = (EditText) findViewById(R.id.buy_money);
-		mViewCoupon = findViewById(R.id.coupon_right);
+		mViewCoupon = findViewById(R.id.coupon_rl);
 
 		mTvCouponName = (TextView)findViewById(R.id.coupon_name);
 		mCouponListView = (ListView) findViewById(R.id.coupon_listview);
-
 	}
 
 	private void initData() {
@@ -158,8 +173,8 @@ public class InvestConfirmActivity extends BaseActivity {
 			mTvRestMoney.setText(StringUtils.getMoneyFormat(investment
 					.getRemain_amount()));
 			mTvMyMoney.setText(StringUtils.getMoneyFormat(useMoney));
-
 		}
+		getUserInfo();
 	}
 
 	/**
@@ -240,6 +255,8 @@ public class InvestConfirmActivity extends BaseActivity {
 
 							}
 						} else {
+							mTvPreProfit.setText("0");
+							mTvPreAnbi.setText("0");
 							ToastUtils.showToast(mContext, parseModel.getMsg());
 						}
 					}
@@ -248,6 +265,7 @@ public class InvestConfirmActivity extends BaseActivity {
 	
 	private TextView mTvRate;
 
+	private long lastTime;
 	@Override
 	public void initListener() {
 		mBtnProfitCal.setOnClickListener(new OnClickListener() {
@@ -293,6 +311,10 @@ public class InvestConfirmActivity extends BaseActivity {
 
 					@Override
 					public void afterTextChanged(Editable s) {
+						if(s.toString().startsWith("0")){
+							mEtBuyMoney.setText(s.toString().substring(1));
+							return;
+						}
 						String moneyStr = mEtInvestMoney.getText().toString()
 								.trim();
 						caluProfitMoneyForService(moneyStr, 1);
@@ -312,7 +334,8 @@ public class InvestConfirmActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				mEtBuyMoney.setText(investment.getRemain_amount());
+				int allMoney = Integer.valueOf((int) (Double.valueOf(useMoney)/investmentMoney)) * investmentMoney;
+				mEtBuyMoney.setText(String.valueOf(allMoney));
 			}
 		});
 		// 获取可用的优惠券
@@ -339,17 +362,32 @@ public class InvestConfirmActivity extends BaseActivity {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				checkInvestMoney(moneyStr);
-				showEmptyCouponView(true);
+				if(s.toString().startsWith("0")){
+					mEtBuyMoney.setText(s.toString().substring(1));
+					return;
+				}
+				long now = System.currentTimeMillis();
+				if(now-lastTime>100){
+					String moneyStr = mEtBuyMoney.getText().toString().trim();
+					checkInvestMoney(moneyStr,"edittext");
+					showEmptyCouponView(true);
+					lastTime = now;
+				}
 			}
 		});
 		mViewConfirm.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				if(!checkUser()){
+					return;
+				}
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				if(!checkInvestMoney(moneyStr)){
+				if(StringUtils.isEmpty(moneyStr)){
+					ToastUtils.showToastSingle(mContext, "请输入金额");
+					return;
+				}
+				if(!checkInvestMoney(moneyStr,"btn")){
 					return;
 				}
 				loadingDialog = new LoadingDialog(mContext);
@@ -465,49 +503,59 @@ public class InvestConfirmActivity extends BaseActivity {
 	 */
 	private void json2Coupon(JsonElement data) {
 		investCoupons.clear();
-		if (data != null) {
-			
-			//1.检查有用的优惠券
-			JsonObject couponVerifyRes = data.getAsJsonObject().getAsJsonObject("couponVerifyRes");
-			if(couponVerifyRes ==null){
-				showEmptyCouponView(false);
-				ToastUtils.showToast(mContext, "没有可用的优惠券");
-				return;
-			}
-			List<String> couponIds = getCouponVerifyRes(couponVerifyRes);
-			if(couponIds==null || couponIds.isEmpty()){
-				showEmptyCouponView(false);
-				ToastUtils.showToast(mContext, "没有可用的优惠券");
-				return;
-			}
-			//2.取出有用优惠券的详细信息
-			JsonObject classCouponList = data.getAsJsonObject().getAsJsonObject("classCouponList");
-			if(classCouponList ==null){
-				showEmptyCouponView(false);
-				ToastUtils.showToast(mContext, "没有可用的优惠券");
-				return;
-			}
-			findViewById(R.id.coupon_rl).setEnabled(true);
-			Set<Entry<String, JsonElement>> sets = classCouponList.entrySet();
-			Iterator<Entry<String, JsonElement>> keys = sets.iterator();
-			while (keys.hasNext()) {
-				Entry<String, JsonElement> entry = keys.next();
-				if(entry.getKey().equals("cash")){//现金券
-					cashCoupon(entry.getValue(),couponIds);
-				}else if("interest".equals(entry.getKey())){//利息券
-					cashCoupon(entry.getValue(),couponIds);
-				}else if("rebate".equals(entry.getKey())){//返利券
-					cashCoupon(entry.getValue(),couponIds);
-				}else if("draw".equals(entry.getKey())){//
-					cashCoupon(entry.getValue(),couponIds);
+		try{
+			if (data != null && data.isJsonObject()) {
+				JsonObject dataJson = data.getAsJsonObject();
+				//1.检查有用的优惠券
+				if(!dataJson.get("couponVerifyRes").isJsonObject()){
+					showEmptyCouponView(false);
+					ToastUtils.showToast(mContext, "没有可用的优惠券");
+					return;
 				}
+				JsonObject couponVerifyRes = dataJson.getAsJsonObject("couponVerifyRes");
+				if(couponVerifyRes ==null){
+					showEmptyCouponView(false);
+					ToastUtils.showToast(mContext, "没有可用的优惠券");
+					return;
+				}
+				List<String> couponIds = getCouponVerifyRes(couponVerifyRes);
+				if(couponIds==null || couponIds.isEmpty()){
+					showEmptyCouponView(false);
+					ToastUtils.showToast(mContext, "没有可用的优惠券");
+					return;
+				}
+				//2.取出有用优惠券的详细信息
+				JsonObject classCouponList = data.getAsJsonObject().getAsJsonObject("classCouponList");
+				if(classCouponList ==null){
+					showEmptyCouponView(false);
+					ToastUtils.showToast(mContext, "没有可用的优惠券");
+					return;
+				}
+				mViewCoupon.setEnabled(true);
+				Set<Entry<String, JsonElement>> sets = classCouponList.entrySet();
+				Iterator<Entry<String, JsonElement>> keys = sets.iterator();
+				while (keys.hasNext()) {
+					Entry<String, JsonElement> entry = keys.next();
+					if(entry.getKey().equals("cash")){//现金券
+						cashCoupon(entry.getValue(),couponIds);
+					}else if("interest".equals(entry.getKey())){//利息券
+						cashCoupon(entry.getValue(),couponIds);
+					}else if("rebate".equals(entry.getKey())){//返利券
+						cashCoupon(entry.getValue(),couponIds);
+					}else if("draw".equals(entry.getKey())){//
+						cashCoupon(entry.getValue(),couponIds);
+					}
+				}
+			}else{
+				showEmptyCouponView(false);
 			}
-		}else{
+		}catch(Exception e){
+			e.printStackTrace();
 			showEmptyCouponView(false);
 		}
 	}
 	private void showEmptyCouponView(boolean isEnabled){
-		findViewById(R.id.coupon_rl).setEnabled(isEnabled);
+		mViewCoupon.setEnabled(isEnabled);
 		if(investCoupons!=null && !investCoupons.isEmpty()){
 			investCoupons.clear();
 			
@@ -588,33 +636,55 @@ public class InvestConfirmActivity extends BaseActivity {
 			});
 		}
 	}
-	
-	private boolean checkInvestMoney(String moneyStr){
+	/**
+	 * 
+	 * @param moneyStr 输入金额
+	 * @param from 调用来源  calu计算器、 edittext输入框 、btn立即投资按钮
+	 * @return
+	 */
+	private boolean checkInvestMoney(String moneyStr,String from){
 		if(StringUtils.isEmpty(moneyStr)){
 			return false;
 		}
 		if (Double.valueOf(moneyStr) < investmentMoney) {
 			ToastUtils.showToastSingle(mContext, "购买金额必须大于"+investmentMoney+"元");
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
+			mTvPreAnbi.setText("0");
 			return false;
 		}
 		if(Double.valueOf(moneyStr) > Double.valueOf(investment
 			.getRemain_amount())){
 			ToastUtils.showToastSingle(mContext, "超过了可投金额"+investment.getRemain_amount());
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
+			mTvPreAnbi.setText("0");
 			return false;
 		}
 		if (Double.valueOf(moneyStr) % investmentMoney != 0) {
 			ToastUtils.showToastSingle(mContext, "请输入"+investmentMoney+"的整数倍");
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
+			mTvPreAnbi.setText("0");
 			return false ;
 		}
 		try {
 			if (Double.valueOf(moneyStr) > Double.valueOf(useMoney)) {
-//				 ToastUtils.showToastSingle(mContext, "您的余额不足");
-				showNotenoughMoney(Double.valueOf(moneyStr)
-						- Double.valueOf(useMoney) + "");
-				// mEtBuyMoney.requestFocus();
+				if("btn".equals(from)){
+					BigDecimal b1=new BigDecimal(moneyStr);  
+			        BigDecimal b2=new BigDecimal(useMoney);
+					showNotenoughMoney(b1.subtract(b2).doubleValue()+ "");
+					mEtBuyMoney.requestFocus();
+				}else if("edittext".equals(from)){
+					ToastUtils.showToastSingle(mContext, "您的余额不足");
+				}
+				// 
+				
+				mTvPreProfit.setText("0");
+				mTvPreAnbi.setText("0");
 				return false;
 			}
 		} catch (Exception e) {
@@ -622,6 +692,123 @@ public class InvestConfirmActivity extends BaseActivity {
 		}
 		caluProfitMoneyForService(moneyStr, 2);
 		return true;
+	}
+	
+	
+	
+	
+	/**
+	 * 获取用户信息
+	 */
+	private void getUserInfo(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.getUserInfo(mContext,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				loadingDialog.cancel();
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					try{
+						JsonObject data = parseModel.getData().getAsJsonObject();
+						if(data!=null){
+							String mobile = data.get("mobile").getAsString();
+							baseStatus = data.get("base_status").getAsString();//  用户状态： 1：正常  2：开通资金账户  
+							mobileStatus = data.get("mobile_status").getAsString();//"mobile_status": "1",  //  手机认证状态： 0：未认证  1:已认证
+							checkUser();
+						}
+					}catch(Exception e){
+						
+					}
+				}
+			}
+		});
+	}
+	private boolean checkUser(){
+		if(!StringUtils.isEmpty(mobileStatus) && "0".equals(mobileStatus)){//未认证手机号
+			bindingMobile();
+			return false;
+		}
+		if(!StringUtils.isEmpty(baseStatus) && Long.valueOf(baseStatus)<2){//未开通资金账户  
+			escrowRegister();
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 绑定手机号
+	 */
+	private void bindingMobile(){
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的账户安全，请先通过手机验证");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("认证手机",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
+						startActivity(intent);
+						AppManager.getAppManager().finishActivity();
+					}
+				});
+		builder.create().show();
+	}
+	
+	/**
+	 * 开通汇付
+	 */
+	private void escrowRegister(){
+		
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的资金安全，请先开通资金托管账户");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("开通资金账户",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						loadingDialog = new LoadingDialog(mContext);
+						loadingDialog.show();
+						ApiUserUtils.escrowRegister(mContext, new RequestCallback() {
+							
+							@Override
+							public void execute(ParseModel parseModel) {
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+									String url = parseModel.getData().getAsJsonObject().get("url").getAsString();
+									Intent intent = new Intent(mContext,WebActivity.class);
+									intent.putExtra("url", url);
+									intent.putExtra("type", 1);//开通汇付
+									intent.putExtra("name", "开通汇付");
+									startActivity(intent);
+								}else{
+									ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+								}
+								loadingDialog.cancel();
+							}
+						});
+					}
+				});
+		builder.create().show();
+		
 	}
 
 }

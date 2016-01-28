@@ -1,6 +1,8 @@
 package cn.com.anyitou.ui;
 
 
+import java.math.BigDecimal;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +32,6 @@ import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.InfoDialog;
 import cn.com.anyitou.views.LoadingDialog;
-import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
 /**
  * 债权确认信息
@@ -55,6 +56,9 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 //	String id = "";
 	String useMoney = "";//可用金额
 	String myUserId = "";
+	
+	String mobileStatus;//是否验证手机
+	String baseStatus;//是否开通汇付
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.debt_confirm);
@@ -131,8 +135,13 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			mTvInvestDay.setText(debt.getDebtData().getSell_days()+"天");
 			mTvRestMoney.setText(StringUtils.getMoneyFormat(debt.getDebtData().getRemainAmount()));
 			mTvMyMoney.setText(StringUtils.getMoneyFormat(useMoney));
-			
 		}
+		getUserInfo();
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		getUserInfo();
 	}
 	/**
 	 * 债权收益计算器
@@ -151,6 +160,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		String proFit = AnyitouUtils.getDebtPreProfit(debt.getDebtData().getPrice(),debt.getDebtData().getAmount(),moneyStr, debt.getDebtData().getBuyer_apr(), debt.getDebtData().getSell_days());//预期收益
 		return proFit;	
 	}
+	private long lastTime;
 	TextView mTvRate;
 	@Override
 	public void initListener() {
@@ -188,6 +198,10 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 					
 					@Override
 					public void afterTextChanged(Editable s) {
+						if(s.toString().startsWith("0")){
+							mEtBuyMoney.setText(s.toString().substring(1));
+							return;
+						}
 						String moneyStr = mEtInvestMoney.getText().toString().trim();
 						String proFit = caluProfitMoney(moneyStr)+"元";
 						SpannableString ss = TextViewUtils.getSpannableStringSizeAndColor(proFit, proFit.length()-1, proFit.length(), 14,getResources().getColor(R.color.dialog_text_color));
@@ -213,8 +227,16 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				checkInvestMoney(moneyStr);
+				if(s.toString().startsWith("0")){
+					mEtBuyMoney.setText(s.toString().substring(1));
+					return;
+				}
+				long now = System.currentTimeMillis();
+				if(now-lastTime>100){
+					String moneyStr = mEtBuyMoney.getText().toString().trim();
+					checkInvestMoney(moneyStr,"edittext");
+					lastTime = now;
+				}
 			}
 		});
 		mViewConfirm.setOnClickListener(new OnClickListener() {
@@ -222,7 +244,11 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				String moneyStr = mEtBuyMoney.getText().toString().trim();
-				if(!checkInvestMoney(moneyStr)){
+				if(StringUtils.isEmpty(moneyStr)){
+					ToastUtils.showToastSingle(mContext, "请输入认购份额");
+					return;
+				}
+				if(!checkInvestMoney(moneyStr,"btn")){
 					return ;
 				}
 				loadingDialog = new LoadingDialog(mContext);
@@ -284,7 +310,7 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		infoDialog.show();
 	}
 	
-	private boolean checkInvestMoney(String moneyStr){
+	private boolean checkInvestMoney(String moneyStr,String from){
 		if(myUserId.equals(debt.getDebtData().getUser_id())){
 			ToastUtils.showToastSingle(mContext, "不能认购自己债权");
 			return false;
@@ -292,23 +318,36 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		if(StringUtils.isEmpty(moneyStr)){
 			ToastUtils.showToastSingle(mContext, "请输入认购份额");
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
 			return false;
 		}
 		if(Double.valueOf(moneyStr)<investmentMoney){
 			ToastUtils.showToastSingle(mContext, "最小认购"+investmentMoney);
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
 			return false;
 		}
 		if(Double.valueOf(moneyStr) > remainMoney){
 			ToastUtils.showToastSingle(mContext, "超过剩余份额"+remainMoney);
 			mEtBuyMoney.requestFocus();
+			
+			mTvPreProfit.setText("0");
 			return false ;
 		}
 		try{
 			if(Double.valueOf(moneyStr)>Double.valueOf(useMoney)){
-//				ToastUtils.showToast(mContext, "您的余额不足");
-				showNotenoughMoney(Double.valueOf(moneyStr)-Double.valueOf(useMoney)+"");
-//				mEtBuyMoney.requestFocus();
+				if("btn".equals(from)){
+					BigDecimal b1=new BigDecimal(moneyStr);  
+			        BigDecimal b2=new BigDecimal(useMoney);
+					showNotenoughMoney(b1.subtract(b2).doubleValue()+ "");
+					mEtBuyMoney.requestFocus();
+				}else if("edittext".equals(from)){
+					ToastUtils.showToast(mContext, "您的余额不足");
+				}
+				
+				mTvPreProfit.setText("0");
 				return false ;
 			}
 		}catch(Exception e){
@@ -317,6 +356,122 @@ public class DebtTransferConfirmActivity extends BaseActivity {
 		String profit = caluProfitMoney(moneyStr);
 		mTvPreProfit.setText(profit);
 		return true;
+	}
+	
+	
+	
+	/**
+	 * 获取用户信息
+	 */
+	private void getUserInfo(){
+		loadingDialog = new LoadingDialog(mContext);
+		loadingDialog.show();
+		ApiUserUtils.getUserInfo(mContext,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					try{
+						JsonObject data = parseModel.getData().getAsJsonObject();
+						if(data!=null){
+							String mobile = data.get("mobile").getAsString();
+							baseStatus = data.get("base_status").getAsString();//  用户状态： 1：正常  2：开通资金账户  
+							mobileStatus = data.get("mobile_status").getAsString();//"mobile_status": "1",  //  手机认证状态： 0：未认证  1:已认证
+							checkUser();
+						}
+					}catch(Exception e){
+						
+					}
+				}
+				loadingDialog.cancel();
+			}
+		});
+	}
+	private boolean checkUser(){
+		if(!StringUtils.isEmpty(mobileStatus) && "0".equals(mobileStatus)){//未认证手机号
+			bindingMobile();
+			return false;
+		}
+		if(!StringUtils.isEmpty(baseStatus) && Long.valueOf(baseStatus)<2){//未开通资金账户  
+			escrowRegister();
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 绑定手机号
+	 */
+	private void bindingMobile(){
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的账户安全，请先通过手机验证");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("认证手机",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						Intent intent = new Intent(mContext,MobilePhoneVerificationActivity2.class);
+						startActivity(intent);
+						AppManager.getAppManager().finishActivity();
+					}
+				});
+		builder.create().show();
+	}
+	
+	/**
+	 * 开通汇付
+	 */
+	private void escrowRegister(){
+		
+		InfoDialog.Builder builder = new InfoDialog.Builder(mContext,R.layout.info_dialog);
+		builder.setMessage("为了您的资金安全，请先开通资金托管账户");
+		builder.setTitle("");
+		builder.setButton1("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setButton2("开通资金账户",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.cancel();
+						loadingDialog = new LoadingDialog(mContext);
+						loadingDialog.show();
+						ApiUserUtils.escrowRegister(mContext, new RequestCallback() {
+							
+							@Override
+							public void execute(ParseModel parseModel) {
+								if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+									String url = parseModel.getData().getAsJsonObject().get("url").getAsString();
+									Intent intent = new Intent(mContext,WebActivity.class);
+									intent.putExtra("url", url);
+									intent.putExtra("type", 1);//开通汇付
+									intent.putExtra("name", "开通汇付");
+									startActivity(intent);
+								}else{
+									ToastUtils.showToastSingle(mContext, parseModel.getMsg());
+								}
+								loadingDialog.cancel();
+							}
+						});
+					}
+				});
+		builder.create().show();
+		
 	}
 	
 }
