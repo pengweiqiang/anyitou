@@ -3,6 +3,7 @@
 
     <item android:drawable="@drawable/default_bottom_about_click" android:state_selected="true"></item>
     <item android:drawable="@drawable/default_bottom_about_click" android:state_checked="true"></item>
+    <item android:drawable="@drawable/default_bottom_about_click" android:state_pressed="true"></item>
     <item android:drawable="@drawable/default_bottom_about_normal"></item>
 
 </selector>
