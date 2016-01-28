@@ -49,7 +49,7 @@ public class AnyitouService extends Service {
 					isStarted = true;
 				}
 				cn.com.anyitou.utils.Log.e("Token", "-------刷新token----------");
-				TokenUtil.getClientToken(AnyitouService.this,true);
+				TokenUtil.getClientToken(AnyitouService.this,true,null);
 				if(MyApplication.getInstance().getCurrentUser() != null && !StringUtils.isEmpty(GlobalConfig.REFRESH_TOKEN)){
 					TokenUtil.refreshToken(AnyitouService.this, GlobalConfig.REFRESH_TOKEN,true);
 				}
