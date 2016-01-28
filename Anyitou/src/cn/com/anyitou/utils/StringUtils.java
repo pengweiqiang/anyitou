@@ -162,11 +162,27 @@ public class StringUtils {
 		double moneyWan = moneyDouble/10000;
 		if(moneyWan<1d){
 			DecimalFormat myformat = new DecimalFormat();
-			myformat.applyPattern("##,###0.0");
+			myformat.applyPattern("###,##0.0");
 			return myformat.format(moneyWan);
 		}else{
 			DecimalFormat myformat = new DecimalFormat();
-			myformat.applyPattern("##,###0.0");
+			myformat.applyPattern("###,##0.0");
+			return myformat.format(moneyWan);
+		}
+	}
+	public static String getMoneyFormateWanNoDecimaPoint(String money){
+		if(isEmpty(money)){
+			return money;
+		}
+		Double moneyDouble = Double.valueOf(money);
+		double moneyWan = moneyDouble/10000;
+		if(moneyWan<1d){
+			DecimalFormat myformat = new DecimalFormat();
+			myformat.applyPattern("###,##0");
+			return myformat.format(moneyWan);
+		}else{
+			DecimalFormat myformat = new DecimalFormat();
+			myformat.applyPattern("###,##0");
 			return myformat.format(moneyWan);
 		}
 	}
@@ -208,8 +224,17 @@ public class StringUtils {
 	}
 	
 	public static String getsubMobileString(String mobile){
-		if(!isEmpty(mobile)){
-			mobile = mobile.replace(mobile.subSequence(3, 7), "****");
+		try{
+			if(!isEmpty(mobile)){
+				int length = mobile.length();
+				if(length == 11){
+					mobile = mobile.replace(mobile.subSequence(3, 7), "****");
+				}else{
+					mobile = mobile.substring(0,1)+"****"+mobile.substring(length-1);
+				}
+			}
+		}catch(Exception e){
+			
 		}
 		return mobile;
 	}
@@ -232,7 +257,19 @@ public class StringUtils {
 			return "0.00";
 		}
 		DecimalFormat myformat = new DecimalFormat();
-		myformat.applyPattern("##,###.00");
+		myformat.applyPattern("###,##0.00");
+		return myformat.format(Double.valueOf(money));
+	}
+	public static String getMoneyFormatNoDecimalPoint(String money){
+		if(isEmpty(money)){
+			return "";
+		}
+		Double moneyDouble = Double.valueOf(money);
+		if(moneyDouble == 0d){
+			return "0";
+		}
+		DecimalFormat myformat = new DecimalFormat();
+		myformat.applyPattern("##,###");
 		return myformat.format(Double.valueOf(money));
 	}
 }

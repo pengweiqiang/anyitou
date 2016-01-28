@@ -24,6 +24,7 @@ public class DateUtil {
 	public static final String SIMPLY_DD_PATTERN3 = "MM月dd日";
 	public static final String CUSTOM_PATTERN4="yyyy年MM月dd日";
 	public static final String CUSTOM_PATTERN5="yyyy年MM月";
+	public static final String CUSTOM_PATTERN6="yyyy-MM-dd HH小时mm分ss秒";
 
 	/**
 	 * 获得日期对象
@@ -141,10 +142,10 @@ public class DateUtil {
 			tempDate = getDate(dateStr, oldPattern);
 			return getDateString(tempDate, pattern);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return dateStr;
 		}
-		return "";
+//		return "";
 	}
 
 	public static String getDateString(Date date, String pattern, int index) {

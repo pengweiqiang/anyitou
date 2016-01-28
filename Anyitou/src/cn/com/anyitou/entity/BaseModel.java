@@ -22,6 +22,8 @@ public class BaseModel implements Serializable{
 	
 	private String url;
 	
+	private String time;
+	
 
 	
 	public String getUrl() {
@@ -64,4 +66,13 @@ public class BaseModel implements Serializable{
 	public void setData(JsonElement data) {
 		this.data = data;
 	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
 }

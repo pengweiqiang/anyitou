@@ -27,12 +27,13 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
  *
  */
 public class TokenUtil {
+	
 	/**
 	 * 
 	 * @param mContext
 	 * @param isTimer 自动刷新
 	 */
-	public static void getClientToken(final Context mContext,boolean isTimer){
+	public static void getClientToken(final Context mContext,boolean isTimer,final InitTokenCallBack initTokenCallBack){
 		ApiUserUtils.oauthAccessToken(mContext, ReqUrls.CLIENT_CREDENTIALS, "", "", "", new RequestCallback() {
 			
 			@Override
@@ -41,11 +42,18 @@ public class TokenUtil {
 				if(!StringUtils.isEmpty(clientToken)){
 					saveToken(mContext,clientToken,"","");
 				}
+				if(initTokenCallBack!=null){
+					initTokenCallBack.initTokenSuccess();
+				}
 			}
-		},isTimer);
+		},isTimer,false);
 	}
-	public static void getClientToken(final Context mContext){
-		getClientToken(mContext, false);
+	public static void getClientToken(Context mContext){
+		getClientToken(mContext, false,null);
+	}
+	
+	public static void getClientToken(Context mContext,InitTokenCallBack initTokenCallBack){
+		getClientToken(mContext, false,initTokenCallBack);
 	}
 	
 	public static void getUserToken(final Context mContext,String userName,String password){
@@ -59,7 +67,7 @@ public class TokenUtil {
 					saveToken(mContext,"",accessToken,refreshToken);
 				}
 			}
-		},false);
+		},false,false);
 	}
 	
 	public static void refreshToken(final Context mContext,String refreshToken,boolean isTimer){
@@ -77,7 +85,7 @@ public class TokenUtil {
 					logOut(mContext);
 				}
 			}
-		},isTimer);
+		},isTimer,false);
 	}
 	
 	public static void refreshToken(final Context mContext,String refreshToken){
@@ -101,6 +109,7 @@ public class TokenUtil {
 		}
 		loginIntent.putExtra("type", 2);
 		loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		loginIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		mContext.startActivity(loginIntent);
 		MyApplication.getInstance().setUser(null);
 	}
@@ -118,6 +127,7 @@ public class TokenUtil {
 					loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
 					loginIntent.putExtra("type", 2);
 					loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					loginIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					mContext.startActivity(loginIntent);
 				}
 			}
@@ -149,6 +159,12 @@ public class TokenUtil {
 					Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, refreshToken + "_"
 							+ currentTime);
 		}
+	}
+	
+	public interface InitTokenCallBack{
+		void initTokenSuccess();
+		
+		void initTokenError();
 	}
 	
 }

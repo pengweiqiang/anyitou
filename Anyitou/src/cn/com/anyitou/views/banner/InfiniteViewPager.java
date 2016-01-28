@@ -60,7 +60,7 @@ public class InfiniteViewPager extends ViewPager {
                     mHandler.removeMessages(MSG_SET_PAGE);
                     Message msg = mHandler.obtainMessage(MSG_SET_PAGE);
                     msg.arg1 = position;
-                    mHandler.sendMessageDelayed(msg, 500);
+                    mHandler.sendMessageDelayed(msg, 300);
                     return;
                 }else {
                     log("position:" + position + "->" + FakePositionHelper.getRealPositon(InfiniteViewPager.this, position));

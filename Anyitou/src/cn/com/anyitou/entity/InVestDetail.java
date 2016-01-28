@@ -32,8 +32,15 @@ public class InVestDetail implements Serializable{
 	private String isrecommend;
 	private String guarantee_id;
 	private String isstarted;
+	private String raise_starttime_diff;//募集开始的时间戳
 	
 	
+	public String getRaise_starttime_diff() {
+		return raise_starttime_diff;
+	}
+	public void setRaise_starttime_diff(String raise_starttime_diff) {
+		this.raise_starttime_diff = raise_starttime_diff;
+	}
 	public String getIsstarted() {
 		return isstarted;
 	}

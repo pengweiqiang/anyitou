@@ -12,7 +12,6 @@ public class MyVerticalPagerAdapter extends FragmentPagerAdapter {
 
 	public MyVerticalPagerAdapter(FragmentManager fm) {
 		super(fm);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public MyVerticalPagerAdapter(FragmentManager fm,List<Fragment> oneListFragments){
@@ -21,20 +20,17 @@ public class MyVerticalPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public Fragment getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return fragments.get(arg0);
+	public Fragment getItem(int position) {
+		return fragments.get(position);
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return fragments.size();
 	}
 	
 	@Override
 	public int getItemPosition(Object object) {
-		// TODO Auto-generated method stub
 		return super.getItemPosition(object);
 	}
 

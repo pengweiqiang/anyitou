@@ -22,7 +22,7 @@ import cn.com.anyitou.views.PagerSlidingTabStrip;
 /**
  * 我的优惠券
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

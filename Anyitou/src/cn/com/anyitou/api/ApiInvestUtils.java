@@ -5,15 +5,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
 
+import cn.com.GlobalConfig;
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
+import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.HttpConnectionUtil.HttpMethod;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 
 /**
  * 投资相关api
- * @author will
+ * @author pengweiqiang
  *
  */
 public class ApiInvestUtils {
@@ -39,13 +41,13 @@ public class ApiInvestUtils {
 	/**
 	 * 获取推荐项目
 	 * @param context
-	 * @param page 页码
+	 * @param category invest: 企贷    chedai:车贷    fangdai:房贷 多个用","分割 默认：invest,chedai,fangdai
 	 * @param num  条数
 	 * @param requestCallBack
 	 */
-	public static void getRecommend(Context context,int page,String num,RequestCallback requestCallBack){
+	public static void getRecommend(Context context,String category,String num,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
-		params.put(ReqUrls.PAGE, page==0?1:page);
+		params.put(ReqUrls.CATEGORY, category);
 		params.put(ReqUrls.NUM, num);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_RECOMMEND, false,
 				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
@@ -73,6 +75,9 @@ public class ApiInvestUtils {
 	 */
 	public static void getInvestTradeById(Context context,String pid,String page,String num,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		if(!params.containsKey(ReqUrls.ACCESS_TOKEN)){
+			params.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.CLIENT_TOKEN);//client token
+		}
 		params.put("pid", pid);
 		params.put(ReqUrls.PAGE, page);
 		params.put(ReqUrls.NUM, num);
@@ -89,6 +94,9 @@ public class ApiInvestUtils {
 	 */
 	public static void calculatorInvest(Context context,String id,String amount,String coupons,RequestCallback requestCallBack){
 		ConcurrentHashMap<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		if(!params.containsKey(ReqUrls.ACCESS_TOKEN)){
+			params.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.CLIENT_TOKEN);
+		}
 		params.put("pid", id);
 		params.put(ReqUrls.AMOUNT, amount);
 		params.put("coupons", coupons);

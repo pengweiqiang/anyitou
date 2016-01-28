@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 手续费
- * @author will
+ * @author pengweiqiang
  *
  */
 public class CashFee implements Serializable{

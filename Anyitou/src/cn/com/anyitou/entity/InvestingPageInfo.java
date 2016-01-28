@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 投资确认界面信息
- * @author will
+ * @author pengweiqiang
  *
  */
 public class InvestingPageInfo implements Serializable{

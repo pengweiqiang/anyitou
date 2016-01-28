@@ -58,9 +58,11 @@ public class DetailImagesAdapter extends BaseListAdapter{
 		}else{
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
-		if(!imageUrl.startsWith("http://www.anyitou.com")){
-			imageUrl = "http://www.anyitou.com"+imageUrl;
-		}
+//		if(!imageUrl.startsWith("http://www.anyitou.com")){
+//			imageUrl = "http://www.anyitou.com"+imageUrl;
+//		}
+//		imageUrl = imageUrl.replaceFirst("https://", "http://");
+		
 		 ImageLoader.getInstance().displayImage(
 					imageUrl,
 					viewHolder.mIvImage,

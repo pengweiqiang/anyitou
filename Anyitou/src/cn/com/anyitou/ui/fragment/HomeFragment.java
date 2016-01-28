@@ -6,24 +6,21 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import cn.com.anyitou.MyApplication;
 import cn.com.anyitou.R;
 import cn.com.anyitou.adapters.BannerPagerAdapter;
-import cn.com.anyitou.adapters.HomeListAdapter;
+import cn.com.anyitou.adapters.FragmentAdapter;
 import cn.com.anyitou.api.ApiHomeUtils;
-import cn.com.anyitou.api.ApiInvestUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.entity.Banner;
-import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.ParseModel;
-import cn.com.anyitou.ui.InVestmentDetailActivity;
 import cn.com.anyitou.ui.LoginActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.DeviceInfo;
@@ -33,85 +30,87 @@ import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
-import cn.com.anyitou.views.MyListView;
-import cn.com.anyitou.views.XListView.IXListViewListener;
+import cn.com.anyitou.views.PagerSlidingTabStrip;
+import cn.com.anyitou.views.banner.CirclePageIndicator2;
 import cn.com.anyitou.views.banner.InfiniteViewPager;
-import cn.com.anyitou.views.banner.LinePageIndicator;
 import cn.com.gson.reflect.TypeToken;
 
 /**
  * 首页
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")
-public class HomeFragment extends BaseFragment implements IXListViewListener {
+public class HomeFragment extends BaseFragment {
 	private View infoView;
 	private ActionBar mActionBar;
 
 	private LoadingDialog loadingDialog;
 
-	MyListView mListView;
-	HomeListAdapter homeAdapter;
-	int page = 1;
-
-	List<Investment> investLists;
-
-	// banner
-	InfiniteViewPager mViewPager;
-	LinePageIndicator mLineIndicator;
-	private View mBannerView;
-	int height;
-	 List<Banner> bannerList=new ArrayList<Banner>();
 	
-	//header view
-	private View mHeaderView;
+	// banner height
+	int height;
+	//banner data
+	List<Banner> bannerList=new ArrayList<Banner>();
+	
+	//header banner view
+	InfiniteViewPager mViewPager;
+	CirclePageIndicator2 mLineIndicator;
+	private View mBannerView;
+	//category view 
+	private ViewPager mTabViewPager;
+	private PagerSlidingTabStrip mCategoryTabs;
+	private List<Fragment> list = new ArrayList<Fragment>();
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		infoView = inflater.inflate(R.layout.activity_main, container, false);
+		infoView = inflater.inflate(R.layout.activity_main2, container, false);
 		mActionBar = (ActionBar) infoView.findViewById(R.id.actionBar);
-		mListView = (MyListView) infoView.findViewById(R.id.listView_list);
+		mTabViewPager = (ViewPager) infoView.findViewById(R.id.viewPager_index);
+		mCategoryTabs = (PagerSlidingTabStrip) infoView.findViewById(R.id.tabs_index);
 		mActionBar.setTitle(getResources().getString(R.string.app_name));
 		onConfigureActionBar(mActionBar);
 		
-		//header view
+		//header banner view
 		getHeaderView();
-
-		mListView.showLastView();
-		mListView.setPullLoadEnable(true);
-		mListView.setXListViewListener(this);
+		//category tabs view
+		initCategoryTabsView();
+		
 		initListener();
 		return infoView;
 	}
 	
 	private void getHeaderView(){
-		mHeaderView = mActivity.getLayoutInflater().inflate(R.layout.home_header_view, null);
 	
 		//banner
-		mViewPager = (InfiniteViewPager) mHeaderView.findViewById(R.id.viewpager);
-		mLineIndicator = (LinePageIndicator) mHeaderView.findViewById(R.id.indicator);
-		mBannerView = mHeaderView.findViewById(R.id.banner);
+		mViewPager = (InfiniteViewPager) infoView.findViewById(R.id.viewpager);
+		mLineIndicator = (CirclePageIndicator2) infoView.findViewById(R.id.indicator);
+		mBannerView = infoView.findViewById(R.id.banner);
 		int width = DeviceInfo.getDisplayMetricsWidth(mActivity);
 		height = (int) (width * 1.0 / 720 * 270);
 		LayoutParams bannerViewParams = mBannerView.getLayoutParams();
 		bannerViewParams.width = width;
 		bannerViewParams.height = height;
 		mBannerView.setLayoutParams(bannerViewParams);
-		mListView.addHeaderView(mHeaderView);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		investLists = new ArrayList<Investment>();
-		homeAdapter = new HomeListAdapter(investLists, mActivity);
-		mListView.setAdapter(homeAdapter);
-		getInvestList();
 		getAppBanner();
 		
+	}
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// 判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示
+		// 通过这两个判断，就可以知道什么时候去加载数据了
+		if (isVisibleToUser && isVisible() && (bannerList==null || bannerList.isEmpty())) {
+			getAppBanner();
+		}
+		super.setUserVisibleHint(isVisibleToUser);
 	}
 
 	private void initBanner() {
@@ -132,28 +131,35 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 			mViewPager.startAutoScroll();
 	}
 
+	private boolean isReward = false;
 	@Override
 	public void onStop() {
+		super.onStop();
 		if (mViewPager != null)
 			mViewPager.stopAutoScroll();
-		super.onStop();
+		if(isReward){
+			mTabViewPager.setCurrentItem(1);
+			isReward = false;
+		}
+		
 	}
+	
 
 	private void initListener() {
 		mActionBar.hideLeftActionButtonText();
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(mActivity,
-						InVestmentDetailActivity.class);
-				intent.putExtra("type", 1);//投资
-				intent.putExtra("invest", investLists.get(position-2));
-				startActivity(intent);
-			}
-
-		});
+//		mListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				Intent intent = new Intent(mActivity,
+//						InVestmentDetailActivity.class);
+//				intent.putExtra("type", 1);//投资
+//				intent.putExtra("invest", investLists.get(position-2));
+//				startActivity(intent);
+//			}
+//
+//		});
 	}
 
 	@Override
@@ -180,55 +186,64 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	/**
-	 * 获取投资列表数据
+	 * 初始化分类tabs
 	 */
-	private void getInvestList() {
-		if (page == 1) {
-			loadingDialog = new LoadingDialog(mActivity);
-			loadingDialog.show();
-		} else if(page == 0){
-			page++;
-		}
-		ApiInvestUtils.getRecommend(mActivity, page, "10",
-				new HttpConnectionUtil.RequestCallback() {
+	private void initCategoryTabsView() {
+		// 设置数据源
+//		RewardItemFragment mRewardFragment = new RewardItemFragment();
+		// 安企贷
+		HomeItemFragment mInvestFragment = new HomeItemFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString("category", "invest");
+		mInvestFragment.setArguments(bundle);
+		// 安房贷
+		HomeItemFragment mFangDaiFragment = new HomeItemFragment();
+		Bundle bundleFangdai = new Bundle();
+		bundleFangdai.putString("category", "fangdai");
+		mFangDaiFragment.setArguments(bundleFangdai);
+		
+		//安车贷
+		HomeItemFragment mCheDaiFragment = new HomeItemFragment();
+		Bundle bundleCheDai = new Bundle();
+		bundleCheDai.putString("category", "chedai");
+		mCheDaiFragment.setArguments(bundleCheDai);
+		
+//		list.add(mRewardFragment);
+		list.add(mInvestFragment);
+		list.add(mFangDaiFragment);
+		list.add(mCheDaiFragment);
+		
+		String [] titles = new String[]{/*"新手体验",*/"安企贷","安房贷","安车贷"};
+		// 设置适配器
+		FragmentAdapter adapter = new FragmentAdapter(this.getChildFragmentManager(),titles,list);
 
-					@Override
-					public void execute(ParseModel parseModel) {
-						if (ApiConstants.RESULT_SUCCESS.equals(parseModel
-								.getCode())) {
-							List<Investment> invests = (List<Investment>) JsonUtils
-									.fromJson(parseModel.getData().toString(),
-											new TypeToken<List<Investment>>() {
-											});
-
-							if (page == 1) {
-								investLists.clear();
-							}
-
-							if (invests != null && !invests.isEmpty()) {
-								// initViewPagerData();
-								investLists.addAll(invests);
-								homeAdapter.notifyDataSetChanged();
-							} else {
-								ToastUtils.showToast(mActivity, "暂时没有投资列表");
-							}
-							mListView.onLoadFinish(page, invests.size(), "加载完毕");
-							
-
-						} else {
-							mListView.onLoadFinish(page, 0, "加载完毕");
-							ToastUtils.showToast(mActivity, parseModel.getMsg());
-						}
-						
-						loadingDialog.cancelDialog(loadingDialog);
-					}
-				});
+		// 绑定适配器
+		mTabViewPager.setAdapter(adapter);
+		mTabViewPager.setOffscreenPageLimit(titles.length);
+		mCategoryTabs.setViewPager(mTabViewPager);
+//		mCategoryTabs.setOnPageListener(new OnPageChange() {
+//			
+//			@Override
+//			public void changePage(int position) {
+//				if(position == 0){
+//					isReward = true;
+//					Intent intent = new Intent(mActivity,WebActivity.class);
+//					intent.putExtra("url", "http://www.anyitou.com/novice/detail?id=347");
+//					intent.putExtra("name", "新手体验");
+//					startActivity(intent);
+//				}
+//			}
+//		});
+		mTabViewPager.setCurrentItem(0);
 	}
+	
 
 	/**
 	 * 获取APP Banner
 	 */
 	private void getAppBanner() {
+		loadingDialog = new LoadingDialog(mActivity);
+		loadingDialog.show();
 		ApiHomeUtils.getBanner(mActivity,
 				new HttpConnectionUtil.RequestCallback() {
 
@@ -260,24 +275,13 @@ public class HomeFragment extends BaseFragment implements IXListViewListener {
 						} else {
 							ToastUtils.showToast(mActivity, parseModel.getMsg());
 						}
+						loadingDialog.cancel();
 					}
 				});
 	}
+	
+	
 
-	@Override
-	public void onRefresh() {
-		page = 0;
-		if(bannerList == null || bannerList.isEmpty()){
-			getAppBanner();
-		}
-		getInvestList();
-	}
-
-	@Override
-	public void onLoadMore() {
-		page++;
-		getInvestList();
-	}
 
 	// private List<Investment> getInvests(ParseModel parseModel) {
 	// List<Investment> investments = new ArrayList<Investment>();

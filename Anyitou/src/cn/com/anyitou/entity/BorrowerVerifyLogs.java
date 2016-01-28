@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 借款人审核信息
  * 房贷、车贷详情
- * @author will
+ * @author pengweiqiang
  *
  */
 public class BorrowerVerifyLogs implements Serializable{

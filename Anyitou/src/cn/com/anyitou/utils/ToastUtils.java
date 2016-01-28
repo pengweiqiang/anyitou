@@ -3,6 +3,7 @@ package cn.com.anyitou.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,40 +13,75 @@ import cn.com.anyitou.R;
 
 public class ToastUtils {
 	
-	public static void showToast(Context context ,String text){
-		showToast(context, text,Toast.LENGTH_SHORT,-1);
-	}
-	public static void showToast(Context context,String text,int duration,int gravity){
-		if(!StringUtils.isEmpty(text)){
-			LayoutInflater inflater = LayoutInflater.from(context);
+	
+	
+	private static Toast mToast;
+    private static Handler mHandler = new Handler();
+    private static Runnable r = new Runnable() {
+        public void run() {
+            mToast.cancel();
+        }
+    };
+
+    public static void showToast(Context mContext, String text) {
+       
+        mHandler.removeCallbacks(r);
+        if (mToast != null){
+        	TextView tvMessage = (TextView)mToast.getView().findViewById(R.id.message);
+        	tvMessage.setText(text);
+        }
+        else{
+        	LayoutInflater inflater = LayoutInflater.from(mContext);
 		    View view=inflater.inflate(R.layout.toast_tips_loading, null);
 		    TextView mTvMessage = (TextView)view.findViewById(R.id.message);
 		    mTvMessage.setText(text);
 //			Toast t = Toast.makeText(context, text, duration);
-		    Toast t = new Toast(context);
-		    t.setDuration(duration);
-		    t.setView(view);
-			if(gravity == -1){
-				t.setGravity(Gravity.CENTER, 0, 0);
-			}
-			t.show();
-		}
+		    mToast = new Toast(mContext);
+		    mToast.setDuration(Toast.LENGTH_SHORT);
+		    mToast.setGravity(Gravity.CENTER, 0, 0);
+		    mToast.setView(view);
+		    mToast.show();
+        }
+        mHandler.postDelayed(r, 1000);
+
+        mToast.show();
+    }
+
+    public static void showToast(Context mContext, int resId, int duration) {
+        showToast(mContext, mContext.getResources().getString(resId), 1000);
+    }
+	
+	
+	
+	public static void showToast(Context mContext,String text,int duration,int gravity){
+		mHandler.removeCallbacks(r);
+        if (mToast != null){
+        	TextView tvMessage = (TextView)mToast.getView().findViewById(R.id.message);
+        	tvMessage.setText(text);
+        }
+        else{
+        	LayoutInflater inflater = LayoutInflater.from(mContext);
+		    View view=inflater.inflate(R.layout.toast_tips_loading, null);
+		    TextView mTvMessage = (TextView)view.findViewById(R.id.message);
+		    mTvMessage.setText(text);
+//			Toast t = Toast.makeText(context, text, duration);
+		    mToast = new Toast(mContext);
+		    if(duration == Toast.LENGTH_LONG){
+		    	mToast.setDuration(Toast.LENGTH_LONG);
+		    }else{
+		    	mToast.setDuration(Toast.LENGTH_SHORT);
+		    }
+		    mToast.setGravity(Gravity.CENTER, 0, 0);
+		    mToast.setView(view);
+		    mToast.show();
+        }
+        mHandler.postDelayed(r, 1000);
+
+        mToast.show();
 	}
 	
 	public static void showToast(Context context ,int text){
-//		Toast t = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-//		t.setGravity(Gravity.CENTER, 0, 0);
-//		t.show();
-		LayoutInflater inflater = LayoutInflater.from(context);
-	    View view=inflater.inflate(R.layout.toast_tips_loading, null);
-	    TextView mTvMessage = (TextView)view.findViewById(R.id.message);
-	    mTvMessage.setText(text);
-//		Toast t = Toast.makeText(context, text, duration);
-	    Toast t = new Toast(context);
-	    t.setDuration(Toast.LENGTH_SHORT);
-	    t.setGravity(Gravity.CENTER, 0, 0);
-	    t.setView(view);
-	    t.show();
+		showToast(context, context.getResources().getText(text).toString(), Toast.LENGTH_SHORT, -1);
 	}
 	
 	public static void showToast(Context context ,String text, int duration){
@@ -59,39 +95,27 @@ public class ToastUtils {
     private static long oneTime=0; 
     private static long twoTime=0; 
 
-    public static void showToastSingle(Context context, String s){     
-        if(toast==null){  
-//            toast =Toast.makeText(context, s, Toast.LENGTH_SHORT); 
-//            toast.setGravity(Gravity.CENTER, 0, 0);
-//            toast.show(); 
-        	LayoutInflater inflater = LayoutInflater.from(context);
+    public synchronized static void showToastSingle(Context mContext, String text){     
+    	mHandler.removeCallbacks(r);
+        if (mToast != null){
+        	TextView tvMessage = (TextView)mToast.getView().findViewById(R.id.message);
+        	tvMessage.setText(text);
+        }
+        else{
+        	LayoutInflater inflater = LayoutInflater.from(mContext);
 		    View view=inflater.inflate(R.layout.toast_tips_loading, null);
 		    TextView mTvMessage = (TextView)view.findViewById(R.id.message);
-		    mTvMessage.setText(s);
+		    mTvMessage.setText(text);
 //			Toast t = Toast.makeText(context, text, duration);
-		    Toast toast = new Toast(context);
-		    toast.setDuration(Toast.LENGTH_SHORT);
-		    toast.setGravity(Gravity.CENTER, 0, 0);
-		    toast.setView(view);
-		    toast.show();
-            oneTime=System.currentTimeMillis(); 
-        }else{ 
-            twoTime=System.currentTimeMillis(); 
-            if(s.equals(oldMsg)){ 
-                if(twoTime-oneTime>Toast.LENGTH_SHORT){ 
-                	toast.setGravity(Gravity.CENTER, 0, 0);
-                	toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show(); 
-                } 
-            }else{ 
-                oldMsg = s; 
-                toast.setText(s); 
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show(); 
-            }        
-        } 
-        oneTime=twoTime; 
+		    mToast = new Toast(mContext);
+		    mToast.setDuration(Toast.LENGTH_SHORT);
+		    mToast.setGravity(Gravity.CENTER, 0, 0);
+		    mToast.setView(view);
+		    mToast.show();
+        }
+        mHandler.postDelayed(r, 1000);
+
+        mToast.show();
     } 
 
 

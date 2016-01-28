@@ -33,7 +33,7 @@ import cn.com.gson.reflect.TypeToken;
 /**
  * 可转让
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

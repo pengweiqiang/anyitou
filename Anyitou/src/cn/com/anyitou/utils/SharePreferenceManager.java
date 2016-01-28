@@ -1,5 +1,6 @@
 package cn.com.anyitou.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -9,7 +10,7 @@ public class SharePreferenceManager {
 	public synchronized static void saveBatchSharedPreference(Context context, String filename, Object name,
 			Object value) {
 		
-		SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(filename, 0);
+		SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(filename, Activity.MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
 		if (name instanceof String) {
 			if (value instanceof Boolean) {
@@ -69,7 +70,7 @@ public class SharePreferenceManager {
 	 */
 	public synchronized static Object getSharePreferenceValue(Context context, String filename, Object name,
 			Object defValue) {
-		SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(filename, 0);
+		SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(filename, Activity.MODE_PRIVATE);
 		Object value = null;
 		if (name instanceof String) {
 			if (defValue instanceof Boolean) {

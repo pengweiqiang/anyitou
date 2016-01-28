@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 会员等级变更
- * @author will
+ * @author pengweiqiang
  *
  */
 public class MemberChangeRecords implements Serializable{

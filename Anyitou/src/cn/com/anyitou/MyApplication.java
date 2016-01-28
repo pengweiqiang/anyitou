@@ -12,6 +12,7 @@ import cn.com.anyitou.utils.JsonUtils;
 import cn.com.anyitou.utils.SharePreferenceManager;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.TokenUtil;
+import cn.com.anyitou.utils.TokenUtil.InitTokenCallBack;
 import cn.com.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import cn.com.universalimageloader.cache.memory.MemoryCacheAware;
 import cn.com.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -60,14 +61,22 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		TAG = this.getClass().getSimpleName();
-		// 由于Application类本身已经单例，所以直接按以下处理即可。
 		myApplication = this;
+		
+		initImageLoader(this);
+		MobclickAgent.openActivityDurationTrack(false);
+		
+	}
+	/**
+	 * 获取  两种token（client token and user token）
+	 */
+	public void initToken(InitTokenCallBack initTokenCallBack){
 		try{
 			String userJson = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, "user", "");
 			String clientTokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.CLIENT_CREDENTIALS, "");
 			String tokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.ACCESS_TOKEN, "");
 			
-			
+			//client token
 			if(!StringUtils.isEmpty(clientTokenStr)){
 				String clientTokens[] = clientTokenStr.split("_");
 				long currentTime = System.currentTimeMillis();
@@ -75,13 +84,13 @@ public class MyApplication extends Application {
 				if(Math.abs(currentTime - saveCurrentTime) < 1000*60*60*1.5){
 					GlobalConfig.CLIENT_TOKEN = clientTokens[0];
 				}
-				TokenUtil.getClientToken(myApplication);
+				TokenUtil.getClientToken(myApplication,initTokenCallBack);
 				
 			}else{
-				TokenUtil.getClientToken(myApplication);
+				TokenUtil.getClientToken(myApplication,initTokenCallBack);
 			}
 			
-			
+			//user token
 			if(!StringUtils.isEmpty(userJson) && !StringUtils.isEmpty(tokenStr)){
 				String refreshTokenStr = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, ReqUrls.REFRESH_TOKEN, "");
 				String tokens[] = tokenStr.split("_");
@@ -104,6 +113,7 @@ public class MyApplication extends Application {
 						}
 					}
 				}
+				//获取手势密码
 				String gesturePwds = (String)SharePreferenceManager.getSharePreferenceValue(myApplication, Constant.FILE_NAME, user.getUsername()+Constant.GESTURE_PWD, "");
 				if(!StringUtils.isEmpty(gesturePwds)){
 					String gpwds [] = gesturePwds.split(",");
@@ -119,9 +129,6 @@ public class MyApplication extends Application {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		initImageLoader(this);
-		MobclickAgent.openActivityDurationTrack(false);
-		
 	}
 
 	/**

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 交易记录
- * @author will
+ * @author pengweiqiang
  *
  */
 public class Records implements Serializable{

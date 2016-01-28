@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 安币变更
- * @author will
+ * @author pengweiqiang
  *
  */
 public class IntegralRecords implements Serializable{

@@ -31,7 +31,7 @@ import cn.com.gson.reflect.TypeToken;
 /**
  * 未使用
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

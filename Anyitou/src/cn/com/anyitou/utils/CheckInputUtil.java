@@ -9,7 +9,7 @@ import android.content.Context;
 
 /**
  * 检索输入条件
- * @author will
+ * @author pengweiqiang
  *
  */
 public class CheckInputUtil {

@@ -21,12 +21,14 @@ public class LoadingDialog extends AlertDialog {
     private String message = null;
 
     public LoadingDialog(Context context) {
-        super(context);
+//        super(context);
+        super(context,R.style.MyDialog);
         message = getContext().getResources().getString(R.string.msg_load_ing);
     }
-
+    
+    
     public LoadingDialog(Context context, String message) {
-        super(context);
+        super(context,R.style.MyDialog);
         this.message = message;
         this.setCancelable(true);
         this.setCanceledOnTouchOutside(true);

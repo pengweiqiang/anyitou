@@ -3,8 +3,10 @@ package cn.com.anyitou.api;
 import java.util.Map;
 
 import android.content.Context;
+import cn.com.anyitou.api.constant.ApiConstants;
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
+import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.http.HttpClientAddHeaders;
 import cn.com.anyitou.http.MyConcurrentHashMap;
 import cn.com.anyitou.utils.HttpConnectionUtil.HttpMethod;
@@ -14,7 +16,7 @@ import cn.com.anyitou.utils.StringUtils;
 /**
  * api user用户相关的接口
  * 
- * @author will
+ * @author pengweiqiang
  */
 public class ApiUserUtils {
 	
@@ -31,7 +33,7 @@ public class ApiUserUtils {
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack,boolean isTimer){
+	public static void oauthAccessToken(Context context,String grant_type,String username,String password,String refreshToken,RequestCallback requestCallBack,boolean isTimer,boolean isLoginActivity){
 		Map<String,Object> params = new MyConcurrentHashMap<String,Object>();
 		
 		params.put(ReqUrls.GRANT_TYPE, grant_type);
@@ -39,6 +41,9 @@ public class ApiUserUtils {
 		params.put(ReqUrls.PASSWORD, password);
 		params.put(ReqUrls.REFRESH_TOKEN, refreshToken);
 		params.put("isUserToken", false);
+		if(isLoginActivity){
+			params.put("isLoginActivity", isLoginActivity);
+		}
 		
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_AUTH, false,
 				requestCallBack, MethodType.LOGIN, context,isTimer);
@@ -51,7 +56,14 @@ public class ApiUserUtils {
 	 */
 	public static void getMyAccount(Context context,RequestCallback requestCallBack){
 		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
-		
+		if(!params.containsKey(ReqUrls.ACCESS_TOKEN)){
+			ParseModel parseModel = new ParseModel();
+			parseModel.setCode(ApiConstants.RESULT_INVALID_TOKEN);
+			parseModel.setData(null);
+			parseModel.setMsg("您未登录");
+			requestCallBack.execute(parseModel);
+			return ;
+		}
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_MY_ACCOUNT, false,
 				requestCallBack, MethodType.LOGIN, context);
 		
@@ -63,8 +75,27 @@ public class ApiUserUtils {
 	 */
 	public static void getMyAnbiInfo(Context context,RequestCallback requestCallBack){
 		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
-		
+		if(!params.containsKey(ReqUrls.ACCESS_TOKEN)){
+			ParseModel parseModel = new ParseModel();
+			parseModel.setCode(ApiConstants.RESULT_INVALID_TOKEN);
+			parseModel.setData(null);
+			parseModel.setMsg("您未登录");
+			requestCallBack.execute(parseModel);
+			return ;
+		}
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INTEGRAL, false,
+				requestCallBack, MethodType.LOGIN, context);
+		
+	}
+	/**
+	 * 获取资金账户-汇付开户地址接口
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void escrowRegister(Context context,RequestCallback requestCallBack){
+		Map<String,Object> params = HttpClientAddHeaders.getHeaders(context);
+		
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_ESCROW_REGISTER, false,
 				requestCallBack, MethodType.LOGIN, context);
 		
 	}
@@ -79,7 +110,7 @@ public class ApiUserUtils {
 	 */
 	public static void registerCode(Context context, String captchaKey,String captcha,
 			RequestCallback requestCallBack) {
-		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context,false);
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
 		params.put(ReqUrls.CAPTCHA_KEY, captchaKey);
 		params.put(ReqUrls.CAPTCHA, captcha);
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_REGISTERCODE, false,
@@ -200,8 +231,15 @@ public class ApiUserUtils {
 	public static void login(Context context, String userName, String passWord,
 			RequestCallback requestCallBack) {
 		
-		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack,false);
+		oauthAccessToken(context, "password", userName, passWord, "", requestCallBack,false,false);
 	}
+	
+	public static void login(Context context, String userName, String passWord,boolean isLoginActivity,
+			RequestCallback requestCallBack) {
+		
+		oauthAccessToken(context, "password", userName, passWord,"", requestCallBack,false,isLoginActivity);
+	}
+	
 	
 	/**
 	 * 修改密码
@@ -469,10 +507,38 @@ public class ApiUserUtils {
 	 */
 	public static void getUserInfo(Context context,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		if(!params.containsKey(ReqUrls.ACCESS_TOKEN)){
+			ParseModel parseModel = new ParseModel();
+			parseModel.setCode(ApiConstants.RESULT_INVALID_TOKEN);
+			parseModel.setData(null);
+			parseModel.setMsg("您未登录");
+			requestCallBack.execute(parseModel);
+			return ;
+		}
 		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_INFO, false,
 				requestCallBack, MethodType.LOGIN, context);
 	}
+	/**
+	 * 签到
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void userSignIn(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_SIGNIN, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
 	
+	/**
+	 * 今日签到
+	 * @param context
+	 * @param requestCallBack
+	 */
+	public static void getSignStatus(Context context,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_USER_SIGN_STATUS, false,
+				requestCallBack, MethodType.LOGIN, context);
+	}
 	
 	/**
 	 * 红包列表

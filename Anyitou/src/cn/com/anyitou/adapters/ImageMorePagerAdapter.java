@@ -54,9 +54,14 @@ public class ImageMorePagerAdapter extends InfinitePagerAdapter{
             view.setTag(holder);
         }
         Urls item = mList.get(position);
+//        String url = item.getUrl().replaceFirst("https://", "http://");
+        String url = item.getUrl();
+//        if(!url.startsWith("http://www.anyitou.com")||!url.){
+//        	url = "http://www.anyitou.com"+url;
+//        }
         
         ImageLoader.getInstance().displayImage(
-				item.getUrl(),
+				url,
 				holder.image,
 				MyApplication.getInstance()
 						.getOptions2(R.drawable.index_banner));

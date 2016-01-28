@@ -5,7 +5,7 @@ import java.io.Serializable;
 import cn.com.anyitou.utils.StringUtils;
 /**
  * 我的资金
- * @author will
+ * @author pengweiqiang
  *
  */
 public class MyCapital implements Serializable{

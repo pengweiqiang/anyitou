@@ -17,6 +17,8 @@ public class Constant {
     public static final String GESTURE_PWD = "gesture_pwd";
     //推送
     public static final String PUSH = "push";
+    //签到
+    public static final String USER_SIGN  = "user_sign";
     
     public static final String LOCATION = "cn.com.anyitou.location";
 

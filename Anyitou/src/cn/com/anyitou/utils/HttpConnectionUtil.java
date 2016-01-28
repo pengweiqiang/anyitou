@@ -133,13 +133,14 @@ public class HttpConnectionUtil {
 					Log.i(TAG, url+"接口返回结果："+backStr);
 					if (callback != null && null != backStr){
 						ParseModel pm = getParseModel(backStr, methodType, context,(Boolean)params.get("isUserToken"));
-						if(!StringUtils.isEmpty(pm.getError()) && pm.getError().equals("invalid_grant")){
+						if(!StringUtils.isEmpty(pm.getError()) && pm.getError().equals("invalid_grant") && !params.containsKey("isLoginActivity")){
 							Intent loginIntent = new Intent(context,LoginActivity.class);
 							if(MyApplication.getInstance().getCurrentUser()!=null){
 								loginIntent.putExtra("userName", MyApplication.getInstance().getCurrentUser().getUsername());
 							}
 							loginIntent.putExtra("type", 2);
 							loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//							loginIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 							context.startActivity(loginIntent);
 						}
 						callback.execute(pm);
@@ -165,11 +166,14 @@ public class HttpConnectionUtil {
 					}
 					HttpResponse response = client.execute(request);
 					int statusCode = response.getStatusLine().getStatusCode();
+					
 					backStr = String.valueOf(statusCode);
 					Log.i(TAG, backStr);
 //					if (statusCode == HttpStatus.SC_OK || statusCode == NetUtil.NET_QUERY_SUCC || statusCode== NetUtil.FAIL_CODE || statusCode == NetUtil.FAIL_CODE_400) {
 //						backStr = EntityUtils.toString(response.getEntity(),HTTP.UTF_8);
+					if(statusCode!=500){//服务器异常
 						backStr = handleEntity(response.getEntity(),HTTP.UTF_8);
+					}
 						if(isTimer){//自动刷新token
 							Log.e(TAG, "自动刷新token "+params.get(ReqUrls.GRANT_TYPE).toString()+"   "+backStr);
 							TokenUtil.saveTokenIsTimer(context, backStr,params.get(ReqUrls.GRANT_TYPE).toString());

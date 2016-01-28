@@ -25,7 +25,7 @@ public interface ApiConstants {
 	/**
 	 * 未开通汇付
 	 */
-	public static final String RESULT_UNHF_USER = "1002";
+	public static final String RESULT_UNHF_USER = "2001";
 	
 	/**
 	 * 用户不存在
@@ -65,8 +65,6 @@ public interface ApiConstants {
     
     public static final int MAX_STATUS = 99999;
     
-    //是否打印日志 上线改为false
-    public static boolean ISDEBUG = false;
     
     //充值
     public static int TYPE_RECHARGE = 1001;

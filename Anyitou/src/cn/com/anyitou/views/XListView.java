@@ -31,6 +31,7 @@ import cn.com.anyitou.utils.StringUtils;
 public class XListView extends ListView implements OnScrollListener {
 
 	private float mLastY = -1; // save event y
+	private float mLastX = -1;//save event x
 	private Scroller mScroller; // used for scroll back
 	private OnScrollListener mScrollListener; // user's scroll listener
 
@@ -336,15 +337,26 @@ public class XListView extends ListView implements OnScrollListener {
 		if (mLastY == -1) {
 			mLastY = ev.getRawY();
 		}
+		if(mLastX == -1){
+			mLastX = ev.getRawX();
+		}
 
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mLastY = ev.getRawY();
+			mLastX = ev.getRawX();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			final float deltaY = ev.getRawY() - mLastY;
+			final float deltaX = ev.getRawX() - mLastX;
 			mLastY = ev.getRawY();
-			if (getFirstVisiblePosition() == 0
+			mLastX = ev.getRawX();
+			
+			if(deltaX<deltaY && deltaY>0 && !mEnablePullRefresh && getFirstVisiblePosition() == 0){
+				return false;
+			}
+			
+			if ( mEnablePullRefresh && getFirstVisiblePosition() == 0
 					&& (mHeaderView.getVisiableHeight() > 0 || deltaY > 0)) {
 				// the first item is showing, header has shown or pull down.
 				updateHeaderHeight(deltaY / OFFSET_RADIO);

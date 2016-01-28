@@ -11,13 +11,12 @@ import cn.bidaround.ytcore.YtShareListener;
 import cn.bidaround.ytcore.data.ShareData;
 import cn.bidaround.ytcore.data.YtPlatform;
 import cn.bidaround.ytcore.util.HttpUtils;
-import cn.bidaround.ytcore.util.YtToast;
 import cn.com.anyitou.R;
 import cn.com.anyitou.ui.HomeActivity;
 
 /**
  * 分享工具类
- * @author will
+ * @author pengweiqiang
  *
  */
 public class ShareUtil {
@@ -49,6 +48,10 @@ public class ShareUtil {
 	
 	
 	public void share(int position,String text){
+		share(position, text,"https://www.anyitou.com/wap/reg/register");
+	}
+	
+	public void share(int position,String text,String inviteUrl){
 		if(isExist){
 			if(!StringUtils.isEmpty(text)){
 				shareData.setText(text);
@@ -58,14 +61,18 @@ public class ShareUtil {
 				}else if(position == 5){
 					shareData = new ShareData();
 					shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
-					shareData.setDescription("安宜投");// 待分享内容的描述
-					shareData.setTitle("安宜投"); // 待分享的标题
-					shareData.setText("安宜投是国内首家面向金融消费者实现第三方资金托管的在线理财服务平台，并且在国内金融平台中首次提出了日付息的概念，满足了广大投资人每天都能看到收益的快感！");// 待分享的文字
+					shareData.setDescription("1000元＋58元现金券，注册就送，一般人我不告诉他...");// 待分享内容的描述
+					shareData.setTitle("您的土豪朋友为您准备了58元现金礼包，速来领取！"); // 待分享的标题
+					shareData.setText("1000元＋58元现金券，注册就送，一般人我不告诉他...");// 待分享的文字
 					shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
 					shareData.setTargetId(String.valueOf(100));
-					shareData.setTargetUrl("http://www.anyitou.com");// 待分享内容的跳转链接
+					shareData.setTargetUrl(inviteUrl);// 待分享内容的跳转链接
 				}
 			}
+			if(StringUtils.isEmpty(inviteUrl)){
+				inviteUrl = "https://www.anyitou.com/wap/reg/register";
+			}
+			shareData.setTargetUrl(inviteUrl);
 			
 			for (YtPlatform platform : YtPlatform.values())
 				if (platform.getTitleName(context).equals(platformNames.get(position)))
@@ -74,7 +81,6 @@ public class ShareUtil {
 		}else{
 			ToastUtils.showToast(context, "SD卡不存在");
 		}
-			
 	}
 	/**
 	 * 初始化数据配置 说明：
@@ -88,13 +94,13 @@ public class ShareUtil {
 	public void initShareData() {
 		shareData = new ShareData();
 		shareData.setAppShare(false); // 是否为应用分享，如果为true，分享的数据需在友推后台设置
-		shareData.setDescription("安宜投");// 待分享内容的描述
-		shareData.setTitle("安宜投"); // 待分享的标题
-		shareData.setText("安宜投是国内首家面向金融消费者实现第三方资金托管的在线理财服务平台，并且在国内金融平台中首次提出了日付息的概念，满足了广大投资人每天都能看到收益的快感！");// 待分享的文字
-		shareData.setImage(ShareData.IMAGETYPE_APPRESOURE, String.valueOf(R.drawable.ic_launcher));// 设置网络分享地址
+		shareData.setDescription("1000元＋58元现金券，注册就送，一般人我不告诉他...");// 待分享内容的描述
+		shareData.setTitle("您的土豪朋友为您准备了58元现金礼包，速来领取！"); // 待分享的标题
+		shareData.setText("1000元＋58元现金券，注册就送，一般人我不告诉他...");// 待分享的文字
+		shareData.setImage(ShareData.IMAGETYPE_APPRESOURE, String.valueOf(R.drawable.share_logo));// 设置网络分享地址
 		shareData.setPublishTime(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
 		shareData.setTargetId(String.valueOf(100));
-		shareData.setTargetUrl("http://www.anyitou.com");// 待分享内容的跳转链接
+		shareData.setTargetUrl("https://www.anyitou.com/wap/reg/register");// 待分享内容的跳转链接
 	}
 
 	/**
@@ -116,7 +122,8 @@ public class ShareUtil {
 		/** 分享成功后回调方法 */
 		@Override
 		public void onSuccess(YtPlatform platform, String result) {
-			YtToast.showS(context, "分享成功");
+//			YtToast.showS(context, "分享成功");
+			ToastUtils.showToastSingle(context, "分享成功");
 
 			Log.w("YouTui", platform.getName());
 
@@ -127,7 +134,8 @@ public class ShareUtil {
 		/** 分享之前调用方法 */
 		@Override
 		public void onPreShare(YtPlatform platform) {
-			YtToast.showS(context, "分享中...");
+//			YtToast.showS(context, "分享中...");
+			ToastUtils.showToastSingle(context, "分享中...");
 
 			Log.w("YouTui", platform.getName());
 		}
@@ -135,7 +143,8 @@ public class ShareUtil {
 		/** 分享失败回调方法 */
 		@Override
 		public void onError(YtPlatform platform, String error) {
-			YtToast.showS(context, "分享错误");
+//			YtToast.showS(context, "分享错误");
+			ToastUtils.showToastSingle(context, "分享错误");
 
 			Log.w("YouTui", platform.getName());
 			Log.w("YouTui", error);
@@ -146,7 +155,8 @@ public class ShareUtil {
 		/** 分享取消回调方法 */
 		@Override
 		public void onCancel(YtPlatform platform) {
-			YtToast.showS(context, "取消分享");
+//			YtToast.showS(context, "取消分享");
+			ToastUtils.showToastSingle(context, "取消分享");
 
 			Log.w("YouTui", platform.getName());
 			/** 清理缓存 */

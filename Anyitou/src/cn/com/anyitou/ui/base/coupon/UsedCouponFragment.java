@@ -31,7 +31,7 @@ import cn.com.gson.reflect.TypeToken;
 /**
  * 已使用优惠券
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

@@ -85,6 +85,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	private int currentPosition = 0;
 	private int selectedPosition = 0;
 	private float currentPositionOffset = 0f;
+	
+	private int marginOffset = 0;//tab之间的间隙
 
 	private Paint rectPaint;
 	private Paint dividerPaint;
@@ -171,6 +173,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 		shouldExpand = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
 		scrollOffset = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
 		textAllCaps = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
+		
+		tabTextSize = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_tabTextSize, tabTextSize);
+		tabTextColor = a.getColor(R.styleable.PagerSlidingTabStrip_tabTextColor, tabTextColor);
+		marginOffset = a.getDimensionPixelOffset(R.styleable.PagerSlidingTabStrip_marginOffset, marginOffset);
+		
 		
 		a.recycle();
 
@@ -355,7 +362,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 			lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
 		}
 
-		canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+		canvas.drawRect(lineLeft+marginOffset, height - indicatorHeight, lineRight-marginOffset, height, rectPaint);
 
 		// draw divider
 

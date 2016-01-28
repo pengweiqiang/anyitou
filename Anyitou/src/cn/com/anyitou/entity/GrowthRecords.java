@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 用户成长值
- * @author will
+ * @author pengweiqiang
  *
  */
 public class GrowthRecords implements Serializable{

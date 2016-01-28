@@ -49,9 +49,9 @@ public class HttpClientAddHeaders {
 //		}
 		
 		if(isUserToken && !StringUtils.isEmpty(GlobalConfig.ACCESS_TOKEN)){
-			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.ACCESS_TOKEN);//token
+			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.ACCESS_TOKEN);// user token
 		}else if(!isUserToken && !StringUtils.isEmpty(GlobalConfig.CLIENT_TOKEN)){
-			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.CLIENT_TOKEN);//token
+			headers.put(ReqUrls.ACCESS_TOKEN,GlobalConfig.CLIENT_TOKEN);//client token
 		}
 		headers.put("isUserToken", isUserToken);
 //        headers.put("userId",GlobalConfig.USER_ID);

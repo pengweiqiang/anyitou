@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 会员特权
- * @author will
+ * @author pengweiqiang
  *
  */
 public class Grades implements Serializable{

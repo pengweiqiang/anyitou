@@ -13,10 +13,25 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 /**
  * API消息相关接口
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 public class ApiMessageUtils {
+	
+	/**
+	 * 绑定用户设备号等信息(/push/device)
+	 * @param context
+	 * @param registration_id
+	 * @param alias
+	 * @param requestCallBack
+	 */
+	public static void pushBindingDevice(Context context,String registration_id,String alias,RequestCallback requestCallBack){
+		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
+		params.put("registration_id", registration_id);
+		params.put("alias", alias);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_PUSH_DEVICE, false,
+				requestCallBack, MethodType.LOGIN,context,HttpMethod.POST,false);
+	}
 
 	/**
 	 * 消息列表

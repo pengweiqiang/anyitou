@@ -161,6 +161,14 @@ public class DateUtils {
 	public static boolean beforeNow(Date when) {
 		return getCurrentDate().after(when);
 	}
+	/**
+	 * 比较两个时间的前后
+	 * @param date1
+	 * @return
+	 */
+	public static boolean compareDate(Date date1,Date date2){
+		return date1.after(date2);
+	}
 
 	/**
 	 * 获取当前时间对象

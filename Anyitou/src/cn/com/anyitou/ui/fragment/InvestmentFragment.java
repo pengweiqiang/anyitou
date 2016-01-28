@@ -6,8 +6,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +17,7 @@ import cn.com.anyitou.adapters.FragmentAdapter;
 import cn.com.anyitou.ui.CreditoTransferFragment;
 import cn.com.anyitou.ui.ProjectListFragment;
 import cn.com.anyitou.ui.base.BaseFragment;
+import cn.com.anyitou.utils.Log;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.CustomViewPager;
 import cn.com.anyitou.views.MyPopupWindow;
@@ -28,7 +27,7 @@ import cn.com.anyitou.views.PagerSlidingTabStrip.OnPageChange;
 /**
  * 投资
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

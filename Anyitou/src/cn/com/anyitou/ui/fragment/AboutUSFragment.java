@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import cn.com.anyitou.entity.ParseModel;
 import cn.com.anyitou.ui.FeedBackActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
+import cn.com.anyitou.utils.Log;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.LoadingDialog;
@@ -29,7 +29,7 @@ import cn.com.gson.JsonObject;
 /**
  * 关于我们
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")
@@ -59,7 +59,6 @@ public class AboutUSFragment extends BaseFragment {
 	@Override
 	 public void setUserVisibleHint(boolean isVisibleToUser) {
          //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
-		Log.e("about", "setUserVisibleHint");
 		 if (isVisibleToUser && isVisible() && isFirst) {
 			 Log.e("about", "setUserVisibleHint"+"  initdata");
 			 initData(); //加载数据的方法

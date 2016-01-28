@@ -107,7 +107,7 @@ public class HomeListAdapter extends BaseListAdapter{
 //		String status = invest.getInvest_status();
 		viewHolder.mTvStatus.setText(invest.getInvest_status_label());
 		viewHolder.mTvInvestmentCycle.setText(invest.getBorrow_days()+"天");
-		String money = StringUtils.getMoneyFormateWan(invest.getFinancing_amount());
+		String money = StringUtils.getMoneyFormateWanNoDecimaPoint(invest.getFinancing_amount());
 		viewHolder.mTvMoney.setText(money+"万");
 		String scale = invest.getScale();//0.1%
 //		if(viewHolder.mPercentageRing.getTag()!=null && position == (Integer)viewHolder.mPercentageRing.getTag()){

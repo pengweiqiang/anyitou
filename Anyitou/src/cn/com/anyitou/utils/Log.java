@@ -1,6 +1,6 @@
 package cn.com.anyitou.utils;
 
-import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.api.constant.ReqUrls;
 
 public class Log{
 	/**
@@ -13,31 +13,31 @@ public class Log{
 	 */
 	
 	public static void i(String tag,String log){
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			android.util.Log.i(tag,log);
 		}
 	}
 	
 	public static void d(String tag,String log){
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			android.util.Log.d(tag,log);
 		}
 	}
 	
 	public static void v(String tag,String log){
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			android.util.Log.v(tag,log);
 		}
 	}
 	
 	public static void w(String tag,String log){
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			android.util.Log.w(tag,log);
 		}
 	}
 	
 	public static void e(String tag,String log){
-		if(ApiConstants.ISDEBUG){
+		if(ReqUrls.ISDEBUG){
 			android.util.Log.e(tag,log);
 		}
 	}

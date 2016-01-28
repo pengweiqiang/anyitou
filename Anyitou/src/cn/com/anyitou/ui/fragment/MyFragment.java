@@ -1,5 +1,6 @@
 package cn.com.anyitou.ui.fragment;
 
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -16,6 +17,7 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.api.ApiMessageUtils;
 import cn.com.anyitou.api.ApiUserUtils;
 import cn.com.anyitou.api.constant.ApiConstants;
+import cn.com.anyitou.commons.Constant;
 import cn.com.anyitou.entity.Grades;
 import cn.com.anyitou.entity.Message;
 import cn.com.anyitou.entity.MyCapital;
@@ -30,11 +32,14 @@ import cn.com.anyitou.ui.RechargeActivity;
 import cn.com.anyitou.ui.TradingRecordActivity;
 import cn.com.anyitou.ui.WithdrawalsActivity;
 import cn.com.anyitou.ui.base.BaseFragment;
+import cn.com.anyitou.utils.DateUtil;
 import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 import cn.com.anyitou.utils.JsonUtils;
+import cn.com.anyitou.utils.SharePreferenceManager;
 import cn.com.anyitou.utils.StringUtils;
 import cn.com.anyitou.utils.ToastUtils;
 import cn.com.anyitou.views.ActionBar;
+import cn.com.anyitou.views.LoadingDialog;
 import cn.com.gson.JsonElement;
 import cn.com.gson.JsonNull;
 import cn.com.gson.JsonObject;
@@ -43,7 +48,7 @@ import cn.com.gson.reflect.TypeToken;
 /**
  * 我的
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")
@@ -51,6 +56,8 @@ public class MyFragment extends BaseFragment {
 	private View infoView;
 	private ActionBar mActionBar;
 	private View mBtnCash,mBtnRechange,mBtnInvestDetail,mBtnTradeDetail,mBtnBondAssign,mBtnCoupon,mBtnCoin,mBtnLevel;
+	private TextView mTvUserSign;//签到
+	private TextView mTvSignValue;
 
 	private TextView mTvUserName,mTvEarningsYesterday;
 	private TextView mTvBalance,mTvWaitProfit,mTvWaitPrincipal,mTvProfitCount;
@@ -71,6 +78,7 @@ public class MyFragment extends BaseFragment {
 		initView();
 		initListener();
 		
+//		initUserSignType();
 		return infoView;
 	}
 	
@@ -82,6 +90,7 @@ public class MyFragment extends BaseFragment {
 		if (isVisibleToUser && isVisible()) {
 //			getMyInfo();
 			getMessage();
+//			getSignStatus();
 		}
 		super.setUserVisibleHint(isVisibleToUser);
 	}
@@ -99,8 +108,9 @@ public class MyFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getMyInfo();
 //		if(myCapital == null){
-			getMyInfo();
+//			getMyInfo();
 //		}
 	}
 
@@ -118,6 +128,8 @@ public class MyFragment extends BaseFragment {
 		mBtnCoupon.setOnClickListener(onClickListener);
 		mBtnCoin.setOnClickListener(onClickListener);
 		mBtnLevel.setOnClickListener(onClickListener);
+		mTvUserSign.setOnClickListener(onClickListener);
+		mIvLevelLogo.setOnClickListener(onClickListener);
 	}
 	private void initView(){
 		
@@ -140,6 +152,10 @@ public class MyFragment extends BaseFragment {
 		mTvLevelTitle = (TextView)infoView.findViewById(R.id.level_title);
 		mIvLevelLogo = (ImageView)infoView.findViewById(R.id.level_logo);
 		
+		
+		mTvUserSign = (TextView)infoView.findViewById(R.id.user_signin);
+		mTvSignValue = (TextView)infoView.findViewById(R.id.sign_value);
+		
 	}
 	
 	OnClickListener onClickListener = new OnClickListener() {
@@ -155,14 +171,33 @@ public class MyFragment extends BaseFragment {
 			}
 			
 			switch (v.getId()) {
+			case R.id.level_logo://会员等级图标
+				if(mGrades==null){
+					ToastUtils.showToast(mActivity, getResources().getText(R.string.NETWORK_ERROR).toString());
+					return;
+				}
+				intent.putExtra("grades", mGrades);
+				intent.setClass(mActivity, MyLevelActivity.class);
+				break;
+			case R.id.user_signin://签到
+				userSignIn();
+				return;
 			case R.id.msg://消息
 				intent.setClass(mActivity, MessagesActivity.class);
 				break;
 			case R.id.to_cash://提现
+				if(myCapital==null){
+					ToastUtils.showToast(mActivity, getResources().getText(R.string.NETWORK_ERROR).toString());
+					return;
+				}
 				intent.setClass(mActivity, WithdrawalsActivity.class);
 				intent.putExtra("money", myCapital.getUse_money());
 				break;
 			case R.id.to_rechange://充值
+				if(myCapital==null){
+					ToastUtils.showToast(mActivity, getResources().getText(R.string.NETWORK_ERROR).toString());
+					return;
+				}
 				intent.putExtra("money", myCapital.getUse_money());
 				intent.setClass(mActivity, RechargeActivity.class);
 				break;
@@ -182,6 +217,10 @@ public class MyFragment extends BaseFragment {
 				intent.setClass(mActivity, MyAnbiActivity.class);
 				break;
 			case R.id.my_level://我的等级
+				if(mGrades==null){
+					ToastUtils.showToast(mActivity, getResources().getText(R.string.NETWORK_ERROR).toString());
+					return;
+				}
 				intent.putExtra("grades", mGrades);
 				intent.setClass(mActivity, MyLevelActivity.class);
 				break;
@@ -215,7 +254,7 @@ public class MyFragment extends BaseFragment {
 	private void getMyInfo(){
 		user = MyApplication.getInstance().getCurrentUser();
 		if(user != null){
-			mTvUserName.setText("^_^  你好,"+user.getUsername());
+			mTvUserName.setText(user.getUsername());
 			ApiUserUtils.getMyAccount(mActivity, new RequestCallback() {
 				
 				@Override
@@ -239,6 +278,8 @@ public class MyFragment extends BaseFragment {
 					}
 				}
 			});
+			
+			getSignStatus();
 				
 		}
 	}
@@ -252,7 +293,7 @@ public class MyFragment extends BaseFragment {
 			mTvWaitProfit.setText(StringUtils.getMoneyFormat(myCapital.getCollected_interest()));//待收收益
 			mTvWaitPrincipal.setText(StringUtils.getMoneyFormat(myCapital.getFrozen_money()));//待收本金
 			mTvProfitCount.setText(StringUtils.getMoneyFormat(myCapital.getAll_income()));
-			mTvUserName.setText("^_^  你好,"+myCapital.getUser_name());
+			mTvUserName.setText(myCapital.getUser_name());
 			
 			MyApplication.getInstance().setMyCapital(myCapital);
 		}
@@ -260,7 +301,7 @@ public class MyFragment extends BaseFragment {
 	
 	private void showMyLevel(){
 		if(mGrades !=null){
-			mTvLevelTitle.setText(mGrades.getName());
+//			mTvLevelTitle.setText(mGrades.getName());
 			int levelLogo = R.drawable.user_level_normal_big_icon;
 			if("1".equals(mGrades.getUser_level())){
 				levelLogo = R.drawable.user_level_normal_big_icon;
@@ -300,6 +341,132 @@ public class MyFragment extends BaseFragment {
 					}
 					mActionBar.setHasMsg(isHas);
 				}
+			}
+		});
+	}
+	
+	/**
+	 * 签到
+	 */
+	LoadingDialog loadingDialog;
+	private void userSignIn(){
+		loadingDialog = new LoadingDialog(mActivity,"签到中...");
+		loadingDialog.show();
+		ApiUserUtils.userSignIn(mActivity,new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					JsonElement checked_get_grow_value = parseModel.getData().getAsJsonObject().get("checked_get_grow_value");
+					String value = checked_get_grow_value.getAsString();
+					signSuccess(value);
+					mTvUserSign.setText("已签到");
+					mTvUserSign.setClickable(false);
+					mTvUserSign.setEnabled(false);
+					mTvUserSign.setTextColor(getResources().getColor(R.color.aleady_sign));
+					SharePreferenceManager.saveBatchSharedPreference(mActivity, Constant.FILE_NAME, MyApplication.getInstance().getCurrentUser().getUsername()+Constant.USER_SIGN,
+							DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
+					ToastUtils.showToastSingle(mActivity, "签到成功，获取成长值"+value);
+				}else{
+					ToastUtils.showToastSingle(mActivity, parseModel.getMsg());
+					mTvUserSign.setText("签到");
+					mTvUserSign.setTextColor(getResources().getColor(R.color.aleady_sign));
+					mTvUserSign.setClickable(false);
+					mTvUserSign.setEnabled(false);
+					SharePreferenceManager.saveBatchSharedPreference(mActivity, Constant.FILE_NAME, MyApplication.getInstance().getCurrentUser().getUsername()+Constant.USER_SIGN,
+							DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN));
+				}
+				loadingDialog.cancel();
+			}
+		});
+	}
+	
+	private void signSuccess(String value){
+//		mTvSignValue.setVisibility(View.VISIBLE);
+//		mTvSignValue.setText("+"+value);
+//		PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleX", 0.7f,  
+//                0.7f, 1.5f);  
+//        PropertyValuesHolder pvhZ = PropertyValuesHolder.ofFloat("scaleY", 0.7f,  
+//                0.7f, 1.5f);  
+//        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0f,  
+//                0.3f, 1f);  
+//        ObjectAnimator objectAnimator =  ObjectAnimator.ofPropertyValuesHolder(mTvSignValue,alpha, pvhY,pvhZ).setDuration(2500);
+//        objectAnimator.addListener(new AnimatorListener() {
+//			
+//			@Override
+//			public void onAnimationStart(Animator arg0) {
+//				
+//			}
+//			
+//			@Override
+//			public void onAnimationRepeat(Animator arg0) {
+//			}
+//			
+//			@Override
+//			public void onAnimationEnd(Animator arg0) {
+//				mTvSignValue.setVisibility(View.GONE);
+//			}
+//			
+//			@Override
+//			public void onAnimationCancel(Animator arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+//        objectAnimator.start();
+	}
+	
+	private void initUserSignType(boolean signStatus){
+//		user = MyApplication.getInstance().getCurrentUser();
+//		if(user!=null){
+//			String signDate = (String)SharePreferenceManager.getSharePreferenceValue(mActivity, Constant.FILE_NAME, MyApplication.getInstance().getCurrentUser().getUsername()+Constant.USER_SIGN, "");
+//			if(!StringUtils.isEmpty(signDate) && signDate.equals(DateUtil.getDateString(new Date(), DateUtil.DAY_PATTERN))){
+//				mTvUserSign.setText("已签到");
+//				mTvUserSign.setTextColor(getResources().getColor(R.color.aleady_sign));
+//				mTvUserSign.setClickable(false);
+//				mTvUserSign.setEnabled(false);
+//			}
+//		}else{
+//			mTvUserSign.setText("签到");
+//			mTvUserSign.setTextColor(getResources().getColor(R.color.un_sign));
+//			mTvUserSign.setClickable(true);
+//			mTvUserSign.setEnabled(true);
+//		}
+		if(signStatus){
+			mTvUserSign.setText("已签到");
+			mTvUserSign.setTextColor(getResources().getColor(R.color.aleady_sign));
+			mTvUserSign.setClickable(false);
+			mTvUserSign.setEnabled(false);
+		}else{
+			mTvUserSign.setText("签到");
+			mTvUserSign.setTextColor(getResources().getColor(R.color.un_sign));
+			mTvUserSign.setClickable(true);
+			mTvUserSign.setEnabled(true);
+		}
+	}
+	/**
+	 * 获取今日签到状态
+	 */
+	private void getSignStatus(){
+		user = MyApplication.getInstance().getCurrentUser();
+		if(user ==null){	
+			initUserSignType(false);
+			return;
+		}
+		ApiUserUtils.getSignStatus(mActivity, new RequestCallback() {
+			
+			@Override
+			public void execute(ParseModel parseModel) {
+				boolean signStatus = false;
+				if(ApiConstants.RESULT_SUCCESS.equals(parseModel.getCode())){
+					JsonElement data = parseModel.getData();
+					if(data != null && data.isJsonObject()){
+						signStatus = data.getAsJsonObject().get("signin_status").getAsBoolean();
+					}
+				}else if("5009".equals(parseModel.getCode())){
+					signStatus = true;
+				}
+				initUserSignType(signStatus);
 			}
 		});
 	}

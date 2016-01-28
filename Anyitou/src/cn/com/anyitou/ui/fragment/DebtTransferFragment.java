@@ -22,7 +22,7 @@ import cn.com.anyitou.views.PagerSlidingTabStrip;
 /**
  * 债权转让
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")

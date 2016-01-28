@@ -115,10 +115,20 @@ public interface ReqUrls {
 
 	
 	public static final String CONFIG_HOST_IP="172.21.0.41:18082"; //dns ip
-//	public static final String CONFIG_HOST_IP="http://bldj.com" 
 	
-//	public static final String DEFAULT_REQ_HOST_IP = "https://anyitou.com/"; //正式接口请求地址
-	public static final String DEFAULT_REQ_HOST_IP = "http://testapi.anyitou.com/";//测试地址
+	 //是否打印日志 上线改为false
+    public static boolean ISDEBUG = false;
+	
+	//正式环境配置
+	public static final String DEFAULT_REQ_HOST_IP = "https://api.anyitou.com:4438/"; //正式接口请求地址
+	public static final String CLIENT_SECRET = "fasd96a6e5ae99831e71fa97005ff24c0faf";//正式client
+	public static final String CLIENT_KEY = "android";//正式客户端用于验证授权head头部信息：
+	
+	//测试环境配置
+//	public static final String DEFAULT_REQ_HOST_IP = "http://testapi.anyitou.com/";//测试地址
+//	public static final String CLIENT_KEY = "android";//测试环境，客户端用于验证授权head头部信息：
+//	public static final String CLIENT_SECRET = "android";//测试client
+	
 	
 	public static final String LIMIT_DEFAULT_NUM="10";
 	
@@ -151,10 +161,6 @@ public interface ReqUrls {
 	
 	public static final String USER_REQUEST_INFO="userRequestInfo";
 	
-	//测试环境，客户端用于验证授权head头部信息：
-	public static final String CLIENT_KEY = "android";
-	
-	public static final String CLIENT_SECRET = "android";
 	
 //////////////////////////////////////////////接口地址//////////////////////////////////////////////////////////////////////////////
 	/**
@@ -405,9 +411,27 @@ public interface ReqUrls {
 	 * 58.阅读消息
 	 */
 	public static final String MOBIAPI_MESSAGE_UPDATE = "message/update";
+	/**
+	 * 60.获取资金账户-汇付开户地址接口
+	 */
+	public static final String MOBIAPI_ESCROW_REGISTER = "escrow/register";
+	/**
+	 * 61.签到
+	 */
+	public static final String MOBIAPI_USER_SIGNIN = "userAssist/userSignin";
 	
-	
-	
+	/**
+	 * 62.今日签到状态
+	 */
+	public static final String MOBIAPI_USER_SIGN_STATUS = "userAssist/userSigninStatus";
+	/**
+	 * 64. 绑定用户设备号等信息(/push/device)
+	 */
+	public static final String MOBIAPI_PUSH_DEVICE = "push/device";
+	/**
+	 * 65.邀请好友链接(/userAssist/inviteLinks)
+	 */
+	public static final String MOBIAPI_INVITE_LINKS = "userAssist/inviteLinks";
 	//////////////////////////////////////////////
 	
 	
@@ -494,10 +518,7 @@ public interface ReqUrls {
 	 * 红包列表
 	 */
 	public static final String MOBIAPI_ENVELOPES = "mobiapi/envelopes";
-	/**
-	 * 分享文案
-	 */
-	public static final String MOBIAPI_SHARE = "mobiapi/share";
+	
 	
 	/**
 	 * 关于我门

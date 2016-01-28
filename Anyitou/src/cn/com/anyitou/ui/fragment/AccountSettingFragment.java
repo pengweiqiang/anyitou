@@ -3,6 +3,7 @@ package cn.com.anyitou.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import cn.com.anyitou.R;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.commons.Constant;
 import cn.com.anyitou.entity.User;
+import cn.com.anyitou.ui.AboutUsActivity;
 import cn.com.anyitou.ui.LoginActivity;
 import cn.com.anyitou.ui.MobilePhoneVerificationActivity;
 import cn.com.anyitou.ui.ModifyGestureDialog;
@@ -28,11 +30,12 @@ import cn.com.anyitou.views.ActionBar;
 import cn.com.anyitou.views.MyPopupWindow;
 import cn.com.anyitou.views.ToggleButton;
 import cn.com.anyitou.views.ToggleButton.OnToggleChanged;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 账户设置
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 @SuppressLint("NewApi")
@@ -42,7 +45,7 @@ public class AccountSettingFragment extends BaseFragment {
 	
 	private TextView mTvLoginStatus;
 	private View mBtnLogout;
-	private View mBtnUpdatePwd,mBtnUpdatePhone,mBtnUpdateGesture,mBtnShare;
+	private View mBtnUpdatePwd,mBtnUpdatePhone,mBtnUpdateGesture,/*mBtnShare*/mBtnAboutUs;
 	private ToggleButton mTbSwicthPush;
 	cn.com.anyitou.utils.ShareUtil shareUtil;
 	@Override
@@ -54,12 +57,13 @@ public class AccountSettingFragment extends BaseFragment {
 		
 		initView();
 		initListener();
-		shareUtil = new ShareUtil(mActivity);
-		Boolean isPush = (Boolean)SharePreferenceManager.getSharePreferenceValue(mActivity, Constant.FILE_NAME, Constant.PUSH, true);
-		if (isPush)
-			mTbSwicthPush.toggleOn();
-		else
+//		shareUtil = new ShareUtil(mActivity);
+		boolean isPushStoped = JPushInterface.isPushStopped(mActivity);
+//		Boolean isPush = (Boolean)SharePreferenceManager.getSharePreferenceValue(mActivity, Constant.FILE_NAME, Constant.PUSH, true);
+		if (isPushStoped)
 			mTbSwicthPush.toggleOff();
+		else
+			mTbSwicthPush.toggleOn();
 		
 		return infoView;
 	}
@@ -82,12 +86,13 @@ public class AccountSettingFragment extends BaseFragment {
 	}
 	private void initView(){
 		mActionBar = (ActionBar) infoView.findViewById(R.id.actionBar);
-		mActionBar.setTitle(getResources().getString(R.string.setting));
+		mActionBar.setTitle(getResources().getString(R.string.tab_more));
 		mBtnUpdatePwd = infoView.findViewById(R.id.update_pwd);
 		mBtnUpdatePhone = infoView.findViewById(R.id.btn_phone);
 		mBtnUpdateGesture = infoView.findViewById(R.id.btn_gesture);
 		mTbSwicthPush = (ToggleButton) infoView.findViewById(R.id.switch_push);
-		mBtnShare = infoView.findViewById(R.id.share_friend);
+//		mBtnShare = infoView.findViewById(R.id.share_friend);
+		mBtnAboutUs = infoView.findViewById(R.id.about_us);
 		mBtnLogout = infoView.findViewById(R.id.logout);
 		mTvLoginStatus = (TextView) infoView.findViewById(R.id.login_title);
 	}
@@ -100,11 +105,25 @@ public class AccountSettingFragment extends BaseFragment {
 	    //推送开关切换事件
 		mTbSwicthPush.setOnToggleChanged(new OnToggleChanged(){
 	            @Override
-	            public void onToggle(boolean on) {
-	            	SharePreferenceManager.saveBatchSharedPreference(mActivity, Constant.FILE_NAME, Constant.PUSH, on);
+	            public void onToggle(final boolean on) {
+//	            	SharePreferenceManager.saveBatchSharedPreference(mActivity, Constant.FILE_NAME, Constant.PUSH, on);
+	            	new Handler().postDelayed(new Runnable(){
+
+						@Override
+						public void run() {
+							if(on){
+			            		JPushInterface.resumePush(mActivity);
+			            	}else{
+			            		JPushInterface.stopPush(mActivity);
+			            	}
+						}
+	            		
+	            	},1000);
+	            	
 	            }
 	    });
-		mBtnShare.setOnClickListener(onClickListener);
+//		mBtnShare.setOnClickListener(onClickListener);
+		mBtnAboutUs.setOnClickListener(onClickListener);
 		mBtnLogout.setOnClickListener(onClickListener);
 	}
 	
@@ -141,9 +160,12 @@ public class AccountSettingFragment extends BaseFragment {
 //			case R.id.switch_push://接受推送通知
 //				
 //				return;
-			case R.id.share_friend://分享给好友
-				shareFriend(v);
-				return;
+//			case R.id.share_friend://分享给好友
+//				shareFriend(v);
+//				return;
+			case R.id.about_us://关于我们
+				intent.setClass(mActivity, AboutUsActivity.class);
+				break;
 			case R.id.logout://退出登录 or 登录
 				changeLoginStatus();
 				return;
@@ -154,7 +176,7 @@ public class AccountSettingFragment extends BaseFragment {
 			startActivity(intent);
 		}
 	};
-
+	
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		// 判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 提现界面信息
- * @author will
+ * @author pengweiqiang
  *
  */
 public class CashPageInfo implements Serializable{

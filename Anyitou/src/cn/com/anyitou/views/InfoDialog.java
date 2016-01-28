@@ -10,6 +10,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
 import cn.com.anyitou.R;
+import cn.com.anyitou.utils.StringUtils;
 
 
 /**
@@ -112,7 +113,11 @@ public class InfoDialog extends Dialog {
     		
     		mTvTitle = ((TextView) layout.findViewById(R.id.title));
     		if(mTvTitle != null){
-    			mTvTitle.setText(title);
+    			if(StringUtils.isEmpty(title)){
+    				mTvTitle.setVisibility(View.GONE);
+    			}else{
+    				mTvTitle.setText(title);
+    			}
     		}
     		
     		// set the confirm button  

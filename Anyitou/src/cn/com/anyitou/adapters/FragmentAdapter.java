@@ -9,11 +9,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class FragmentAdapter extends FragmentPagerAdapter {
 	String[] _titles;
 	private List<Fragment> fragments;
-
+	
+	public FragmentAdapter(FragmentManager fm){
+		super(fm);
+	}
 	public FragmentAdapter(FragmentManager fm, String[] titles,List<Fragment> framents) {
 		super(fm);
 		_titles = titles;
 		this.fragments = framents;
+	}
+	public void setData(String[]titles,List<Fragment> fragments){
+		_titles = titles;
+		this.fragments = fragments;
 	}
 
 	@Override

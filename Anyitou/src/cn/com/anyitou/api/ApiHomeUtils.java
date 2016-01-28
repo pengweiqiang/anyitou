@@ -3,7 +3,6 @@ package cn.com.anyitou.api;
 import java.util.Map;
 
 import android.content.Context;
-
 import cn.com.anyitou.api.constant.MethodType;
 import cn.com.anyitou.api.constant.ReqUrls;
 import cn.com.anyitou.http.HttpClientAddHeaders;
@@ -13,7 +12,7 @@ import cn.com.anyitou.utils.HttpConnectionUtil.RequestCallback;
 /**
  * API首页相关接口
  * 
- * @author will
+ * @author pengweiqiang
  * 
  */
 public class ApiHomeUtils {
@@ -64,14 +63,14 @@ public class ApiHomeUtils {
 				requestCallBack, MethodType.LOGIN, context);
 	}
 	/**
-	 * 分享文案
+	 * 邀请好友链接
 	 * @param context
 	 * @param requestCallBack
 	 */
-	public static void getShare(Context context,RequestCallback requestCallBack){
+	public static void inviteLinks(Context context,RequestCallback requestCallBack){
 		Map<String, Object> params = HttpClientAddHeaders.getHeaders(context);
-		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_SHARE, false,
-				requestCallBack, MethodType.LOGIN, context);
+		ApiUtils.getParseModel(params, ReqUrls.MOBIAPI_INVITE_LINKS, false,
+				requestCallBack, MethodType.LOGIN, context,HttpMethod.GET,false);
 	}
 	/**
 	 * 关于我们

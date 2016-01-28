@@ -1,6 +1,7 @@
 package cn.com.anyitou.views;
 
 
+import u.aly.dp;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -32,6 +33,8 @@ public class PercentageRing extends View{
 	private int mTextSize;
 	private int mTextColor;
 	private int mRingColor2;
+	private int ringWidth =-1;//外圆环的宽度
+	private boolean isShowPercent = true;//是否显示中间的文字
 
 
 	public PercentageRing(Context context, AttributeSet attrs, int defStyle) {
@@ -41,7 +44,7 @@ public class PercentageRing extends View{
 
 	public PercentageRing(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		mTargetPercent = 10;
+		mTargetPercent = 0;
 		//自定义属性 values/attr
 		TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.PercentageRing);
 		//中间圆的背景颜色  默认为浅紫色
@@ -49,11 +52,15 @@ public class PercentageRing extends View{
 		//外圆环的颜色  默认为深紫色
 		mRingColor = typedArray.getColor(R.styleable.PercentageRing_ringColor, 0xfff45149);
 		mRingColor2 = typedArray.getColor(R.styleable.PercentageRing_circleBackground, 0xffe6e6e6);
+		//外圆环的宽度
+		ringWidth = typedArray.getInt(R.styleable.PercentageRing_ringWidth,-1);
 		//中间圆的半径 默认为60
 		mRadius = typedArray.getInt(R.styleable.PercentageRing_radiusPercent, 60);
 		mRadius = DeviceInfo.dp2px(this.getContext(), Float.valueOf(mRadius+""));
 		//字体颜色 默认为白色
 		mTextColor = typedArray.getColor(R.styleable.PercentageRing_textTitleColor, 0xfff45149);
+		//是否显示中间的文字
+		isShowPercent = typedArray.getBoolean(R.styleable.PercentageRing_isShowPercent, true);
         //最后一定要调用这个 释放掉TypedArray
 		typedArray.recycle();
         //初始化数据
@@ -91,7 +98,11 @@ public class PercentageRing extends View{
 		mArcPaint.setAntiAlias(true);
 		mArcPaint.setColor(mRingColor);
 		mArcPaint.setStyle(Paint.Style.STROKE);
-		mArcPaint.setStrokeWidth((float) (0.15*mRadius));
+		if(ringWidth == -1){
+			mArcPaint.setStrokeWidth((float) (0.15*mRadius));
+		}else{
+			mArcPaint.setStrokeWidth((float) DeviceInfo.dp2px(getContext(), ringWidth));
+		}
 		
 		
 		mArcPaint2 = new Paint();
@@ -99,7 +110,12 @@ public class PercentageRing extends View{
 		mArcPaint2.setFlags(Paint.ANTI_ALIAS_FLAG);//帮助消除锯齿
 		mArcPaint2.setColor(mRingColor2);
 		mArcPaint2.setStyle(Paint.Style.STROKE);//设置中控的样式
-		mArcPaint2.setStrokeWidth((float) (0.15*mRadius));
+		if(ringWidth == -1){
+			mArcPaint2.setStrokeWidth((float) (0.15*mRadius));
+		}else{
+			mArcPaint2.setStrokeWidth((float) DeviceInfo.dp2px(getContext(), ringWidth));
+		}
+		
 		//获得文字的字号 因为要设置文字在圆的中心位置
 		mTextSize = (int) mTextPaint.getTextSize();
 
@@ -123,9 +139,15 @@ public class PercentageRing extends View{
 			//重新设置字号
 			mTextPaint.setTextSize(mRadius/2);
 			//重新设置外圆环宽度
-			mArcPaint.setStrokeWidth((float) (0.15*mRadius));
+			if(ringWidth == -1){
+				mArcPaint.setStrokeWidth((float) (0.15*mRadius));
+				mArcPaint2.setStrokeWidth((float) (0.15*mRadius));
+			}else{
+				mArcPaint.setStrokeWidth((float) DeviceInfo.dp2px(getContext(), ringWidth));
+				mArcPaint2.setStrokeWidth((float) DeviceInfo.dp2px(getContext(), ringWidth));
+			}
 			
-			mArcPaint2.setStrokeWidth((float) (0.15*mRadius));
+			
             //重新获得字号大小
 			mTextSize = (int) mTextPaint.getTextSize();
 		}
@@ -197,8 +219,9 @@ public class PercentageRing extends View{
 		
 		
 //		mStartSweepValue=mCurrentAngle;
-		
-		canvas.drawText(String.valueOf(Math.round(mCurrentPercent))+"%", mCircleX, mCircleY+mTextSize/4, mTextPaint);
+		if(isShowPercent){
+			canvas.drawText(String.valueOf(Math.round(mCurrentPercent))+"%", mCircleX, mCircleY+mTextSize/4, mTextPaint);
+		}
         //判断当前百分比是否小于设置目标的百分比
 		if (mCurrentPercent<mTargetPercent) {
             //当前百分比+1
@@ -226,6 +249,13 @@ public class PercentageRing extends View{
 	public synchronized void setTargetPercent(int percent){
 		this.mTargetPercent = percent;
 //		postInvalidate();
+	}
+	
+	   //设置目标的百分比
+	public synchronized void setTargetPercent(int percent,boolean isShowPercent){
+		this.mTargetPercent = percent;
+		this.isShowPercent = isShowPercent;
+		postInvalidate();
 	}
 
 }

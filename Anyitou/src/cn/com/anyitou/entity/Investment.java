@@ -44,6 +44,9 @@ public class Investment implements Serializable{
 	private String rewardEachInvestmentInterest;
 	
 	
+	
+	
+	
 	public String getId() {
 		return id;
 	}
