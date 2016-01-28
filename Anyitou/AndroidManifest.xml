@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.com.anyitou"
-    android:versionCode="7"
-    android:versionName="V1.0.6" >
+    android:versionCode="24"
+    android:versionName="V1.1.2" >
+    
+    <!-- Required -->
+    <permission android:name="cn.com.anyitou.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -15,6 +18,17 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
+    
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+     <!-- Required -->
+    <uses-permission android:name="cn.com.anyitou.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> 
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -24,9 +38,10 @@
 
     <application
         android:name="cn.com.anyitou.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:debuggable="false"
         android:theme="@style/AppTheme" >
         <activity
             android:name="cn.com.anyitou.ui.SplashActivity"
@@ -40,32 +55,45 @@
         </activity>
         <activity
             android:name="cn.com.anyitou.ui.WelcomeViewPageActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait" 
+            android:theme="@style/AppTheme"
+            android:exported="false"
+            >
         </activity>
         <!-- 首页 -->
         <activity 
             android:name="cn.com.anyitou.ui.HomeActivity"
             android:screenOrientation="portrait"
              android:launchMode="singleTask"
+             android:theme="@style/AppTheme"
+             android:exported="false"
             ></activity>
         
         <!-- 手势密码 -->
         <activity
             android:name="cn.com.anyitou.ui.GestureLockActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:exported="false"
+             >
         </activity>
         <!-- 首页 -->
         <activity
             android:name="cn.com.anyitou.ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait" 
+            android:theme="@style/AppTheme"
+            android:exported="false"
+            >
         </activity>
         <!-- 项目详情 -->
         <activity
             android:name="cn.com.anyitou.ui.InVestmentDetailActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
          <!-- 更多投资记录 -->
@@ -73,19 +101,26 @@
             android:name="cn.com.anyitou.ui.InvestRecordMoreActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
-        <!-- 更多相关资料图排尿 -->
+        <!-- 更多相关资料图 -->
         <activity
             android:name="cn.com.anyitou.ui.ImagesMoreActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 登录 -->
         <activity
             android:name="cn.com.anyitou.ui.LoginActivity"
             android:label="@string/app_name"
+            android:taskAffinity="com.xjp"
+            android:theme="@style/AppTheme"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册 -->
@@ -93,6 +128,8 @@
             android:name="cn.com.anyitou.ui.RegisteredActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册帐号 -->
@@ -100,6 +137,8 @@
             android:name="cn.com.anyitou.ui.RegisteredAccountActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册帐号 确认密码 -->
@@ -107,18 +146,33 @@
             android:name="cn.com.anyitou.ui.RegisteredAccount2Activity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 手机验证 -->
         <activity
             android:name="cn.com.anyitou.ui.MobilePhoneVerificationActivity"
             android:launchMode="singleTask"
+            android:exported="false"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 手机验证2 -->
         <activity
             android:name="cn.com.anyitou.ui.MobilePhoneVerificationActivity2"
             android:launchMode="singleTask"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 关于我们 -->
+        <activity
+            android:name="cn.com.anyitou.ui.AboutUsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:exported="false"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 注册结果 -->
@@ -140,6 +194,7 @@
         <activity
             android:name="cn.com.anyitou.ui.ModifyLoginPassWordActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
@@ -147,6 +202,7 @@
         <activity
             android:name="cn.com.anyitou.ui.ModifyLoginPassWordActivity2"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -154,12 +210,14 @@
         <activity
             android:name="cn.com.anyitou.ui.WebActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 客户服务 -->
         <activity
             android:name="cn.com.anyitou.ui.CustomerServiceActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -168,6 +226,7 @@
         <activity
             android:name="cn.com.anyitou.ui.ModifyGestureDialog"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
@@ -176,6 +235,7 @@
         <activity
             android:name="cn.com.anyitou.ui.MessagesActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             ></activity>
@@ -183,6 +243,7 @@
         <activity
             android:name="cn.com.anyitou.ui.MessageDetailActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             ></activity>
@@ -191,6 +252,7 @@
         <activity
             android:name="cn.com.anyitou.ui.BackLoginPassWordActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -199,6 +261,7 @@
         <activity
             android:name="cn.com.anyitou.ui.FeedBackActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -206,6 +269,7 @@
         <activity
             android:name="cn.com.anyitou.ui.AgreementActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -214,6 +278,7 @@
         <activity
             android:name="cn.com.anyitou.ui.BackLoginPWVCodeActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -223,6 +288,7 @@
             android:name="cn.com.anyitou.ui.InputNewPasswordActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -232,6 +298,7 @@
             android:name="cn.com.anyitou.ui.WithdrawalsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 修改手势密码Dialog -->
@@ -239,6 +306,7 @@
             android:name="cn.com.anyitou.ui.WithdrawalsDialogActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
@@ -248,6 +316,7 @@
             android:name="cn.com.anyitou.ui.RechargeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -257,6 +326,7 @@
             android:name="cn.com.anyitou.ui.ConfirmRechargeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -264,6 +334,7 @@
         <activity
             android:name="cn.com.anyitou.ui.MyBankCardActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -286,6 +357,7 @@
         <activity
             android:name="cn.com.anyitou.ui.TradingRecordActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -294,6 +366,7 @@
         <activity
             android:name="cn.com.anyitou.ui.InvestRecordActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -302,6 +375,7 @@
         <activity
             android:name="cn.com.anyitou.ui.InvestmentRecordDetailActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -310,6 +384,7 @@
         <activity
             android:name="cn.com.anyitou.ui.MyInvestmentActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -317,6 +392,7 @@
         <activity
             android:name="cn.com.anyitou.ui.InvestConfirmActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -326,6 +402,7 @@
             android:name="cn.com.anyitou.ui.DebtTransferConfirmActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:exported="false"
             android:screenOrientation="portrait" >
         </activity>
         
@@ -412,7 +489,9 @@
             android:screenOrientation="portrait" >
         </activity>
         
-        <service android:name="cn.com.anyitou.service.AnyitouService"></service>
+        <service android:name="cn.com.anyitou.service.AnyitouService"
+            android:exported="false"
+            ></service>
 
         <!-- 微信分享需要注册该activity -->
         <activity
@@ -469,6 +548,7 @@
 
         <service
             android:name="com.umeng.update.net.DownloadingService"
+            android:exported="false"
             android:process=":DownloadingService" >
         </service>
 
@@ -478,17 +558,125 @@
         </activity>
 
         <!-- umeng 升级 end -->
-        <meta-data
+        <!-- <meta-data
             android:name="UMENG_APPKEY"
             android:value="55d14184e0f55a62a50079f1" >
-        </meta-data>
-        <!-- <meta-data 
+        </meta-data> -->
+        <meta-data 
             android:name="UMENG_APPKEY"
             android:value="564d2b0967e58e1dae006e12"
-            /> -->
+            />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="umeng" />
+        
+        
+        
+        <!-- jpush start -->
+        
+        <!-- Required SDK 核心功能-->
+        <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
+        <!-- 如：android:process=":remote" -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+         <service
+             android:name="cn.jpush.android.service.DaemonService"
+             android:enabled="true"
+             android:exported="true">
+             <intent-filter >
+                 <action android:name="cn.jpush.android.intent.DaemonService" />
+                 <category android:name="cn.com.anyitou"/>
+             </intent-filter>
+         </service>
+
+        <!-- Required -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true" >
+          <intent-filter android:priority="1000"> 
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> 
+                <category android:name="cn.com.anyitou"/> 
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+     <!-- Required SDK核心功能-->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="cn.com.anyitou" />
+            </intent-filter>
+        </activity>
+        <!-- Required SDK核心功能-->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        <!-- Required SDK核心功能-->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined. 用户自定义的广播接收器-->
+         <receiver
+             android:name="cn.com.anyitou.receiver.JPushReceiver"
+             android:exported="false"
+             android:enabled="true">
+             <intent-filter>
+                 <!-- Required 用户注册SDK的intent -->
+                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> 
+                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                 <!-- Required 用户接收SDK消息的intent  -->
+                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> 
+                 <!-- Required 用户接收SDK通知栏信息的intent -->
+                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> 
+                 <!-- Required 用户打开自定义通知栏的intent -->
+                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> 
+                 <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> 
+                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                 <action android:name="cn.jpush.android.intent.CONNECTION" />
+                 <category android:name="cn.com.anyitou" />
+             </intent-filter>
+         </receiver>
+
+        <!-- Required. For publish channel feature -->
+        <!-- JPUSH_CHANNEL 是为了方便开发者统计APK分发渠道。-->
+        <!-- 例如: -->
+        <!-- 发到 Google Play 的APK可以设置为 google-play; -->
+        <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
+        <!-- 目前这个渠道统计功能的报表还未开放。-->
+        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <!-- Required. AppKey copied from Portal -->
+        <meta-data android:name="JPUSH_APPKEY" android:value="94eff6ef41b82249938197d8"/> 
+        <!-- <meta-data android:name="JPUSH_APPKEY" android:value="3b70812e7901704cce07c90d"/> -->
+        
+        
+        
+        <!-- jpush end -->
     </application>
 
 </manifest>
