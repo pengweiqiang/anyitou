@@ -10,6 +10,7 @@ public enum Push2Page {
 
 	MainActivity("MainActivity"),//主页
 	MyActivity("MyActivity"),//个人中心
+	PersonActivity("PersonActivity"),//个人中心
 	
 	MessagesActivity("MessagesActivity"),//消息列表
 	

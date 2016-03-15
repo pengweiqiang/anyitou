@@ -329,7 +329,7 @@ public class WithdrawalsActivity extends BaseActivity {
 				}else{
 					String realMoneyStr = "0.00";
 					try{
-						double realMoney = Double.valueOf(s.toString())-2;
+						double realMoney = Double.valueOf(s.toString());
 						if(realMoney<0){
 							realMoneyStr = "0.00";
 						}else{

@@ -18,7 +18,6 @@ import cn.com.anyitou.entity.Investment;
 import cn.com.anyitou.entity.User;
 import cn.com.anyitou.service.AnyitouService;
 import cn.com.anyitou.ui.base.BaseActivity;
-import cn.com.anyitou.ui.fragment.InvestmentFragment;
 import cn.com.anyitou.ui.fragment.MyCouponFragment;
 import cn.com.anyitou.utils.DeviceInfo;
 import cn.com.anyitou.utils.SharePreferenceManager;
@@ -157,45 +156,53 @@ public class SplashActivity extends BaseActivity {
 			String toPage = "";
 			JSONObject json ;
 			try {
-				json = new JSONObject(bunlde.getString(JPushInterface.EXTRA_EXTRA));
-				toPage = json.getString("toPage");
-			
-				if(Push2Page.MainActivity.getToPage().equalsIgnoreCase(toPage)){//首页
+				String pushJson = bunlde.getString(JPushInterface.EXTRA_EXTRA);
+				if(StringUtils.isEmpty(pushJson)){
 					i.setClass(mContext, HomeActivity.class);
-				}else if(Push2Page.InvestmentDetailActivity.getToPage().equalsIgnoreCase(toPage)){//项目详情
-					Investment invest = new Investment();
-					String id = json.getString("id");
-					invest.setId(id);
-					i.putExtra("invest", invest);
-					i.putExtra("type", 1);
-					i.setClass(mContext, InVestmentDetailActivity.class);
-				}else if(Push2Page.DebtDetailActivity.getToPage().equalsIgnoreCase(toPage)){//债权详情
-					DebtAssignment debt = new DebtAssignment();
-					String id = json.getString("id");
-					debt.setId(id);
-					i.putExtra("type", 2);
-					i.putExtra("debt", debt);
-					i.setClass(mContext, InVestmentDetailActivity.class);
-				}else if(Push2Page.MessagesActivity.getToPage().equalsIgnoreCase(toPage)){//消息中心
-					i.setClass(mContext, MessagesActivity.class);
-				}else if(Push2Page.MyActivity.getToPage().equalsIgnoreCase(toPage)){//个人中心
-					i.setClass(mContext, HomeActivity.class);
-					i.putExtra("checkIndex", 2);
-				}else if(Push2Page.MyCouponActivity.getToPage().equalsIgnoreCase(toPage)){//我的优惠券
-					User user = application.getCurrentUser();
-					if(user!=null){
-						i.setClass(mContext, MyCouponFragment.class);
-					}else{
-						i.setClass(mContext, LoginActivity.class);
+				}else{
+					json = new JSONObject(pushJson);
+					
+					toPage = json.getString("toPage");
+					
+					if(Push2Page.MainActivity.getToPage().equalsIgnoreCase(toPage)){//首页
+						i.setClass(mContext, HomeActivity.class);
+					}else if(Push2Page.InvestmentDetailActivity.getToPage().equalsIgnoreCase(toPage)){//项目详情
+						Investment invest = new Investment();
+						String id = json.getString("id");
+						invest.setId(id);
+						i.putExtra("invest", invest);
+						i.putExtra("type", 1);
+						i.setClass(mContext, InVestmentDetailActivity.class);
+					}else if(Push2Page.DebtDetailActivity.getToPage().equalsIgnoreCase(toPage)){//债权详情
+						DebtAssignment debt = new DebtAssignment();
+						String id = json.getString("id");
+						debt.setId(id);
+						i.putExtra("type", 2);
+						i.putExtra("debt", debt);
+						i.setClass(mContext, InVestmentDetailActivity.class);
+					}else if(Push2Page.MessagesActivity.getToPage().equalsIgnoreCase(toPage)){//消息中心
+						i.setClass(mContext, MessagesActivity.class);
+					}else if(Push2Page.MyActivity.getToPage().equalsIgnoreCase(toPage)||Push2Page.PersonActivity.getToPage().equalsIgnoreCase(toPage)){//个人中心
+						i.setClass(mContext, HomeActivity.class);
+						i.putExtra("checkIndex", 2);
+					}else if(Push2Page.MyCouponActivity.getToPage().equalsIgnoreCase(toPage)){//我的优惠券
+						User user = application.getCurrentUser();
+						if(user!=null){
+							i.setClass(mContext, MyCouponFragment.class);
+						}else{
+							i.setClass(mContext, LoginActivity.class);
+						}
+					}else if(Push2Page.ProjectActivity.getToPage().equalsIgnoreCase(toPage)){//项目列表
+						i.setClass(mContext, HomeActivity.class);
+						i.putExtra("checkIndex", 1);
+					}else {
+						i.setClass(mContext, HomeActivity.class);
 					}
-				}else if(Push2Page.ProjectActivity.getToPage().equalsIgnoreCase(toPage)){//项目列表
-					i.setClass(mContext, HomeActivity.class);
-					i.putExtra("checkIndex", 1);
-				}else {
-					i.setClass(mContext, HomeActivity.class);
 				}
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
+				i.setClass(mContext, HomeActivity.class);
 			}	
 	    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 	    	startActivity(i);

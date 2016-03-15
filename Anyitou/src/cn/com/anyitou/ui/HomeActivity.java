@@ -98,8 +98,11 @@ public class HomeActivity extends BaseFragmentActivity implements OnPageChangeLi
 		UmengUpdateAgent.update(this);
 		
 		//jpush
-//		JPushInterface.setDebugMode(ApiConstants.ISDEBUG);
+//		JPushInterface.setDebugMode(ReqUrls.ISDEBUG);
 	    JPushInterface.init(this);
+	    
+//	    String regId = JPushInterface.getRegistrationID(application);
+//	    System.out.println("regId:"+regId);
 	}
 	
 	@Override

@@ -111,7 +111,9 @@ public class BannerPagerAdapter extends InfinitePagerAdapter{
 			}
 			String type = banner.getType();//1链接，2事件
 			if("1".equals(type)){
-				if(!StringUtils.isEmpty(GlobalConfig.ACCESS_TOKEN)){
+				if(StringUtils.isEmpty(GlobalConfig.ACCESS_TOKEN)){//用户授权token为空
+					url = url +"?"+ReqUrls.ACCESS_TOKEN+"="+GlobalConfig.CLIENT_TOKEN;
+				}else{
 					url = url +"?"+ReqUrls.ACCESS_TOKEN+"="+GlobalConfig.ACCESS_TOKEN;
 				}
 				webIntent.putExtra("url", url);
