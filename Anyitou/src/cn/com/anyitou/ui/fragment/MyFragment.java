@@ -108,7 +108,10 @@ public class MyFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		getMyInfo();
+		//resolve not attached to Activity
+		if(isAdded()){
+			getMyInfo();
+		}
 //		if(myCapital == null){
 //			getMyInfo();
 //		}
