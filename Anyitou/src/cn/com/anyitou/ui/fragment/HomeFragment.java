@@ -275,11 +275,19 @@ public class HomeFragment extends BaseFragment {
 						} else {
 							ToastUtils.showToast(mActivity, parseModel.getMsg());
 						}
-						loadingDialog.cancel();
+						loadingDialog.cancelDialog(loadingDialog);
 					}
 				});
 	}
 	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(loadingDialog!=null){
+			loadingDialog.cancel();
+			loadingDialog = null;
+		}
+	}
 	
 
 
